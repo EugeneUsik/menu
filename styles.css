@@ -340,43 +340,6 @@ a { color: var(--color-primary); }
 .shopping-item-qty { font-size: 0.8rem; color: var(--color-muted); }
 .shopping-item-note { font-size: 0.78rem; color: var(--color-muted); font-style: italic; }
 
-/* ── Validation view ── */
-.validation-section-title {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-muted);
-  padding: 10px 0 6px;
-}
-.validation-banner {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  font-weight: 600;
-}
-.banner-pass { background: #d1fae5; color: #065f46; }
-.banner-fail { background: #fee2e2; color: #7f1d1d; }
-.check-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 7px 14px;
-  border-bottom: 1px solid var(--color-border);
-  font-size: 0.875rem;
-}
-.check-row:last-child { border-bottom: none; }
-.check-icon { flex-shrink: 0; font-size: 1rem; }
-.check-icon.pass { color: var(--color-success); }
-.check-icon.fail { color: var(--color-error); }
-.check-label { flex: 1; }
-.check-detail { font-size: 0.78rem; color: var(--color-muted); margin-top: 2px; }
-.assumptions-list { padding: 8px 14px; }
-.assumptions-list li { font-size: 0.85rem; color: var(--color-muted); padding: 3px 0; }
-
 /* ── Print styles ── */
 @media print {
   #app-header,
