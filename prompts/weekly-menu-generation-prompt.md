@@ -31,7 +31,7 @@ These are absolute. Violating any of them makes the output unusable.
 
 The child must not consume **cherries, apples, pears, apricots, or peaches** in any form — fresh, cooked, baked, dried, as juice, jam, compote, puree, sauce, pastry filling, yogurt layer, smoothie ingredient, cereal filler, or any hidden ingredient.
 
-Apply this to **every generated meal and snack**, including titles, notes, tags, and ingredients. Do not use vague "multifruit," "forest fruit," "garden fruit," or "mixed fruit" products unless the ingredient list is explicitly free of all five excluded fruits.
+Apply this to **every generated meal and snack**, including titles, notes, and ingredients. Do not use vague "multifruit," "forest fruit," "garden fruit," or "mixed fruit" products unless the ingredient list is explicitly free of all five excluded fruits.
 
 Allowed fruits: berries (all), banana, citrus, kiwi, grapes, melon, mango, pineapple. Plum only if family confirms tolerance.
 
@@ -43,18 +43,7 @@ The generated menu (breakfasts, lunches, dinners, shared snacks) must contain **
 
 ### Rule 3 — Fixed child school snack
 
-Copy this object verbatim into every applicable day. Never alter its content:
-
-```json
-"child_fixed_school_snack": {
-  "title": "Fixed school snack (external)",
-  "description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
-  "kcal_estimate": 400,
-  "protein_g_estimate": 24
-}
-```
-
-Include its calories and protein in the child's `daily_nutrition` totals. Set `includes_fixed_school_snack: true` for school days and `false` for weekend days when the snack is not consumed.
+The fixed school snack is defined **once** at the top level as `fixed_school_snack`. Do not copy or repeat it in day objects. Instead, set `"includes_fixed_school_snack": true` on each school day (Monday–Friday) and `false` on weekend days. Include its calories and protein in the child's `daily_nutrition` totals for school days.
 
 ---
 
@@ -168,18 +157,22 @@ Apply these every week, not occasionally:
 
 ### Breakfast rule
 No grain-only breakfasts. Every breakfast must include:
-- A **protein anchor** (Greek yogurt/skyr, eggs, cottage cheese, tofu, fish)
+- A **protein anchor** (Greek yogurt, eggs, cottage cheese, tofu, fish)
 - A **fiber-rich carbohydrate** (oats, rye bread, whole-grain toast, buckwheat)
 - A **healthy fat or seeds** (walnuts, flaxseed, chia, avocado)
 - A **calcium source for child** (dairy, fortified soy milk, kefir)
 
+**Breakfast variety rule — strictly enforced:** Use at most 2 oat-based breakfasts per week. The other 5 days must use a different primary base: eggs/egg whites, buckwheat porridge, cottage cheese bowl, rye/whole-grain bread with protein, or similar. Do not default to oats; plan all 7 breakfasts upfront and verify they rotate across at least 3 distinct base types.
+
 Good breakfast patterns:
-- Oats + Greek yogurt/skyr + berries + flaxseed + walnuts
+- Oats + Greek yogurt + berries + flaxseed + walnuts
 - Eggs or egg whites + rye bread + vegetables + kefir for child
 - Cottage cheese + whole-grain bread + vegetables + citrus/berries
-- Buckwheat porridge + skyr + seeds + berries
+- Buckwheat porridge + Greek yogurt + seeds + berries
+- Egg-white scramble + whole-grain toast + avocado + tomato
+- Greek yogurt bowl + granola + walnuts + berries (no cooking)
 
-Avoid: plain porridge without protein, cereal with milk only, toast with jam, pastries, sweet yogurt bowls with low protein.
+Avoid: plain porridge without protein, cereal with milk only, toast with jam, pastries, sweet yogurt bowls with low protein. Avoid repeating the same breakfast on consecutive days.
 
 ### Lunch rule
 Every lunch must meet protein floors: husband ≥35 g, wife ≥28 g, child ≥20 g.
@@ -193,11 +186,11 @@ Family-shared where possible with portion adjustments. Include:
 - Healthy fat source (olive oil, nuts, seeds, avocado, or fatty fish)
 
 ### Cook-once-eat-twice
-Use this structure for weekday lunches where practical. Cook double dinner portions; next-day lunch uses the leftovers. Mark with `"cook_once_eat_twice": true` on the dinner and `"leftover_from": "DayName"` on the lunch.
+Use this structure for weekday lunches where practical. Cook double dinner portions; next-day lunch uses the leftovers. Add `"cook_once_eat_twice": true` to the dinner object only when applicable. Add `"leftover_from": "DayName"` to the lunch object only when it is leftovers. Omit both fields otherwise.
 
 ### Shared family snack
 Present on ≥4 days. Should provide ~10 g protein per adult serving and a calcium source for the child.
-Good options: Greek yogurt/skyr + berries + seeds; kefir + rye crispbread + cottage cheese; hummus + vegetables + boiled egg; fortified soy yogurt + walnuts.
+Good options: Greek yogurt/Greek yogurt + berries + seeds; kefir + rye crispbread + cottage cheese; hummus + vegetables + boiled egg; fortified soy yogurt + walnuts.
 
 ### Portioning
 - Husband: largest protein portion; moderate-large complex carbs around training
@@ -233,7 +226,7 @@ Rules:
 
 ## INGREDIENT PREFERENCES
 
-**Preferred staples:** oats, buckwheat, barley, brown rice, whole-grain bread, rye bread, whole-grain pasta, potatoes, lentils, chickpeas, kidney beans, tofu, Greek yogurt, skyr, kefir, cottage cheese, low-fat milk, fortified soy milk, salmon, mackerel, herring, sardines, cod/white fish, chicken breast, turkey, lean beef, eggs, egg whites, olive oil, walnuts, almonds, pumpkin seeds, sunflower seeds, ground flaxseed, chia seeds, leafy greens, carrots, bell peppers, tomatoes, cucumbers, broccoli, cabbage, beetroot, mushrooms, berries, banana, citrus, kiwi, grapes, melon.
+**Preferred staples:** oats, buckwheat, barley, brown rice, whole-grain bread, rye bread, whole-grain pasta, potatoes, lentils, chickpeas, kidney beans, tofu, Greek yogurt, Greek yogurt, kefir, cottage cheese, low-fat milk, fortified soy milk, salmon, mackerel, herring, sardines, cod/white fish, chicken breast, turkey, lean beef, eggs, egg whites, olive oil, walnuts, almonds, pumpkin seeds, sunflower seeds, ground flaxseed, chia seeds, leafy greens, carrots, bell peppers, tomatoes, cucumbers, broccoli, cabbage, beetroot, mushrooms, berries, banana, citrus, kiwi, grapes, melon.
 
 **Avoid in generated meals:** butter-heavy dishes, cream sauces, fatty-cheese-heavy meals, coconut milk/fat as regular ingredient, fried foods, all processed meats, sugary breakfast cereals, pastries as breakfast, juice as routine, sweetened yogurts, high-sugar snacks.
 
@@ -249,71 +242,58 @@ Output **only** valid JSON. No text before it, no text after it, no markdown cod
 2. `recipe_id` values in `menu` must **exactly match** `id` values in `recipes[]`.
 3. `menu` must contain **exactly 7 objects** (Monday through Sunday).
 4. Shopping item `id` format: `{name-slug}|{unit}` — e.g. `"salmon-fillet|g"`.
-5. `child_fixed_school_snack` must never be modified. Copy the fixed object verbatim.
-6. No banned fruit terms anywhere in the document — not in titles, notes, tags, ingredients, or any other field.
-7. No processed-meat terms anywhere outside `child_fixed_school_snack`.
+5. `fixed_school_snack` is defined once at top level. Never copy or repeat it inside day objects.
+6. No banned fruit terms anywhere in the document — not in titles, notes, ingredients, or any other field.
+7. No processed-meat terms anywhere outside `fixed_school_snack`.
 8. `weekly_validation.pass` must accurately reflect whether the week meets all rules.
 9. All dates in `YYYY-MM-DD` format.
 10. `week.id` must match the requested week exactly (e.g. `"2026-W19"`).
 11. Use cooked weights for grains, potatoes, pasta, meat, and fish unless clearly stating raw weight.
 12. All nutrition estimates must be per-person, not per-serving of the shared recipe.
+13. Only include `cook_once_eat_twice: true` on dinner entries where it applies; omit the field otherwise. Only include `leftover_from` on lunch entries that are leftovers; omit otherwise.
+14. Omit `shared_snack` from a day object entirely if there is no shared snack that day.
 
 ### JSON structure
 
 ```json
 {
-  "schema_version": "1.0",
+  "schema_version": "2.0",
   "week": {
     "id": "YYYY-Www",
     "label": "YYYY Www · Mon D–Mon D",
     "start_date": "YYYY-MM-DD",
     "end_date": "YYYY-MM-DD",
-    "timezone": "Europe/Vilnius",
-    "notes": ""
+    "timezone": "Europe/Vilnius"
   },
-  "household_context_version": "3.0",
-  "language": "en",
-  "assumptions": ["List any significant assumptions made during generation."],
+  "fixed_school_snack": {
+    "title": "Fixed school snack (external)",
+    "description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
+    "kcal_estimate": 400,
+    "protein_g_estimate": 24
+  },
   "menu": [
     {
       "day_name": "Monday",
       "date": "YYYY-MM-DD",
+      "includes_fixed_school_snack": true,
       "breakfast": {
         "title": "Meal title",
-        "recipe_id": "recipe-slug",
-        "portions": {
-          "husband": "e.g. Large bowl + extra walnuts",
-          "wife": "e.g. Regular bowl",
-          "child": "e.g. Regular bowl + extra milk"
-        },
-        "notes": "Any prep notes",
-        "cook_once_eat_twice": false
+        "recipe_id": "recipe-slug"
       },
       "lunch": {
         "title": "Meal title",
         "recipe_id": "recipe-slug",
-        "portions": { "husband": "", "wife": "", "child": "" },
-        "notes": "",
-        "leftover_from": "DayName or omit if not leftover"
+        "leftover_from": "Sunday"
       },
       "dinner": {
         "title": "Meal title",
         "recipe_id": "recipe-slug",
-        "portions": { "husband": "", "wife": "", "child": "" },
-        "notes": "",
         "cook_once_eat_twice": true
       },
       "shared_snack": {
-        "title": "Snack title or omit this field if no snack today",
+        "title": "Snack title",
         "recipe_id": "recipe-slug"
-      },
-      "child_fixed_school_snack": {
-        "title": "Fixed school snack (external)",
-        "description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
-        "kcal_estimate": 400,
-        "protein_g_estimate": 24
-      },
-      "day_notes": "Cook-once notes or other day-level remarks"
+      }
     }
   ],
   "recipes": [
@@ -321,13 +301,11 @@ Output **only** valid JSON. No text before it, no text after it, no markdown cod
       "id": "recipe-slug",
       "title": "Full recipe title",
       "meal_types": ["breakfast"],
-      "tags": ["oats", "high-fiber", "quick"],
       "active_time_min": 10,
       "total_time_min": 10,
       "equipment": ["stovetop"],
       "ingredients": [
         { "name": "rolled oats", "quantity": 90, "unit": "g" },
-        { "name": "soy milk", "quantity": 300, "unit": "ml" },
         { "name": "walnuts", "quantity": 25, "unit": "g", "prep": "roughly chopped" }
       ],
       "instructions": [
@@ -350,8 +328,7 @@ Output **only** valid JSON. No text before it, no text after it, no markdown cod
           "name": "Salmon fillet",
           "quantity": "600",
           "unit": "g",
-          "note": "Fresh or frozen",
-          "used_in": ["Recipe title 1", "Recipe title 2"]
+          "note": "Fresh or frozen"
         }
       ]
     },
@@ -385,17 +362,12 @@ Output **only** valid JSON. No text before it, no text after it, no markdown cod
       { "label": "Protein floor met at lunch (all persons)", "pass": true, "detail": "" },
       { "label": "Shared snack ≥4 days", "pass": true, "detail": "Which days" },
       { "label": "Weekday active cooking ≤30 min", "pass": true, "detail": "" },
-      { "label": "No banned fruits", "pass": true, "detail": "" },
+      { "label": "No banned fruits (in titles, notes, ingredients, shopping list)", "pass": true, "detail": "" },
       { "label": "No generated processed meat", "pass": true, "detail": "" },
-      { "label": "Fixed child snack accounted for, not modified", "pass": true, "detail": "" },
-      { "label": "Sodium not stacked on high-risk days", "pass": true, "detail": "" }
+      { "label": "Fixed child snack accounted for in daily_nutrition", "pass": true, "detail": "" },
+      { "label": "Sodium not stacked on high-risk days", "pass": true, "detail": "" },
+      { "label": "Breakfast variety: ≤2 oat-based breakfasts, ≥3 distinct base types", "pass": true, "detail": "List bases used" }
     ]
-  },
-  "safety": {
-    "allergy_check": { "pass": true, "notes": [] },
-    "processed_meat_check": { "pass": true, "notes": [] },
-    "fixed_child_snack_accounted_for": true,
-    "fixed_child_snack_not_modified": true
   }
 }
 ```
@@ -410,15 +382,16 @@ Before producing the final JSON, verify every item:
 - [ ] `menu` has exactly 7 day objects (Monday–Sunday)
 - [ ] All `recipe_id` values in `menu` exactly match an `id` in `recipes[]`
 - [ ] `daily_nutrition` has exactly 7 entries
-- [ ] Each child `daily_nutrition` entry has `includes_fixed_school_snack: true` (school days) or `false` (weekends)
-- [ ] Shopping list covers every ingredient used in every recipe, grouped by category, with stable `id` fields
+- [ ] Each `daily_nutrition` child entry has `includes_fixed_school_snack: true` (Mon–Fri) or `false` (Sat–Sun)
+- [ ] Each menu day has `includes_fixed_school_snack: true` (Mon–Fri) or `false` (Sat–Sun)
+- [ ] `fixed_school_snack` appears once at top level only — not inside any day object
+- [ ] Shopping list covers every ingredient, grouped by category, with stable `id` fields
+- [ ] `cook_once_eat_twice: true` only on dinner entries that actually produce next-day leftovers
+- [ ] `leftover_from` only on lunch entries that are actually leftovers
 
 **Safety**
-- [ ] No banned fruit terms anywhere in the document (cherries, apples, pears, apricots, peaches — including in notes, tags, ingredient names, shopping item notes)
-- [ ] No processed-meat terms outside `child_fixed_school_snack`
-- [ ] `child_fixed_school_snack` is copied verbatim on each school day; content is never changed
-- [ ] `safety.fixed_child_snack_accounted_for` is `true`
-- [ ] `safety.fixed_child_snack_not_modified` is `true`
+- [ ] No banned fruit terms anywhere (cherries, apples, pears, apricots, peaches — titles, notes, ingredients, shopping)
+- [ ] No processed-meat terms anywhere in the document
 
 **Nutrition**
 - [ ] Shared snack on ≥4 days
@@ -432,6 +405,7 @@ Before producing the final JSON, verify every item:
 - [ ] Child protein ≥20 g at each main meal
 - [ ] Child calcium sources present at every meal where feasible
 - [ ] Leftovers assigned as lunches are checked per-person for protein adequacy
+- [ ] Breakfasts use ≤2 oat-based days and ≥3 distinct base types across the week
 
 **Validation**
 - [ ] `weekly_validation.pass` accurately reflects whether the week passes all checks

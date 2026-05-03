@@ -3,7 +3,6 @@
 /* ── Constants ── */
 const LS = {
   WEEK_ID:   'weekly-menu:selectedWeekId',
-  FAVORITES: 'weekly-menu:favorites',
   shoppingKey: (weekId, itemId) => `weekly-menu:shopping:${weekId}:${itemId}`
 };
 
@@ -13,7 +12,7 @@ const state = {
   selectedWeekId: null,
   weekData: null,
   activeView: 'menu',
-  recipeFilters: { text: '', mealType: '', tag: '', favoritesOnly: false },
+  recipeFilters: { text: '', mealType: '' },
   _recipeDebounce: null
 };
 
@@ -33,17 +32,6 @@ function lsKeys() {
     for (let i = 0; i < localStorage.length; i++) keys.push(localStorage.key(i));
     return keys;
   } catch { return []; }
-}
-
-function getFavorites() {
-  try {
-    const raw = lsGet(LS.FAVORITES);
-    const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed) ? parsed : [];
-  } catch { return []; }
-}
-function setFavorites(arr) {
-  lsSet(LS.FAVORITES, JSON.stringify(arr));
 }
 
 /* ── Utilities ── */
@@ -211,24 +199,18 @@ function renderRecipesView() {
   const recipes = state.weekData.recipes || [];
 
   const mealTypes = [...new Set(recipes.flatMap(r => r.meal_types || []))].sort();
-  const tags      = [...new Set(recipes.flatMap(r => r.tags      || []))].sort();
 
   const mealTypeOptions = ['<option value="">All meal types</option>',
     ...mealTypes.map(t => `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`)].join('');
-  const tagOptions = ['<option value="">All tags</option>',
-    ...tags.map(t => `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`)].join('');
 
   el.innerHTML = `
     <div class="recipe-filters">
       <input type="search" id="recipe-search" placeholder="Search recipes…" value="${escapeHtml(state.recipeFilters.text)}">
       <select id="recipe-meal-type">${mealTypeOptions}</select>
-      <select id="recipe-tag">${tagOptions}</select>
-      <button class="btn-toggle${state.recipeFilters.favoritesOnly ? ' active' : ''}" id="recipe-fav-toggle">★ Favorites</button>
     </div>
     <div id="recipe-list"></div>`;
 
   document.getElementById('recipe-meal-type').value = state.recipeFilters.mealType;
-  document.getElementById('recipe-tag').value = state.recipeFilters.tag;
 
   document.getElementById('recipe-search').addEventListener('input', e => {
     clearTimeout(state._recipeDebounce);
@@ -240,14 +222,6 @@ function renderRecipesView() {
   document.getElementById('recipe-meal-type').addEventListener('change', e => {
     state.recipeFilters.mealType = e.target.value; renderRecipeList();
   });
-  document.getElementById('recipe-tag').addEventListener('change', e => {
-    state.recipeFilters.tag = e.target.value; renderRecipeList();
-  });
-  document.getElementById('recipe-fav-toggle').addEventListener('click', e => {
-    state.recipeFilters.favoritesOnly = !state.recipeFilters.favoritesOnly;
-    e.target.classList.toggle('active', state.recipeFilters.favoritesOnly);
-    renderRecipeList();
-  });
 
   renderRecipeList();
 }
@@ -256,16 +230,13 @@ function renderRecipeList() {
   const el = document.getElementById('recipe-list');
   if (!el) return;
   const recipes = state.weekData.recipes || [];
-  const { text, mealType, tag, favoritesOnly } = state.recipeFilters;
-  const favorites = getFavorites();
+  const { text, mealType } = state.recipeFilters;
   const textLower = text.toLowerCase();
 
   const filtered = recipes.filter(r => {
-    if (favoritesOnly && !favorites.includes(r.id)) return false;
     if (mealType && !(r.meal_types || []).includes(mealType)) return false;
-    if (tag && !(r.tags || []).includes(tag)) return false;
     if (textLower) {
-      const haystack = [r.title, ...(r.tags || []), ...(r.meal_types || [])].join(' ').toLowerCase();
+      const haystack = [r.title, ...(r.meal_types || [])].join(' ').toLowerCase();
       if (!haystack.includes(textLower)) return false;
     }
     return true;
@@ -276,24 +247,10 @@ function renderRecipeList() {
     return;
   }
 
-  el.innerHTML = filtered.map(r => renderRecipeCard(r, favorites)).join('');
-
-  el.querySelectorAll('.btn-favorite').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const rid = btn.dataset.id;
-      const favs = getFavorites();
-      const idx = favs.indexOf(rid);
-      if (idx === -1) favs.push(rid); else favs.splice(idx, 1);
-      setFavorites(favs);
-      btn.classList.toggle('active', idx === -1);
-      btn.setAttribute('aria-label', idx === -1 ? 'Remove from favorites' : 'Add to favorites');
-    });
-  });
+  el.innerHTML = filtered.map(r => renderRecipeCard(r)).join('');
 }
 
-function renderRecipeCard(r, favorites) {
-  const isFav = favorites.includes(r.id);
-  const tags = [...(r.meal_types || []), ...(r.tags || [])];
+function renderRecipeCard(r) {
   const metaParts = [];
   if (r.active_time_min) metaParts.push(`Active: ${r.active_time_min} min`);
   if (r.total_time_min)  metaParts.push(`Total: ${r.total_time_min} min`);
@@ -307,7 +264,7 @@ function renderRecipeCard(r, favorites) {
     return `<li>${qty}${unit} ${name}${prep}</li>`;
   }).join('');
 
-  const instructionsHtml = (r.instructions || []).map((step, i) =>
+  const instructionsHtml = (r.instructions || []).map(step =>
     `<li>${escapeHtml(step)}</li>`).join('');
 
   const nutritionHtml = renderNutritionTable(r.nutrition_estimate_per_person);
@@ -315,12 +272,7 @@ function renderRecipeCard(r, favorites) {
   return `
     <div class="card recipe-card" id="recipe-${escapeHtml(r.id)}">
       <div class="recipe-card-header">
-        <div>
-          <div class="recipe-card-title">${escapeHtml(r.title)}</div>
-          ${tags.length ? `<div class="recipe-card-tags">${tags.map(escapeHtml).join(' · ')}</div>` : ''}
-        </div>
-        <button class="btn-favorite${isFav ? ' active' : ''}" data-id="${escapeHtml(r.id)}"
-          aria-label="${isFav ? 'Remove from favorites' : 'Add to favorites'}">★</button>
+        <div class="recipe-card-title">${escapeHtml(r.title)}</div>
       </div>
       ${metaParts.length ? `<div class="recipe-meta">${metaParts.map(escapeHtml).join(' &nbsp;·&nbsp; ')}</div>` : ''}
       <div class="recipe-sections">
@@ -412,15 +364,13 @@ function renderShoppingItem(item) {
   const itemId  = shoppingItemId(item);
   const checked = lsGet(LS.shoppingKey(state.selectedWeekId, itemId)) === '1';
   const qty     = [item.quantity, item.unit].filter(Boolean).join(' ');
-  const usedIn  = item.used_in ? `Used in: ${(item.used_in || []).join(', ')}` : '';
   return `
     <div class="shopping-item">
       <input type="checkbox" data-item-id="${escapeHtml(itemId)}" ${checked ? 'checked' : ''}>
       <div class="shopping-item-info">
         <div class="shopping-item-name${checked ? ' checked' : ''}">${escapeHtml(item.name)}</div>
-        ${qty   ? `<div class="shopping-item-qty">${escapeHtml(qty)}</div>` : ''}
+        ${qty        ? `<div class="shopping-item-qty">${escapeHtml(qty)}</div>` : ''}
         ${item.note  ? `<div class="shopping-item-note">${escapeHtml(item.note)}</div>` : ''}
-        ${usedIn ? `<div class="shopping-item-note">${escapeHtml(usedIn)}</div>` : ''}
       </div>
     </div>`;
 }

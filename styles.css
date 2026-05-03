@@ -256,17 +256,6 @@ span.menu-cell-title { color: var(--color-text); }
   border-bottom: 1px solid var(--color-border);
 }
 .recipe-card-title { font-weight: 600; font-size: 0.9375rem; }
-.recipe-card-tags { font-size: 0.78rem; color: var(--color-muted); margin-top: 2px; }
-.btn-favorite {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  padding: 0 4px;
-  line-height: 1;
-  color: var(--color-muted);
-  flex-shrink: 0;
-}
-.btn-favorite.active { color: #f59e0b; }
 .recipe-meta {
   display: flex;
   flex-wrap: wrap;
