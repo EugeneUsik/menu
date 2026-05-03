@@ -7,21 +7,6 @@ const LS = {
   shoppingKey: (weekId, itemId) => `weekly-menu:shopping:${weekId}:${itemId}`
 };
 
-const BANNED_FRUITS = [
-  'cherry','cherries','vyšnia','vyšnios','vyšnių','вишня','вишни',
-  'apple','apples','obuolys','obuoliai','obuolių','яблоко','яблоки','яблочный',
-  'pear','pears','kriaušė','kriaušės','kriaušių','груша','груши',
-  'apricot','apricots','abrikosas','abrikosai','abrikosų','абрикос','абрикосы',
-  'peach','peaches','persikas','persikai','persikų','персик','персики'
-];
-
-const PROCESSED_MEATS = [
-  'ham','bacon','sausage','sausages','salami','hot dog','hotdog',
-  'deli meat','processed meat','smoked sausage','smoked ham',
-  'kumpis','dešra','dešros','dešrelė','dešrelės','šoninė','saliamis',
-  'ветчина','бекон','колбаса','колбаски','сосиска','сосиски','салями'
-];
-
 /* ── State ── */
 const state = {
   manifest: null,
@@ -149,10 +134,9 @@ function setActiveView(viewId) {
 
 function renderActiveView() {
   switch (state.activeView) {
-    case 'menu':       renderMenuView(); break;
-    case 'recipes':    renderRecipesView(); break;
-    case 'shopping':   renderShoppingView(); break;
-    case 'validation': renderValidationView(); break;
+    case 'menu':     renderMenuView(); break;
+    case 'recipes':  renderRecipesView(); break;
+    case 'shopping': renderShoppingView(); break;
   }
 }
 
@@ -476,173 +460,11 @@ function renderShoppingItem(item) {
 }
 
 /* ══════════════════════════════════════════
-   VALIDATION VIEW
-══════════════════════════════════════════ */
-function renderValidationView() {
-  const el = document.getElementById('view-validation');
-  if (!state.weekData) { showError('validation', 'No week data loaded.'); return; }
-
-  const llmHtml = renderLlmValidation();
-  const clientResults = runClientValidation(state.weekData);
-  const clientPass = clientResults.every(r => r.pass);
-
-  const clientRows = clientResults.map(r => `
-    <div class="check-row">
-      <span class="check-icon ${r.pass ? 'pass' : 'fail'}">${r.pass ? '✓' : '✗'}</span>
-      <div>
-        <div class="check-label">${escapeHtml(r.label)}</div>
-        ${r.detail ? `<div class="check-detail">${escapeHtml(r.detail)}</div>` : ''}
-      </div>
-    </div>`).join('');
-
-  el.innerHTML = `
-    <div class="validation-section-title">LLM Self-Check</div>
-    ${llmHtml}
-    <div class="validation-section-title" style="margin-top:16px">Client-Side Validation</div>
-    <div class="card">
-      <div class="validation-banner ${clientPass ? 'banner-pass' : 'banner-fail'}">
-        ${clientPass ? '✓ All checks pass' : '✗ Some checks failed'}
-      </div>
-      ${clientRows}
-    </div>`;
-}
-
-function renderLlmValidation() {
-  const data = state.weekData;
-  const wv = data.weekly_validation || {};
-  const safety = data.safety || {};
-  const pass = wv.pass === true;
-
-  const llmChecks = (wv.checks || []).map(c => `
-    <div class="check-row">
-      <span class="check-icon ${c.pass ? 'pass' : 'fail'}">${c.pass ? '✓' : '✗'}</span>
-      <div>
-        <div class="check-label">${escapeHtml(c.label || c.description || '')}</div>
-        ${c.detail ? `<div class="check-detail">${escapeHtml(c.detail)}</div>` : ''}
-      </div>
-    </div>`).join('');
-
-  const safetyItems = [
-    { label: 'Allergy check', val: safety.allergy_check },
-    { label: 'Processed meat check', val: safety.processed_meat_check },
-    { label: 'Child fixed snack accounted for', val: safety.fixed_child_snack_accounted_for },
-    { label: 'Fixed snack not modified', val: safety.fixed_child_snack_not_modified }
-  ];
-  const safetyRows = safetyItems.map(item => {
-    const passBool = item.val === true || (typeof item.val === 'object' && item.val?.pass === true);
-    const notes = typeof item.val === 'object' && item.val?.notes ? item.val.notes.join('; ') : '';
-    return `
-      <div class="check-row">
-        <span class="check-icon ${passBool ? 'pass' : 'fail'}">${passBool ? '✓' : '✗'}</span>
-        <div>
-          <div class="check-label">${escapeHtml(item.label)}</div>
-          ${notes ? `<div class="check-detail">${escapeHtml(notes)}</div>` : ''}
-        </div>
-      </div>`;
-  }).join('');
-
-  const assumptions = data.assumptions || [];
-  const assumptionsHtml = assumptions.length
-    ? `<div class="card" style="margin-top:10px">
-         <div class="card-header">Assumptions</div>
-         <ul class="assumptions-list">${assumptions.map(a => `<li>${escapeHtml(a)}</li>`).join('')}</ul>
-       </div>`
-    : '';
-
-  return `
-    <div class="card">
-      <div class="validation-banner ${pass ? 'banner-pass' : 'banner-fail'}">
-        ${pass ? '✓ LLM reports week is valid' : '✗ LLM reports validation issues'}
-      </div>
-      ${llmChecks}
-      ${safetyRows}
-    </div>
-    ${assumptionsHtml}`;
-}
-
-/* ── Client-side validation ── */
-function containsTerm(text, term) {
-  if (!text) return false;
-  const t = text.toLowerCase();
-  if (term.includes(' ')) return t.includes(term.toLowerCase());
-  return new RegExp(`\\b${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(text);
-}
-
-function scanTerms(obj, terms, skipKeys, path = '') {
-  const hits = [];
-  const skip = new Set(Array.isArray(skipKeys) ? skipKeys : (skipKeys ? [skipKeys] : []));
-  if (obj === null || obj === undefined) return hits;
-  if (typeof obj === 'string') {
-    for (const term of terms) {
-      if (containsTerm(obj, term)) hits.push({ term, path, value: obj.slice(0, 80) });
-    }
-    return hits;
-  }
-  if (typeof obj !== 'object') return hits;
-  for (const key of Object.keys(obj)) {
-    if (skip.has(key)) continue;
-    hits.push(...scanTerms(obj[key], terms, skipKeys, path ? `${path}.${key}` : key));
-  }
-  return hits;
-}
-
-function runClientValidation(data) {
-  const results = [];
-  const add = (label, pass, detail = '') => results.push({ label, pass, detail });
-
-  add('JSON loaded successfully', true);
-
-  const required = ['schema_version','week','menu','recipes','shopping_list','daily_nutrition','weekly_validation','safety'];
-  const missingFields = required.filter(f => data[f] == null);
-  add('Required top-level fields present', missingFields.length === 0,
-    missingFields.length ? `Missing: ${missingFields.join(', ')}` : '');
-
-  add('Menu has exactly 7 days', Array.isArray(data.menu) && data.menu.length === 7,
-    Array.isArray(data.menu) ? `Found: ${data.menu.length}` : 'menu is not an array');
-
-  add('Recipes array is non-empty', Array.isArray(data.recipes) && data.recipes.length > 0);
-  add('Shopping list present', Array.isArray(data.shopping_list));
-
-  if (Array.isArray(data.recipes) && Array.isArray(data.menu)) {
-    const recipeIds = new Set(data.recipes.map(r => r.id).filter(Boolean));
-    const refIds = [];
-    for (const day of data.menu) {
-      for (const slot of ['breakfast','lunch','dinner','shared_snack']) {
-        const meal = day[slot];
-        if (meal?.recipe_id) refIds.push(meal.recipe_id);
-      }
-    }
-    const broken = refIds.filter(id => !recipeIds.has(id));
-    add('All recipe references resolve', broken.length === 0,
-      broken.length ? `Broken IDs: ${[...new Set(broken)].join(', ')}` : '');
-  }
-
-  if (Array.isArray(data.menu)) {
-    const snackCount = data.menu.filter(d => d.shared_snack && d.shared_snack.title).length;
-    add('≥4 shared snack entries', snackCount >= 4, `Found: ${snackCount}`);
-  }
-
-  add('Child fixed snack accounted for', data.safety?.fixed_child_snack_accounted_for === true);
-
-  const META_SKIP = ['safety','weekly_validation','assumptions','household_context_version','schema_version','language'];
-
-  const fruitHits = scanTerms(data, BANNED_FRUITS, META_SKIP);
-  add('No banned fruit terms', fruitHits.length === 0,
-    fruitHits.length ? fruitHits.map(h => `"${h.term}" at ${h.path}`).join('; ') : '');
-
-  const meatHits = scanTerms(data, PROCESSED_MEATS, [...META_SKIP, 'child_fixed_school_snack']);
-  add('No processed meat in generated meals', meatHits.length === 0,
-    meatHits.length ? meatHits.map(h => `"${h.term}" at ${h.path}`).join('; ') : '');
-
-  return results;
-}
-
-/* ══════════════════════════════════════════
    INIT
 ══════════════════════════════════════════ */
 async function init() {
   const hashView = location.hash.replace('#', '');
-  if (['menu','recipes','shopping','validation'].includes(hashView)) {
+  if (['menu','recipes','shopping'].includes(hashView)) {
     state.activeView = hashView;
   }
 
@@ -652,7 +474,7 @@ async function init() {
 
   window.addEventListener('hashchange', () => {
     const v = location.hash.replace('#', '');
-    if (['menu','recipes','shopping','validation'].includes(v) && v !== state.activeView) {
+    if (['menu','recipes','shopping'].includes(v) && v !== state.activeView) {
       setActiveView(v);
     }
   });
