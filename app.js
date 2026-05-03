@@ -154,30 +154,33 @@ function showError(viewId, message, retryFn) {
 /* ══════════════════════════════════════════
    MENU VIEW
 ══════════════════════════════════════════ */
-const DAY_NAMES = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+const DAY_SHORT = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
 function renderMenuView() {
   const el = document.getElementById('view-menu');
   if (!state.weekData) { showError('menu', 'No week data loaded.'); return; }
-  const { menu, week } = state.weekData;
+  const { menu } = state.weekData;
   if (!Array.isArray(menu) || !menu.length) { el.innerHTML = '<div class="loading-state">No menu data.</div>'; return; }
 
-  const html = menu.map((day, i) => {
-    const dayName = day.day_name || DAY_NAMES[i] || `Day ${i + 1}`;
-    const dateStr = day.date ? ` · ${day.date}` : '';
+  const headers = `
+    <div class="menu-col-header"></div>
+    <div class="menu-col-header">Breakfast</div>
+    <div class="menu-col-header">Lunch</div>
+    <div class="menu-col-header">Dinner</div>`;
+
+  const cells = menu.map((day, i) => {
+    const hasSnack = day.shared_snack?.title;
     return `
-      <div class="card day-card">
-        <div class="day-header">${escapeHtml(dayName)}${escapeHtml(dateStr)}</div>
-        ${renderMealRow('Breakfast', day.breakfast)}
-        ${renderMealRow('Lunch',     day.lunch)}
-        ${renderMealRow('Dinner',    day.dinner)}
-        ${renderMealRow('Snack',     day.shared_snack, true)}
-        ${renderSchoolSnackRow(day.child_fixed_school_snack)}
-        ${day.day_notes ? `<div class="day-notes">${escapeHtml(day.day_notes)}</div>` : ''}
-      </div>`;
+      <div class="menu-day-cell">
+        <span class="menu-day-name">${escapeHtml(DAY_SHORT[i] || `D${i+1}`)}</span>
+        ${hasSnack ? '<span class="menu-snack-dot">·</span>' : ''}
+      </div>
+      ${renderCompactMeal(day.breakfast)}
+      ${renderCompactMeal(day.lunch)}
+      ${renderCompactMeal(day.dinner)}`;
   }).join('');
 
-  el.innerHTML = html;
+  el.innerHTML = `<div class="menu-grid">${headers}${cells}</div>`;
 
   el.querySelectorAll('a[data-recipe]').forEach(a => {
     a.addEventListener('click', e => {
@@ -192,48 +195,13 @@ function renderMenuView() {
   });
 }
 
-function renderMealRow(label, meal, optional = false) {
-  if (!meal || !meal.title) {
-    if (optional) return `
-      <div class="meal-row">
-        <span class="meal-label">${escapeHtml(label)}</span>
-        <span class="meal-content"><span class="meal-title" style="color:var(--color-muted)">—</span></span>
-      </div>`;
-    return '';
-  }
-  const titleHtml = meal.recipe_id
-    ? `<a href="#" data-recipe="${escapeHtml(meal.recipe_id)}">${escapeHtml(meal.title)}</a>`
-    : escapeHtml(meal.title);
-
-  const badges = [];
-  if (meal.cook_once_eat_twice) badges.push('<span class="badge badge-green">Cook once</span>');
-  if (meal.leftover_from)       badges.push(`<span class="badge badge-blue">Leftover</span>`);
-
-  const portions = meal.portions
-    ? Object.entries(meal.portions).map(([k, v]) => `${escapeHtml(k)}: ${escapeHtml(v)}`).join(' · ')
-    : '';
-
-  return `
-    <div class="meal-row">
-      <span class="meal-label">${escapeHtml(label)}</span>
-      <div class="meal-content">
-        <div class="meal-title">${titleHtml}${badges.join('')}</div>
-        ${portions ? `<div class="portions">${escapeHtml(portions)}</div>` : ''}
-        ${meal.notes ? `<div class="meal-meta">${escapeHtml(meal.notes)}</div>` : ''}
-      </div>
-    </div>`;
-}
-
-function renderSchoolSnackRow(snack) {
-  if (!snack) return '';
-  const title = typeof snack === 'string' ? snack : (snack.title || 'Fixed school snack');
-  return `
-    <div class="meal-row">
-      <span class="meal-label">School</span>
-      <div class="meal-content">
-        <div class="meal-title">${escapeHtml(title)}<span class="badge badge-gray">Fixed</span></div>
-      </div>
-    </div>`;
+function renderCompactMeal(meal) {
+  if (!meal || !meal.title) return '<div class="menu-cell menu-cell-empty">—</div>';
+  const title = escapeHtml(meal.title);
+  const inner = meal.recipe_id
+    ? `<a class="menu-cell-title" href="#" data-recipe="${escapeHtml(meal.recipe_id)}">${title}</a>`
+    : `<span class="menu-cell-title">${title}</span>`;
+  return `<div class="menu-cell">${inner}</div>`;
 }
 
 /* ══════════════════════════════════════════
