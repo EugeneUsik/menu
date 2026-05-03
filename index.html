@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Family Weekly Menu</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header id="app-header">
+    <div class="header-inner">
+      <span class="app-title">Family Menu</span>
+      <select id="week-selector" aria-label="Select week"></select>
+    </div>
+    <nav id="tab-bar" role="tablist" aria-label="Views">
+      <button role="tab" data-view="menu"       class="tab active" aria-selected="true">Menu</button>
+      <button role="tab" data-view="recipes"    class="tab" aria-selected="false">Recipes</button>
+      <button role="tab" data-view="shopping"   class="tab" aria-selected="false">Shopping</button>
+      <button role="tab" data-view="validation" class="tab" aria-selected="false">Validation</button>
+    </nav>
+  </header>
+  <main id="app-main">
+    <div id="view-menu"       class="view" role="tabpanel" aria-label="Menu"></div>
+    <div id="view-recipes"    class="view hidden" role="tabpanel" aria-label="Recipes"></div>
+    <div id="view-shopping"   class="view hidden" role="tabpanel" aria-label="Shopping"></div>
+    <div id="view-validation" class="view hidden" role="tabpanel" aria-label="Validation"></div>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
