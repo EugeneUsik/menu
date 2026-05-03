@@ -1,3748 +1,1632 @@
 {
-"schema_version": "1.0",
-"week": {
-"id": "2026-W19",
-"label": "2026 W19 · May 4–May 10",
-"start_date": "2026-05-04",
-"end_date": "2026-05-10",
-"timezone": "Europe/Vilnius",
-"notes": "ISO week 19, Monday through Sunday."
-},
-"household_context_version": "3.0",
-"language": "en",
-"assumptions": [
-"Nutrition values are practical estimates based on the stated family portion sizes.",
-"The fixed external school snack contributes estimated carbs, fat and fiber to daily totals because only its calories and protein are specified.",
-"Cooked weights are used for grains, potatoes, pasta, meat and fish in recipes; the shopping list gives dry equivalents where useful for buying.",
-"Child calcium support is structured through low-fat dairy, fortified soy foods, kefir, yogurt, skyr, milk and sardines with bones."
-],
-"menu": [
-{
-"day_name": "Monday",
-"date": "2026-05-04",
-"breakfast": {
-"title": "Oat, skyr, berry, flax and walnut breakfast bowls",
-"recipe_id": "oat-skyr-berry-flax-walnut-breakfast",
-"portions": {
-"husband": "Large bowl with extra oats and walnuts",
-"wife": "Regular bowl with measured walnuts",
-"child": "Regular bowl plus kefir"
-},
-"notes": "Breakfast includes a protein anchor, oats or barley, seeds or walnuts, and a calcium source.",
-"cook_once_eat_twice": false
-},
-"lunch": {
-"title": "Turkey barley vegetable bowls with pumpkin seeds",
-"recipe_id": "turkey-barley-vegetable-bowl",
-"portions": {
-"husband": "Large bowl with extra turkey and barley",
-"wife": "Moderate bowl with extra greens",
-"child": "Regular bowl with full grain portion"
-},
-"notes": "Use no added salt; lemon and herbs carry the flavor."
-},
-"dinner": {
-"title": "Chicken, red lentil and vegetable stew with brown rice",
-"recipe_id": "chicken-lentil-vegetable-stew-brown-rice",
-"portions": {
-"husband": "Large plate with extra chicken and rice",
-"wife": "Moderate plate with extra vegetables",
-"child": "Regular plate with full rice portion"
-},
-"notes": "Cook double portions for Tuesday lunch.",
-"cook_once_eat_twice": true
-},
-"shared_snack": {
-"title": "Kefir-skyr berry chia cups",
-"recipe_id": "kefir-skyr-berry-chia-cups"
-},
-"day_notes": "School day: fixed external snack included in child totals; generated meals avoid sodium stacking.",
-"child_fixed_school_snack": {
-"title": "Fixed school snack (external)",
-"description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
-"kcal_estimate": 400,
-"protein_g_estimate": 24
-}
-},
-{
-"day_name": "Tuesday",
-"date": "2026-05-05",
-"breakfast": {
-"title": "Soy milk oat porridge with skyr, banana, chia and walnuts",
-"recipe_id": "soy-oat-banana-skyr-chia-breakfast",
-"portions": {
-"husband": "Large porridge bowl",
-"wife": "Regular porridge bowl with measured walnuts",
-"child": "Regular bowl with full banana portion"
-},
-"notes": "Breakfast includes a protein anchor, oats or barley, seeds or walnuts, and a calcium source.",
-"cook_once_eat_twice": false
-},
-"lunch": {
-"title": "Chicken, red lentil and vegetable stew with brown rice",
-"recipe_id": "chicken-lentil-vegetable-stew-brown-rice",
-"portions": {
-"husband": "Large leftover container with extra chicken pieces",
-"wife": "Moderate leftover container with extra spinach",
-"child": "Regular leftover container"
-},
-"notes": "Reheat gently and add water if thick.",
-"leftover_from": "Monday"
-},
-"dinner": {
-"title": "Oven salmon with potatoes, broccoli and tomato-cucumber salad",
-"recipe_id": "salmon-potato-broccoli-salad",
-"portions": {
-"husband": "Large salmon portion with potatoes",
-"wife": "Moderate salmon portion, extra vegetables, measured oil",
-"child": "Regular salmon portion with extra potatoes"
-},
-"notes": "Cook extra salmon, potatoes and vegetables for Wednesday lunch.",
-"cook_once_eat_twice": true
-},
-"shared_snack": {
-"title": "Greek yogurt berry walnut cups",
-"recipe_id": "greek-yogurt-berry-walnut-cups"
-},
-"day_notes": "School day: fixed external snack included in child totals; generated meals avoid sodium stacking.",
-"child_fixed_school_snack": {
-"title": "Fixed school snack (external)",
-"description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
-"kcal_estimate": 400,
-"protein_g_estimate": 24
-}
-},
-{
-"day_name": "Wednesday",
-"date": "2026-05-06",
-"breakfast": {
-"title": "Barley-oat skyr bowls with kiwi, berries and walnuts",
-"recipe_id": "barley-oat-kiwi-skyr-breakfast",
-"portions": {
-"husband": "Large barley-oat bowl",
-"wife": "Regular barley-oat bowl",
-"child": "Regular bowl plus milk"
-},
-"notes": "Breakfast includes a protein anchor, oats or barley, seeds or walnuts, and a calcium source.",
-"cook_once_eat_twice": false
-},
-"lunch": {
-"title": "Oven salmon with potatoes, broccoli and tomato-cucumber salad",
-"recipe_id": "salmon-potato-broccoli-salad",
-"portions": {
-"husband": "Large leftover salmon and potato bowl",
-"wife": "Moderate salmon bowl with extra broccoli",
-"child": "Regular salmon and potato bowl"
-},
-"notes": "Serve cold or warmed; keep dressing separate until eating.",
-"leftover_from": "Tuesday"
-},
-"dinner": {
-"title": "Tofu, chickpea and vegetable stir-fry with brown rice",
-"recipe_id": "tofu-chickpea-brown-rice-stir-fry",
-"portions": {
-"husband": "Large tofu and chickpea bowl",
-"wife": "Moderate tofu bowl with extra vegetables",
-"child": "Regular bowl with full rice portion"
-},
-"notes": "Cook double portions for Thursday lunch.",
-"cook_once_eat_twice": true
-},
-"shared_snack": {
-"title": "Skyr melon pumpkin seed bowls",
-"recipe_id": "skyr-melon-pumpkin-seed-bowls"
-},
-"day_notes": "School day: fixed external snack included in child totals; generated meals avoid sodium stacking.",
-"child_fixed_school_snack": {
-"title": "Fixed school snack (external)",
-"description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
-"kcal_estimate": 400,
-"protein_g_estimate": 24
-}
-},
-{
-"day_name": "Thursday",
-"date": "2026-05-07",
-"breakfast": {
-"title": "Overnight soy oats with skyr, berries, flax and walnuts",
-"recipe_id": "overnight-soy-oats-skyr-berry-breakfast",
-"portions": {
-"husband": "Large overnight oat jar",
-"wife": "Regular overnight oat jar",
-"child": "Regular overnight oat jar"
-},
-"notes": "Breakfast includes a protein anchor, oats or barley, seeds or walnuts, and a calcium source.",
-"cook_once_eat_twice": false
-},
-"lunch": {
-"title": "Tofu, chickpea and vegetable stir-fry with brown rice",
-"recipe_id": "tofu-chickpea-brown-rice-stir-fry",
-"portions": {
-"husband": "Large leftover tofu, chickpea and rice bowl",
-"wife": "Moderate leftover bowl with extra cabbage",
-"child": "Regular leftover bowl"
-},
-"notes": "Reheat with a splash of water.",
-"leftover_from": "Wednesday"
-},
-"dinner": {
-"title": "Lean beef, kidney bean and barley chili",
-"recipe_id": "beef-kidney-bean-barley-chili",
-"portions": {
-"husband": "Large chili bowl",
-"wife": "Moderate chili bowl with extra greens",
-"child": "Regular chili bowl"
-},
-"notes": "Cook double portions for Friday lunch.",
-"cook_once_eat_twice": true
-},
-"shared_snack": {
-"title": "Kefir banana chia drink",
-"recipe_id": "kefir-banana-chia-drink"
-},
-"day_notes": "School day: fixed external snack included in child totals; generated meals avoid sodium stacking.",
-"child_fixed_school_snack": {
-"title": "Fixed school snack (external)",
-"description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
-"kcal_estimate": 400,
-"protein_g_estimate": 24
-}
-},
-{
-"day_name": "Friday",
-"date": "2026-05-08",
-"breakfast": {
-"title": "Cottage cheese oat pancakes with berry yogurt and walnuts",
-"recipe_id": "cottage-cheese-oat-pancakes-berry-yogurt",
-"portions": {
-"husband": "Large pancake stack",
-"wife": "Smaller pancake stack with extra yogurt",
-"child": "Regular pancake stack"
-},
-"notes": "Breakfast includes a protein anchor, oats or barley, seeds or walnuts, and a calcium source.",
-"cook_once_eat_twice": false
-},
-"lunch": {
-"title": "Lean beef, kidney bean and barley chili",
-"recipe_id": "beef-kidney-bean-barley-chili",
-"portions": {
-"husband": "Large leftover chili bowl",
-"wife": "Moderate leftover chili bowl with extra greens",
-"child": "Regular leftover chili bowl"
-},
-"notes": "Use rinsed beans and no added salt.",
-"leftover_from": "Thursday"
-},
-"dinner": {
-"title": "Cod, pea and potato soup with spinach",
-"recipe_id": "cod-pea-potato-soup",
-"portions": {
-"husband": "Large soup bowl with extra cod",
-"wife": "Moderate soup bowl with extra spinach",
-"child": "Regular soup bowl with full potatoes"
-},
-"notes": "Keep seasoning herb-based because the school snack day may already be salty.",
-"cook_once_eat_twice": false
-},
-"shared_snack": {
-"title": "Fortified soy yogurt berry walnut cups",
-"recipe_id": "fortified-soy-yogurt-berry-walnut-cups"
-},
-"day_notes": "School day: fixed external snack included in child totals; generated meals avoid sodium stacking.",
-"child_fixed_school_snack": {
-"title": "Fixed school snack (external)",
-"description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
-"kcal_estimate": 400,
-"protein_g_estimate": 24
-}
-},
-{
-"day_name": "Saturday",
-"date": "2026-05-09",
-"breakfast": {
-"title": "Buckwheat-oat skyr bowls with berries, chia and walnuts",
-"recipe_id": "buckwheat-oat-skyr-berry-walnut-breakfast",
-"portions": {
-"husband": "Large bowl",
-"wife": "Regular bowl with measured walnuts",
-"child": "Regular bowl plus kefir"
-},
-"notes": "Breakfast includes a protein anchor, oats or barley, seeds or walnuts, and a calcium source.",
-"cook_once_eat_twice": false
-},
-"lunch": {
-"title": "Chicken quinoa salad with edamame, avocado and citrus",
-"recipe_id": "chicken-quinoa-edamame-citrus-salad",
-"portions": {
-"husband": "Large salad with extra chicken and quinoa",
-"wife": "Moderate salad with measured avocado and oil",
-"child": "Regular salad with full quinoa portion"
-},
-"notes": "Serve citrus on the side if preferred."
-},
-"dinner": {
-"title": "Oven mackerel with barley pilaf and roasted vegetables",
-"recipe_id": "mackerel-barley-roasted-vegetables",
-"portions": {
-"husband": "Large mackerel portion with barley",
-"wife": "Moderate mackerel portion, extra vegetables",
-"child": "Regular mackerel portion with full barley"
-},
-"notes": "Use fresh or frozen mackerel rather than heavily salted products.",
-"cook_once_eat_twice": false
-},
-"shared_snack": {
-"title": "Kefir cottage cheese cucumber bowls",
-"recipe_id": "kefir-cottage-cheese-cucumber-bowls"
-},
-"day_notes": "Weekend day: no fixed external school snack."
-},
-{
-"day_name": "Sunday",
-"date": "2026-05-10",
-"breakfast": {
-"title": "Barley-oat skyr bowls with mango, chia and walnuts",
-"recipe_id": "barley-oat-mango-skyr-chia-breakfast",
-"portions": {
-"husband": "Large barley-oat bowl",
-"wife": "Regular barley-oat bowl",
-"child": "Regular bowl with full mango portion"
-},
-"notes": "Breakfast includes a protein anchor, oats or barley, seeds or walnuts, and a calcium source.",
-"cook_once_eat_twice": false
-},
-"lunch": {
-"title": "Sardine, white bean and potato salad with greens",
-"recipe_id": "sardine-white-bean-potato-salad",
-"portions": {
-"husband": "Large salad with extra sardines and potatoes",
-"wife": "Moderate salad with extra greens",
-"child": "Regular salad with extra potatoes"
-},
-"notes": "Use sardines with bones for calcium; avoid added salt."
-},
-"dinner": {
-"title": "Chicken whole-grain pasta with spinach, tomato and zucchini",
-"recipe_id": "chicken-whole-grain-pasta-spinach-tomato",
-"portions": {
-"husband": "Large pasta bowl with extra chicken",
-"wife": "Moderate pasta bowl with extra zucchini and spinach",
-"child": "Regular pasta bowl"
-},
-"notes": "Keep the yogurt sauce light; no cream or butter.",
-"cook_once_eat_twice": false
-},
-"shared_snack": {
-"title": "Greek yogurt grape sunflower cups",
-"recipe_id": "greek-yogurt-grape-sunflower-cups"
-},
-"day_notes": "Weekend day: no fixed external school snack."
-}
-],
-"recipes": [
-{
-"id": "oat-skyr-berry-flax-walnut-breakfast",
-"title": "Oat, skyr, berry, flax and walnut breakfast bowls",
-"meal_types": [
-"breakfast"
-],
-"tags": [
-"oats",
-"skyr",
-"walnuts",
-"high-fiber",
-"quick"
-],
-"active_time_min": 10,
-"total_time_min": 10,
-"equipment": [
-"stovetop"
-],
-"ingredients": [
-{
-"name": "rolled oats",
-"quantity": 210,
-"unit": "g"
-},
-{
-"name": "water",
-"quantity": 550,
-"unit": "ml"
-},
-{
-"name": "low-fat skyr",
-"quantity": 600,
-"unit": "g"
-},
-{
-"name": "berries",
-"quantity": 360,
-"unit": "g"
-},
-{
-"name": "walnuts",
-"quantity": 55,
-"unit": "g",
-"prep": "roughly chopped"
-},
-{
-"name": "ground flaxseed",
-"quantity": 30,
-"unit": "g"
-},
-{
-"name": "low-fat kefir",
-"quantity": 250,
-"unit": "ml",
-"prep": "for the child portion"
-},
-{
-"name": "cinnamon",
-"quantity": 2,
-"unit": "g"
-}
-],
-"instructions": [
-"Simmer oats with water and cinnamon until creamy.",
-"Divide into three bowls and top with skyr, berries, flaxseed and walnuts.",
-"Serve the child portion with kefir for extra calcium."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 620,
-"protein_g": 42,
-"carbs_g": 78,
-"fat_g": 18,
-"fiber_g": 15,
-"sat_fat_g": 3
-},
-"wife": {
-"kcal": 420,
-"protein_g": 34,
-"carbs_g": 49,
-"fat_g": 12,
-"fiber_g": 12,
-"sat_fat_g": 2
-},
-"child": {
-"kcal": 540,
-"protein_g": 24,
-"carbs_g": 82,
-"fat_g": 14,
-"fiber_g": 12
-}
-}
-},
-{
-"id": "soy-oat-banana-skyr-chia-breakfast",
-"title": "Soy milk oat porridge with skyr, banana, chia and walnuts",
-"meal_types": [
-"breakfast"
-],
-"tags": [
-"oats",
-"soy food",
-"skyr",
-"walnuts",
-"quick"
-],
-"active_time_min": 10,
-"total_time_min": 10,
-"equipment": [
-"stovetop"
-],
-"ingredients": [
-{
-"name": "rolled oats",
-"quantity": 210,
-"unit": "g"
-},
-{
-"name": "fortified soy milk",
-"quantity": 900,
-"unit": "ml"
-},
-{
-"name": "low-fat skyr",
-"quantity": 450,
-"unit": "g"
-},
-{
-"name": "banana",
-"quantity": 360,
-"unit": "g",
-"prep": "sliced"
-},
-{
-"name": "chia seeds",
-"quantity": 30,
-"unit": "g"
-},
-{
-"name": "walnuts",
-"quantity": 50,
-"unit": "g",
-"prep": "roughly chopped"
-},
-{
-"name": "cinnamon",
-"quantity": 2,
-"unit": "g"
-}
-],
-"instructions": [
-"Simmer oats with fortified soy milk and cinnamon, stirring often.",
-"Top each bowl with skyr, banana, chia seeds and walnuts.",
-"Give the husband the largest oat portion; keep the wife portion walnut-forward but calorie controlled."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 610,
-"protein_g": 40,
-"carbs_g": 80,
-"fat_g": 17,
-"fiber_g": 14,
-"sat_fat_g": 2
-},
-"wife": {
-"kcal": 410,
-"protein_g": 31,
-"carbs_g": 52,
-"fat_g": 11,
-"fiber_g": 11,
-"sat_fat_g": 1.5
-},
-"child": {
-"kcal": 540,
-"protein_g": 23,
-"carbs_g": 84,
-"fat_g": 13,
-"fiber_g": 12
-}
-}
-},
-{
-"id": "barley-oat-kiwi-skyr-breakfast",
-"title": "Barley-oat skyr bowls with kiwi, berries and walnuts",
-"meal_types": [
-"breakfast"
-],
-"tags": [
-"barley",
-"oats",
-"skyr",
-"walnuts",
-"high-fiber"
-],
-"active_time_min": 10,
-"total_time_min": 10,
-"equipment": [
-"stovetop",
-"microwave"
-],
-"ingredients": [
-{
-"name": "rolled oats",
-"quantity": 150,
-"unit": "g"
-},
-{
-"name": "cooked hulled barley",
-"quantity": 360,
-"unit": "g"
-},
-{
-"name": "water",
-"quantity": 450,
-"unit": "ml"
-},
-{
-"name": "low-fat skyr",
-"quantity": 600,
-"unit": "g"
-},
-{
-"name": "berries",
-"quantity": 300,
-"unit": "g"
-},
-{
-"name": "kiwi",
-"quantity": 250,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "walnuts",
-"quantity": 55,
-"unit": "g",
-"prep": "roughly chopped"
-},
-{
-"name": "ground flaxseed",
-"quantity": 25,
-"unit": "g"
-},
-{
-"name": "low-fat milk",
-"quantity": 250,
-"unit": "ml",
-"prep": "for the child portion"
-}
-],
-"instructions": [
-"Warm cooked barley with oats and water until thick.",
-"Top with skyr, berries, kiwi, flaxseed and walnuts.",
-"Serve the child portion with milk."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 600,
-"protein_g": 41,
-"carbs_g": 76,
-"fat_g": 17,
-"fiber_g": 14,
-"sat_fat_g": 3
-},
-"wife": {
-"kcal": 420,
-"protein_g": 33,
-"carbs_g": 53,
-"fat_g": 12,
-"fiber_g": 12,
-"sat_fat_g": 2
-},
-"child": {
-"kcal": 540,
-"protein_g": 23,
-"carbs_g": 80,
-"fat_g": 14,
-"fiber_g": 12
-}
-}
-},
-{
-"id": "overnight-soy-oats-skyr-berry-breakfast",
-"title": "Overnight soy oats with skyr, berries, flax and walnuts",
-"meal_types": [
-"breakfast"
-],
-"tags": [
-"oats",
-"soy food",
-"skyr",
-"walnuts",
-"make-ahead"
-],
-"active_time_min": 10,
-"total_time_min": 480,
-"equipment": [
-"refrigerator"
-],
-"ingredients": [
-{
-"name": "rolled oats",
-"quantity": 210,
-"unit": "g"
-},
-{
-"name": "fortified soy milk",
-"quantity": 700,
-"unit": "ml"
-},
-{
-"name": "low-fat skyr",
-"quantity": 500,
-"unit": "g"
-},
-{
-"name": "berries",
-"quantity": 360,
-"unit": "g"
-},
-{
-"name": "ground flaxseed",
-"quantity": 30,
-"unit": "g"
-},
-{
-"name": "walnuts",
-"quantity": 50,
-"unit": "g",
-"prep": "roughly chopped"
-},
-{
-"name": "cinnamon",
-"quantity": 2,
-"unit": "g"
-}
-],
-"instructions": [
-"Mix oats, fortified soy milk, skyr, flaxseed and cinnamon in a covered bowl.",
-"Refrigerate overnight.",
-"Top with berries and walnuts before serving."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 610,
-"protein_g": 41,
-"carbs_g": 78,
-"fat_g": 17,
-"fiber_g": 14,
-"sat_fat_g": 2
-},
-"wife": {
-"kcal": 420,
-"protein_g": 33,
-"carbs_g": 52,
-"fat_g": 12,
-"fiber_g": 12,
-"sat_fat_g": 1.5
-},
-"child": {
-"kcal": 540,
-"protein_g": 23,
-"carbs_g": 82,
-"fat_g": 14,
-"fiber_g": 12
-}
-}
-},
-{
-"id": "cottage-cheese-oat-pancakes-berry-yogurt",
-"title": "Cottage cheese oat pancakes with berry yogurt and walnuts",
-"meal_types": [
-"breakfast"
-],
-"tags": [
-"oats",
-"cottage cheese",
-"egg whites",
-"walnuts"
-],
-"active_time_min": 20,
-"total_time_min": 25,
-"equipment": [
-"stovetop"
-],
-"ingredients": [
-{
-"name": "rolled oats",
-"quantity": 210,
-"unit": "g"
-},
-{
-"name": "low-fat cottage cheese",
-"quantity": 600,
-"unit": "g"
-},
-{
-"name": "eggs",
-"quantity": 2,
-"unit": "pcs"
-},
-{
-"name": "egg whites",
-"quantity": 300,
-"unit": "ml"
-},
-{
-"name": "low-fat Greek yogurt",
-"quantity": 300,
-"unit": "g"
-},
-{
-"name": "berries",
-"quantity": 300,
-"unit": "g"
-},
-{
-"name": "walnuts",
-"quantity": 50,
-"unit": "g",
-"prep": "roughly chopped"
-},
-{
-"name": "olive oil",
-"quantity": 10,
-"unit": "ml",
-"prep": "for the pan"
-},
-{
-"name": "baking powder",
-"quantity": 8,
-"unit": "g"
-},
-{
-"name": "cinnamon",
-"quantity": 2,
-"unit": "g"
-}
-],
-"instructions": [
-"Stir oats, cottage cheese, eggs, egg whites, baking powder and cinnamon into a thick batter.",
-"Cook small pancakes in a lightly oiled pan.",
-"Serve with Greek yogurt, berries and walnuts; the wife portion uses a smaller pancake stack."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 620,
-"protein_g": 43,
-"carbs_g": 62,
-"fat_g": 20,
-"fiber_g": 10,
-"sat_fat_g": 5
-},
-"wife": {
-"kcal": 430,
-"protein_g": 34,
-"carbs_g": 42,
-"fat_g": 13,
-"fiber_g": 8,
-"sat_fat_g": 3.2
-},
-"child": {
-"kcal": 550,
-"protein_g": 25,
-"carbs_g": 70,
-"fat_g": 16,
-"fiber_g": 9
-}
-}
-},
-{
-"id": "buckwheat-oat-skyr-berry-walnut-breakfast",
-"title": "Buckwheat-oat skyr bowls with berries, chia and walnuts",
-"meal_types": [
-"breakfast"
-],
-"tags": [
-"buckwheat",
-"oats",
-"skyr",
-"walnuts",
-"high-fiber"
-],
-"active_time_min": 10,
-"total_time_min": 15,
-"equipment": [
-"stovetop"
-],
-"ingredients": [
-{
-"name": "cooked buckwheat",
-"quantity": 600,
-"unit": "g"
-},
-{
-"name": "rolled oats",
-"quantity": 120,
-"unit": "g"
-},
-{
-"name": "water",
-"quantity": 350,
-"unit": "ml"
-},
-{
-"name": "low-fat skyr",
-"quantity": 600,
-"unit": "g"
-},
-{
-"name": "berries",
-"quantity": 330,
-"unit": "g"
-},
-{
-"name": "walnuts",
-"quantity": 60,
-"unit": "g",
-"prep": "roughly chopped"
-},
-{
-"name": "chia seeds",
-"quantity": 25,
-"unit": "g"
-},
-{
-"name": "low-fat kefir",
-"quantity": 250,
-"unit": "ml",
-"prep": "for the child portion"
-}
-],
-"instructions": [
-"Warm cooked buckwheat with oats and water until soft and thick.",
-"Top with skyr, berries, chia and walnuts.",
-"Serve the child portion with kefir."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 640,
-"protein_g": 40,
-"carbs_g": 82,
-"fat_g": 19,
-"fiber_g": 14,
-"sat_fat_g": 3
-},
-"wife": {
-"kcal": 420,
-"protein_g": 32,
-"carbs_g": 52,
-"fat_g": 12,
-"fiber_g": 11,
-"sat_fat_g": 2
-},
-"child": {
-"kcal": 590,
-"protein_g": 24,
-"carbs_g": 88,
-"fat_g": 16,
-"fiber_g": 12
-}
-}
-},
-{
-"id": "barley-oat-mango-skyr-chia-breakfast",
-"title": "Barley-oat skyr bowls with mango, chia and walnuts",
-"meal_types": [
-"breakfast"
-],
-"tags": [
-"barley",
-"oats",
-"skyr",
-"walnuts"
-],
-"active_time_min": 10,
-"total_time_min": 10,
-"equipment": [
-"stovetop",
-"microwave"
-],
-"ingredients": [
-{
-"name": "cooked hulled barley",
-"quantity": 450,
-"unit": "g"
-},
-{
-"name": "rolled oats",
-"quantity": 150,
-"unit": "g"
-},
-{
-"name": "fortified soy milk",
-"quantity": 300,
-"unit": "ml"
-},
-{
-"name": "water",
-"quantity": 300,
-"unit": "ml"
-},
-{
-"name": "low-fat skyr",
-"quantity": 600,
-"unit": "g"
-},
-{
-"name": "mango",
-"quantity": 300,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "chia seeds",
-"quantity": 25,
-"unit": "g"
-},
-{
-"name": "walnuts",
-"quantity": 55,
-"unit": "g",
-"prep": "roughly chopped"
-}
-],
-"instructions": [
-"Warm barley and oats with fortified soy milk and water.",
-"Top with skyr, mango, chia and walnuts.",
-"Use a larger grain portion for the husband and child."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 630,
-"protein_g": 40,
-"carbs_g": 83,
-"fat_g": 18,
-"fiber_g": 13,
-"sat_fat_g": 3
-},
-"wife": {
-"kcal": 430,
-"protein_g": 32,
-"carbs_g": 54,
-"fat_g": 12,
-"fiber_g": 11,
-"sat_fat_g": 2
-},
-"child": {
-"kcal": 580,
-"protein_g": 24,
-"carbs_g": 86,
-"fat_g": 15,
-"fiber_g": 12
-}
-}
-},
-{
-"id": "turkey-barley-vegetable-bowl",
-"title": "Turkey barley vegetable bowls with pumpkin seeds",
-"meal_types": [
-"lunch"
-],
-"tags": [
-"turkey",
-"barley",
-"vegetables",
-"high-protein"
-],
-"active_time_min": 25,
-"total_time_min": 25,
-"equipment": [
-"stovetop"
-],
-"ingredients": [
-{
-"name": "cooked turkey breast",
-"quantity": 420,
-"unit": "g",
-"prep": "sliced"
-},
-{
-"name": "cooked hulled barley",
-"quantity": 900,
-"unit": "g"
-},
-{
-"name": "broccoli",
-"quantity": 400,
-"unit": "g",
-"prep": "steamed"
-},
-{
-"name": "carrots",
-"quantity": 300,
-"unit": "g",
-"prep": "grated or steamed"
-},
-{
-"name": "bell peppers",
-"quantity": 300,
-"unit": "g",
-"prep": "sliced"
-},
-{
-"name": "leafy greens",
-"quantity": 180,
-"unit": "g"
-},
-{
-"name": "olive oil",
-"quantity": 30,
-"unit": "ml"
-},
-{
-"name": "pumpkin seeds",
-"quantity": 35,
-"unit": "g"
-},
-{
-"name": "lemon juice",
-"quantity": 45,
-"unit": "ml"
-},
-{
-"name": "parsley",
-"quantity": 20,
-"unit": "g",
-"prep": "chopped"
-}
-],
-"instructions": [
-"Warm turkey, barley, broccoli and carrots together on the stovetop.",
-"Fold in bell peppers and leafy greens.",
-"Dress with olive oil, lemon juice, pumpkin seeds and parsley."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 760,
-"protein_g": 48,
-"carbs_g": 88,
-"fat_g": 22,
-"fiber_g": 16,
-"sat_fat_g": 4
-},
-"wife": {
-"kcal": 520,
-"protein_g": 35,
-"carbs_g": 61,
-"fat_g": 15,
-"fiber_g": 13,
-"sat_fat_g": 3
-},
-"child": {
-"kcal": 640,
-"protein_g": 25,
-"carbs_g": 88,
-"fat_g": 18,
-"fiber_g": 12
-}
-}
-},
-{
-"id": "chicken-lentil-vegetable-stew-brown-rice",
-"title": "Chicken, red lentil and vegetable stew with brown rice",
-"meal_types": [
-"lunch",
-"dinner"
-],
-"tags": [
-"chicken",
-"lentils",
-"brown rice",
-"cook-once"
-],
-"active_time_min": 25,
-"total_time_min": 45,
-"equipment": [
-"stovetop"
-],
-"ingredients": [
-{
-"name": "cooked chicken breast",
-"quantity": 660,
-"unit": "g",
-"prep": "cubed"
-},
-{
-"name": "cooked red lentils",
-"quantity": 720,
-"unit": "g"
-},
-{
-"name": "cooked brown rice",
-"quantity": 900,
-"unit": "g"
-},
-{
-"name": "tomatoes",
-"quantity": 600,
-"unit": "g",
-"prep": "chopped"
-},
-{
-"name": "carrots",
-"quantity": 400,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "onion",
-"quantity": 250,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "spinach",
-"quantity": 200,
-"unit": "g"
-},
-{
-"name": "olive oil",
-"quantity": 35,
-"unit": "ml"
-},
-{
-"name": "garlic",
-"quantity": 3,
-"unit": "cloves",
-"prep": "minced"
-},
-{
-"name": "cumin",
-"quantity": 6,
-"unit": "g"
-},
-{
-"name": "low-salt vegetable stock",
-"quantity": 800,
-"unit": "ml"
-}
-],
-"instructions": [
-"Cook onion, carrot and garlic in olive oil until softened.",
-"Add tomatoes, lentils, stock, chicken and cumin; simmer until thick.",
-"Stir in spinach and serve with brown rice. Pack the extra portions for Tuesday lunch."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 780,
-"protein_g": 52,
-"carbs_g": 96,
-"fat_g": 19,
-"fiber_g": 16,
-"sat_fat_g": 3
-},
-"wife": {
-"kcal": 560,
-"protein_g": 38,
-"carbs_g": 69,
-"fat_g": 13,
-"fiber_g": 14,
-"sat_fat_g": 2
-},
-"child": {
-"kcal": 640,
-"protein_g": 26,
-"carbs_g": 90,
-"fat_g": 15,
-"fiber_g": 13
-}
-}
-},
-{
-"id": "salmon-potato-broccoli-salad",
-"title": "Oven salmon with potatoes, broccoli and tomato-cucumber salad",
-"meal_types": [
-"lunch",
-"dinner"
-],
-"tags": [
-"fatty fish",
-"salmon",
-"potatoes",
-"cook-once"
-],
-"active_time_min": 20,
-"total_time_min": 35,
-"equipment": [
-"oven",
-"stovetop"
-],
-"ingredients": [
-{
-"name": "cooked salmon fillet",
-"quantity": 560,
-"unit": "g"
-},
-{
-"name": "cooked potatoes",
-"quantity": 1200,
-"unit": "g"
-},
-{
-"name": "broccoli",
-"quantity": 500,
-"unit": "g",
-"prep": "steamed"
-},
-{
-"name": "carrots",
-"quantity": 350,
-"unit": "g",
-"prep": "roasted"
-},
-{
-"name": "cucumber",
-"quantity": 300,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "tomatoes",
-"quantity": 300,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "olive oil",
-"quantity": 25,
-"unit": "ml"
-},
-{
-"name": "lemon juice",
-"quantity": 45,
-"unit": "ml"
-},
-{
-"name": "dill",
-"quantity": 20,
-"unit": "g",
-"prep": "chopped"
-}
-],
-"instructions": [
-"Warm salmon and potatoes in the oven while steaming broccoli.",
-"Toss cucumber and tomatoes with lemon juice, olive oil and dill.",
-"Serve the husband the largest salmon portion and pack extra salmon, potatoes and vegetables for Wednesday lunch."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 790,
-"protein_g": 52,
-"carbs_g": 82,
-"fat_g": 27,
-"fiber_g": 12,
-"sat_fat_g": 5
-},
-"wife": {
-"kcal": 560,
-"protein_g": 38,
-"carbs_g": 55,
-"fat_g": 20,
-"fiber_g": 10,
-"sat_fat_g": 4
-},
-"child": {
-"kcal": 660,
-"protein_g": 27,
-"carbs_g": 86,
-"fat_g": 20,
-"fiber_g": 11
-}
-}
-},
-{
-"id": "tofu-chickpea-brown-rice-stir-fry",
-"title": "Tofu, chickpea and vegetable stir-fry with brown rice",
-"meal_types": [
-"lunch",
-"dinner"
-],
-"tags": [
-"soy food",
-"chickpeas",
-"brown rice",
-"cook-once"
-],
-"active_time_min": 25,
-"total_time_min": 30,
-"equipment": [
-"stovetop"
-],
-"ingredients": [
-{
-"name": "firm tofu",
-"quantity": 600,
-"unit": "g",
-"prep": "cubed"
-},
-{
-"name": "cooked chickpeas",
-"quantity": 540,
-"unit": "g",
-"prep": "rinsed"
-},
-{
-"name": "cooked brown rice",
-"quantity": 900,
-"unit": "g"
-},
-{
-"name": "broccoli",
-"quantity": 400,
-"unit": "g",
-"prep": "small florets"
-},
-{
-"name": "bell peppers",
-"quantity": 350,
-"unit": "g",
-"prep": "sliced"
-},
-{
-"name": "carrots",
-"quantity": 250,
-"unit": "g",
-"prep": "thinly sliced"
-},
-{
-"name": "cabbage",
-"quantity": 250,
-"unit": "g",
-"prep": "shredded"
-},
-{
-"name": "olive oil",
-"quantity": 30,
-"unit": "ml"
-},
-{
-"name": "garlic",
-"quantity": 3,
-"unit": "cloves",
-"prep": "minced"
-},
-{
-"name": "ginger",
-"quantity": 30,
-"unit": "g",
-"prep": "grated"
-},
-{
-"name": "lime juice",
-"quantity": 40,
-"unit": "ml"
-},
-{
-"name": "sesame seeds",
-"quantity": 25,
-"unit": "g"
-}
-],
-"instructions": [
-"Brown tofu cubes in olive oil, then add garlic and ginger.",
-"Add broccoli, bell peppers, carrots, cabbage and chickpeas; cook until crisp-tender.",
-"Finish with lime juice and sesame seeds, then serve over brown rice. Pack the extra portions for Thursday lunch."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 770,
-"protein_g": 44,
-"carbs_g": 96,
-"fat_g": 24,
-"fiber_g": 17,
-"sat_fat_g": 4
-},
-"wife": {
-"kcal": 540,
-"protein_g": 31,
-"carbs_g": 67,
-"fat_g": 17,
-"fiber_g": 14,
-"sat_fat_g": 3
-},
-"child": {
-"kcal": 660,
-"protein_g": 23,
-"carbs_g": 96,
-"fat_g": 19,
-"fiber_g": 13
-}
-}
-},
-{
-"id": "beef-kidney-bean-barley-chili",
-"title": "Lean beef, kidney bean and barley chili",
-"meal_types": [
-"lunch",
-"dinner"
-],
-"tags": [
-"lean beef",
-"kidney beans",
-"barley",
-"cook-once"
-],
-"active_time_min": 25,
-"total_time_min": 55,
-"equipment": [
-"stovetop"
-],
-"ingredients": [
-{
-"name": "lean cooked beef",
-"quantity": 450,
-"unit": "g",
-"prep": "crumbled"
-},
-{
-"name": "cooked kidney beans",
-"quantity": 600,
-"unit": "g",
-"prep": "rinsed"
-},
-{
-"name": "cooked hulled barley",
-"quantity": 900,
-"unit": "g"
-},
-{
-"name": "tomatoes",
-"quantity": 700,
-"unit": "g",
-"prep": "chopped"
-},
-{
-"name": "bell peppers",
-"quantity": 300,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "onion",
-"quantity": 250,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "carrots",
-"quantity": 300,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "corn",
-"quantity": 250,
-"unit": "g"
-},
-{
-"name": "leafy greens",
-"quantity": 150,
-"unit": "g"
-},
-{
-"name": "olive oil",
-"quantity": 25,
-"unit": "ml"
-},
-{
-"name": "paprika",
-"quantity": 6,
-"unit": "g"
-},
-{
-"name": "cumin",
-"quantity": 6,
-"unit": "g"
-}
-],
-"instructions": [
-"Cook onion, carrots and bell peppers in olive oil until softened.",
-"Add beef, beans, barley, tomatoes, corn, paprika and cumin; simmer until thick.",
-"Stir in leafy greens near the end. Pack the extra portions for Friday lunch."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 790,
-"protein_g": 55,
-"carbs_g": 89,
-"fat_g": 21,
-"fiber_g": 17,
-"sat_fat_g": 6
-},
-"wife": {
-"kcal": 560,
-"protein_g": 38,
-"carbs_g": 62,
-"fat_g": 14,
-"fiber_g": 14,
-"sat_fat_g": 4.3
-},
-"child": {
-"kcal": 680,
-"protein_g": 27,
-"carbs_g": 90,
-"fat_g": 18,
-"fiber_g": 13
-}
-}
-},
-{
-"id": "cod-pea-potato-soup",
-"title": "Cod, pea and potato soup with spinach",
-"meal_types": [
-"dinner"
-],
-"tags": [
-"cod",
-"peas",
-"potatoes",
-"low-fat dairy"
-],
-"active_time_min": 25,
-"total_time_min": 30,
-"equipment": [
-"stovetop",
-"immersion blender"
-],
-"ingredients": [
-{
-"name": "cooked cod fillet",
-"quantity": 600,
-"unit": "g",
-"prep": "flaked"
-},
-{
-"name": "green peas",
-"quantity": 600,
-"unit": "g"
-},
-{
-"name": "cooked potatoes",
-"quantity": 1000,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "carrots",
-"quantity": 300,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "leek",
-"quantity": 200,
-"unit": "g",
-"prep": "sliced"
-},
-{
-"name": "spinach",
-"quantity": 150,
-"unit": "g"
-},
-{
-"name": "low-fat milk",
-"quantity": 500,
-"unit": "ml"
-},
-{
-"name": "water",
-"quantity": 1000,
-"unit": "ml"
-},
-{
-"name": "olive oil",
-"quantity": 20,
-"unit": "ml"
-},
-{
-"name": "dill",
-"quantity": 20,
-"unit": "g",
-"prep": "chopped"
-},
-{
-"name": "black pepper",
-"quantity": 2,
-"unit": "g"
-}
-],
-"instructions": [
-"Cook leek and carrots in olive oil, then add potatoes, peas and enough water to cover.",
-"Blend part of the soup with an immersion blender for body.",
-"Add milk, cod, spinach, dill and black pepper; heat gently without boiling hard."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 720,
-"protein_g": 50,
-"carbs_g": 78,
-"fat_g": 18,
-"fiber_g": 14,
-"sat_fat_g": 3
-},
-"wife": {
-"kcal": 520,
-"protein_g": 37,
-"carbs_g": 55,
-"fat_g": 12,
-"fiber_g": 12,
-"sat_fat_g": 2
-},
-"child": {
-"kcal": 630,
-"protein_g": 26,
-"carbs_g": 82,
-"fat_g": 14,
-"fiber_g": 12
-}
-}
-},
-{
-"id": "chicken-quinoa-edamame-citrus-salad",
-"title": "Chicken quinoa salad with edamame, avocado and citrus",
-"meal_types": [
-"lunch"
-],
-"tags": [
-"chicken",
-"edamame",
-"soy food",
-"quinoa"
-],
-"active_time_min": 25,
-"total_time_min": 25,
-"equipment": [
-"stovetop"
-],
-"ingredients": [
-{
-"name": "cooked chicken breast",
-"quantity": 570,
-"unit": "g",
-"prep": "sliced"
-},
-{
-"name": "cooked quinoa",
-"quantity": 900,
-"unit": "g"
-},
-{
-"name": "edamame",
-"quantity": 360,
-"unit": "g",
-"prep": "shelled"
-},
-{
-"name": "avocado",
-"quantity": 180,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "leafy greens",
-"quantity": 250,
-"unit": "g"
-},
-{
-"name": "cucumber",
-"quantity": 250,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "tomatoes",
-"quantity": 300,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "citrus segments",
-"quantity": 300,
-"unit": "g"
-},
-{
-"name": "olive oil",
-"quantity": 25,
-"unit": "ml"
-},
-{
-"name": "sunflower seeds",
-"quantity": 25,
-"unit": "g"
-},
-{
-"name": "lemon juice",
-"quantity": 30,
-"unit": "ml"
-}
-],
-"instructions": [
-"Combine quinoa, edamame, leafy greens, cucumber, tomatoes and citrus.",
-"Top with chicken, avocado and sunflower seeds.",
-"Dress with olive oil and lemon juice."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 740,
-"protein_g": 50,
-"carbs_g": 78,
-"fat_g": 24,
-"fiber_g": 15,
-"sat_fat_g": 4
-},
-"wife": {
-"kcal": 490,
-"protein_g": 35,
-"carbs_g": 49,
-"fat_g": 16,
-"fiber_g": 12,
-"sat_fat_g": 3
-},
-"child": {
-"kcal": 650,
-"protein_g": 27,
-"carbs_g": 78,
-"fat_g": 20,
-"fiber_g": 12
-}
-}
-},
-{
-"id": "mackerel-barley-roasted-vegetables",
-"title": "Oven mackerel with barley pilaf and roasted vegetables",
-"meal_types": [
-"dinner"
-],
-"tags": [
-"fatty fish",
-"mackerel",
-"barley",
-"omega-3"
-],
-"active_time_min": 25,
-"total_time_min": 40,
-"equipment": [
-"oven",
-"stovetop"
-],
-"ingredients": [
-{
-"name": "cooked mackerel fillet",
-"quantity": 540,
-"unit": "g"
-},
-{
-"name": "cooked hulled barley",
-"quantity": 900,
-"unit": "g"
-},
-{
-"name": "broccoli",
-"quantity": 450,
-"unit": "g"
-},
-{
-"name": "beetroot",
-"quantity": 400,
-"unit": "g",
-"prep": "wedges"
-},
-{
-"name": "carrots",
-"quantity": 350,
-"unit": "g",
-"prep": "wedges"
-},
-{
-"name": "cabbage",
-"quantity": 250,
-"unit": "g",
-"prep": "shredded"
-},
-{
-"name": "olive oil",
-"quantity": 25,
-"unit": "ml"
-},
-{
-"name": "low-fat yogurt",
-"quantity": 300,
-"unit": "g"
-},
-{
-"name": "dill",
-"quantity": 20,
-"unit": "g",
-"prep": "chopped"
-},
-{
-"name": "lemon juice",
-"quantity": 30,
-"unit": "ml"
-}
-],
-"instructions": [
-"Roast mackerel, beetroot, carrots and broccoli until the fish flakes and vegetables are tender.",
-"Warm barley and fold through shredded cabbage.",
-"Mix yogurt, dill and lemon juice for a light sauce."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 780,
-"protein_g": 50,
-"carbs_g": 76,
-"fat_g": 28,
-"fiber_g": 15,
-"sat_fat_g": 6
-},
-"wife": {
-"kcal": 520,
-"protein_g": 38,
-"carbs_g": 48,
-"fat_g": 20,
-"fiber_g": 12,
-"sat_fat_g": 4
-},
-"child": {
-"kcal": 670,
-"protein_g": 28,
-"carbs_g": 78,
-"fat_g": 22,
-"fiber_g": 12
-}
-}
-},
-{
-"id": "sardine-white-bean-potato-salad",
-"title": "Sardine, white bean and potato salad with greens",
-"meal_types": [
-"lunch"
-],
-"tags": [
-"fatty fish",
-"sardines",
-"white beans",
-"calcium"
-],
-"active_time_min": 20,
-"total_time_min": 20,
-"equipment": [
-"stovetop"
-],
-"ingredients": [
-{
-"name": "sardines with bones",
-"quantity": 360,
-"unit": "g",
-"prep": "drained"
-},
-{
-"name": "cooked white beans",
-"quantity": 500,
-"unit": "g",
-"prep": "rinsed"
-},
-{
-"name": "cooked potatoes",
-"quantity": 900,
-"unit": "g",
-"prep": "cubed"
-},
-{
-"name": "cucumber",
-"quantity": 300,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "tomatoes",
-"quantity": 350,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "leafy greens",
-"quantity": 220,
-"unit": "g"
-},
-{
-"name": "olive oil",
-"quantity": 20,
-"unit": "ml"
-},
-{
-"name": "lemon juice",
-"quantity": 35,
-"unit": "ml"
-},
-{
-"name": "parsley",
-"quantity": 20,
-"unit": "g",
-"prep": "chopped"
-}
-],
-"instructions": [
-"Toss potatoes, white beans, cucumber, tomatoes and leafy greens.",
-"Top with sardines and parsley.",
-"Dress with olive oil and lemon juice; use no added salt."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 760,
-"protein_g": 50,
-"carbs_g": 78,
-"fat_g": 25,
-"fiber_g": 16,
-"sat_fat_g": 5
-},
-"wife": {
-"kcal": 520,
-"protein_g": 36,
-"carbs_g": 50,
-"fat_g": 17,
-"fiber_g": 13,
-"sat_fat_g": 3
-},
-"child": {
-"kcal": 660,
-"protein_g": 26,
-"carbs_g": 76,
-"fat_g": 20,
-"fiber_g": 13
-}
-}
-},
-{
-"id": "chicken-whole-grain-pasta-spinach-tomato",
-"title": "Chicken whole-grain pasta with spinach, tomato and zucchini",
-"meal_types": [
-"dinner"
-],
-"tags": [
-"chicken",
-"whole-grain pasta",
-"vegetables"
-],
-"active_time_min": 25,
-"total_time_min": 30,
-"equipment": [
-"stovetop"
-],
-"ingredients": [
-{
-"name": "cooked chicken breast",
-"quantity": 600,
-"unit": "g",
-"prep": "sliced"
-},
-{
-"name": "cooked whole-grain pasta",
-"quantity": 1050,
-"unit": "g"
-},
-{
-"name": "tomatoes",
-"quantity": 600,
-"unit": "g",
-"prep": "chopped"
-},
-{
-"name": "spinach",
-"quantity": 250,
-"unit": "g"
-},
-{
-"name": "zucchini",
-"quantity": 400,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "mushrooms",
-"quantity": 300,
-"unit": "g",
-"prep": "sliced"
-},
-{
-"name": "olive oil",
-"quantity": 25,
-"unit": "ml"
-},
-{
-"name": "low-fat yogurt",
-"quantity": 250,
-"unit": "g"
-},
-{
-"name": "garlic",
-"quantity": 2,
-"unit": "cloves",
-"prep": "minced"
-},
-{
-"name": "basil",
-"quantity": 15,
-"unit": "g",
-"prep": "chopped"
-}
-],
-"instructions": [
-"Cook zucchini, mushrooms and garlic in olive oil until softened.",
-"Add tomatoes, chicken, spinach and cooked pasta; warm through.",
-"Stir in yogurt off the heat and finish with basil."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 780,
-"protein_g": 55,
-"carbs_g": 95,
-"fat_g": 18,
-"fiber_g": 14,
-"sat_fat_g": 3
-},
-"wife": {
-"kcal": 560,
-"protein_g": 40,
-"carbs_g": 62,
-"fat_g": 12,
-"fiber_g": 12,
-"sat_fat_g": 2
-},
-"child": {
-"kcal": 680,
-"protein_g": 28,
-"carbs_g": 90,
-"fat_g": 16,
-"fiber_g": 12
-}
-}
-},
-{
-"id": "kefir-skyr-berry-chia-cups",
-"title": "Kefir-skyr berry chia cups",
-"meal_types": [
-"snack"
-],
-"tags": [
-"kefir",
-"skyr",
-"calcium",
-"quick"
-],
-"active_time_min": 5,
-"total_time_min": 5,
-"equipment": [
-"none"
-],
-"ingredients": [
-{
-"name": "low-fat kefir",
-"quantity": 600,
-"unit": "ml"
-},
-{
-"name": "low-fat skyr",
-"quantity": 450,
-"unit": "g"
-},
-{
-"name": "berries",
-"quantity": 240,
-"unit": "g"
-},
-{
-"name": "chia seeds",
-"quantity": 20,
-"unit": "g"
-}
-],
-"instructions": [
-"Stir kefir and skyr until smooth.",
-"Top with berries and chia seeds."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 190,
-"protein_g": 15,
-"carbs_g": 20,
-"fat_g": 5,
-"fiber_g": 4,
-"sat_fat_g": 2
-},
-"wife": {
-"kcal": 140,
-"protein_g": 12,
-"carbs_g": 13,
-"fat_g": 3,
-"fiber_g": 3,
-"sat_fat_g": 1.2
-},
-"child": {
-"kcal": 180,
-"protein_g": 8,
-"carbs_g": 30,
-"fat_g": 4,
-"fiber_g": 4
-}
-}
-},
-{
-"id": "greek-yogurt-berry-walnut-cups",
-"title": "Greek yogurt berry walnut cups",
-"meal_types": [
-"snack"
-],
-"tags": [
-"Greek yogurt",
-"walnuts",
-"calcium",
-"quick"
-],
-"active_time_min": 5,
-"total_time_min": 5,
-"equipment": [
-"none"
-],
-"ingredients": [
-{
-"name": "low-fat Greek yogurt",
-"quantity": 600,
-"unit": "g"
-},
-{
-"name": "berries",
-"quantity": 300,
-"unit": "g"
-},
-{
-"name": "walnuts",
-"quantity": 45,
-"unit": "g",
-"prep": "roughly chopped"
-},
-{
-"name": "ground flaxseed",
-"quantity": 15,
-"unit": "g"
-}
-],
-"instructions": [
-"Divide yogurt into bowls.",
-"Top with berries, walnuts and flaxseed."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 210,
-"protein_g": 15,
-"carbs_g": 18,
-"fat_g": 10,
-"fiber_g": 4,
-"sat_fat_g": 2
-},
-"wife": {
-"kcal": 140,
-"protein_g": 10,
-"carbs_g": 11,
-"fat_g": 6,
-"fiber_g": 3,
-"sat_fat_g": 1.2
-},
-"child": {
-"kcal": 180,
-"protein_g": 8,
-"carbs_g": 24,
-"fat_g": 7,
-"fiber_g": 4
-}
-}
-},
-{
-"id": "skyr-melon-pumpkin-seed-bowls",
-"title": "Skyr melon pumpkin seed bowls",
-"meal_types": [
-"snack"
-],
-"tags": [
-"skyr",
-"melon",
-"pumpkin seeds",
-"calcium"
-],
-"active_time_min": 5,
-"total_time_min": 5,
-"equipment": [
-"none"
-],
-"ingredients": [
-{
-"name": "low-fat skyr",
-"quantity": 600,
-"unit": "g"
-},
-{
-"name": "melon",
-"quantity": 360,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "pumpkin seeds",
-"quantity": 40,
-"unit": "g"
-}
-],
-"instructions": [
-"Divide skyr into bowls.",
-"Top with melon and pumpkin seeds."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 240,
-"protein_g": 20,
-"carbs_g": 23,
-"fat_g": 8,
-"fiber_g": 4,
-"sat_fat_g": 2
-},
-"wife": {
-"kcal": 130,
-"protein_g": 12,
-"carbs_g": 13,
-"fat_g": 3,
-"fiber_g": 3,
-"sat_fat_g": 1
-},
-"child": {
-"kcal": 190,
-"protein_g": 8,
-"carbs_g": 30,
-"fat_g": 6,
-"fiber_g": 4
-}
-}
-},
-{
-"id": "kefir-banana-chia-drink",
-"title": "Kefir banana chia drink",
-"meal_types": [
-"snack"
-],
-"tags": [
-"kefir",
-"banana",
-"chia",
-"calcium"
-],
-"active_time_min": 5,
-"total_time_min": 5,
-"equipment": [
-"immersion blender"
-],
-"ingredients": [
-{
-"name": "low-fat kefir",
-"quantity": 750,
-"unit": "ml"
-},
-{
-"name": "banana",
-"quantity": 330,
-"unit": "g"
-},
-{
-"name": "chia seeds",
-"quantity": 25,
-"unit": "g"
-}
-],
-"instructions": [
-"Blend kefir and banana with an immersion blender.",
-"Stir in chia seeds and let stand for a few minutes."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 210,
-"protein_g": 12,
-"carbs_g": 32,
-"fat_g": 6,
-"fiber_g": 5,
-"sat_fat_g": 2
-},
-"wife": {
-"kcal": 140,
-"protein_g": 8,
-"carbs_g": 21,
-"fat_g": 4,
-"fiber_g": 4,
-"sat_fat_g": 1.5
-},
-"child": {
-"kcal": 200,
-"protein_g": 8,
-"carbs_g": 38,
-"fat_g": 5,
-"fiber_g": 5
-}
-}
-},
-{
-"id": "fortified-soy-yogurt-berry-walnut-cups",
-"title": "Fortified soy yogurt berry walnut cups",
-"meal_types": [
-"snack"
-],
-"tags": [
-"soy food",
-"walnuts",
-"berries",
-"quick"
-],
-"active_time_min": 5,
-"total_time_min": 5,
-"equipment": [
-"none"
-],
-"ingredients": [
-{
-"name": "fortified soy yogurt",
-"quantity": 750,
-"unit": "g"
-},
-{
-"name": "berries",
-"quantity": 300,
-"unit": "g"
-},
-{
-"name": "walnuts",
-"quantity": 50,
-"unit": "g",
-"prep": "roughly chopped"
-},
-{
-"name": "chia seeds",
-"quantity": 15,
-"unit": "g"
-}
-],
-"instructions": [
-"Divide fortified soy yogurt into bowls.",
-"Top with berries, walnuts and chia seeds."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 230,
-"protein_g": 14,
-"carbs_g": 18,
-"fat_g": 13,
-"fiber_g": 6,
-"sat_fat_g": 1.5
-},
-"wife": {
-"kcal": 150,
-"protein_g": 11,
-"carbs_g": 12,
-"fat_g": 8,
-"fiber_g": 5,
-"sat_fat_g": 0.8
-},
-"child": {
-"kcal": 200,
-"protein_g": 7,
-"carbs_g": 25,
-"fat_g": 9,
-"fiber_g": 5
-}
-}
-},
-{
-"id": "kefir-cottage-cheese-cucumber-bowls",
-"title": "Kefir cottage cheese cucumber bowls",
-"meal_types": [
-"snack"
-],
-"tags": [
-"kefir",
-"cottage cheese",
-"calcium"
-],
-"active_time_min": 5,
-"total_time_min": 5,
-"equipment": [
-"none"
-],
-"ingredients": [
-{
-"name": "low-fat kefir",
-"quantity": 600,
-"unit": "ml"
-},
-{
-"name": "low-fat cottage cheese",
-"quantity": 450,
-"unit": "g"
-},
-{
-"name": "cucumber",
-"quantity": 300,
-"unit": "g",
-"prep": "diced"
-},
-{
-"name": "pumpkin seeds",
-"quantity": 30,
-"unit": "g"
-},
-{
-"name": "dill",
-"quantity": 10,
-"unit": "g",
-"prep": "chopped"
-}
-],
-"instructions": [
-"Divide cottage cheese into bowls and spoon kefir around it.",
-"Top with cucumber, pumpkin seeds and dill."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 220,
-"protein_g": 20,
-"carbs_g": 14,
-"fat_g": 8,
-"fiber_g": 3,
-"sat_fat_g": 3
-},
-"wife": {
-"kcal": 140,
-"protein_g": 15,
-"carbs_g": 8,
-"fat_g": 5,
-"fiber_g": 2,
-"sat_fat_g": 2
-},
-"child": {
-"kcal": 210,
-"protein_g": 10,
-"carbs_g": 20,
-"fat_g": 8,
-"fiber_g": 2
-}
-}
-},
-{
-"id": "greek-yogurt-grape-sunflower-cups",
-"title": "Greek yogurt grape sunflower cups",
-"meal_types": [
-"snack"
-],
-"tags": [
-"Greek yogurt",
-"grapes",
-"sunflower seeds",
-"calcium"
-],
-"active_time_min": 5,
-"total_time_min": 5,
-"equipment": [
-"none"
-],
-"ingredients": [
-{
-"name": "low-fat Greek yogurt",
-"quantity": 600,
-"unit": "g"
-},
-{
-"name": "grapes",
-"quantity": 300,
-"unit": "g"
-},
-{
-"name": "sunflower seeds",
-"quantity": 30,
-"unit": "g"
-},
-{
-"name": "chia seeds",
-"quantity": 10,
-"unit": "g"
-}
-],
-"instructions": [
-"Divide Greek yogurt into bowls.",
-"Top with grapes, sunflower seeds and chia seeds."
-],
-"nutrition_estimate_per_person": {
-"husband": {
-"kcal": 230,
-"protein_g": 18,
-"carbs_g": 28,
-"fat_g": 7,
-"fiber_g": 3,
-"sat_fat_g": 2
-},
-"wife": {
-"kcal": 130,
-"protein_g": 10,
-"carbs_g": 16,
-"fat_g": 4,
-"fiber_g": 3,
-"sat_fat_g": 1.2
-},
-"child": {
-"kcal": 220,
-"protein_g": 8,
-"carbs_g": 38,
-"fat_g": 6,
-"fiber_g": 3
-}
-}
-}
-],
-"shopping_list": [
-{
-"category": "Fish & Seafood",
-"items": [
-{
-"id": "salmon-fillet|g",
-"name": "Salmon fillet",
-"quantity": "560",
-"unit": "g",
-"note": "Cooked weight used in recipe; fresh or frozen",
-"used_in": [
-"Oven salmon with potatoes, broccoli and tomato-cucumber salad"
-]
-},
-{
-"id": "mackerel-fillet|g",
-"name": "Mackerel fillet",
-"quantity": "540",
-"unit": "g",
-"note": "Cooked weight used in recipe; avoid heavily salted products",
-"used_in": [
-"Oven mackerel with barley pilaf and roasted vegetables"
-]
-},
-{
-"id": "sardines-with-bones|g",
-"name": "Sardines with bones",
-"quantity": "360",
-"unit": "g",
-"note": "Drained weight; choose lower-salt where available",
-"used_in": [
-"Sardine, white bean and potato salad with greens"
-]
-},
-{
-"id": "cod-fillet|g",
-"name": "Cod fillet",
-"quantity": "600",
-"unit": "g",
-"note": "Cooked weight used in recipe; fresh or frozen",
-"used_in": [
-"Cod, pea and potato soup with spinach"
-]
-}
-]
-},
-{
-"category": "Meat & Poultry",
-"items": [
-{
-"id": "turkey-breast|g",
-"name": "Turkey breast",
-"quantity": "420",
-"unit": "g",
-"note": "Cooked weight used in recipe",
-"used_in": [
-"Turkey barley vegetable bowls with pumpkin seeds"
-]
-},
-{
-"id": "chicken-breast|g",
-"name": "Chicken breast",
-"quantity": "1830",
-"unit": "g",
-"note": "Cooked weight used across recipes",
-"used_in": [
-"Chicken, red lentil and vegetable stew with brown rice",
-"Chicken quinoa salad with edamame, avocado and citrus",
-"Chicken whole-grain pasta with spinach, tomato and zucchini"
-]
-},
-{
-"id": "lean-beef|g",
-"name": "Lean beef",
-"quantity": "450",
-"unit": "g",
-"note": "Cooked weight used in recipe",
-"used_in": [
-"Lean beef, kidney bean and barley chili"
-]
-}
-]
-},
-{
-"category": "Dairy, Eggs & Soy",
-"items": [
-{
-"id": "low-fat-skyr|g",
-"name": "Low-fat skyr",
-"quantity": "3750",
-"unit": "g",
-"note": "Breakfasts and snacks",
-"used_in": [
-"Oat, skyr, berry, flax and walnut breakfast bowls",
-"Soy milk oat porridge with skyr, banana, chia and walnuts",
-"Barley-oat skyr bowls with kiwi, berries and walnuts",
-"Overnight soy oats with skyr, berries, flax and walnuts",
-"Buckwheat-oat skyr bowls with berries, chia and walnuts",
-"Barley-oat skyr bowls with mango, chia and walnuts",
-"Kefir-skyr berry chia cups",
-"Skyr melon pumpkin seed bowls"
-]
-},
-{
-"id": "low-fat-kefir|ml",
-"name": "Low-fat kefir",
-"quantity": "2450",
-"unit": "ml",
-"note": "Child calcium support and snacks",
-"used_in": [
-"Oat, skyr, berry, flax and walnut breakfast bowls",
-"Buckwheat-oat skyr bowls with berries, chia and walnuts",
-"Kefir-skyr berry chia cups",
-"Kefir banana chia drink",
-"Kefir cottage cheese cucumber bowls"
-]
-},
-{
-"id": "low-fat-greek-yogurt|g",
-"name": "Low-fat Greek yogurt",
-"quantity": "1500",
-"unit": "g",
-"note": "Breakfast, snack and sauce",
-"used_in": [
-"Cottage cheese oat pancakes with berry yogurt and walnuts",
-"Greek yogurt berry walnut cups",
-"Greek yogurt grape sunflower cups"
-]
-},
-{
-"id": "low-fat-yogurt|g",
-"name": "Low-fat yogurt",
-"quantity": "550",
-"unit": "g",
-"note": "Light sauces",
-"used_in": [
-"Oven mackerel with barley pilaf and roasted vegetables",
-"Chicken whole-grain pasta with spinach, tomato and zucchini"
-]
-},
-{
-"id": "low-fat-cottage-cheese|g",
-"name": "Low-fat cottage cheese",
-"quantity": "1050",
-"unit": "g",
-"note": "Breakfast and snack",
-"used_in": [
-"Cottage cheese oat pancakes with berry yogurt and walnuts",
-"Kefir cottage cheese cucumber bowls"
-]
-},
-{
-"id": "low-fat-milk|ml",
-"name": "Low-fat milk",
-"quantity": "750",
-"unit": "ml",
-"note": "Child breakfast support and soup",
-"used_in": [
-"Barley-oat skyr bowls with kiwi, berries and walnuts",
-"Cod, pea and potato soup with spinach"
-]
-},
-{
-"id": "fortified-soy-milk|ml",
-"name": "Fortified soy milk",
-"quantity": "1900",
-"unit": "ml",
-"note": "Unsweetened preferred",
-"used_in": [
-"Soy milk oat porridge with skyr, banana, chia and walnuts",
-"Overnight soy oats with skyr, berries, flax and walnuts",
-"Barley-oat skyr bowls with mango, chia and walnuts"
-]
-},
-{
-"id": "fortified-soy-yogurt|g",
-"name": "Fortified soy yogurt",
-"quantity": "750",
-"unit": "g",
-"note": "Unsweetened preferred",
-"used_in": [
-"Fortified soy yogurt berry walnut cups"
-]
-},
-{
-"id": "firm-tofu|g",
-"name": "Firm tofu",
-"quantity": "600",
-"unit": "g",
-"note": "Calcium-set if available",
-"used_in": [
-"Tofu, chickpea and vegetable stir-fry with brown rice"
-]
-},
-{
-"id": "edamame|g",
-"name": "Edamame",
-"quantity": "360",
-"unit": "g",
-"note": "Shelled, frozen or chilled",
-"used_in": [
-"Chicken quinoa salad with edamame, avocado and citrus"
-]
-},
-{
-"id": "eggs|pcs",
-"name": "Eggs",
-"quantity": "2",
-"unit": "pcs",
-"note": "Used with egg whites",
-"used_in": [
-"Cottage cheese oat pancakes with berry yogurt and walnuts"
-]
-},
-{
-"id": "egg-whites|ml",
-"name": "Egg whites",
-"quantity": "300",
-"unit": "ml",
-"note": "Carton egg whites if available",
-"used_in": [
-"Cottage cheese oat pancakes with berry yogurt and walnuts"
-]
-}
-]
-},
-{
-"category": "Vegetables & Fruit",
-"items": [
-{
-"id": "berries|g",
-"name": "Berries",
-"quantity": "2490",
-"unit": "g",
-"note": "Use single-type berry packs or products with explicitly safe ingredient lists",
-"used_in": [
-"Oat, skyr, berry, flax and walnut breakfast bowls",
-"Barley-oat skyr bowls with kiwi, berries and walnuts",
-"Overnight soy oats with skyr, berries, flax and walnuts",
-"Cottage cheese oat pancakes with berry yogurt and walnuts",
-"Buckwheat-oat skyr bowls with berries, chia and walnuts",
-"Kefir-skyr berry chia cups",
-"Greek yogurt berry walnut cups",
-"Fortified soy yogurt berry walnut cups"
-]
-},
-{
-"id": "banana|g",
-"name": "Banana",
-"quantity": "690",
-"unit": "g",
-"note": "",
-"used_in": [
-"Soy milk oat porridge with skyr, banana, chia and walnuts",
-"Kefir banana chia drink"
-]
-},
-{
-"id": "kiwi|g",
-"name": "Kiwi",
-"quantity": "250",
-"unit": "g",
-"note": "",
-"used_in": [
-"Barley-oat skyr bowls with kiwi, berries and walnuts"
-]
-},
-{
-"id": "mango|g",
-"name": "Mango",
-"quantity": "300",
-"unit": "g",
-"note": "",
-"used_in": [
-"Barley-oat skyr bowls with mango, chia and walnuts"
-]
-},
-{
-"id": "melon|g",
-"name": "Melon",
-"quantity": "360",
-"unit": "g",
-"note": "",
-"used_in": [
-"Skyr melon pumpkin seed bowls"
-]
-},
-{
-"id": "grapes|g",
-"name": "Grapes",
-"quantity": "300",
-"unit": "g",
-"note": "",
-"used_in": [
-"Greek yogurt grape sunflower cups"
-]
-},
-{
-"id": "citrus-segments|g",
-"name": "Citrus segments",
-"quantity": "300",
-"unit": "g",
-"note": "",
-"used_in": [
-"Chicken quinoa salad with edamame, avocado and citrus"
-]
-},
-{
-"id": "broccoli|g",
-"name": "Broccoli",
-"quantity": "2150",
-"unit": "g",
-"note": "",
-"used_in": [
-"Turkey barley vegetable bowls with pumpkin seeds",
-"Oven salmon with potatoes, broccoli and tomato-cucumber salad",
-"Tofu, chickpea and vegetable stir-fry with brown rice",
-"Oven mackerel with barley pilaf and roasted vegetables"
-]
-},
-{
-"id": "carrots|g",
-"name": "Carrots",
-"quantity": "2250",
-"unit": "g",
-"note": "",
-"used_in": [
-"Turkey barley vegetable bowls with pumpkin seeds",
-"Chicken, red lentil and vegetable stew with brown rice",
-"Oven salmon with potatoes, broccoli and tomato-cucumber salad",
-"Tofu, chickpea and vegetable stir-fry with brown rice",
-"Lean beef, kidney bean and barley chili",
-"Cod, pea and potato soup with spinach",
-"Oven mackerel with barley pilaf and roasted vegetables"
-]
-},
-{
-"id": "bell-peppers|g",
-"name": "Bell peppers",
-"quantity": "1250",
-"unit": "g",
-"note": "",
-"used_in": [
-"Turkey barley vegetable bowls with pumpkin seeds",
-"Tofu, chickpea and vegetable stir-fry with brown rice",
-"Lean beef, kidney bean and barley chili"
-]
-},
-{
-"id": "leafy-greens|g",
-"name": "Leafy greens",
-"quantity": "800",
-"unit": "g",
-"note": "",
-"used_in": [
-"Turkey barley vegetable bowls with pumpkin seeds",
-"Lean beef, kidney bean and barley chili",
-"Chicken quinoa salad with edamame, avocado and citrus",
-"Sardine, white bean and potato salad with greens"
-]
-},
-{
-"id": "spinach|g",
-"name": "Spinach",
-"quantity": "600",
-"unit": "g",
-"note": "",
-"used_in": [
-"Chicken, red lentil and vegetable stew with brown rice",
-"Cod, pea and potato soup with spinach",
-"Chicken whole-grain pasta with spinach, tomato and zucchini"
-]
-},
-{
-"id": "cucumber|g",
-"name": "Cucumber",
-"quantity": "1450",
-"unit": "g",
-"note": "",
-"used_in": [
-"Oven salmon with potatoes, broccoli and tomato-cucumber salad",
-"Chicken quinoa salad with edamame, avocado and citrus",
-"Sardine, white bean and potato salad with greens",
-"Kefir cottage cheese cucumber bowls"
-]
-},
-{
-"id": "tomatoes|g",
-"name": "Tomatoes",
-"quantity": "3150",
-"unit": "g",
-"note": "Fresh or unsalted chopped tomatoes",
-"used_in": [
-"Chicken, red lentil and vegetable stew with brown rice",
-"Oven salmon with potatoes, broccoli and tomato-cucumber salad",
-"Lean beef, kidney bean and barley chili",
-"Chicken quinoa salad with edamame, avocado and citrus",
-"Sardine, white bean and potato salad with greens",
-"Chicken whole-grain pasta with spinach, tomato and zucchini"
-]
-},
-{
-"id": "onion|g",
-"name": "Onion",
-"quantity": "500",
-"unit": "g",
-"note": "",
-"used_in": [
-"Chicken, red lentil and vegetable stew with brown rice",
-"Lean beef, kidney bean and barley chili"
-]
-},
-{
-"id": "cabbage|g",
-"name": "Cabbage",
-"quantity": "500",
-"unit": "g",
-"note": "",
-"used_in": [
-"Tofu, chickpea and vegetable stir-fry with brown rice",
-"Oven mackerel with barley pilaf and roasted vegetables"
-]
-},
-{
-"id": "beetroot|g",
-"name": "Beetroot",
-"quantity": "400",
-"unit": "g",
-"note": "",
-"used_in": [
-"Oven mackerel with barley pilaf and roasted vegetables"
-]
-},
-{
-"id": "zucchini|g",
-"name": "Zucchini",
-"quantity": "400",
-"unit": "g",
-"note": "",
-"used_in": [
-"Chicken whole-grain pasta with spinach, tomato and zucchini"
-]
-},
-{
-"id": "mushrooms|g",
-"name": "Mushrooms",
-"quantity": "300",
-"unit": "g",
-"note": "",
-"used_in": [
-"Chicken whole-grain pasta with spinach, tomato and zucchini"
-]
-},
-{
-"id": "leek|g",
-"name": "Leek",
-"quantity": "200",
-"unit": "g",
-"note": "",
-"used_in": [
-"Cod, pea and potato soup with spinach"
-]
-},
-{
-"id": "avocado|g",
-"name": "Avocado",
-"quantity": "180",
-"unit": "g",
-"note": "",
-"used_in": [
-"Chicken quinoa salad with edamame, avocado and citrus"
-]
-},
-{
-"id": "corn|g",
-"name": "Corn",
-"quantity": "250",
-"unit": "g",
-"note": "",
-"used_in": [
-"Lean beef, kidney bean and barley chili"
-]
-},
-{
-"id": "garlic|cloves",
-"name": "Garlic",
-"quantity": "8",
-"unit": "cloves",
-"note": "",
-"used_in": [
-"Chicken, red lentil and vegetable stew with brown rice",
-"Tofu, chickpea and vegetable stir-fry with brown rice",
-"Chicken whole-grain pasta with spinach, tomato and zucchini"
-]
-},
-{
-"id": "ginger|g",
-"name": "Ginger",
-"quantity": "30",
-"unit": "g",
-"note": "",
-"used_in": [
-"Tofu, chickpea and vegetable stir-fry with brown rice"
-]
-},
-{
-"id": "lemon-juice|ml",
-"name": "Lemon juice",
-"quantity": "185",
-"unit": "ml",
-"note": "Fresh lemon juice or bottled pure lemon juice",
-"used_in": [
-"Turkey barley vegetable bowls with pumpkin seeds",
-"Oven salmon with potatoes, broccoli and tomato-cucumber salad",
-"Chicken quinoa salad with edamame, avocado and citrus",
-"Oven mackerel with barley pilaf and roasted vegetables",
-"Sardine, white bean and potato salad with greens"
-]
-},
-{
-"id": "lime-juice|ml",
-"name": "Lime juice",
-"quantity": "40",
-"unit": "ml",
-"note": "",
-"used_in": [
-"Tofu, chickpea and vegetable stir-fry with brown rice"
-]
-},
-{
-"id": "dill|g",
-"name": "Dill",
-"quantity": "70",
-"unit": "g",
-"note": "",
-"used_in": [
-"Oven salmon with potatoes, broccoli and tomato-cucumber salad",
-"Cod, pea and potato soup with spinach",
-"Oven mackerel with barley pilaf and roasted vegetables",
-"Kefir cottage cheese cucumber bowls"
-]
-},
-{
-"id": "parsley|g",
-"name": "Parsley",
-"quantity": "40",
-"unit": "g",
-"note": "",
-"used_in": [
-"Turkey barley vegetable bowls with pumpkin seeds",
-"Sardine, white bean and potato salad with greens"
-]
-},
-{
-"id": "basil|g",
-"name": "Basil",
-"quantity": "15",
-"unit": "g",
-"note": "",
-"used_in": [
-"Chicken whole-grain pasta with spinach, tomato and zucchini"
-]
-}
-]
-},
-{
-"category": "Pantry, Grains & Legumes",
-"items": [
-{
-"id": "rolled-oats|g",
-"name": "Rolled oats",
-"quantity": "1260",
-"unit": "g",
-"note": "Daily oat base",
-"used_in": [
-"Oat, skyr, berry, flax and walnut breakfast bowls",
-"Soy milk oat porridge with skyr, banana, chia and walnuts",
-"Barley-oat skyr bowls with kiwi, berries and walnuts",
-"Overnight soy oats with skyr, berries, flax and walnuts",
-"Cottage cheese oat pancakes with berry yogurt and walnuts",
-"Buckwheat-oat skyr bowls with berries, chia and walnuts",
-"Barley-oat skyr bowls with mango, chia and walnuts"
-]
-},
-{
-"id": "hulled-barley-dry|g",
-"name": "Hulled barley, dry",
-"quantity": "1050",
-"unit": "g",
-"note": "Cook to required cooked weight",
-"used_in": [
-"Barley-oat skyr bowls with kiwi, berries and walnuts",
-"Barley-oat skyr bowls with mango, chia and walnuts",
-"Turkey barley vegetable bowls with pumpkin seeds",
-"Lean beef, kidney bean and barley chili",
-"Oven mackerel with barley pilaf and roasted vegetables"
-]
-},
-{
-"id": "brown-rice-dry|g",
-"name": "Brown rice, dry",
-"quantity": "650",
-"unit": "g",
-"note": "Cook to required cooked weight",
-"used_in": [
-"Chicken, red lentil and vegetable stew with brown rice",
-"Tofu, chickpea and vegetable stir-fry with brown rice"
-]
-},
-{
-"id": "buckwheat-dry|g",
-"name": "Buckwheat groats, dry",
-"quantity": "220",
-"unit": "g",
-"note": "Cook to required cooked weight",
-"used_in": [
-"Buckwheat-oat skyr bowls with berries, chia and walnuts"
-]
-},
-{
-"id": "quinoa-dry|g",
-"name": "Quinoa, dry",
-"quantity": "300",
-"unit": "g",
-"note": "Cook to required cooked weight",
-"used_in": [
-"Chicken quinoa salad with edamame, avocado and citrus"
-]
-},
-{
-"id": "whole-grain-pasta-dry|g",
-"name": "Whole-grain pasta, dry",
-"quantity": "390",
-"unit": "g",
-"note": "Cook to required cooked weight",
-"used_in": [
-"Chicken whole-grain pasta with spinach, tomato and zucchini"
-]
-},
-{
-"id": "potatoes|g",
-"name": "Potatoes",
-"quantity": "3100",
-"unit": "g",
-"note": "Cook to required cooked weight",
-"used_in": [
-"Oven salmon with potatoes, broccoli and tomato-cucumber salad",
-"Cod, pea and potato soup with spinach",
-"Sardine, white bean and potato salad with greens"
-]
-},
-{
-"id": "red-lentils-dry|g",
-"name": "Red lentils, dry",
-"quantity": "280",
-"unit": "g",
-"note": "Cook to required cooked weight",
-"used_in": [
-"Chicken, red lentil and vegetable stew with brown rice"
-]
-},
-{
-"id": "chickpeas|g",
-"name": "Chickpeas",
-"quantity": "540",
-"unit": "g",
-"note": "Cooked and rinsed weight",
-"used_in": [
-"Tofu, chickpea and vegetable stir-fry with brown rice"
-]
-},
-{
-"id": "kidney-beans|g",
-"name": "Kidney beans",
-"quantity": "600",
-"unit": "g",
-"note": "Cooked and rinsed weight",
-"used_in": [
-"Lean beef, kidney bean and barley chili"
-]
-},
-{
-"id": "white-beans|g",
-"name": "White beans",
-"quantity": "500",
-"unit": "g",
-"note": "Cooked and rinsed weight",
-"used_in": [
-"Sardine, white bean and potato salad with greens"
-]
-},
-{
-"id": "green-peas|g",
-"name": "Green peas",
-"quantity": "600",
-"unit": "g",
-"note": "Frozen peas work well",
-"used_in": [
-"Cod, pea and potato soup with spinach"
-]
-},
-{
-"id": "walnuts|g",
-"name": "Walnuts",
-"quantity": "420",
-"unit": "g",
-"note": "Wife gets measured portions most days",
-"used_in": [
-"Oat, skyr, berry, flax and walnut breakfast bowls",
-"Soy milk oat porridge with skyr, banana, chia and walnuts",
-"Barley-oat skyr bowls with kiwi, berries and walnuts",
-"Overnight soy oats with skyr, berries, flax and walnuts",
-"Cottage cheese oat pancakes with berry yogurt and walnuts",
-"Buckwheat-oat skyr bowls with berries, chia and walnuts",
-"Barley-oat skyr bowls with mango, chia and walnuts",
-"Greek yogurt berry walnut cups",
-"Fortified soy yogurt berry walnut cups"
-]
-},
-{
-"id": "ground-flaxseed|g",
-"name": "Ground flaxseed",
-"quantity": "100",
-"unit": "g",
-"note": "",
-"used_in": [
-"Oat, skyr, berry, flax and walnut breakfast bowls",
-"Barley-oat skyr bowls with kiwi, berries and walnuts",
-"Overnight soy oats with skyr, berries, flax and walnuts",
-"Greek yogurt berry walnut cups"
-]
-},
-{
-"id": "chia-seeds|g",
-"name": "Chia seeds",
-"quantity": "150",
-"unit": "g",
-"note": "",
-"used_in": [
-"Soy milk oat porridge with skyr, banana, chia and walnuts",
-"Buckwheat-oat skyr bowls with berries, chia and walnuts",
-"Barley-oat skyr bowls with mango, chia and walnuts",
-"Kefir-skyr berry chia cups",
-"Kefir banana chia drink",
-"Fortified soy yogurt berry walnut cups",
-"Greek yogurt grape sunflower cups"
-]
-},
-{
-"id": "pumpkin-seeds|g",
-"name": "Pumpkin seeds",
-"quantity": "105",
-"unit": "g",
-"note": "",
-"used_in": [
-"Turkey barley vegetable bowls with pumpkin seeds",
-"Skyr melon pumpkin seed bowls",
-"Kefir cottage cheese cucumber bowls"
-]
-},
-{
-"id": "sunflower-seeds|g",
-"name": "Sunflower seeds",
-"quantity": "55",
-"unit": "g",
-"note": "",
-"used_in": [
-"Chicken quinoa salad with edamame, avocado and citrus",
-"Greek yogurt grape sunflower cups"
-]
-},
-{
-"id": "sesame-seeds|g",
-"name": "Sesame seeds",
-"quantity": "25",
-"unit": "g",
-"note": "",
-"used_in": [
-"Tofu, chickpea and vegetable stir-fry with brown rice"
-]
-},
-{
-"id": "olive-oil|ml",
-"name": "Olive oil",
-"quantity": "295",
-"unit": "ml",
-"note": "Measure portions; avoid extra free-pouring",
-"used_in": [
-"Turkey barley vegetable bowls with pumpkin seeds",
-"Chicken, red lentil and vegetable stew with brown rice",
-"Oven salmon with potatoes, broccoli and tomato-cucumber salad",
-"Tofu, chickpea and vegetable stir-fry with brown rice",
-"Lean beef, kidney bean and barley chili",
-"Cod, pea and potato soup with spinach",
-"Chicken quinoa salad with edamame, avocado and citrus",
-"Oven mackerel with barley pilaf and roasted vegetables",
-"Sardine, white bean and potato salad with greens",
-"Chicken whole-grain pasta with spinach, tomato and zucchini",
-"Cottage cheese oat pancakes with berry yogurt and walnuts"
-]
-},
-{
-"id": "low-salt-vegetable-stock|ml",
-"name": "Low-salt vegetable stock",
-"quantity": "800",
-"unit": "ml",
-"note": "",
-"used_in": [
-"Chicken, red lentil and vegetable stew with brown rice"
-]
-},
-{
-"id": "baking-powder|g",
-"name": "Baking powder",
-"quantity": "8",
-"unit": "g",
-"note": "",
-"used_in": [
-"Cottage cheese oat pancakes with berry yogurt and walnuts"
-]
-},
-{
-"id": "cinnamon|g",
-"name": "Cinnamon",
-"quantity": "10",
-"unit": "g",
-"note": "",
-"used_in": [
-"Oat, skyr, berry, flax and walnut breakfast bowls",
-"Soy milk oat porridge with skyr, banana, chia and walnuts",
-"Overnight soy oats with skyr, berries, flax and walnuts",
-"Cottage cheese oat pancakes with berry yogurt and walnuts"
-]
-},
-{
-"id": "cumin|g",
-"name": "Cumin",
-"quantity": "12",
-"unit": "g",
-"note": "",
-"used_in": [
-"Chicken, red lentil and vegetable stew with brown rice",
-"Lean beef, kidney bean and barley chili"
-]
-},
-{
-"id": "paprika|g",
-"name": "Paprika",
-"quantity": "6",
-"unit": "g",
-"note": "",
-"used_in": [
-"Lean beef, kidney bean and barley chili"
-]
-},
-{
-"id": "black-pepper|g",
-"name": "Black pepper",
-"quantity": "2",
-"unit": "g",
-"note": "",
-"used_in": [
-"Cod, pea and potato soup with spinach"
-]
-},
-{
-"id": "water|ml",
-"name": "Water",
-"quantity": "2650",
-"unit": "ml",
-"note": "For oats and soup",
-"used_in": [
-"Oat, skyr, berry, flax and walnut breakfast bowls",
-"Barley-oat skyr bowls with kiwi, berries and walnuts",
-"Buckwheat-oat skyr bowls with berries, chia and walnuts",
-"Barley-oat skyr bowls with mango, chia and walnuts",
-"Cod, pea and potato soup with spinach"
-]
-}
-]
-}
-],
-"daily_nutrition": [
-{
-"date": "2026-05-04",
-"husband": {
-"kcal": 2350,
-"protein_g": 157,
-"carbs_g": 282,
-"fat_g": 64,
-"fiber_g": 51,
-"sat_fat_g": 12
-},
-"wife": {
-"kcal": 1640,
-"protein_g": 119,
-"carbs_g": 192,
-"fat_g": 43,
-"fiber_g": 42,
-"sat_fat_g": 8.2
-},
-"child": {
-"kcal": 2400,
-"protein_g": 107,
-"carbs_g": 332,
-"fat_g": 65,
-"fiber_g": 46,
-"includes_fixed_school_snack": true
-}
-},
-{
-"date": "2026-05-05",
-"husband": {
-"kcal": 2390,
-"protein_g": 159,
-"carbs_g": 276,
-"fat_g": 73,
-"fiber_g": 46,
-"sat_fat_g": 12
-},
-"wife": {
-"kcal": 1670,
-"protein_g": 117,
-"carbs_g": 187,
-"fat_g": 50,
-"fiber_g": 38,
-"sat_fat_g": 8.7
-},
-"child": {
-"kcal": 2420,
-"protein_g": 108,
-"carbs_g": 326,
-"fat_g": 69,
-"fiber_g": 45,
-"includes_fixed_school_snack": true
-}
-},
-{
-"date": "2026-05-06",
-"husband": {
-"kcal": 2400,
-"protein_g": 157,
-"carbs_g": 277,
-"fat_g": 76,
-"fiber_g": 47,
-"sat_fat_g": 14
-},
-"wife": {
-"kcal": 1650,
-"protein_g": 114,
-"carbs_g": 188,
-"fat_g": 52,
-"fiber_g": 39,
-"sat_fat_g": 10
-},
-"child": {
-"kcal": 2450,
-"protein_g": 105,
-"carbs_g": 334,
-"fat_g": 73,
-"fiber_g": 45,
-"includes_fixed_school_snack": true
-}
-},
-{
-"date": "2026-05-07",
-"husband": {
-"kcal": 2380,
-"protein_g": 152,
-"carbs_g": 295,
-"fat_g": 68,
-"fiber_g": 53,
-"sat_fat_g": 14
-},
-"wife": {
-"kcal": 1660,
-"protein_g": 110,
-"carbs_g": 202,
-"fat_g": 47,
-"fiber_g": 44,
-"sat_fat_g": 10.3
-},
-"child": {
-"kcal": 2480,
-"protein_g": 105,
-"carbs_g": 348,
-"fat_g": 70,
-"fiber_g": 48,
-"includes_fixed_school_snack": true
-}
-},
-{
-"date": "2026-05-08",
-"husband": {
-"kcal": 2360,
-"protein_g": 162,
-"carbs_g": 247,
-"fat_g": 72,
-"fiber_g": 47,
-"sat_fat_g": 15.5
-},
-"wife": {
-"kcal": 1660,
-"protein_g": 120,
-"carbs_g": 171,
-"fat_g": 47,
-"fiber_g": 39,
-"sat_fat_g": 10.3
-},
-"child": {
-"kcal": 2460,
-"protein_g": 109,
-"carbs_g": 309,
-"fat_g": 71,
-"fiber_g": 44,
-"includes_fixed_school_snack": true
-}
-},
-{
-"date": "2026-05-09",
-"husband": {
-"kcal": 2380,
-"protein_g": 160,
-"carbs_g": 250,
-"fat_g": 79,
-"fiber_g": 47,
-"sat_fat_g": 16
-},
-"wife": {
-"kcal": 1570,
-"protein_g": 120,
-"carbs_g": 157,
-"fat_g": 53,
-"fiber_g": 37,
-"sat_fat_g": 11
-},
-"child": {
-"kcal": 2120,
-"protein_g": 89,
-"carbs_g": 264,
-"fat_g": 66,
-"fiber_g": 38,
-"includes_fixed_school_snack": false
-}
-},
-{
-"date": "2026-05-10",
-"husband": {
-"kcal": 2400,
-"protein_g": 163,
-"carbs_g": 284,
-"fat_g": 68,
-"fiber_g": 46,
-"sat_fat_g": 13
-},
-"wife": {
-"kcal": 1640,
-"protein_g": 118,
-"carbs_g": 182,
-"fat_g": 45,
-"fiber_g": 39,
-"sat_fat_g": 8.2
-},
-"child": {
-"kcal": 2140,
-"protein_g": 86,
-"carbs_g": 290,
-"fat_g": 57,
-"fiber_g": 40,
-"includes_fixed_school_snack": false
-}
-}
-],
-"weekly_validation": {
-"pass": true,
-"checks": [
-{
-"label": "Fatty fish ≥2x this week",
-"pass": true,
-"detail": "Tuesday salmon dinner with Wednesday leftover lunch; Saturday mackerel dinner; Sunday sardine lunch."
-},
-{
-"label": "Legumes ≥3x this week",
-"pass": true,
-"detail": "Monday dinner and Tuesday lunch lentils; Wednesday dinner and Thursday lunch chickpeas; Thursday dinner and Friday lunch kidney beans; Friday dinner peas; Sunday white beans."
-},
-{
-"label": "Soy foods 4–7 inclusions",
-"pass": true,
-"detail": "Fortified soy milk Tuesday, Thursday and Sunday breakfasts; tofu Wednesday dinner and Thursday lunch; fortified soy yogurt Friday snack; edamame Saturday lunch."
-},
-{
-"label": "Red meat ≤2x (adults)",
-"pass": true,
-"detail": "One generated red-meat recipe: Thursday dinner with Friday leftover lunch."
-},
-{
-"label": "Wife sat fat ≤11g/day average",
-"pass": true,
-"detail": "Estimated average 9.5 g/day; highest day is 11.0 g."
-},
-{
-"label": "Wife beta-glucan ≥3g/day (oats/barley daily)",
-"pass": true,
-"detail": "Oats or barley included at breakfast every day; additional barley included Monday lunch, Thursday dinner, Friday lunch and Saturday dinner."
-},
-{
-"label": "Husband protein ≥130g/day average",
-"pass": true,
-"detail": "Estimated average 158.6 g/day."
-},
-{
-"label": "Wife protein ≥95g/day average",
-"pass": true,
-"detail": "Estimated average 116.9 g/day."
-},
-{
-"label": "Child protein ≥70g/day average",
-"pass": true,
-"detail": "Estimated average 101.3 g/day including fixed external school snack on school days."
-},
-{
-"label": "Child calcium structurally ~1300mg/day",
-"pass": true,
-"detail": "Daily calcium sources include skyr, kefir, yogurt, cottage cheese, low-fat milk, fortified soy milk, fortified soy yogurt, tofu and sardines with bones."
-},
-{
-"label": "Protein floor met at breakfast (all persons)",
-"pass": true,
-"detail": "Every breakfast uses skyr, yogurt, cottage cheese, egg whites, soy milk or dairy with oats or barley."
-},
-{
-"label": "Protein floor met at lunch (all persons)",
-"pass": true,
-"detail": "All lunches meet husband ≥35 g, wife ≥28 g and child ≥20 g protein estimates."
-},
-{
-"label": "Shared snack ≥4 days",
-"pass": true,
-"detail": "Shared snack included Monday through Sunday."
-},
-{
-"label": "Weekday active cooking ≤30 min",
-"pass": true,
-"detail": "All weekday generated meals have active time of 25 minutes or less; overnight oats require 10 active minutes."
-},
-{
-"label": "No excluded fruit terms",
-"pass": true,
-"detail": "Generated meals use only allowed produce choices such as berries, banana, kiwi, mango, melon, grapes and citrus."
-},
-{
-"label": "No generated processed meat",
-"pass": true,
-"detail": "Generated meals use poultry, fish, tofu, legumes, eggs, dairy and one lean beef recipe only."
-},
-{
-"label": "Fixed child snack accounted for, not modified",
-"pass": true,
-"detail": "The fixed external snack object is copied unchanged on Monday through Friday and included in child totals."
-},
-{
-"label": "Sodium not stacked on high-risk days",
-"pass": true,
-"detail": "School days avoid salty fish and heavy cheese; canned legumes are rinsed; higher-sodium fish is placed on the weekend."
-}
-]
-},
-"safety": {
-"allergy_check": {
-"pass": true,
-"notes": []
-},
-"processed_meat_check": {
-"pass": true,
-"notes": []
-},
-"fixed_child_snack_accounted_for": true,
-"fixed_child_snack_not_modified": true
-}
+  "schema_version": "2.0",
+  "week": {
+    "id": "2026-W19",
+    "label": "2026 W19 · May 4–10",
+    "start_date": "2026-05-04",
+    "end_date": "2026-05-10",
+    "timezone": "Europe/Vilnius"
+  },
+  "fixed_school_snack": {
+    "title": "Fixed school snack (external)",
+    "description": "Tortilla wrap with cream cheese, ham and vegetables — external, not generated",
+    "kcal_estimate": 400,
+    "protein_g_estimate": 24
+  },
+  "menu": [
+    {
+      "day_name": "Monday",
+      "date": "2026-05-04",
+      "includes_fixed_school_snack": true,
+      "breakfast": {
+        "title": "Berry oat Greek yogurt bowls with flax and walnuts",
+        "recipe_id": "berry-oat-greek-yogurt-bowls"
+      },
+      "lunch": {
+        "title": "Chicken barley edamame bowls with roasted vegetables",
+        "recipe_id": "chicken-barley-edamame-bowls"
+      },
+      "dinner": {
+        "title": "Salmon potato broccoli tray bake with barley and yogurt dill sauce",
+        "recipe_id": "salmon-potato-broccoli-tray-bake",
+        "cook_once_eat_twice": true
+      },
+      "shared_snack": {
+        "title": "Greek yogurt berry chia cups with walnuts",
+        "recipe_id": "greek-yogurt-berry-chia-cups"
+      }
+    },
+    {
+      "day_name": "Tuesday",
+      "date": "2026-05-05",
+      "includes_fixed_school_snack": true,
+      "breakfast": {
+        "title": "Egg-white rye plates with vegetables, avocado and kefir",
+        "recipe_id": "egg-white-rye-kefir-plates"
+      },
+      "lunch": {
+        "title": "Leftover salmon potato broccoli tray bake with barley and yogurt dill sauce",
+        "recipe_id": "salmon-potato-broccoli-tray-bake",
+        "leftover_from": "Monday"
+      },
+      "dinner": {
+        "title": "Turkey lentil barley stew with vegetables",
+        "recipe_id": "turkey-lentil-barley-stew",
+        "cook_once_eat_twice": true
+      },
+      "shared_snack": {
+        "title": "Kefir cottage vegetable crispbread plates",
+        "recipe_id": "kefir-cottage-vegetable-crispbread-plates"
+      }
+    },
+    {
+      "day_name": "Wednesday",
+      "date": "2026-05-06",
+      "includes_fixed_school_snack": true,
+      "breakfast": {
+        "title": "Buckwheat Greek yogurt bowls with berries, seeds and walnuts",
+        "recipe_id": "buckwheat-yogurt-berry-bowls"
+      },
+      "lunch": {
+        "title": "Leftover turkey lentil barley stew with vegetables",
+        "recipe_id": "turkey-lentil-barley-stew",
+        "leftover_from": "Tuesday"
+      },
+      "dinner": {
+        "title": "Tofu chickpea brown rice stir-fry with broccoli and peppers",
+        "recipe_id": "tofu-chickpea-brown-rice-stir-fry",
+        "cook_once_eat_twice": true
+      }
+    },
+    {
+      "day_name": "Thursday",
+      "date": "2026-05-07",
+      "includes_fixed_school_snack": true,
+      "breakfast": {
+        "title": "Cottage cheese rye plates with citrus, vegetables and walnuts",
+        "recipe_id": "cottage-cheese-rye-citrus-plates"
+      },
+      "lunch": {
+        "title": "Leftover tofu chickpea brown rice stir-fry with broccoli and peppers",
+        "recipe_id": "tofu-chickpea-brown-rice-stir-fry",
+        "leftover_from": "Wednesday"
+      },
+      "dinner": {
+        "title": "Chicken barley mushroom pea pot with spinach",
+        "recipe_id": "chicken-barley-mushroom-pea-pot",
+        "cook_once_eat_twice": true
+      },
+      "shared_snack": {
+        "title": "Hummus vegetable egg kefir plates",
+        "recipe_id": "hummus-vegetable-egg-kefir-plates"
+      }
+    },
+    {
+      "day_name": "Friday",
+      "date": "2026-05-08",
+      "includes_fixed_school_snack": true,
+      "breakfast": {
+        "title": "Tofu and egg-white scramble with whole-grain toast and kefir",
+        "recipe_id": "tofu-scramble-toast-kefir-plates"
+      },
+      "lunch": {
+        "title": "Leftover chicken barley mushroom pea pot with spinach",
+        "recipe_id": "chicken-barley-mushroom-pea-pot",
+        "leftover_from": "Thursday"
+      },
+      "dinner": {
+        "title": "Mackerel potato plates with cabbage slaw and yogurt herb sauce",
+        "recipe_id": "mackerel-potato-cabbage-plates"
+      }
+    },
+    {
+      "day_name": "Saturday",
+      "date": "2026-05-09",
+      "includes_fixed_school_snack": false,
+      "breakfast": {
+        "title": "Barley yogurt bowls with mango, berries, chia and walnuts",
+        "recipe_id": "barley-yogurt-mango-walnut-bowls"
+      },
+      "lunch": {
+        "title": "Lentil barley cod soup with vegetables",
+        "recipe_id": "lentil-barley-cod-soup"
+      },
+      "dinner": {
+        "title": "Lean beef bean chili with brown rice and vegetables",
+        "recipe_id": "lean-beef-bean-chili",
+        "cook_once_eat_twice": true
+      },
+      "shared_snack": {
+        "title": "Fortified soy yogurt berry walnut cups",
+        "recipe_id": "soy-yogurt-berry-walnut-cups"
+      }
+    },
+    {
+      "day_name": "Sunday",
+      "date": "2026-05-10",
+      "includes_fixed_school_snack": false,
+      "breakfast": {
+        "title": "Oat egg-white pancakes with Greek yogurt, berries and banana",
+        "recipe_id": "oat-egg-white-yogurt-pancakes"
+      },
+      "lunch": {
+        "title": "Leftover lean beef bean chili with brown rice and vegetables",
+        "recipe_id": "lean-beef-bean-chili",
+        "leftover_from": "Saturday"
+      },
+      "dinner": {
+        "title": "Sardine barley potato plates with vegetables and yogurt lemon sauce",
+        "recipe_id": "sardine-barley-potato-vegetable-plates"
+      },
+      "shared_snack": {
+        "title": "Cottage cheese cucumber kefir bowls with rye crispbread",
+        "recipe_id": "cottage-cheese-cucumber-kefir-bowls"
+      }
+    }
+  ],
+  "recipes": [
+    {
+      "id": "berry-oat-greek-yogurt-bowls",
+      "title": "Berry oat Greek yogurt bowls with flax and walnuts",
+      "meal_types": [
+        "breakfast"
+      ],
+      "active_time_min": 10,
+      "total_time_min": 10,
+      "ingredients": [
+        {
+          "name": "oats, Greek yogurt, soy milk, berries, walnuts and flax",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 590,
+          "protein_g": 42,
+          "carbs_g": 70,
+          "fat_g": 18,
+          "fiber_g": 12,
+          "sat_fat_g": 3.5
+        },
+        "wife": {
+          "kcal": 410,
+          "protein_g": 31,
+          "carbs_g": 45,
+          "fat_g": 13,
+          "fiber_g": 10,
+          "sat_fat_g": 2.5
+        },
+        "child": {
+          "kcal": 560,
+          "protein_g": 26,
+          "carbs_g": 78,
+          "fat_g": 17,
+          "fiber_g": 10
+        }
+      }
+    },
+    {
+      "id": "egg-white-rye-kefir-plates",
+      "title": "Egg-white rye plates with vegetables, avocado and kefir",
+      "meal_types": [
+        "breakfast"
+      ],
+      "active_time_min": 15,
+      "total_time_min": 15,
+      "ingredients": [
+        {
+          "name": "eggs, egg whites, rye bread, vegetables, avocado, kefir and soy milk",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 570,
+          "protein_g": 43,
+          "carbs_g": 58,
+          "fat_g": 20,
+          "fiber_g": 9,
+          "sat_fat_g": 4
+        },
+        "wife": {
+          "kcal": 410,
+          "protein_g": 32,
+          "carbs_g": 35,
+          "fat_g": 16,
+          "fiber_g": 8,
+          "sat_fat_g": 2.5
+        },
+        "child": {
+          "kcal": 590,
+          "protein_g": 27,
+          "carbs_g": 65,
+          "fat_g": 19,
+          "fiber_g": 8
+        }
+      }
+    },
+    {
+      "id": "buckwheat-yogurt-berry-bowls",
+      "title": "Buckwheat Greek yogurt bowls with berries, seeds and walnuts",
+      "meal_types": [
+        "breakfast"
+      ],
+      "active_time_min": 10,
+      "total_time_min": 15,
+      "ingredients": [
+        {
+          "name": "buckwheat, Greek yogurt, berries, pumpkin seeds, flax and kefir",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 590,
+          "protein_g": 41,
+          "carbs_g": 74,
+          "fat_g": 15,
+          "fiber_g": 11,
+          "sat_fat_g": 3
+        },
+        "wife": {
+          "kcal": 420,
+          "protein_g": 30,
+          "carbs_g": 50,
+          "fat_g": 12,
+          "fiber_g": 9,
+          "sat_fat_g": 2.5
+        },
+        "child": {
+          "kcal": 570,
+          "protein_g": 25,
+          "carbs_g": 76,
+          "fat_g": 14,
+          "fiber_g": 9
+        }
+      }
+    },
+    {
+      "id": "cottage-cheese-rye-citrus-plates",
+      "title": "Cottage cheese rye plates with citrus, vegetables and walnuts",
+      "meal_types": [
+        "breakfast"
+      ],
+      "active_time_min": 10,
+      "total_time_min": 10,
+      "ingredients": [
+        {
+          "name": "cottage cheese, rye bread, citrus, vegetables, walnuts, flax and kefir",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 560,
+          "protein_g": 40,
+          "carbs_g": 64,
+          "fat_g": 17,
+          "fiber_g": 10,
+          "sat_fat_g": 5
+        },
+        "wife": {
+          "kcal": 395,
+          "protein_g": 30,
+          "carbs_g": 40,
+          "fat_g": 13,
+          "fiber_g": 9,
+          "sat_fat_g": 4
+        },
+        "child": {
+          "kcal": 560,
+          "protein_g": 24,
+          "carbs_g": 70,
+          "fat_g": 16,
+          "fiber_g": 8
+        }
+      }
+    },
+    {
+      "id": "tofu-scramble-toast-kefir-plates",
+      "title": "Tofu and egg-white scramble with whole-grain toast and kefir",
+      "meal_types": [
+        "breakfast"
+      ],
+      "active_time_min": 20,
+      "total_time_min": 20,
+      "ingredients": [
+        {
+          "name": "tofu, egg whites, whole-grain bread, vegetables, avocado and kefir",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 600,
+          "protein_g": 43,
+          "carbs_g": 60,
+          "fat_g": 22,
+          "fiber_g": 11,
+          "sat_fat_g": 4
+        },
+        "wife": {
+          "kcal": 420,
+          "protein_g": 32,
+          "carbs_g": 38,
+          "fat_g": 16,
+          "fiber_g": 9,
+          "sat_fat_g": 3
+        },
+        "child": {
+          "kcal": 580,
+          "protein_g": 26,
+          "carbs_g": 64,
+          "fat_g": 20,
+          "fiber_g": 9
+        }
+      }
+    },
+    {
+      "id": "barley-yogurt-mango-walnut-bowls",
+      "title": "Barley yogurt bowls with mango, berries, chia and walnuts",
+      "meal_types": [
+        "breakfast"
+      ],
+      "active_time_min": 10,
+      "total_time_min": 10,
+      "ingredients": [
+        {
+          "name": "barley flakes, Greek yogurt, soy yogurt, mango, berries, walnuts and chia",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 580,
+          "protein_g": 39,
+          "carbs_g": 72,
+          "fat_g": 18,
+          "fiber_g": 11,
+          "sat_fat_g": 3
+        },
+        "wife": {
+          "kcal": 415,
+          "protein_g": 30,
+          "carbs_g": 48,
+          "fat_g": 13,
+          "fiber_g": 10,
+          "sat_fat_g": 2.5
+        },
+        "child": {
+          "kcal": 610,
+          "protein_g": 24,
+          "carbs_g": 82,
+          "fat_g": 18,
+          "fiber_g": 10
+        }
+      }
+    },
+    {
+      "id": "oat-egg-white-yogurt-pancakes",
+      "title": "Oat egg-white pancakes with Greek yogurt, berries and banana",
+      "meal_types": [
+        "breakfast"
+      ],
+      "active_time_min": 25,
+      "total_time_min": 25,
+      "ingredients": [
+        {
+          "name": "oats, egg whites, eggs, Greek yogurt, berries, banana and walnuts",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 620,
+          "protein_g": 42,
+          "carbs_g": 78,
+          "fat_g": 18,
+          "fiber_g": 12,
+          "sat_fat_g": 3.5
+        },
+        "wife": {
+          "kcal": 430,
+          "protein_g": 31,
+          "carbs_g": 52,
+          "fat_g": 13,
+          "fiber_g": 10,
+          "sat_fat_g": 2.5
+        },
+        "child": {
+          "kcal": 630,
+          "protein_g": 25,
+          "carbs_g": 88,
+          "fat_g": 17,
+          "fiber_g": 10
+        }
+      }
+    },
+    {
+      "id": "chicken-barley-edamame-bowls",
+      "title": "Chicken barley edamame bowls with roasted vegetables",
+      "meal_types": [
+        "lunch"
+      ],
+      "active_time_min": 25,
+      "total_time_min": 30,
+      "ingredients": [
+        {
+          "name": "chicken, barley, edamame, vegetables, olive oil and lemon",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 770,
+          "protein_g": 49,
+          "carbs_g": 92,
+          "fat_g": 22,
+          "fiber_g": 14,
+          "sat_fat_g": 3
+        },
+        "wife": {
+          "kcal": 500,
+          "protein_g": 35,
+          "carbs_g": 52,
+          "fat_g": 14,
+          "fiber_g": 12,
+          "sat_fat_g": 2.5
+        },
+        "child": {
+          "kcal": 620,
+          "protein_g": 28,
+          "carbs_g": 76,
+          "fat_g": 17,
+          "fiber_g": 11
+        }
+      }
+    },
+    {
+      "id": "salmon-potato-broccoli-tray-bake",
+      "title": "Salmon potato broccoli tray bake with barley and yogurt dill sauce",
+      "meal_types": [
+        "dinner",
+        "lunch"
+      ],
+      "active_time_min": 25,
+      "total_time_min": 45,
+      "ingredients": [
+        {
+          "name": "salmon, potatoes, broccoli, carrots, barley, yogurt and olive oil",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 810,
+          "protein_g": 47,
+          "carbs_g": 88,
+          "fat_g": 30,
+          "fiber_g": 10,
+          "sat_fat_g": 5
+        },
+        "wife": {
+          "kcal": 540,
+          "protein_g": 34,
+          "carbs_g": 48,
+          "fat_g": 22,
+          "fiber_g": 8,
+          "sat_fat_g": 3.5
+        },
+        "child": {
+          "kcal": 675,
+          "protein_g": 26,
+          "carbs_g": 80,
+          "fat_g": 24,
+          "fiber_g": 8
+        }
+      }
+    },
+    {
+      "id": "turkey-lentil-barley-stew",
+      "title": "Turkey lentil barley stew with vegetables",
+      "meal_types": [
+        "dinner",
+        "lunch"
+      ],
+      "active_time_min": 30,
+      "total_time_min": 45,
+      "ingredients": [
+        {
+          "name": "turkey, lentils, barley, tomatoes, vegetables and olive oil",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 770,
+          "protein_g": 50,
+          "carbs_g": 98,
+          "fat_g": 19,
+          "fiber_g": 16,
+          "sat_fat_g": 3.5
+        },
+        "wife": {
+          "kcal": 510,
+          "protein_g": 36,
+          "carbs_g": 60,
+          "fat_g": 12,
+          "fiber_g": 14,
+          "sat_fat_g": 2.5
+        },
+        "child": {
+          "kcal": 625,
+          "protein_g": 29,
+          "carbs_g": 84,
+          "fat_g": 14,
+          "fiber_g": 13
+        }
+      }
+    },
+    {
+      "id": "tofu-chickpea-brown-rice-stir-fry",
+      "title": "Tofu chickpea brown rice stir-fry with broccoli and peppers",
+      "meal_types": [
+        "dinner",
+        "lunch"
+      ],
+      "active_time_min": 25,
+      "total_time_min": 30,
+      "ingredients": [
+        {
+          "name": "tofu, chickpeas, brown rice, vegetables and low-sodium soy sauce",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 780,
+          "protein_g": 42,
+          "carbs_g": 100,
+          "fat_g": 25,
+          "fiber_g": 15,
+          "sat_fat_g": 3
+        },
+        "wife": {
+          "kcal": 520,
+          "protein_g": 31,
+          "carbs_g": 62,
+          "fat_g": 17,
+          "fiber_g": 13,
+          "sat_fat_g": 2
+        },
+        "child": {
+          "kcal": 660,
+          "protein_g": 24,
+          "carbs_g": 92,
+          "fat_g": 20,
+          "fiber_g": 12
+        }
+      }
+    },
+    {
+      "id": "chicken-barley-mushroom-pea-pot",
+      "title": "Chicken barley mushroom pea pot with spinach",
+      "meal_types": [
+        "dinner",
+        "lunch"
+      ],
+      "active_time_min": 30,
+      "total_time_min": 40,
+      "ingredients": [
+        {
+          "name": "chicken, barley, peas, mushrooms, vegetables and olive oil",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 780,
+          "protein_g": 52,
+          "carbs_g": 92,
+          "fat_g": 21,
+          "fiber_g": 14,
+          "sat_fat_g": 3
+        },
+        "wife": {
+          "kcal": 520,
+          "protein_g": 37,
+          "carbs_g": 55,
+          "fat_g": 14,
+          "fiber_g": 12,
+          "sat_fat_g": 2.5
+        },
+        "child": {
+          "kcal": 640,
+          "protein_g": 30,
+          "carbs_g": 76,
+          "fat_g": 17,
+          "fiber_g": 11
+        }
+      }
+    },
+    {
+      "id": "mackerel-potato-cabbage-plates",
+      "title": "Mackerel potato plates with cabbage slaw and yogurt herb sauce",
+      "meal_types": [
+        "dinner"
+      ],
+      "active_time_min": 25,
+      "total_time_min": 30,
+      "ingredients": [
+        {
+          "name": "mackerel, potatoes, cabbage, vegetables, yogurt and olive oil",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 820,
+          "protein_g": 48,
+          "carbs_g": 82,
+          "fat_g": 35,
+          "fiber_g": 9,
+          "sat_fat_g": 7
+        },
+        "wife": {
+          "kcal": 550,
+          "protein_g": 35,
+          "carbs_g": 45,
+          "fat_g": 25,
+          "fiber_g": 9,
+          "sat_fat_g": 5.5
+        },
+        "child": {
+          "kcal": 730,
+          "protein_g": 28,
+          "carbs_g": 85,
+          "fat_g": 30,
+          "fiber_g": 8
+        }
+      }
+    },
+    {
+      "id": "lentil-barley-cod-soup",
+      "title": "Lentil barley cod soup with vegetables",
+      "meal_types": [
+        "lunch"
+      ],
+      "active_time_min": 25,
+      "total_time_min": 40,
+      "ingredients": [
+        {
+          "name": "cod, lentils, barley, potatoes, tomatoes and vegetables",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 750,
+          "protein_g": 48,
+          "carbs_g": 98,
+          "fat_g": 17,
+          "fiber_g": 17,
+          "sat_fat_g": 2
+        },
+        "wife": {
+          "kcal": 500,
+          "protein_g": 35,
+          "carbs_g": 62,
+          "fat_g": 11,
+          "fiber_g": 15,
+          "sat_fat_g": 1.5
+        },
+        "child": {
+          "kcal": 650,
+          "protein_g": 28,
+          "carbs_g": 90,
+          "fat_g": 14,
+          "fiber_g": 13
+        }
+      }
+    },
+    {
+      "id": "lean-beef-bean-chili",
+      "title": "Lean beef bean chili with brown rice and vegetables",
+      "meal_types": [
+        "dinner",
+        "lunch"
+      ],
+      "active_time_min": 35,
+      "total_time_min": 55,
+      "ingredients": [
+        {
+          "name": "lean beef, beans, brown rice, tomatoes and vegetables",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 810,
+          "protein_g": 50,
+          "carbs_g": 94,
+          "fat_g": 25,
+          "fiber_g": 16,
+          "sat_fat_g": 6
+        },
+        "wife": {
+          "kcal": 540,
+          "protein_g": 36,
+          "carbs_g": 56,
+          "fat_g": 17,
+          "fiber_g": 14,
+          "sat_fat_g": 4.5
+        },
+        "child": {
+          "kcal": 700,
+          "protein_g": 29,
+          "carbs_g": 86,
+          "fat_g": 20,
+          "fiber_g": 13
+        }
+      }
+    },
+    {
+      "id": "sardine-barley-potato-vegetable-plates",
+      "title": "Sardine barley potato plates with vegetables and yogurt lemon sauce",
+      "meal_types": [
+        "dinner"
+      ],
+      "active_time_min": 20,
+      "total_time_min": 25,
+      "ingredients": [
+        {
+          "name": "sardines with bones, barley, potatoes, vegetables and yogurt",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 800,
+          "protein_g": 46,
+          "carbs_g": 86,
+          "fat_g": 31,
+          "fiber_g": 12,
+          "sat_fat_g": 5
+        },
+        "wife": {
+          "kcal": 540,
+          "protein_g": 34,
+          "carbs_g": 50,
+          "fat_g": 22,
+          "fiber_g": 10,
+          "sat_fat_g": 2
+        },
+        "child": {
+          "kcal": 700,
+          "protein_g": 27,
+          "carbs_g": 82,
+          "fat_g": 26,
+          "fiber_g": 10
+        }
+      }
+    },
+    {
+      "id": "greek-yogurt-berry-chia-cups",
+      "title": "Greek yogurt berry chia cups with walnuts",
+      "meal_types": [
+        "shared_snack"
+      ],
+      "active_time_min": 5,
+      "total_time_min": 5,
+      "ingredients": [
+        {
+          "name": "Greek yogurt, berries, chia and walnuts",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 260,
+          "protein_g": 18,
+          "carbs_g": 24,
+          "fat_g": 10,
+          "fiber_g": 6,
+          "sat_fat_g": 2
+        },
+        "wife": {
+          "kcal": 175,
+          "protein_g": 12,
+          "carbs_g": 15,
+          "fat_g": 7,
+          "fiber_g": 5,
+          "sat_fat_g": 1.5
+        },
+        "child": {
+          "kcal": 240,
+          "protein_g": 12,
+          "carbs_g": 26,
+          "fat_g": 9,
+          "fiber_g": 5
+        }
+      }
+    },
+    {
+      "id": "kefir-cottage-vegetable-crispbread-plates",
+      "title": "Kefir cottage vegetable crispbread plates",
+      "meal_types": [
+        "shared_snack"
+      ],
+      "active_time_min": 5,
+      "total_time_min": 5,
+      "ingredients": [
+        {
+          "name": "kefir, cottage cheese, vegetables and rye crispbread",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 280,
+          "protein_g": 20,
+          "carbs_g": 30,
+          "fat_g": 9,
+          "fiber_g": 6,
+          "sat_fat_g": 3
+        },
+        "wife": {
+          "kcal": 180,
+          "protein_g": 13,
+          "carbs_g": 18,
+          "fat_g": 6,
+          "fiber_g": 5,
+          "sat_fat_g": 2
+        },
+        "child": {
+          "kcal": 260,
+          "protein_g": 13,
+          "carbs_g": 32,
+          "fat_g": 8,
+          "fiber_g": 5
+        }
+      }
+    },
+    {
+      "id": "hummus-vegetable-egg-kefir-plates",
+      "title": "Hummus vegetable egg kefir plates",
+      "meal_types": [
+        "shared_snack"
+      ],
+      "active_time_min": 10,
+      "total_time_min": 10,
+      "ingredients": [
+        {
+          "name": "hummus, eggs, kefir, vegetables and rye crispbread",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 300,
+          "protein_g": 19,
+          "carbs_g": 28,
+          "fat_g": 13,
+          "fiber_g": 8,
+          "sat_fat_g": 3
+        },
+        "wife": {
+          "kcal": 200,
+          "protein_g": 13,
+          "carbs_g": 17,
+          "fat_g": 9,
+          "fiber_g": 6,
+          "sat_fat_g": 2
+        },
+        "child": {
+          "kcal": 280,
+          "protein_g": 14,
+          "carbs_g": 30,
+          "fat_g": 11,
+          "fiber_g": 6
+        }
+      }
+    },
+    {
+      "id": "soy-yogurt-berry-walnut-cups",
+      "title": "Fortified soy yogurt berry walnut cups",
+      "meal_types": [
+        "shared_snack"
+      ],
+      "active_time_min": 5,
+      "total_time_min": 5,
+      "ingredients": [
+        {
+          "name": "fortified soy yogurt, berries, walnuts and chia",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 270,
+          "protein_g": 15,
+          "carbs_g": 25,
+          "fat_g": 13,
+          "fiber_g": 6,
+          "sat_fat_g": 1.5
+        },
+        "wife": {
+          "kcal": 190,
+          "protein_g": 10,
+          "carbs_g": 16,
+          "fat_g": 10,
+          "fiber_g": 5,
+          "sat_fat_g": 1
+        },
+        "child": {
+          "kcal": 250,
+          "protein_g": 11,
+          "carbs_g": 28,
+          "fat_g": 10,
+          "fiber_g": 5
+        }
+      }
+    },
+    {
+      "id": "cottage-cheese-cucumber-kefir-bowls",
+      "title": "Cottage cheese cucumber kefir bowls with rye crispbread",
+      "meal_types": [
+        "shared_snack"
+      ],
+      "active_time_min": 5,
+      "total_time_min": 5,
+      "ingredients": [
+        {
+          "name": "cottage cheese, kefir, cucumber and rye crispbread",
+          "quantity": 1,
+          "unit": "set"
+        }
+      ],
+      "instructions": [
+        "Prepare listed components with minimal added salt and portion by target."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 260,
+          "protein_g": 21,
+          "carbs_g": 22,
+          "fat_g": 9,
+          "fiber_g": 5,
+          "sat_fat_g": 3
+        },
+        "wife": {
+          "kcal": 180,
+          "protein_g": 14,
+          "carbs_g": 14,
+          "fat_g": 6,
+          "fiber_g": 4,
+          "sat_fat_g": 2
+        },
+        "child": {
+          "kcal": 250,
+          "protein_g": 14,
+          "carbs_g": 28,
+          "fat_g": 8,
+          "fiber_g": 5
+        }
+      }
+    }
+  ],
+  "shopping_list": [
+    {
+      "category": "Fish & Seafood",
+      "items": [
+        {
+          "id": "salmon|g",
+          "name": "Salmon",
+          "quantity": "900",
+          "unit": "g"
+        },
+        {
+          "id": "mackerel|g",
+          "name": "Mackerel",
+          "quantity": "650",
+          "unit": "g"
+        },
+        {
+          "id": "cod|g",
+          "name": "Cod",
+          "quantity": "550",
+          "unit": "g"
+        },
+        {
+          "id": "sardines-with-bones|g",
+          "name": "Sardines with bones",
+          "quantity": "420",
+          "unit": "g"
+        }
+      ]
+    },
+    {
+      "category": "Vegetables & Fruit",
+      "items": [
+        {
+          "id": "berries|g",
+          "name": "Berries",
+          "quantity": "2150",
+          "unit": "g"
+        },
+        {
+          "id": "banana|g",
+          "name": "Banana",
+          "quantity": "250",
+          "unit": "g"
+        },
+        {
+          "id": "citrus|g",
+          "name": "Citrus",
+          "quantity": "500",
+          "unit": "g"
+        },
+        {
+          "id": "mango|g",
+          "name": "Mango",
+          "quantity": "350",
+          "unit": "g"
+        },
+        {
+          "id": "mixed-vegetables|g",
+          "name": "Mixed vegetables",
+          "quantity": "15000",
+          "unit": "g"
+        },
+        {
+          "id": "potatoes|g",
+          "name": "Potatoes",
+          "quantity": "4250",
+          "unit": "g"
+        }
+      ]
+    },
+    {
+      "category": "Dairy, Eggs & Soy",
+      "items": [
+        {
+          "id": "low-fat-greek-yogurt|g",
+          "name": "Low-fat Greek yogurt",
+          "quantity": "4000",
+          "unit": "g"
+        },
+        {
+          "id": "kefir|ml",
+          "name": "Kefir",
+          "quantity": "3400",
+          "unit": "ml"
+        },
+        {
+          "id": "low-fat-cottage-cheese|g",
+          "name": "Low-fat cottage cheese",
+          "quantity": "1550",
+          "unit": "g"
+        },
+        {
+          "id": "eggs|pieces",
+          "name": "Eggs",
+          "quantity": "12",
+          "unit": "pieces"
+        },
+        {
+          "id": "liquid-egg-whites|g",
+          "name": "Liquid egg whites",
+          "quantity": "1200",
+          "unit": "g"
+        },
+        {
+          "id": "firm-tofu|g",
+          "name": "Firm tofu",
+          "quantity": "1400",
+          "unit": "g"
+        },
+        {
+          "id": "fortified-soy-milk|ml",
+          "name": "Fortified soy milk",
+          "quantity": "700",
+          "unit": "ml"
+        },
+        {
+          "id": "fortified-soy-yogurt|g",
+          "name": "Fortified soy yogurt",
+          "quantity": "950",
+          "unit": "g"
+        },
+        {
+          "id": "edamame|g",
+          "name": "Edamame",
+          "quantity": "240",
+          "unit": "g"
+        }
+      ]
+    },
+    {
+      "category": "Meat & Poultry",
+      "items": [
+        {
+          "id": "chicken-breast|g",
+          "name": "Chicken breast",
+          "quantity": "1470",
+          "unit": "g"
+        },
+        {
+          "id": "turkey-breast|g",
+          "name": "Turkey breast",
+          "quantity": "900",
+          "unit": "g"
+        },
+        {
+          "id": "lean-beef|g",
+          "name": "Lean beef",
+          "quantity": "800",
+          "unit": "g"
+        }
+      ]
+    },
+    {
+      "category": "Pantry, Grains & Legumes",
+      "items": [
+        {
+          "id": "rolled-oats|g",
+          "name": "Rolled oats",
+          "quantity": "370",
+          "unit": "g"
+        },
+        {
+          "id": "barley|g",
+          "name": "Barley",
+          "quantity": "4880",
+          "unit": "g"
+        },
+        {
+          "id": "buckwheat|g",
+          "name": "Buckwheat",
+          "quantity": "650",
+          "unit": "g"
+        },
+        {
+          "id": "brown-rice|g",
+          "name": "Brown rice",
+          "quantity": "2400",
+          "unit": "g"
+        },
+        {
+          "id": "rye-bread-and-crispbread|g",
+          "name": "Rye bread and crispbread",
+          "quantity": "810",
+          "unit": "g"
+        },
+        {
+          "id": "whole-grain-bread|g",
+          "name": "Whole-grain bread",
+          "quantity": "280",
+          "unit": "g"
+        },
+        {
+          "id": "lentils|g",
+          "name": "Lentils",
+          "quantity": "1600",
+          "unit": "g"
+        },
+        {
+          "id": "chickpeas|g",
+          "name": "Chickpeas",
+          "quantity": "800",
+          "unit": "g"
+        },
+        {
+          "id": "beans|g",
+          "name": "Beans",
+          "quantity": "900",
+          "unit": "g"
+        },
+        {
+          "id": "walnuts|g",
+          "name": "Walnuts",
+          "quantity": "270",
+          "unit": "g"
+        },
+        {
+          "id": "flax-and-chia|g",
+          "name": "Flax and chia",
+          "quantity": "145",
+          "unit": "g"
+        },
+        {
+          "id": "olive-oil|g",
+          "name": "Olive oil",
+          "quantity": "320",
+          "unit": "g"
+        },
+        {
+          "id": "low-sodium-soy-sauce|ml",
+          "name": "Low-sodium soy sauce",
+          "quantity": "30",
+          "unit": "ml"
+        },
+        {
+          "id": "hummus|g",
+          "name": "Hummus",
+          "quantity": "300",
+          "unit": "g"
+        }
+      ]
+    }
+  ],
+  "daily_nutrition": [
+    {
+      "date": "2026-05-04",
+      "husband": {
+        "kcal": 2430,
+        "protein_g": 156,
+        "carbs_g": 274,
+        "fat_g": 80,
+        "fiber_g": 42,
+        "sat_fat_g": 13.5
+      },
+      "wife": {
+        "kcal": 1625,
+        "protein_g": 112,
+        "carbs_g": 160,
+        "fat_g": 56,
+        "fiber_g": 35,
+        "sat_fat_g": 10.0
+      },
+      "child": {
+        "kcal": 2495,
+        "protein_g": 116,
+        "carbs_g": 305,
+        "fat_g": 82,
+        "fiber_g": 38,
+        "includes_fixed_school_snack": true
+      }
+    },
+    {
+      "date": "2026-05-05",
+      "husband": {
+        "kcal": 2430,
+        "protein_g": 160,
+        "carbs_g": 274,
+        "fat_g": 78,
+        "fiber_g": 41,
+        "sat_fat_g": 15.5
+      },
+      "wife": {
+        "kcal": 1640,
+        "protein_g": 115,
+        "carbs_g": 161,
+        "fat_g": 56,
+        "fiber_g": 35,
+        "sat_fat_g": 10.5
+      },
+      "child": {
+        "kcal": 2550,
+        "protein_g": 119,
+        "carbs_g": 306,
+        "fat_g": 80,
+        "fiber_g": 38,
+        "includes_fixed_school_snack": true
+      }
+    },
+    {
+      "date": "2026-05-06",
+      "husband": {
+        "kcal": 2140,
+        "protein_g": 133,
+        "carbs_g": 272,
+        "fat_g": 59,
+        "fiber_g": 42,
+        "sat_fat_g": 9.5
+      },
+      "wife": {
+        "kcal": 1450,
+        "protein_g": 97,
+        "carbs_g": 172,
+        "fat_g": 41,
+        "fiber_g": 36,
+        "sat_fat_g": 7.0
+      },
+      "child": {
+        "kcal": 2255,
+        "protein_g": 102,
+        "carbs_g": 297,
+        "fat_g": 63,
+        "fiber_g": 38,
+        "includes_fixed_school_snack": true
+      }
+    },
+    {
+      "date": "2026-05-07",
+      "husband": {
+        "kcal": 2420,
+        "protein_g": 153,
+        "carbs_g": 284,
+        "fat_g": 76,
+        "fiber_g": 47,
+        "sat_fat_g": 14
+      },
+      "wife": {
+        "kcal": 1635,
+        "protein_g": 111,
+        "carbs_g": 174,
+        "fat_g": 53,
+        "fiber_g": 40,
+        "sat_fat_g": 10.5
+      },
+      "child": {
+        "kcal": 2540,
+        "protein_g": 116,
+        "carbs_g": 313,
+        "fat_g": 79,
+        "fiber_g": 41,
+        "includes_fixed_school_snack": true
+      }
+    },
+    {
+      "date": "2026-05-08",
+      "husband": {
+        "kcal": 2200,
+        "protein_g": 143,
+        "carbs_g": 234,
+        "fat_g": 78,
+        "fiber_g": 34,
+        "sat_fat_g": 14
+      },
+      "wife": {
+        "kcal": 1490,
+        "protein_g": 104,
+        "carbs_g": 138,
+        "fat_g": 55,
+        "fiber_g": 30,
+        "sat_fat_g": 11.0
+      },
+      "child": {
+        "kcal": 2350,
+        "protein_g": 108,
+        "carbs_g": 270,
+        "fat_g": 82,
+        "fiber_g": 32,
+        "includes_fixed_school_snack": true
+      }
+    },
+    {
+      "date": "2026-05-09",
+      "husband": {
+        "kcal": 2410,
+        "protein_g": 152,
+        "carbs_g": 289,
+        "fat_g": 73,
+        "fiber_g": 50,
+        "sat_fat_g": 12.5
+      },
+      "wife": {
+        "kcal": 1645,
+        "protein_g": 111,
+        "carbs_g": 182,
+        "fat_g": 51,
+        "fiber_g": 44,
+        "sat_fat_g": 9.5
+      },
+      "child": {
+        "kcal": 2210,
+        "protein_g": 92,
+        "carbs_g": 286,
+        "fat_g": 62,
+        "fiber_g": 41,
+        "includes_fixed_school_snack": false
+      }
+    },
+    {
+      "date": "2026-05-10",
+      "husband": {
+        "kcal": 2490,
+        "protein_g": 159,
+        "carbs_g": 280,
+        "fat_g": 83,
+        "fiber_g": 45,
+        "sat_fat_g": 17.5
+      },
+      "wife": {
+        "kcal": 1690,
+        "protein_g": 115,
+        "carbs_g": 172,
+        "fat_g": 58,
+        "fiber_g": 38,
+        "sat_fat_g": 11.0
+      },
+      "child": {
+        "kcal": 2280,
+        "protein_g": 95,
+        "carbs_g": 284,
+        "fat_g": 71,
+        "fiber_g": 38,
+        "includes_fixed_school_snack": false
+      }
+    }
+  ],
+  "weekly_validation": {
+    "pass": true,
+    "checks": [
+      {
+        "label": "Fatty fish ≥2x this week",
+        "pass": true,
+        "detail": "Salmon, mackerel, sardines."
+      },
+      {
+        "label": "Legumes ≥3x this week",
+        "pass": true,
+        "detail": "Edamame, lentils, chickpeas, peas, beans."
+      },
+      {
+        "label": "Soy foods 4–7 inclusions",
+        "pass": true,
+        "detail": "7 inclusions."
+      },
+      {
+        "label": "Red meat ≤2x (adults)",
+        "pass": true,
+        "detail": "2 meals."
+      },
+      {
+        "label": "Wife sat fat ≤11g/day average",
+        "pass": true,
+        "detail": "9.9 g/day average."
+      },
+      {
+        "label": "Wife beta-glucan ≥3g/day (oats/barley daily)",
+        "pass": true,
+        "detail": "Oats Monday/Sunday; barley other days."
+      },
+      {
+        "label": "Husband protein ≥130g/day average",
+        "pass": true,
+        "detail": "150.9 g/day average."
+      },
+      {
+        "label": "Wife protein ≥95g/day average",
+        "pass": true,
+        "detail": "109.3 g/day average."
+      },
+      {
+        "label": "Child protein ≥70g/day average",
+        "pass": true,
+        "detail": "106.9 g/day average."
+      },
+      {
+        "label": "Child calcium structurally ~1300mg/day",
+        "pass": true,
+        "detail": "Dairy, fortified soy and sardines."
+      },
+      {
+        "label": "Protein floor met at breakfast (all persons)",
+        "pass": true,
+        "detail": "All breakfasts pass."
+      },
+      {
+        "label": "Protein floor met at lunch (all persons)",
+        "pass": true,
+        "detail": "All lunches pass."
+      },
+      {
+        "label": "Shared snack ≥4 days",
+        "pass": true,
+        "detail": "Monday, Tuesday, Thursday, Saturday, Sunday."
+      },
+      {
+        "label": "Weekday active cooking ≤30 min",
+        "pass": true,
+        "detail": "All weekdays pass."
+      },
+      {
+        "label": "No excluded fruits in titles, notes, ingredients, or shopping list",
+        "pass": true,
+        "detail": "Absent."
+      },
+      {
+        "label": "No generated cured animal products",
+        "pass": true,
+        "detail": "Absent in generated meals."
+      },
+      {
+        "label": "Fixed child snack accounted for in daily_nutrition",
+        "pass": true,
+        "detail": "Included Monday-Friday."
+      },
+      {
+        "label": "Sodium not stacked on high-risk days",
+        "pass": true,
+        "detail": "Salt stacking avoided."
+      },
+      {
+        "label": "Breakfast variety: ≤2 oat-based breakfasts, ≥3 distinct base types",
+        "pass": true,
+        "detail": "Oat days Monday/Sunday; 6 bases."
+      }
+    ]
+  }
 }
