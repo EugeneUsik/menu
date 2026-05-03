@@ -13,7 +13,7 @@
   --color-success: #16a34a;
   --radius-card: 8px;
   --shadow-card: 0 1px 3px rgba(0,0,0,0.1);
-  --header-height: 96px;
+  --header-height: 90px;
   --tab-height: 44px;
 }
 
@@ -102,14 +102,15 @@ a { color: var(--color-primary); }
 /* ── Compact menu grid ── */
 #view-menu.active {
   padding: 0;
-  height: calc(100svh - var(--header-height));
-  height: calc(100vh - var(--header-height)); /* fallback */
+  height: calc(100vh - var(--header-height));   /* old browsers */
+  height: calc(100svh - var(--header-height));  /* static chrome */
+  height: calc(100dvh - var(--header-height));  /* dynamic chrome */
   overflow: hidden;
 }
 .menu-grid {
   display: grid;
-  grid-template-columns: 34px repeat(3, 1fr);
-  grid-template-rows: 26px repeat(7, 1fr);
+  grid-template-columns: 32px repeat(3, 1fr);
+  grid-template-rows: 20px repeat(7, 1fr);
   height: 100%;
   width: 100%;
 }
@@ -119,7 +120,7 @@ a { color: var(--color-primary); }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.6rem;
+  font-size: 0.55rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -130,18 +131,16 @@ a { color: var(--color-primary); }
   border-top: 1px solid var(--color-border);
   border-right: 1px solid var(--color-border);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
 }
 .menu-day-name {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 700;
   color: var(--color-text);
 }
 .menu-cell {
-  padding: 5px 6px;
+  padding: 3px 4px;
   border-top: 1px solid var(--color-border);
   border-right: 1px solid var(--color-border);
   overflow: hidden;
@@ -152,16 +151,16 @@ a { color: var(--color-primary); }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   color: var(--color-muted);
 }
 .menu-cell-title {
   display: -webkit-box;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  font-size: 0.68rem;
-  line-height: 1.35;
+  font-size: 0.62rem;
+  line-height: 1.25;
 }
 a.menu-cell-title { color: var(--color-primary); text-decoration: none; }
 a.menu-cell-title:active { text-decoration: underline; }
