@@ -303,7 +303,6 @@ Output **only** valid JSON. No text before it, no text after it, no markdown cod
       "meal_types": ["breakfast"],
       "active_time_min": 10,
       "total_time_min": 10,
-      "equipment": ["stovetop"],
       "ingredients": [
         { "name": "rolled oats", "quantity": 90, "unit": "g" },
         { "name": "walnuts", "quantity": 25, "unit": "g", "prep": "roughly chopped" }

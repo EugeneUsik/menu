@@ -254,7 +254,6 @@ function renderRecipeCard(r) {
   const metaParts = [];
   if (r.active_time_min) metaParts.push(`Active: ${r.active_time_min} min`);
   if (r.total_time_min)  metaParts.push(`Total: ${r.total_time_min} min`);
-  if (r.equipment)       metaParts.push(`Equipment: ${(r.equipment || []).join(', ')}`);
 
   const ingredientsHtml = (r.ingredients || []).map(ing => {
     const qty  = ing.quantity != null ? escapeHtml(String(ing.quantity)) : '';
