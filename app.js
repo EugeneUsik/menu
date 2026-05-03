@@ -169,11 +169,9 @@ function renderMenuView() {
     <div class="menu-col-header">Dinner</div>`;
 
   const cells = menu.map((day, i) => {
-    const hasSnack = day.shared_snack?.title;
     return `
       <div class="menu-day-cell">
         <span class="menu-day-name">${escapeHtml(DAY_SHORT[i] || `D${i+1}`)}</span>
-        ${hasSnack ? '<span class="menu-snack-dot">·</span>' : ''}
       </div>
       ${renderCompactMeal(day.breakfast)}
       ${renderCompactMeal(day.lunch)}

@@ -140,11 +140,6 @@ a { color: var(--color-primary); }
   font-weight: 700;
   color: var(--color-text);
 }
-.menu-snack-dot {
-  font-size: 1rem;
-  line-height: 0.6;
-  color: var(--color-accent);
-}
 .menu-cell {
   padding: 5px 6px;
   border-top: 1px solid var(--color-border);
