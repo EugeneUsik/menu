@@ -1,0 +1,657 @@
+{
+  "schema_version": "1.0",
+  "week": {
+    "id": "sample-week",
+    "label": "Sample Week · Demo Data",
+    "start_date": "2026-01-05",
+    "end_date": "2026-01-11",
+    "timezone": "Europe/Vilnius",
+    "notes": "Demo/test fixture — not a real week"
+  },
+  "household_context_version": "3.0",
+  "language": "en",
+  "assumptions": [
+    "Sample data for UI development and script testing.",
+    "Nutrition figures are approximate."
+  ],
+  "menu": [
+    {
+      "day_name": "Monday",
+      "date": "2026-01-05",
+      "breakfast": {
+        "title": "Oat porridge with walnuts and berries",
+        "recipe_id": "oat-porridge-walnuts",
+        "portions": { "husband": "Large bowl + extra walnuts", "wife": "Regular bowl", "child": "Regular bowl" },
+        "notes": "",
+        "cook_once_eat_twice": false
+      },
+      "lunch": {
+        "title": "Salmon tray bake with broccoli and sweet potato",
+        "recipe_id": "salmon-tray-bake",
+        "portions": { "husband": "200g salmon + extra sweet potato", "wife": "150g salmon", "child": "130g salmon" },
+        "notes": "Cook double tonight's portion for Tuesday lunch.",
+        "cook_once_eat_twice": true
+      },
+      "dinner": {
+        "title": "Lentil and vegetable soup with sourdough",
+        "recipe_id": "lentil-vegetable-soup",
+        "portions": { "husband": "Large bowl + 2 slices bread", "wife": "Regular bowl + 1 slice", "child": "Regular bowl + 1 slice" },
+        "notes": "",
+        "cook_once_eat_twice": false
+      },
+      "shared_snack": {
+        "title": "Edamame with sea salt",
+        "recipe_id": "edamame-snack"
+      },
+      "child_fixed_school_snack": {
+        "title": "Fixed school snack (external)",
+        "description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
+        "kcal_estimate": 400,
+        "protein_g_estimate": 24
+      },
+      "day_notes": "Cook double salmon tray bake portions — Tuesday lunch will be leftovers."
+    },
+    {
+      "day_name": "Tuesday",
+      "date": "2026-01-06",
+      "breakfast": {
+        "title": "Oat porridge with walnuts and berries",
+        "recipe_id": "oat-porridge-walnuts",
+        "portions": { "husband": "Large bowl", "wife": "Regular bowl", "child": "Regular bowl" },
+        "notes": ""
+      },
+      "lunch": {
+        "title": "Salmon tray bake with broccoli and sweet potato",
+        "recipe_id": "salmon-tray-bake",
+        "portions": { "husband": "200g salmon", "wife": "150g salmon", "child": "130g salmon" },
+        "notes": "Leftover from Monday dinner.",
+        "leftover_from": "Monday"
+      },
+      "dinner": {
+        "title": "Chickpea and spinach curry with brown rice",
+        "recipe_id": "chickpea-spinach-curry",
+        "portions": { "husband": "Large portion + extra rice", "wife": "Regular portion", "child": "Regular portion, mild spice" },
+        "notes": "Make large batch — Wednesday lunch leftovers.",
+        "cook_once_eat_twice": true
+      },
+      "shared_snack": {
+        "title": "Greek yogurt with seeds",
+        "recipe_id": "yogurt-seeds-snack"
+      },
+      "child_fixed_school_snack": {
+        "title": "Fixed school snack (external)",
+        "description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
+        "kcal_estimate": 400,
+        "protein_g_estimate": 24
+      },
+      "day_notes": ""
+    },
+    {
+      "day_name": "Wednesday",
+      "date": "2026-01-07",
+      "breakfast": {
+        "title": "Scrambled eggs with rye bread and avocado",
+        "recipe_id": "scrambled-eggs-rye",
+        "portions": { "husband": "3 eggs + 2 slices rye", "wife": "2 eggs + 1 slice rye", "child": "2 eggs + 1 slice rye" },
+        "notes": ""
+      },
+      "lunch": {
+        "title": "Chickpea and spinach curry with brown rice",
+        "recipe_id": "chickpea-spinach-curry",
+        "portions": { "husband": "Large portion", "wife": "Regular portion", "child": "Regular portion" },
+        "notes": "Leftover from Tuesday dinner.",
+        "leftover_from": "Tuesday"
+      },
+      "dinner": {
+        "title": "Mackerel with roasted root vegetables",
+        "recipe_id": "mackerel-root-veg",
+        "portions": { "husband": "200g mackerel + extra veg", "wife": "150g mackerel", "child": "130g mackerel" },
+        "notes": ""
+      },
+      "shared_snack": null,
+      "child_fixed_school_snack": {
+        "title": "Fixed school snack (external)",
+        "description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
+        "kcal_estimate": 400,
+        "protein_g_estimate": 24
+      },
+      "day_notes": ""
+    },
+    {
+      "day_name": "Thursday",
+      "date": "2026-01-08",
+      "breakfast": {
+        "title": "Oat porridge with walnuts and berries",
+        "recipe_id": "oat-porridge-walnuts",
+        "portions": { "husband": "Large bowl", "wife": "Regular bowl", "child": "Regular bowl" },
+        "notes": ""
+      },
+      "lunch": {
+        "title": "Lentil and vegetable soup with sourdough",
+        "recipe_id": "lentil-vegetable-soup",
+        "portions": { "husband": "Large bowl + 2 slices", "wife": "Regular bowl + 1 slice", "child": "Regular bowl + 1 slice" },
+        "notes": "Soup reheats well.",
+        "leftover_from": "Monday"
+      },
+      "dinner": {
+        "title": "Tofu and vegetable stir-fry with soba noodles",
+        "recipe_id": "tofu-stir-fry-soba",
+        "portions": { "husband": "Large portion + extra tofu", "wife": "Regular portion", "child": "Regular portion" },
+        "notes": "",
+        "cook_once_eat_twice": true
+      },
+      "shared_snack": {
+        "title": "Edamame with sea salt",
+        "recipe_id": "edamame-snack"
+      },
+      "child_fixed_school_snack": {
+        "title": "Fixed school snack (external)",
+        "description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
+        "kcal_estimate": 400,
+        "protein_g_estimate": 24
+      },
+      "day_notes": "Double tofu stir-fry for Friday lunch."
+    },
+    {
+      "day_name": "Friday",
+      "date": "2026-01-09",
+      "breakfast": {
+        "title": "Scrambled eggs with rye bread and avocado",
+        "recipe_id": "scrambled-eggs-rye",
+        "portions": { "husband": "3 eggs + 2 slices rye", "wife": "2 eggs + 1 slice rye", "child": "2 eggs + 1 slice rye" },
+        "notes": ""
+      },
+      "lunch": {
+        "title": "Tofu and vegetable stir-fry with soba noodles",
+        "recipe_id": "tofu-stir-fry-soba",
+        "portions": { "husband": "Large portion", "wife": "Regular portion", "child": "Regular portion" },
+        "notes": "Leftover from Thursday dinner.",
+        "leftover_from": "Thursday"
+      },
+      "dinner": {
+        "title": "Salmon tray bake with broccoli and sweet potato",
+        "recipe_id": "salmon-tray-bake",
+        "portions": { "husband": "200g salmon + extra sweet potato", "wife": "150g salmon", "child": "130g salmon" },
+        "notes": "Second salmon meal this week."
+      },
+      "shared_snack": null,
+      "child_fixed_school_snack": {
+        "title": "Fixed school snack (external)",
+        "description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
+        "kcal_estimate": 400,
+        "protein_g_estimate": 24
+      },
+      "day_notes": ""
+    },
+    {
+      "day_name": "Saturday",
+      "date": "2026-01-10",
+      "breakfast": {
+        "title": "Oat porridge with walnuts and berries",
+        "recipe_id": "oat-porridge-walnuts",
+        "portions": { "husband": "Large bowl", "wife": "Regular bowl", "child": "Regular bowl" },
+        "notes": ""
+      },
+      "lunch": {
+        "title": "Chickpea and spinach curry with brown rice",
+        "recipe_id": "chickpea-spinach-curry",
+        "portions": { "husband": "Large portion", "wife": "Regular portion", "child": "Regular portion" },
+        "notes": "Fresh batch on Saturday."
+      },
+      "dinner": {
+        "title": "Mackerel with roasted root vegetables",
+        "recipe_id": "mackerel-root-veg",
+        "portions": { "husband": "200g mackerel", "wife": "150g mackerel", "child": "130g mackerel" },
+        "notes": ""
+      },
+      "shared_snack": {
+        "title": "Greek yogurt with seeds",
+        "recipe_id": "yogurt-seeds-snack"
+      },
+      "child_fixed_school_snack": null,
+      "day_notes": "Weekend — more relaxed cooking."
+    },
+    {
+      "day_name": "Sunday",
+      "date": "2026-01-11",
+      "breakfast": {
+        "title": "Scrambled eggs with rye bread and avocado",
+        "recipe_id": "scrambled-eggs-rye",
+        "portions": { "husband": "3 eggs + 2 slices rye", "wife": "2 eggs + 1 slice rye", "child": "2 eggs + 1 slice rye" },
+        "notes": ""
+      },
+      "lunch": {
+        "title": "Lentil and vegetable soup with sourdough",
+        "recipe_id": "lentil-vegetable-soup",
+        "portions": { "husband": "Large bowl + 2 slices", "wife": "Regular bowl + 1 slice", "child": "Regular bowl + 1 slice" },
+        "notes": "Prep large batch for next week lunches."
+      },
+      "dinner": {
+        "title": "Tofu and vegetable stir-fry with soba noodles",
+        "recipe_id": "tofu-stir-fry-soba",
+        "portions": { "husband": "Large portion", "wife": "Regular portion", "child": "Regular portion" },
+        "notes": ""
+      },
+      "shared_snack": {
+        "title": "Edamame with sea salt",
+        "recipe_id": "edamame-snack"
+      },
+      "child_fixed_school_snack": null,
+      "day_notes": ""
+    }
+  ],
+  "recipes": [
+    {
+      "id": "oat-porridge-walnuts",
+      "title": "Oat Porridge with Walnuts and Berries",
+      "meal_types": ["breakfast"],
+      "tags": ["oats", "high-fiber", "soy-milk", "quick"],
+      "active_time_min": 10,
+      "total_time_min": 10,
+      "equipment": ["stovetop"],
+      "ingredients": [
+        { "name": "rolled oats", "quantity": 90, "unit": "g" },
+        { "name": "soy milk (unsweetened)", "quantity": 350, "unit": "ml" },
+        { "name": "walnuts", "quantity": 50, "unit": "g", "prep": "roughly chopped" },
+        { "name": "mixed frozen berries", "quantity": 150, "unit": "g" },
+        { "name": "ground flaxseed", "quantity": 15, "unit": "g" },
+        { "name": "cinnamon", "quantity": 1, "unit": "tsp" },
+        { "name": "honey", "quantity": 10, "unit": "g", "prep": "optional, for child" }
+      ],
+      "instructions": [
+        "Combine oats and soy milk in a saucepan over medium heat.",
+        "Stir continuously for 5–7 minutes until thickened to desired consistency.",
+        "Add berries and cinnamon, stir for 1 minute until berries are warm.",
+        "Serve topped with walnuts and ground flaxseed. Add honey for child if desired."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": { "kcal": 520, "protein_g": 18, "carbs_g": 62, "fat_g": 22, "fiber_g": 9, "sat_fat_g": 2 },
+        "wife":    { "kcal": 420, "protein_g": 14, "carbs_g": 52, "fat_g": 16, "fiber_g": 8, "sat_fat_g": 1.5 },
+        "child":   { "kcal": 420, "protein_g": 14, "carbs_g": 55, "fat_g": 16, "fiber_g": 7 }
+      }
+    },
+    {
+      "id": "salmon-tray-bake",
+      "title": "Salmon Tray Bake with Broccoli and Sweet Potato",
+      "meal_types": ["lunch", "dinner"],
+      "tags": ["fish", "fatty-fish", "high-protein", "oven"],
+      "active_time_min": 15,
+      "total_time_min": 35,
+      "equipment": ["oven"],
+      "ingredients": [
+        { "name": "salmon fillets", "quantity": 750, "unit": "g" },
+        { "name": "sweet potato", "quantity": 600, "unit": "g", "prep": "cubed" },
+        { "name": "broccoli", "quantity": 400, "unit": "g", "prep": "florets" },
+        { "name": "olive oil", "quantity": 30, "unit": "ml" },
+        { "name": "garlic", "quantity": 3, "unit": "cloves", "prep": "minced" },
+        { "name": "lemon", "quantity": 1, "unit": "whole", "prep": "sliced" },
+        { "name": "fresh dill", "quantity": 15, "unit": "g" },
+        { "name": "black pepper", "quantity": 1, "unit": "tsp" },
+        { "name": "sea salt", "quantity": 0.5, "unit": "tsp" }
+      ],
+      "instructions": [
+        "Preheat oven to 200°C.",
+        "Toss sweet potato with half the oil, season, spread on a large tray. Roast 15 minutes.",
+        "Add broccoli to the tray, toss with remaining oil and garlic.",
+        "Place salmon fillets on the tray, top with lemon slices and dill.",
+        "Roast a further 15–18 minutes until salmon is cooked through and flakes easily.",
+        "Serve immediately or cool and refrigerate for next-day lunch."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": { "kcal": 620, "protein_g": 48, "carbs_g": 44, "fat_g": 24, "fiber_g": 6, "sat_fat_g": 4 },
+        "wife":    { "kcal": 490, "protein_g": 38, "carbs_g": 34, "fat_g": 18, "fiber_g": 5, "sat_fat_g": 3 },
+        "child":   { "kcal": 430, "protein_g": 32, "carbs_g": 36, "fat_g": 14, "fiber_g": 5 }
+      }
+    },
+    {
+      "id": "lentil-vegetable-soup",
+      "title": "Lentil and Vegetable Soup with Sourdough",
+      "meal_types": ["lunch", "dinner"],
+      "tags": ["legumes", "high-fiber", "vegetarian", "batch-cook"],
+      "active_time_min": 20,
+      "total_time_min": 45,
+      "equipment": ["stovetop"],
+      "ingredients": [
+        { "name": "red lentils", "quantity": 300, "unit": "g" },
+        { "name": "carrots", "quantity": 250, "unit": "g", "prep": "diced" },
+        { "name": "celery", "quantity": 150, "unit": "g", "prep": "sliced" },
+        { "name": "onion", "quantity": 200, "unit": "g", "prep": "diced" },
+        { "name": "canned tomatoes", "quantity": 400, "unit": "g" },
+        { "name": "vegetable stock", "quantity": 1500, "unit": "ml" },
+        { "name": "olive oil", "quantity": 20, "unit": "ml" },
+        { "name": "cumin", "quantity": 1.5, "unit": "tsp" },
+        { "name": "turmeric", "quantity": 0.5, "unit": "tsp" },
+        { "name": "black pepper", "quantity": 1, "unit": "tsp" },
+        { "name": "sourdough bread", "quantity": 4, "unit": "slices", "prep": "for serving" }
+      ],
+      "instructions": [
+        "Heat oil in a large pot over medium heat. Sauté onion, carrot, and celery for 5 minutes.",
+        "Add cumin and turmeric, stir for 1 minute.",
+        "Add lentils, canned tomatoes, and stock. Bring to boil.",
+        "Reduce heat and simmer 25 minutes until lentils are soft.",
+        "Use immersion blender to partially blend for a thicker consistency (leave some texture).",
+        "Season with pepper and serve with sourdough bread."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": { "kcal": 520, "protein_g": 26, "carbs_g": 78, "fat_g": 8, "fiber_g": 14, "sat_fat_g": 1 },
+        "wife":    { "kcal": 420, "protein_g": 20, "carbs_g": 64, "fat_g": 6, "fiber_g": 12, "sat_fat_g": 0.8 },
+        "child":   { "kcal": 420, "protein_g": 20, "carbs_g": 64, "fat_g": 6, "fiber_g": 11 }
+      }
+    },
+    {
+      "id": "chickpea-spinach-curry",
+      "title": "Chickpea and Spinach Curry with Brown Rice",
+      "meal_types": ["dinner", "lunch"],
+      "tags": ["legumes", "vegetarian", "batch-cook", "high-fiber"],
+      "active_time_min": 20,
+      "total_time_min": 50,
+      "equipment": ["stovetop"],
+      "ingredients": [
+        { "name": "canned chickpeas", "quantity": 800, "unit": "g", "prep": "drained" },
+        { "name": "fresh spinach", "quantity": 300, "unit": "g" },
+        { "name": "canned tomatoes", "quantity": 400, "unit": "g" },
+        { "name": "onion", "quantity": 200, "unit": "g", "prep": "diced" },
+        { "name": "garlic", "quantity": 4, "unit": "cloves", "prep": "minced" },
+        { "name": "ginger", "quantity": 20, "unit": "g", "prep": "grated" },
+        { "name": "olive oil", "quantity": 20, "unit": "ml" },
+        { "name": "garam masala", "quantity": 2, "unit": "tsp" },
+        { "name": "ground coriander", "quantity": 1, "unit": "tsp" },
+        { "name": "turmeric", "quantity": 0.5, "unit": "tsp" },
+        { "name": "brown rice", "quantity": 400, "unit": "g", "prep": "dry weight" },
+        { "name": "vegetable stock", "quantity": 200, "unit": "ml" }
+      ],
+      "instructions": [
+        "Cook brown rice according to package instructions (usually 30–35 min).",
+        "Heat oil in a large pan. Fry onion over medium heat for 5 minutes.",
+        "Add garlic and ginger, cook 2 minutes. Add spices, stir 1 minute.",
+        "Add chickpeas, tomatoes, and stock. Simmer 15 minutes.",
+        "Stir in spinach and cook until wilted, about 3 minutes.",
+        "Serve over brown rice. Reduce spice quantity for child's portion."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": { "kcal": 680, "protein_g": 28, "carbs_g": 110, "fat_g": 12, "fiber_g": 16, "sat_fat_g": 1.5 },
+        "wife":    { "kcal": 540, "protein_g": 22, "carbs_g": 88, "fat_g": 9, "fiber_g": 14, "sat_fat_g": 1 },
+        "child":   { "kcal": 540, "protein_g": 22, "carbs_g": 88, "fat_g": 9, "fiber_g": 13 }
+      }
+    },
+    {
+      "id": "mackerel-root-veg",
+      "title": "Mackerel with Roasted Root Vegetables",
+      "meal_types": ["dinner"],
+      "tags": ["fish", "fatty-fish", "high-protein", "oven"],
+      "active_time_min": 15,
+      "total_time_min": 40,
+      "equipment": ["oven"],
+      "ingredients": [
+        { "name": "mackerel fillets", "quantity": 700, "unit": "g" },
+        { "name": "parsnips", "quantity": 300, "unit": "g", "prep": "wedges" },
+        { "name": "carrots", "quantity": 300, "unit": "g", "prep": "wedges" },
+        { "name": "beetroot", "quantity": 250, "unit": "g", "prep": "wedges" },
+        { "name": "olive oil", "quantity": 25, "unit": "ml" },
+        { "name": "fresh thyme", "quantity": 10, "unit": "g" },
+        { "name": "lemon", "quantity": 1, "unit": "whole", "prep": "halved" },
+        { "name": "black pepper", "quantity": 1, "unit": "tsp" }
+      ],
+      "instructions": [
+        "Preheat oven to 200°C.",
+        "Toss root vegetables with oil and thyme. Roast 25 minutes, turning once.",
+        "Add mackerel fillets alongside the veg, squeeze lemon over fish.",
+        "Roast a further 12–15 minutes until mackerel is cooked through.",
+        "Season with pepper and serve immediately."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": { "kcal": 560, "protein_g": 44, "carbs_g": 36, "fat_g": 26, "fiber_g": 7, "sat_fat_g": 5 },
+        "wife":    { "kcal": 450, "protein_g": 34, "carbs_g": 28, "fat_g": 22, "fiber_g": 6, "sat_fat_g": 4 },
+        "child":   { "kcal": 400, "protein_g": 28, "carbs_g": 30, "fat_g": 18, "fiber_g": 6 }
+      }
+    },
+    {
+      "id": "scrambled-eggs-rye",
+      "title": "Scrambled Eggs with Rye Bread and Avocado",
+      "meal_types": ["breakfast"],
+      "tags": ["eggs", "high-protein", "quick"],
+      "active_time_min": 10,
+      "total_time_min": 10,
+      "equipment": ["stovetop"],
+      "ingredients": [
+        { "name": "eggs", "quantity": 8, "unit": "whole" },
+        { "name": "rye bread", "quantity": 6, "unit": "slices" },
+        { "name": "avocado", "quantity": 2, "unit": "whole", "prep": "sliced" },
+        { "name": "butter", "quantity": 10, "unit": "g" },
+        { "name": "black pepper", "quantity": 0.5, "unit": "tsp" },
+        { "name": "fresh chives", "quantity": 10, "unit": "g", "prep": "chopped, optional" }
+      ],
+      "instructions": [
+        "Whisk eggs with a pinch of pepper.",
+        "Melt butter in a non-stick pan over low-medium heat.",
+        "Pour in eggs. Stir gently and continuously, pulling from edges to centre.",
+        "Remove from heat while still slightly glossy — residual heat finishes them.",
+        "Toast rye bread. Serve eggs on toast alongside sliced avocado.",
+        "Top with chives if using."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": { "kcal": 520, "protein_g": 28, "carbs_g": 36, "fat_g": 28, "fiber_g": 6, "sat_fat_g": 7 },
+        "wife":    { "kcal": 400, "protein_g": 20, "carbs_g": 28, "fat_g": 22, "fiber_g": 5, "sat_fat_g": 5 },
+        "child":   { "kcal": 400, "protein_g": 20, "carbs_g": 28, "fat_g": 22, "fiber_g": 5 }
+      }
+    },
+    {
+      "id": "tofu-stir-fry-soba",
+      "title": "Tofu and Vegetable Stir-Fry with Soba Noodles",
+      "meal_types": ["dinner", "lunch"],
+      "tags": ["soy", "tofu", "high-protein", "vegetarian", "batch-cook"],
+      "active_time_min": 20,
+      "total_time_min": 25,
+      "equipment": ["stovetop"],
+      "ingredients": [
+        { "name": "firm tofu", "quantity": 600, "unit": "g", "prep": "pressed, cubed" },
+        { "name": "soba noodles", "quantity": 300, "unit": "g", "prep": "dry weight" },
+        { "name": "broccoli", "quantity": 300, "unit": "g", "prep": "florets" },
+        { "name": "red bell pepper", "quantity": 200, "unit": "g", "prep": "strips" },
+        { "name": "snap peas", "quantity": 150, "unit": "g" },
+        { "name": "sesame oil", "quantity": 20, "unit": "ml" },
+        { "name": "soy sauce (low sodium)", "quantity": 40, "unit": "ml" },
+        { "name": "garlic", "quantity": 3, "unit": "cloves", "prep": "minced" },
+        { "name": "ginger", "quantity": 15, "unit": "g", "prep": "grated" },
+        { "name": "sesame seeds", "quantity": 20, "unit": "g" }
+      ],
+      "instructions": [
+        "Cook soba noodles per package instructions (3–4 min). Drain and rinse with cold water.",
+        "Heat sesame oil in a large pan or wok over high heat.",
+        "Fry tofu cubes until golden on each side, about 4 minutes. Remove and set aside.",
+        "Stir-fry broccoli and pepper for 3 minutes. Add snap peas, garlic, and ginger for 1 minute.",
+        "Add soy sauce and tofu back to pan. Toss well for 1 minute.",
+        "Serve over soba noodles, topped with sesame seeds."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": { "kcal": 620, "protein_g": 38, "carbs_g": 72, "fat_g": 18, "fiber_g": 8, "sat_fat_g": 2 },
+        "wife":    { "kcal": 490, "protein_g": 30, "carbs_g": 58, "fat_g": 14, "fiber_g": 7, "sat_fat_g": 1.5 },
+        "child":   { "kcal": 490, "protein_g": 28, "carbs_g": 60, "fat_g": 14, "fiber_g": 7 }
+      }
+    },
+    {
+      "id": "edamame-snack",
+      "title": "Edamame with Sea Salt",
+      "meal_types": ["snack"],
+      "tags": ["soy", "edamame", "quick", "shared-snack"],
+      "active_time_min": 5,
+      "total_time_min": 5,
+      "equipment": ["microwave", "stovetop"],
+      "ingredients": [
+        { "name": "frozen edamame (in pods)", "quantity": 400, "unit": "g" },
+        { "name": "sea salt", "quantity": 0.5, "unit": "tsp" }
+      ],
+      "instructions": [
+        "Cook edamame from frozen: microwave with a splash of water for 4 minutes, or boil in salted water for 3 minutes.",
+        "Drain and sprinkle with sea salt.",
+        "Serve in pods — eat by squeezing beans out."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": { "kcal": 120, "protein_g": 11, "carbs_g": 10, "fat_g": 5, "fiber_g": 4, "sat_fat_g": 0.5 },
+        "wife":    { "kcal": 100, "protein_g": 9, "carbs_g": 8, "fat_g": 4, "fiber_g": 3.5, "sat_fat_g": 0.4 },
+        "child":   { "kcal": 100, "protein_g": 9, "carbs_g": 8, "fat_g": 4, "fiber_g": 3.5 }
+      }
+    },
+    {
+      "id": "yogurt-seeds-snack",
+      "title": "Greek Yogurt with Seeds",
+      "meal_types": ["snack"],
+      "tags": ["dairy", "high-protein", "quick", "shared-snack"],
+      "active_time_min": 3,
+      "total_time_min": 3,
+      "equipment": [],
+      "ingredients": [
+        { "name": "Greek yogurt (full-fat)", "quantity": 400, "unit": "g" },
+        { "name": "sunflower seeds", "quantity": 30, "unit": "g" },
+        { "name": "pumpkin seeds", "quantity": 30, "unit": "g" },
+        { "name": "ground flaxseed", "quantity": 15, "unit": "g" },
+        { "name": "honey", "quantity": 10, "unit": "g", "prep": "optional" }
+      ],
+      "instructions": [
+        "Divide yogurt into bowls.",
+        "Top with mixed seeds and ground flaxseed.",
+        "Add a drizzle of honey if desired."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": { "kcal": 210, "protein_g": 16, "carbs_g": 12, "fat_g": 12, "fiber_g": 3, "sat_fat_g": 3 },
+        "wife":    { "kcal": 170, "protein_g": 13, "carbs_g": 10, "fat_g": 9, "fiber_g": 2.5, "sat_fat_g": 2.5 },
+        "child":   { "kcal": 170, "protein_g": 13, "carbs_g": 12, "fat_g": 9, "fiber_g": 2.5 }
+      }
+    }
+  ],
+  "shopping_list": [
+    {
+      "category": "Fish & Seafood",
+      "items": [
+        { "id": "salmon-fillets|g", "name": "Salmon fillets", "quantity": "900", "unit": "g", "note": "Fresh or frozen", "used_in": ["Salmon Tray Bake with Broccoli and Sweet Potato"] },
+        { "id": "mackerel-fillets|g", "name": "Mackerel fillets", "quantity": "700", "unit": "g", "note": "Fresh or frozen", "used_in": ["Mackerel with Roasted Root Vegetables"] }
+      ]
+    },
+    {
+      "category": "Vegetables & Fruit",
+      "items": [
+        { "id": "broccoli|g", "name": "Broccoli", "quantity": "700", "unit": "g", "used_in": ["Salmon Tray Bake", "Tofu Stir-Fry"] },
+        { "id": "sweet-potato|g", "name": "Sweet potato", "quantity": "600", "unit": "g", "used_in": ["Salmon Tray Bake"] },
+        { "id": "spinach|g", "name": "Fresh spinach", "quantity": "300", "unit": "g", "used_in": ["Chickpea and Spinach Curry"] },
+        { "id": "carrots|g", "name": "Carrots", "quantity": "550", "unit": "g", "used_in": ["Lentil Soup", "Mackerel Root Veg"] },
+        { "id": "parsnips|g", "name": "Parsnips", "quantity": "300", "unit": "g", "used_in": ["Mackerel Root Veg"] },
+        { "id": "beetroot|g", "name": "Beetroot", "quantity": "250", "unit": "g", "used_in": ["Mackerel Root Veg"] },
+        { "id": "celery|g", "name": "Celery", "quantity": "150", "unit": "g", "used_in": ["Lentil Soup"] },
+        { "id": "onion|g", "name": "Onion", "quantity": "600", "unit": "g", "used_in": ["Lentil Soup", "Chickpea Curry"] },
+        { "id": "garlic|cloves", "name": "Garlic", "quantity": "12", "unit": "cloves" },
+        { "id": "ginger|g", "name": "Fresh ginger", "quantity": "35", "unit": "g" },
+        { "id": "red-bell-pepper|g", "name": "Red bell pepper", "quantity": "200", "unit": "g", "used_in": ["Tofu Stir-Fry"] },
+        { "id": "snap-peas|g", "name": "Snap peas", "quantity": "150", "unit": "g", "used_in": ["Tofu Stir-Fry"] },
+        { "id": "avocado|whole", "name": "Avocado", "quantity": "4", "unit": "whole" },
+        { "id": "lemon|whole", "name": "Lemon", "quantity": "3", "unit": "whole" }
+      ]
+    },
+    {
+      "category": "Dairy, Eggs & Soy",
+      "items": [
+        { "id": "eggs|whole", "name": "Eggs", "quantity": "16", "unit": "whole" },
+        { "id": "greek-yogurt|g", "name": "Greek yogurt (full-fat)", "quantity": "800", "unit": "g" },
+        { "id": "butter|g", "name": "Butter", "quantity": "30", "unit": "g" },
+        { "id": "soy-milk-unsweetened|ml", "name": "Soy milk (unsweetened)", "quantity": "1400", "unit": "ml" },
+        { "id": "firm-tofu|g", "name": "Firm tofu", "quantity": "600", "unit": "g", "note": "Press well before cooking" },
+        { "id": "frozen-edamame|g", "name": "Frozen edamame (in pods)", "quantity": "800", "unit": "g" }
+      ]
+    },
+    {
+      "category": "Pantry, Grains & Legumes",
+      "items": [
+        { "id": "rolled-oats|g", "name": "Rolled oats", "quantity": "450", "unit": "g" },
+        { "id": "rye-bread|slices", "name": "Rye bread", "quantity": "18", "unit": "slices" },
+        { "id": "sourdough-bread|slices", "name": "Sourdough bread", "quantity": "8", "unit": "slices" },
+        { "id": "brown-rice|g", "name": "Brown rice", "quantity": "800", "unit": "g", "note": "Dry weight" },
+        { "id": "soba-noodles|g", "name": "Soba noodles", "quantity": "600", "unit": "g", "note": "Dry weight" },
+        { "id": "red-lentils|g", "name": "Red lentils", "quantity": "300", "unit": "g" },
+        { "id": "canned-chickpeas|g", "name": "Canned chickpeas", "quantity": "800", "unit": "g", "note": "Drained weight" },
+        { "id": "canned-tomatoes|g", "name": "Canned tomatoes", "quantity": "800", "unit": "g" },
+        { "id": "vegetable-stock|ml", "name": "Vegetable stock", "quantity": "1700", "unit": "ml" },
+        { "id": "walnuts|g", "name": "Walnuts", "quantity": "100", "unit": "g" },
+        { "id": "ground-flaxseed|g", "name": "Ground flaxseed", "quantity": "45", "unit": "g" },
+        { "id": "sunflower-seeds|g", "name": "Sunflower seeds", "quantity": "60", "unit": "g" },
+        { "id": "pumpkin-seeds|g", "name": "Pumpkin seeds", "quantity": "60", "unit": "g" },
+        { "id": "sesame-seeds|g", "name": "Sesame seeds", "quantity": "40", "unit": "g" },
+        { "id": "frozen-mixed-berries|g", "name": "Frozen mixed berries", "quantity": "600", "unit": "g", "note": "Blueberry/raspberry/strawberry mix — verify allergy-safe variety" },
+        { "id": "olive-oil|ml", "name": "Olive oil", "quantity": "115", "unit": "ml" },
+        { "id": "sesame-oil|ml", "name": "Sesame oil", "quantity": "20", "unit": "ml" },
+        { "id": "soy-sauce-low-sodium|ml", "name": "Soy sauce (low sodium)", "quantity": "40", "unit": "ml" },
+        { "id": "honey|g", "name": "Honey", "quantity": "20", "unit": "g", "note": "Optional" }
+      ]
+    }
+  ],
+  "daily_nutrition": [
+    {
+      "date": "2026-01-05",
+      "husband": { "kcal": 2380, "protein_g": 138, "carbs_g": 264, "fat_g": 72, "fiber_g": 39, "sat_fat_g": 9 },
+      "wife":    { "kcal": 1570, "protein_g": 98, "carbs_g": 204, "fat_g": 52, "fiber_g": 32, "sat_fat_g": 7 },
+      "child":   { "kcal": 2050, "protein_g": 78, "carbs_g": 210, "fat_g": 50, "fiber_g": 28, "includes_fixed_school_snack": true }
+    },
+    {
+      "date": "2026-01-06",
+      "husband": { "kcal": 2420, "protein_g": 142, "carbs_g": 270, "fat_g": 74, "fiber_g": 41, "sat_fat_g": 10 },
+      "wife":    { "kcal": 1590, "protein_g": 100, "carbs_g": 208, "fat_g": 53, "fiber_g": 33, "sat_fat_g": 7 },
+      "child":   { "kcal": 2100, "protein_g": 80, "carbs_g": 218, "fat_g": 51, "fiber_g": 29, "includes_fixed_school_snack": true }
+    },
+    {
+      "date": "2026-01-07",
+      "husband": { "kcal": 2350, "protein_g": 136, "carbs_g": 258, "fat_g": 76, "fiber_g": 37, "sat_fat_g": 12 },
+      "wife":    { "kcal": 1560, "protein_g": 96, "carbs_g": 198, "fat_g": 56, "fiber_g": 29, "sat_fat_g": 9 },
+      "child":   { "kcal": 2020, "protein_g": 74, "carbs_g": 204, "fat_g": 52, "fiber_g": 27, "includes_fixed_school_snack": true }
+    },
+    {
+      "date": "2026-01-08",
+      "husband": { "kcal": 2400, "protein_g": 140, "carbs_g": 268, "fat_g": 72, "fiber_g": 40, "sat_fat_g": 9 },
+      "wife":    { "kcal": 1580, "protein_g": 96, "carbs_g": 208, "fat_g": 52, "fiber_g": 32, "sat_fat_g": 7 },
+      "child":   { "kcal": 2080, "protein_g": 78, "carbs_g": 214, "fat_g": 50, "fiber_g": 28, "includes_fixed_school_snack": true }
+    },
+    {
+      "date": "2026-01-09",
+      "husband": { "kcal": 2380, "protein_g": 142, "carbs_g": 262, "fat_g": 74, "fiber_g": 38, "sat_fat_g": 9 },
+      "wife":    { "kcal": 1560, "protein_g": 98, "carbs_g": 202, "fat_g": 54, "fiber_g": 30, "sat_fat_g": 7 },
+      "child":   { "kcal": 2060, "protein_g": 76, "carbs_g": 208, "fat_g": 50, "fiber_g": 27, "includes_fixed_school_snack": true }
+    },
+    {
+      "date": "2026-01-10",
+      "husband": { "kcal": 2370, "protein_g": 136, "carbs_g": 258, "fat_g": 76, "fiber_g": 37, "sat_fat_g": 10 },
+      "wife":    { "kcal": 1560, "protein_g": 94, "carbs_g": 200, "fat_g": 55, "fiber_g": 29, "sat_fat_g": 8 },
+      "child":   { "kcal": 2040, "protein_g": 74, "carbs_g": 210, "fat_g": 48, "fiber_g": 28, "includes_fixed_school_snack": false }
+    },
+    {
+      "date": "2026-01-11",
+      "husband": { "kcal": 2360, "protein_g": 134, "carbs_g": 260, "fat_g": 70, "fiber_g": 40, "sat_fat_g": 8 },
+      "wife":    { "kcal": 1550, "protein_g": 94, "carbs_g": 200, "fat_g": 52, "fiber_g": 30, "sat_fat_g": 7 },
+      "child":   { "kcal": 2020, "protein_g": 74, "carbs_g": 210, "fat_g": 46, "fiber_g": 28, "includes_fixed_school_snack": false }
+    }
+  ],
+  "weekly_validation": {
+    "pass": true,
+    "checks": [
+      { "label": "Fatty fish ≥2x this week", "pass": true, "detail": "Salmon Mon + Fri, Mackerel Wed + Sat = 4 fish meals" },
+      { "label": "Legumes ≥3x this week", "pass": true, "detail": "Lentil soup ×2, chickpea curry ×2 = 4 legume meals" },
+      { "label": "Soy foods 4–7 inclusions", "pass": true, "detail": "Soy milk daily in porridge (4×), edamame ×3, tofu ×2 = well above target" },
+      { "label": "Red meat ≤2x (adults)", "pass": true, "detail": "No red meat this week" },
+      { "label": "Wife sat fat ≤11g/day average", "pass": true, "detail": "Average ~7.6g/day — well within target" },
+      { "label": "Wife beta-glucan ≥3g/day (oats/barley daily)", "pass": true, "detail": "Oat porridge on Mon, Tue, Thu, Sat (~4g beta-glucan/serving)" },
+      { "label": "Husband protein ≥130g/day average", "pass": true, "detail": "Average ~138g/day" },
+      { "label": "Child calcium ~1300mg/day structurally supported", "pass": true, "detail": "Soy milk, yogurt, tofu, edamame provide structural calcium support" },
+      { "label": "Shared snack ≥4 days", "pass": true, "detail": "Mon, Tue, Thu, Sat, Sun = 5 shared snack days" },
+      { "label": "No banned fruits", "pass": true, "detail": "Frozen berry mix specified as cherry-free" },
+      { "label": "No generated processed meat", "pass": true, "detail": "No processed meat in any generated meal" }
+    ]
+  },
+  "safety": {
+    "allergy_check": {
+      "pass": true,
+      "notes": ["No cherries, apples, pears, apricots, or peaches in any meal or ingredient"]
+    },
+    "processed_meat_check": {
+      "pass": true,
+      "notes": ["No processed meat in any generated meal. Child fixed school snack contains external ham — not generated, not counted."]
+    },
+    "fixed_child_snack_accounted_for": true,
+    "fixed_child_snack_not_modified": true
+  }
+}

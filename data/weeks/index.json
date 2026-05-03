@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-05-03T15:58:23.661Z",
+  "defaultWeekId": "2026-W19",
+  "weeks": [
+    {
+      "id": "2026-W19",
+      "label": "2026 W19 · May 4–10",
+      "start_date": "2026-05-04",
+      "end_date": "2026-05-10",
+      "file": "2026-W19.json",
+      "isCurrent": false,
+      "status": "ready",
+      "notes": ""
+    }
+  ]
+}
