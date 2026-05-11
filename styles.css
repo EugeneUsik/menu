@@ -338,8 +338,7 @@ span.menu-cell-title { color: var(--color-text); }
   .recipe-filters,
   .shopping-actions,
   #view-recipes,
-  #view-menu,
-  #view-validation { display: none !important; }
+  #view-menu { display: none !important; }
   #view-shopping {
     display: block !important;
     padding: 0;

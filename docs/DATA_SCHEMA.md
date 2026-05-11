@@ -1,20 +1,19 @@
 # Weekly Menu JSON Schema
 
+Schema version: **2.0**
+
 ## Top-level fields
 
 | Field | Type | Required | Notes |
 |---|---|---|---|
-| `schema_version` | string | ✓ | Must be `"1.0"` |
+| `schema_version` | string | ✓ | `"2.0"` |
 | `week` | object | ✓ | Week metadata |
-| `household_context_version` | string | — | E.g. `"3.0"` |
-| `language` | string | — | `"en"` or `"lt"` |
-| `assumptions` | string[] | — | List of generation assumptions |
-| `menu` | object[] | ✓ | Exactly 7 day objects |
+| `fixed_school_snack` | object | ✓ | Child's fixed external snack — never modify |
+| `menu` | object[] | ✓ | Exactly 7 day objects (Mon–Sun) |
 | `recipes` | object[] | ✓ | Non-empty; all referenced IDs must exist |
 | `shopping_list` | object[] | ✓ | Grouped by category |
 | `daily_nutrition` | object[] | ✓ | 7 entries, one per day |
-| `weekly_validation` | object | ✓ | LLM self-check result |
-| `safety` | object | ✓ | Allergy and processed-meat checks |
+| `weekly_validation` | object | — | LLM self-check summary (advisory, not validated by script) |
 
 ---
 
@@ -31,45 +30,55 @@
 
 ---
 
+## `fixed_school_snack` object
+
+Defined **once** at the top level. Never copy it into day objects.
+
+| Field | Type | Notes |
+|---|---|---|
+| `title` | string | Static label |
+| `description` | string | Human-readable description |
+| `kcal_estimate` | number | Approximate kcal |
+| `protein_g_estimate` | number | Approximate protein in grams |
+
+Each day object instead carries `"includes_fixed_school_snack": true` (Mon–Fri) or `false` (Sat–Sun).
+
+---
+
 ## `menu[]` day object
 
-| Field | Type | Required |
-|---|---|---|
+| Field | Type | Required | Notes |
+|---|---|---|---|
 | `day_name` | string | — | E.g. `"Monday"` |
 | `date` | string | — | ISO date |
-| `breakfast` | meal object | ✓ |
-| `lunch` | meal object | ✓ |
-| `dinner` | meal object | ✓ |
-| `shared_snack` | meal object | — | Omit or null if none |
-| `child_fixed_school_snack` | string or object | — | External fixed snack; never modify |
-| `day_notes` | string | — | Cook-once notes, etc. |
+| `includes_fixed_school_snack` | boolean | ✓ | `true` Mon–Fri, `false` Sat–Sun |
+| `breakfast` | meal object | ✓ | |
+| `lunch` | meal object | ✓ | |
+| `dinner` | meal object | ✓ | |
+| `shared_snack` | meal object | — | Omit if none; must appear ≥4 days/week |
 
 ### Meal object
 
-| Field | Type | Required |
-|---|---|---|
-| `title` | string | ✓ |
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `title` | string | ✓ | |
 | `recipe_id` | string | — | Must match an `id` in `recipes[]` |
-| `portions` | object | — | `{ "husband": "...", "wife": "...", "child": "..." }` |
-| `notes` | string | — | Prep notes, leftover info |
-| `cook_once_eat_twice` | boolean | — | |
-| `leftover_from` | string | — | Day name this is a leftover from |
+| `cook_once_eat_twice` | boolean | — | Set `true` on dinner entries only |
+| `leftover_from` | string | — | Day name; set on lunch leftovers only |
 
 ---
 
 ## `recipes[]` object
 
-| Field | Type | Required |
-|---|---|---|
-| `id` | string | ✓ | Unique; slug format |
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `id` | string | ✓ | Unique; kebab-case slug |
 | `title` | string | ✓ | |
 | `meal_types` | string[] | — | `["breakfast"]`, `["lunch","dinner"]`, etc. |
-| `tags` | string[] | — | E.g. `["fish","high-protein"]` |
 | `active_time_min` | number | — | Active cooking minutes |
 | `total_time_min` | number | — | Total including passive time |
-| `equipment` | string[] | — | E.g. `["oven","stovetop"]` |
 | `ingredients` | ingredient[] | — | |
-| `instructions` | string[] | — | Ordered steps |
+| `instructions` | string[] | ✓ | **3–6 concise imperative steps. Placeholders forbidden.** |
 | `nutrition_estimate_per_person` | object | — | See below |
 
 ### Ingredient object
@@ -83,16 +92,16 @@
 
 ### `nutrition_estimate_per_person`
 
-Keys are person identifiers (`husband`, `wife`, `child`). Values:
+Keys: `husband`, `wife`, `child`. Values:
 
-| Field | Type | Unit |
-|---|---|---|
-| `kcal` | number | kcal |
-| `protein_g` | number | grams |
-| `carbs_g` | number | grams |
-| `fat_g` | number | grams |
-| `fiber_g` | number | grams |
-| `sat_fat_g` | number (optional) | grams |
+| Field | Type | Unit | Notes |
+|---|---|---|---|
+| `kcal` | number | kcal | |
+| `protein_g` | number | grams | |
+| `carbs_g` | number | grams | |
+| `fat_g` | number | grams | |
+| `fiber_g` | number | grams | |
+| `sat_fat_g` | number | grams | Optional for child |
 
 ---
 
@@ -100,25 +109,24 @@ Keys are person identifiers (`husband`, `wife`, `child`). Values:
 
 | Field | Type | Required |
 |---|---|---|
-| `category` | string | ✓ | E.g. `"Fish & Seafood"` |
-| `items` | item[] | ✓ | |
+| `category` | string | ✓ |
+| `items` | item[] | ✓ |
 
 ### Shopping item
 
 | Field | Type | Required | Notes |
 |---|---|---|---|
-| `id` | string | — | Stable key for localStorage. If absent, derived as `{name}|{unit}` |
+| `id` | string | — | Stable key for localStorage. Format: `{name-slug}\|{unit}` |
 | `name` | string | ✓ | |
-| `quantity` | string or number | — | |
+| `quantity` | string or number | — | Use raw weights for grains, meat, fish |
 | `unit` | string | — | |
 | `note` | string | — | E.g. `"Fresh or frozen"` |
-| `used_in` | string[] | — | Recipe titles or IDs |
 
 ---
 
 ## `daily_nutrition[]` object
 
-Array of 7, one per day. Each:
+Array of 7, one per day (Mon–Sun). Each entry:
 
 | Field | Type |
 |---|---|
@@ -128,40 +136,6 @@ Array of 7, one per day. Each:
 | `child` | nutrition totals object |
 
 Child object must include `includes_fixed_school_snack: boolean`.
-
----
-
-## `weekly_validation` object
-
-| Field | Type |
-|---|---|
-| `pass` | boolean |
-| `checks` | check[] |
-
-### Check object
-
-| Field | Type |
-|---|---|
-| `label` | string |
-| `pass` | boolean |
-| `detail` | string (optional) |
-
----
-
-## `safety` object
-
-| Field | Type | Required |
-|---|---|---|
-| `allergy_check` | object | ✓ |
-| `processed_meat_check` | object | ✓ |
-| `fixed_child_snack_accounted_for` | boolean | ✓ |
-| `fixed_child_snack_not_modified` | boolean | ✓ |
-
-`allergy_check` and `processed_meat_check` shape:
-
-```json
-{ "pass": true, "notes": [] }
-```
 
 ---
 
@@ -177,14 +151,20 @@ Child object must include `includes_fixed_school_snack: boolean`.
 ## Validation rules enforced by scripts
 
 1. JSON must parse.
-2. All required top-level fields must be present.
-3. `menu` must have exactly 7 elements.
-4. Each day must have `breakfast`, `lunch`, `dinner` with non-empty titles.
-5. `recipes` must be non-empty with unique IDs.
-6. All `recipe_id` values in menu must exist in `recipes[].id`.
-7. `shared_snack` count across the week must be ≥ 4.
-8. No duplicate shopping item IDs.
-9. `daily_nutrition` must have 7 entries; child entries must have `includes_fixed_school_snack`.
-10. `safety.fixed_child_snack_accounted_for` must exist.
-11. No banned fruit terms anywhere in the document.
-12. No processed-meat terms outside `child_fixed_school_snack` fields.
+2. Required top-level fields present (`schema_version`, `week`, `menu`, `recipes`, `shopping_list`, `daily_nutrition`).
+3. `week.id`, `start_date`, `end_date` present.
+4. `menu` has exactly 7 elements.
+5. Each day has `breakfast`, `lunch`, `dinner` with non-empty titles.
+6. `recipes` non-empty with unique IDs.
+7. All `recipe_id` values in `menu` resolve to an entry in `recipes[]`.
+8. `shared_snack` appears on ≥4 days.
+9. `shopping_list` is an array; no duplicate item IDs.
+10. `daily_nutrition` has 7 entries; child entries must have `includes_fixed_school_snack`.
+11. Every recipe must have ≥2 non-empty instruction steps.
+12. No banned fruit terms anywhere in the document (titles, ingredients, notes, shopping list):
+    - cherry, apple, pear, apricot, peach — and their Lithuanian/Russian forms.
+13. No processed-meat terms outside `fixed_school_snack`:
+    - ham, bacon, sausage, salami, hot dog, deli meat — and variants.
+
+Warnings (advisory, do not fail):
+- Child `daily_nutrition` entries missing `includes_fixed_school_snack`.

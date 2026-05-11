@@ -1,0 +1,26 @@
+name: Validate weeks
+
+on:
+  push:
+    paths:
+      - 'data/weeks/**.json'
+      - 'scripts/validate-week.js'
+      - 'scripts/validate-all-weeks.js'
+  pull_request:
+    paths:
+      - 'data/weeks/**.json'
+      - 'scripts/validate-week.js'
+      - 'scripts/validate-all-weeks.js'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Sync manifest
+        run: node scripts/sync-weeks-index.js
+      - name: Validate all weeks
+        run: node scripts/validate-all-weeks.js

@@ -21,8 +21,21 @@ const PROCESSED_MEATS = [
 
 function containsTerm(text, term) {
   if (!text) return false;
-  if (term.includes(' ')) return text.toLowerCase().includes(term.toLowerCase());
-  return new RegExp(`\\b${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(text);
+  const lower = text.toLowerCase();
+  const t = term.toLowerCase();
+  const idx = lower.indexOf(t);
+  if (idx === -1) return false;
+  // Check that the match is not surrounded by Unicode letters or digits
+  // (handles Cyrillic, Lithuanian diacritics, etc. where \b fails)
+  const before = idx > 0 ? lower.codePointAt(idx - 1) : null;
+  const after  = idx + t.length < lower.length ? lower.codePointAt(idx + t.length) : null;
+  const isWordChar = cp => cp != null && (
+    (cp >= 0x41 && cp <= 0x5a) || (cp >= 0x61 && cp <= 0x7a) || // A-Z a-z
+    (cp >= 0x30 && cp <= 0x39) ||                                 // 0-9
+    cp === 0x5f ||                                                 // _
+    cp >= 0x80                                                     // any non-ASCII (Cyrillic, diacritics, etc.)
+  );
+  return !isWordChar(before) && !isWordChar(after);
 }
 
 // skipKeys: Set or array of key names to skip entirely when recursing
