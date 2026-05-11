@@ -1,8 +1,8 @@
-# Family Nutrition Context File
+# Family Nutrition Context
 
-**Version:** 3.0  
-**Purpose:** Context for weekly menu generation by an LLM agent.  
-**Scope:** Generate family breakfasts, lunches, dinners, and optional shared family snacks while accounting for the child’s fixed school snack.
+**Version:** 4.0  
+**Purpose:** Standalone reference for weekly family menu planning.  
+**Scope:** Family breakfasts, lunches, dinners, and optional shared family snacks, while accounting for the child’s fixed school snack.
 
 ---
 
@@ -10,22 +10,26 @@
 
 | Person  | Age / Sex | Weight | Height | Activity | Main Nutrition Goal |
 | ------- | --------: | -----: | -----: | -------- | ------------------- |
-| Husband | 40M | 70 kg | 180 cm | Jogging 3×5 km/week; push-ups 3×15; pull-ups 3×10 | Muscle gain/recomposition; reduce visceral fat |
+| Husband | 40M | 70 kg | 180 cm | Jogging 3×5 km/week; push-ups 3×15; pull-ups 3×10 | Preserve lean mass; reduce visceral fat (current resistance volume is below the threshold for true hypertrophy) |
 | Wife | 40F | 62 kg | 164 cm | Functional training 3–4×/week, 15–20 min | Lose 3–4 kg to ~58–59 kg; lower LDL; improve energy and hormone stability |
-| Child | 12M | 49 kg | 151 cm | Table tennis 2×/week; swimming 2×30 min/week; PE at school | Support puberty growth/height potential while avoiding excessive fat gain |
+| Child | 12M | 49 kg | 151 cm | Table tennis 2×/week; swimming 2×30 min/week; PE at school | Support pubertal growth and height velocity; do not restrict energy; let weight track height (BMI ~21.5, ~90th percentile — monitor height velocity, not weight) |
 
 Meal pattern:
 
 - All three eat breakfast, lunch, and dinner at home.
 - Adults train in the morning after breakfast.
 - Child’s sport is after school, usually after 15:00.
-- The child has a **fixed school snack**. It is not generated or modified by the LLM, but it must be included in the child’s daily nutrition totals.
+- The child has a **fixed school snack**. It is not part of the planned weekly menu, but must be included in the child’s daily nutrition totals.
+
+Pubertal context (required input for the child):
+
+- **Tanner stage** drives energy needs more strongly than current weight does and can shift daily requirements by 300–600 kcal during peak height velocity. Plans should be re-confirmed seasonally against the current stage (or proxy: voice change, recent growth spurt, body-hair development).
+- Height should be measured every ~3 months. If height velocity slows while weight climbs, do not reduce calories first — re-check protein adequacy and activity load.
 
 Cuisine:
 
 - No fixed cuisine preference.
-- Use a varied, practical mix of European, Mediterranean, Nordic/Baltic, and globally familiar meals.
-- All ingredients must be realistically available in Lithuanian supermarkets such as Maxima, IKI, Rimi, Lidl, Norfa, or local markets.
+- All ingredients must be realistically available in Lithuanian supermarkets such as Maxima, IKI, Rimi, Lidl.
 
 ---
 
@@ -41,49 +45,19 @@ The child must not consume the following in any form:
 - Apricots
 - Peaches
 
-This includes:
-
-- Fresh fruit
-- Cooked fruit
-- Baked fruit
-- Juice
-- Puree
-- Compote
-- Dried fruit
-- Jam
-- Sauce
-- Baby-food-style puree
-- Smoothie base
-- Pastry filling
-- Yogurt layer
-- Dessert topping
-- Cereal/bar filling
-- Any hidden ingredient
-
 For simplicity and safety:
 
-- Avoid these fruits in all generated shared family meals.
+- Avoid these fruits in all shared family meals.
 - Do not use mixed-fruit products unless the ingredient list is explicitly free of the excluded fruits.
 - Avoid vague “multifruit,” “garden fruit,” “forest fruit,” “fruit puree,” or “fruit filling” products unless ingredients are clear.
-- Consider cross-contact risk in shared knives, cutting boards, lunchboxes, blenders, jars, and spreads.
 
-Allowed fruits, unless family later reports intolerance:
-
-- Berries
-- Banana
-- Citrus
-- Kiwi
-- Grapes
-- Melon
-- Mango
-- Pineapple
-- Plum only if family confirms tolerance
+All other fruits are allowed.
 
 ### 2.2 Processed meat rule
 
-The LLM-generated menu must contain **no processed meat**.
+The weekly menu must contain **no processed meat**.
 
-Avoid in generated breakfasts, lunches, dinners, and optional shared snacks:
+Avoid in breakfasts, lunches, dinners, and optional shared snacks:
 
 - Ham
 - Sausages
@@ -95,23 +69,7 @@ Avoid in generated breakfasts, lunches, dinners, and optional shared snacks:
 - Hot dogs
 - Meat-based ready meals with processed meat
 
-Important exception / scope clarification:
-
-- The child’s school snack is a **fixed external item** and may contain ham.
-- The LLM must **not** suggest changing, replacing, removing, or “improving” the child’s fixed school snack unless the user explicitly asks.
-- The ham in the fixed school snack must be counted nutritionally for the child, but it does **not** count as a failure of the generated-menu processed-meat rule.
-- The LLM must not add any additional processed meat elsewhere in the menu.
-
-Allowed generated-menu protein sources:
-
-- Poultry cooked from raw meat
-- Fish and seafood
-- Eggs and egg whites
-- Greek yogurt / skyr / kefir / cottage cheese
-- Legumes
-- Tofu / soy foods
-- Lean red meat no more than allowed weekly frequency
-- Store-bought raw minced meat if needed
+The child’s fixed school snack is a known exception, scoped in Section 5.
 
 ---
 
@@ -122,7 +80,6 @@ Available:
 - Oven
 - Microwave oven
 - Stovetop
-- Dishwasher
 - Immersion blender
 
 Do not assume:
@@ -175,18 +132,14 @@ Meal distribution guide:
 Goal interpretation:
 
 - Use a slight deficit or near-maintenance approach, not aggressive dieting.
-- Preserve and build lean mass with high protein.
-- Include carbohydrate around breakfast/lunch to support morning exercise and recovery.
+- Preserve lean mass with high protein.
+- **True hypertrophy requires more resistance training volume than the current routine.** 3×15 push-ups + 3×10 pull-ups alongside endurance-biased running supports maintenance, not muscle gain. The plan therefore targets lean-mass preservation and visceral-fat reduction. If genuine muscle gain becomes the priority, increase resistance training volume and shift calories to maintenance or slight surplus — do not try to do both at once.
 
-Preferred protein sources:
+Training-day fueling:
 
-- Poultry
-- Fish and seafood
-- Eggs
-- Greek yogurt / skyr / kefir / cottage cheese
-- Legumes
-- Tofu / soy foods
-- Lean red meat no more than 2×/week
+- Pre-train (breakfast): ≥35 g protein + 60–90 g complex carbohydrate.
+- Post-train: protein + carbohydrate within ~1–2 h (typically covered by lunch).
+- On long-run days, add a ~200–300 kcal carbohydrate-leaning add-on (fruit, whole-grain bread, oats, potatoes).
 
 ---
 
@@ -201,14 +154,13 @@ Planning target:
 - Protein: 95–105 g/day
 - Minimum protein per main meal: ≥28 g
 - Fiber: ≥30 g/day
-- LDL-focused viscous/soluble fiber: include a daily source such as oats, barley, legumes, ground flaxseed, chia seeds, berries, citrus, or vegetables
-- When oats/barley are used, try to approach ~3 g/day beta-glucan from oats/barley for cholesterol-lowering support
+- **Viscous/soluble fiber: ≥10 g/day** from oats, barley, legumes, psyllium, chia, ground flaxseed, berries, citrus, eggplant, okra
 - Fat: ~25–30% of energy
 - Saturated fat: preferably ≤11 g/day and <7% of energy
 - Trans fat: as close to zero as possible
 - Free sugars: ideally <5% of energy
 - Salt: <5 g/day
-- Vegetables + fruit: ≥400 g/day
+- Vegetables + fruit: ≥500 g/day, with daily inclusion of at least one cruciferous, one leafy green, and one berry/citrus serving
 
 Meal distribution guide:
 
@@ -228,25 +180,37 @@ Blood results from February 2026:
 - Free T4: 12.3 pmol/L, low-normal
 - HbA1c: 5.2%, normal
 
-LDL-lowering priorities:
+Lab interpretation notes (gaps to close at next panel):
 
-1. Include oats, barley, legumes, or other viscous/soluble-fiber-rich foods daily.
-2. Include fatty fish at least 2×/week: salmon, mackerel, herring, sardines.
-3. Include walnuts most days, ideally ~15–30 g/day for the wife depending on calorie room.
-4. Include soy foods regularly: tofu, edamame, soy milk, soy yogurt, or tempeh.
-5. Avoid saturated-fat stacking: do not combine cheese + fatty meat + cream/butter-rich sauce in the same meal.
-6. Whole eggs: maximum 1 whole egg/day for wife. Use egg whites when extra egg volume is needed.
-7. Prefer low-fat dairy over high-fat dairy.
-8. Prefer olive oil, avocado, nuts, seeds, and fatty fish over butter, cream, coconut fat, and fatty cheese.
-9. Use legumes/oats/barley/soy not only as “healthy extras,” but as structural parts of meals.
+- **TSH is missing.** Free T4 alone is uninterpretable for thyroid status; TSH is the primary screening marker. Anti-TPO should be added if Free T4 stays low-normal.
+- **Serum magnesium is a poor marker** — it reflects <1% of total body magnesium. Plan based on *dietary* magnesium adequacy, not the serum value.
+- **ApoB and Lp(a) are missing.** For a multi-year diet-led LDL strategy, ApoB is a better adherence and risk marker than LDL-C alone, and Lp(a) should be measured once (lifetime genetic risk modifier).
+- **Iron status (ferritin, transferrin saturation) is missing** — relevant for a still-menstruating 40F.
+
+LDL-lowering priorities (quantitative — Portfolio Diet pattern):
+
+1. **Viscous/soluble fiber ≥10 g/day** — oats, barley, legumes, psyllium, ground flaxseed, chia; supplement with berries, citrus, eggplant, okra.
+2. **Soy protein ~25 g/day** from tofu, tempeh, edamame, soy milk, or soy yogurt — aim for daily presence, minimum 4 days/week.
+3. **Nuts ~30 g/day**, with walnuts featured most days for ALA omega-3.
+4. **Plant sterols/stanols ~2 g/day** — typically requires fortified products (sterol-enriched spreads/yogurts available at Maxima, Rimi, Lidl); natural food intake rarely reaches this level.
+5. **Legumes ≥5 servings/week** as a structural component of meals, not garnish.
+6. Fatty fish ≥2×/week.
+7. Avoid saturated-fat stacking: do not combine cheese + fatty meat + cream/butter-rich sauce in the same meal *or* across the same day.
+8. Whole eggs: maximum 1/day for wife (cautious choice — current evidence on dietary cholesterol shows modest serum-LDL impact in most people, but warranted given her LDL). Use egg whites when additional egg volume is needed.
+9. Prefer low-fat dairy over high-fat dairy.
+10. Prefer olive oil, avocado, nuts, seeds, and fatty fish over butter, cream, coconut fat, and fatty cheese.
 
 Micronutrient priorities:
 
-- Vitamin D: fatty fish, eggs, UV-exposed mushrooms, fortified foods; diet alone may be insufficient.
-- Magnesium: pumpkin seeds, legumes, almonds, leafy greens, whole grains, dark chocolate ≥70%.
-- Iodine: seafood, dairy, iodized salt in controlled quantity.
-- Calcium: low-fat dairy, fortified soy milk, kefir, yogurt, cottage cheese, sardines with bones, kale.
-- Phytoestrogens: flaxseed, soy foods, legumes.
+- **Vitamin D:** fatty fish, eggs, UV-exposed mushrooms, fortified foods. Diet alone is insufficient at Lithuanian latitude from approximately October through March; supplement 1,000–2,000 IU/day in that window and reassess with a 25(OH)D level in spring.
+- **Magnesium:** pumpkin seeds, legumes, almonds, leafy greens, whole grains, dark chocolate ≥70%. Target ~320 mg/day from food.
+- **Iodine:** seafood, dairy, iodized salt in controlled quantity. Target ~150 µg/day.
+- **Selenium:** 1–2 Brazil nuts/week, fish, eggs, whole grains. Supports thyroid hormone conversion (T4 → T3) — relevant to low-normal T4. Target ~55 µg/day.
+- **Iron:** lean red meat 1×/week, poultry, fish, legumes paired with vitamin C, dark leafy greens. Target ~18 mg/day pre-menopause.
+- **Calcium:** low-fat dairy, fortified soy milk, kefir, yogurt, cottage cheese, sardines with bones, kale. Target ~1,000 mg/day.
+- **Vitamin B12:** dairy, fish, eggs, occasional lean meat. Target ~2.4 µg/day.
+- **Choline:** fish, legumes, cruciferous vegetables, eggs (constrained by egg cap — emphasize other sources). Target ~425 mg/day.
+- **Phytoestrogens:** flaxseed, soy foods, legumes.
 
 Hormone-stability support:
 
@@ -255,32 +219,37 @@ Hormone-stability support:
 - Include magnesium-rich foods daily.
 - Include omega-3 fats regularly.
 - Include legumes, flaxseed, soy, and whole grains multiple times weekly.
-- Do not create an aggressive deficit that worsens fatigue, hunger, sleep, training quality, or cycle stability.
-
-Medical note:
-
-- The LDL goal should be individualized by a clinician based on total cardiovascular risk, family history, blood pressure, smoking status, ApoB/non-HDL if available, Lp(a), thyroid status, and other risk modifiers.
-- Food plan supports lipid improvement but does not replace medical follow-up.
+- Do not create an aggressive deficit that worsens fatigue, hunger, training quality, or cycle stability.
 
 ---
 
 ### 4.3 Child — 12M, 49 kg, 151 cm
 
+Context and framing:
+
+- Current BMI ~21.5 sits around the **90th percentile (CDC)** for age.
+- **The goal is height velocity, not weight reduction.** Energy is not restricted; weight should follow height as puberty progresses.
+- Tanner stage and growth velocity drive energy needs more strongly than current weight.
+- Never frame food as restriction to the child. Adolescent dieting predicts adult disordered eating; satiety, variety, and meal structure are the levers — not portion-shrinking.
+
 Estimated energy needs vary with growth velocity, school movement, appetite, sport intensity, and puberty stage.
 
 Planning target:
 
-- Calories: roughly ~2,100–2,550 kcal/day including the fixed school snack
+- Calories: roughly ~2,100–2,550 kcal/day including the fixed school snack (assumes Tanner 2–3; raise toward 2,700+ at peak height velocity)
 - Do not intentionally restrict energy
 - Avoid chronic calorie surplus by controlling energy-dense snacks, sugary foods, fried foods, and oversized refined-carbohydrate portions
 - Protein: 70–85 g/day
 - Minimum protein per main meal: ≥20 g
 - Fiber: ≥25 g/day
+- Saturated fat: <10% of energy (~25 g/day at 2,300 kcal)
 - Calcium: ~1,300 mg/day
-- Vitamin D: support with food sources, but do not claim diet alone guarantees ≥600 IU/day unless food amounts clearly support it
+- Vitamin D: support with food sources; supplement 600–1,000 IU/day October–March at Lithuanian latitude
+- Iron: ~8–11 mg/day
+- Zinc: ~8–11 mg/day (rising toward 11 mg as he advances through puberty)
 - Dairy or fortified calcium source: at every meal where feasible
 - Fruit + vegetables: ≥350 g/day
-- Salt: keep below adult ceiling; avoid high-salt stacking
+- Salt: ≤3.75 g/day (lower than adult ceiling); avoid high-salt stacking
 
 Meal distribution guide:
 
@@ -292,19 +261,20 @@ Meal distribution guide:
 
 Growth-critical nutrients:
 
-- Calcium: dairy, kefir, yogurt, milk, cottage cheese, cheese in moderate amounts, fortified soy milk, sardines with bones.
-- Vitamin D: fatty fish, eggs, fortified foods, mushrooms exposed to UV.
-- Zinc: lean beef, poultry, fish, seafood, pumpkin seeds, legumes, whole grains.
-- Iron: lean red meat 1–2×/week, poultry, fish, legumes, spinach with vitamin C.
-- Iodine: dairy, seafood, iodized salt.
+- **Calcium:** dairy, kefir, yogurt, milk, cottage cheese, cheese in moderate amounts, fortified soy milk, sardines with bones.
+- **Vitamin D:** fatty fish, eggs, fortified foods, mushrooms exposed to UV; supplement October–March (see Planning target).
+- **Vitamin K2 (MK-7):** fermented dairy, eggs, occasional natto — supports calcium deposition into bone rather than soft tissue.
+- **Zinc:** lean beef, poultry, fish, seafood, pumpkin seeds, legumes, whole grains.
+- **Iron:** lean red meat 1–2×/week, poultry, fish, legumes, spinach with vitamin C.
+- **Iodine:** dairy, seafood, iodized salt.
+- **Choline:** eggs, fish, legumes — important during brain maturation.
 
-Weight-gain tendency rule:
+Weight-tendency rule:
 
 - Do not solve weight tendency by calorie restriction.
 - Use high-satiety meals: protein + fiber + vegetables + whole grains.
 - Avoid liquid calories, sweet drinks, frequent desserts, oversized refined snacks, and low-protein breakfasts.
 - Monitor total day balance including the fixed school snack.
-- Growth curve, waist trend, appetite, sport performance, sleep, and pediatric guidance are more important than forcing a precise daily calorie number.
 
 ---
 
@@ -312,13 +282,15 @@ Weight-gain tendency rule:
 
 The child’s school snack is **constant** and should be treated as external context.
 
-The LLM must:
+Clinical note (transparency, not a planning instruction): the fixed snack contains processed meat (ham), which the rest of the planned menu deliberately excludes. The combination of ham + cream cheese + tortilla also delivers substantial sodium. This is a known compromise driven by the child’s preference and school logistics — not a nutritional recommendation. Compensate by keeping the rest of the child’s day low in sodium and saturated fat, and by not adding processed meat anywhere else.
+
+When planning the rest of the day’s menu:
 
 - Include this snack in the child’s daily calories, protein, fiber, calcium, sodium, and saturated-fat estimates.
 - Use it to adjust the rest of the day’s menu.
-- Not suggest replacing, removing, changing, upgrading, or “healthifying” the snack.
-- Not treat the ham in this snack as a generated-menu violation.
-- Avoid adding additional processed meat elsewhere.
+- Do not replace, remove, change, upgrade, or “healthify” the snack.
+- Do not treat the ham in this snack as a menu-rule violation.
+- Do not add processed meat elsewhere in the week.
 
 Current fixed snack pattern:
 
@@ -328,25 +300,13 @@ Current fixed snack pattern:
 - Salad
 - Bell pepper
 
-Assumptions for nutrition accounting:
-
-- Tortilla is preferably whole-grain if that is already the family’s usual choice, but do not instruct the family to change it.
-- Cream cheese is plain, not fruit-flavored.
-- Snack contains no apple, pear, cherry, peach, or apricot ingredients.
-- Exact product nutrition may vary; use approximate accounting unless the user provides package labels.
-
 Approximate snack accounting target:
 
 - Calories: ~350–450 kcal
 - Protein: ~18–30 g
 - Fiber: ≥4 g if whole-grain tortilla and vegetables are used
 - Calcium: ideally ≥150–300 mg
-- Sodium: likely moderate to high because of ham + cream cheese + tortilla; account for this by keeping the rest of the child’s day lower in salt
-
-Menu-generation implication:
-
-- Because the fixed snack already contains processed meat and may be salty, the generated family menu should avoid additional processed meat and avoid unnecessary high-sodium stacking on school days.
-- Do not compensate by underfeeding the child at lunch or dinner.
+- Sodium: likely moderate to high because of lean meat + cream cheese + tortilla; account for this by keeping the rest of the child’s day lower in salt
 
 ---
 
@@ -361,8 +321,6 @@ Plan:
 - 7 dinners
 - Shared family snack on at least 4 of 7 days
 - Fixed child school snack accounted for on school days or all relevant days specified by the user
-
-Breakfasts do not need to be unique every day. Use 2–4 rotating breakfast patterns with enough variation.
 
 ### 6.2 Breakfast rule
 
@@ -412,7 +370,7 @@ Lunch may be:
 - Omelet / egg-white meal
 - Cottage cheese or Greek yogurt plate
 - Salad with sufficient protein and carbohydrate
-- Wrap or sandwich only if it uses non-processed protein in the generated menu
+- Wrap or sandwich only if it uses non-processed protein
 
 Every lunch must meet protein floors:
 
@@ -449,118 +407,11 @@ For child:
 
 ---
 
-## 7. Weekly Frequency Targets
-
-| Food / Nutrient Target | Weekly Requirement |
-| ---------------------- | ------------------ |
-| Fatty fish | ≥2 meals/week; use salmon, mackerel, herring, sardines. Tuna and cod do not count as fatty fish. |
-| Legumes | ≥3 meals/week: lentils, chickpeas, beans, peas. |
-| Soy foods | Ideally 4–7 inclusions/week, especially for wife’s LDL target. Soy sauce does not count. |
-| Red meat | Adults ≤2 generated meals/week; child 1–2 generated meals/week acceptable. Prefer lean beef. |
-| Processed meat | 0 in generated meals/snacks. Fixed child school snack is external and not counted as generated-menu failure. |
-| Walnuts | Wife ideally 15–30 g most days depending on calorie room. |
-| Oats / barley / viscous-fiber source | Daily, especially for wife. |
-| Magnesium-rich foods | Daily. |
-| Calcium-rich foods for child | Every meal where feasible; structurally aim toward ~1,300 mg/day. |
-| Vegetables + fruit | Adults ≥400 g/day; child ≥350 g/day. |
-| Shared family snack | ≥4 days/week. |
-| High-sugar desserts | Occasional only; not daily. |
-| Sweet drinks / juice | Avoid as routine beverages. |
-| Sodium | Avoid stacking salty fish + cheese + bread/wrap + canned foods in the same day. |
-
----
-
-## 8. Ingredient Preferences and Restrictions
-
-No family dislikes reported.
-
-Allowed and acceptable:
-
-- Dairy
-- Soy foods
-- Legumes
-- Fish and seafood
-- Nuts
-- Seeds
-- Eggs
-- Poultry
-- Lean red meat
-- Whole grains
-- Vegetables
-- Fruits except child’s excluded fruits
-
-Preferred staples:
-
-- Oats
-- Buckwheat
-- Barley
-- Brown rice
-- Whole-grain bread
-- Rye bread
-- Whole-grain pasta
-- Potatoes
-- Lentils
-- Chickpeas
-- Beans
-- Tofu
-- Greek yogurt
-- Skyr
-- Kefir
-- Cottage cheese
-- Low-fat milk
-- Fortified soy milk
-- Salmon
-- Mackerel
-- Herring
-- Sardines
-- Cod or other white fish, but not as replacement for omega-3 fish
-- Chicken breast / turkey
-- Lean beef
-- Eggs and egg whites
-- Olive oil
-- Walnuts
-- Almonds
-- Pumpkin seeds
-- Ground flaxseed
-- Chia seeds
-- Leafy greens
-- Carrots
-- Bell peppers
-- Tomatoes
-- Cucumbers
-- Broccoli
-- Cabbage
-- Beetroot
-- Mushrooms
-- Berries
-- Bananas
-- Citrus
-- Kiwi
-- Grapes
-- Melon
-
-Avoid or strongly limit in generated meals:
-
-- Butter-heavy meals
-- Cream sauces
-- Fatty cheese-heavy meals
-- Coconut milk/fat as a regular ingredient
-- Fried foods
-- Sausages and processed meats
-- Sugary breakfast cereals
-- Pastries as breakfast
-- Juice
-- Sweetened yogurts
-- High-sugar snacks
-- Large portions of refined bread/pasta without protein/fiber balance
-
----
-
-## 9. Portioning Logic
+## 7. Portioning Logic
 
 Use the same base meal when possible, but adjust portions by person.
 
-### 9.1 Husband
+### 7.1 Husband
 
 Usually needs:
 
@@ -569,17 +420,8 @@ Usually needs:
 - High-fiber carbohydrate
 - Extra protein add-on if shared meal is low protein
 
-Examples of add-ons:
 
-- Extra Greek yogurt
-- Extra skyr
-- Extra chicken/fish/tofu
-- Cottage cheese
-- Egg whites
-- Protein-rich side salad with beans
-- Kefir smoothie with oats
-
-### 9.2 Wife
+### 7.2 Wife
 
 Usually needs:
 
@@ -600,7 +442,7 @@ Adjustments:
 - Prefer legumes/oats/barley/soy as carbohydrate-protein-fiber anchors.
 - Avoid hidden saturated-fat stacking across the whole day, not just within one meal.
 
-### 9.3 Child
+### 7.3 Child
 
 Usually needs:
 
@@ -620,99 +462,36 @@ Adjustments:
 
 ---
 
-## 10. Daily Validation Requirements
+## 8. Daily Validation Requirements
 
-Each day must be checked per person, not only per recipe.
-
-### 10.1 Husband daily checks
-
-- Calories: ~2,350–2,450 kcal average
-- Protein: 130–145 g
-- Each main meal protein: ≥35 g
-- Fiber: ≥35 g
-- Saturated fat: <10% energy
-- Salt: <5 g
-- Vegetables + fruit: ≥400 g
-
-### 10.2 Wife daily checks
-
-- Calories: ~1,550–1,650 kcal average
-- Protein: 95–105 g
-- Each main meal protein: ≥28 g
-- Fiber: ≥30 g
-- LDL-supportive viscous/soluble-fiber source present
-- Saturated fat: ≤11 g preferred
-- Free sugars: ideally <5% energy
-- Salt: <5 g
-- Vegetables + fruit: ≥400 g
-- LDL-supportive foods present: oats/barley/legumes/soy/walnuts/fatty fish depending on the day
-
-### 10.3 Child daily checks
-
-Include the fixed school snack in totals.
-
-- Calories: roughly ~2,100–2,550 kcal depending on appetite, sport, and growth
-- Protein: 70–85 g
-- Each main meal protein: ≥20 g
-- Fiber: ≥25 g
-- Calcium: structurally supported toward ~1,300 mg/day
-- Vitamin D: food sources included where practical, but do not claim guaranteed adequacy unless food amounts clearly support it
-- Vegetables + fruit: ≥350 g
-- No exposure to excluded fruits
-- No processed meat in generated meals, while accounting for the fixed school snack separately
-- Sodium risk reviewed because the fixed snack may be salty
+Each day nutrition goals must be checked per person, not only per recipe.
 
 ---
 
-## 11. Weekly Validation Requirements
+## 9. Weekly Validation Requirements
 
 The full week must be checked after the meal plan is built.
 
 The week is unacceptable if any of these fail:
 
-1. Any child allergy item appears anywhere in generated meals or in any suggested family snack.
-2. The LLM suggests changing or replacing the child’s fixed school snack without being explicitly asked.
-3. Processed meat appears in any generated meal or generated shared snack.
-4. The ham in the fixed child school snack is incorrectly treated as a generated-menu failure.
-5. Fatty fish appears fewer than 2 times.
-6. Legumes appear fewer than 3 times.
-7. Soy foods are absent or token-only.
-8. Wife’s saturated fat target is repeatedly exceeded.
-9. Wife’s fiber and LDL-supportive viscous/soluble fiber targets are not intentionally supported.
-10. Child’s calcium target is not structurally supported daily.
-11. Protein floors are met only at dinner but not at breakfast/lunch.
-12. Leftovers are assigned as lunches without checking protein adequacy.
-13. The plan looks balanced per meal but fails daily or weekly totals.
-14. The child’s fixed school snack is excluded from daily nutrition accounting.
-15. Adult fat-loss targets are achieved by making the child’s diet too low-energy.
-16. The wife’s calorie deficit is too aggressive for training, energy, sleep, hunger, or hormonal stability.
-17. The menu is nutritionally good but unrealistic for weekday cooking.
-18. Sodium is not reviewed, especially on days with herring/sardines/cottage cheese/cheese/canned foods plus the child’s fixed snack.
-
-The final weekly review should include a pass/fail checklist for:
-
-- Per-person calories
-- Per-person protein
-- Meal-level protein floors
-- Fiber
-- LDL-supportive viscous/soluble fiber for wife
-- Saturated fat for wife
-- Calcium for child
-- Fatty fish frequency
-- Legume frequency
-- Soy inclusion
-- Red meat limit
-- Processed meat exclusion in generated menu
-- Allergy exclusion
-- Child fixed snack accounted for
-- Fixed snack not modified
-- Sodium risk
-- Cooking-time feasibility
-- Leftover feasibility
+1. Any child allergy item appears anywhere in planned meals or in any suggested family snack.
+2. Fatty fish appears fewer than 2 times.
+3. Legumes appear fewer than 3 times across the family menu, or fewer than 5 servings/week for the wife specifically.
+4. Soy foods are absent or token-only; wife’s soy protein is not ~25 g on at least 4 days/week.
+5. Wife’s saturated fat target is repeatedly exceeded.
+6. Wife’s fiber target is not intentionally supported, and viscous/soluble-fiber intake is not estimated against the ≥10 g/day target.
+7. Plant sterols/stanols for the wife are not addressed at all (food sources or fortified products).
+8. Child’s calcium target is not supported daily.
+9. Child’s saturated fat exceeds <10% of energy on cheese-/meat-heavy days.
+10. Protein floors are not met.
+11. The plan looks balanced per meal but fails daily or weekly totals.
+12. The child’s fixed school snack is excluded from daily nutrition accounting.
+13. Sodium is not reviewed, especially on days with herring/sardines/cottage cheese/cheese/canned foods plus the child’s fixed snack.
+14. Tanner stage / growth context for the child has not been confirmed or assumed; the calorie range assumes Tanner 2–3 and must be revisited at peak height velocity.
 
 ---
 
-## 12. Practical Menu Construction Rules
+## 10. Practical Menu Construction Rules
 
 Use meals that are realistic for a family cooking at home.
 
@@ -723,19 +502,8 @@ Prioritize:
 - Simple breakfasts
 - Minimal active cooking on weekdays
 - One main weekend shopping trip
-- Optional mid-week restock for fish, poultry, meat, berries, greens, dairy
+- Optional mid-week restock for perishable items.
 
-Weekday meals should use simple methods:
-
-- Oven tray bake
-- Stovetop one-pot meal
-- Soup + protein side
-- Grain bowl
-- Salad bowl
-- Omelet / egg-white scramble
-- Yogurt/cottage cheese bowl
-- Fish + potatoes + vegetables
-- Tofu/legume stir-fry without requiring rare sauces
 
 Avoid recipes requiring:
 
@@ -748,180 +516,3 @@ Avoid recipes requiring:
 - Complex pastry work
 
 ---
-
-## 13. Preferred Meal Patterns
-
-### 13.1 Breakfast examples
-
-Suitable breakfast patterns:
-
-- Oats + Greek yogurt/skyr + berries + ground flaxseed + walnuts
-- Cottage cheese + whole-grain bread + vegetables + berries/citrus
-- Eggs + egg whites + rye bread + vegetables + kefir for child
-- Tofu scramble + whole-grain toast + vegetables + dairy/fortified soy drink
-- Buckwheat porridge + Greek yogurt + seeds + berries
-- Kefir smoothie bowl with oats, berries, chia/flax, and added protein from skyr or cottage cheese
-
-Avoid grain-only breakfasts.
-
-### 13.2 Lunch examples
-
-- Leftover salmon + potatoes/barley + vegetables
-- Lentil soup + cottage cheese/Greek yogurt side
-- Chicken buckwheat bowl + vegetables
-- Chickpea salad + tuna/egg/tofu
-- Turkey or chicken wrap with vegetables and yogurt sauce, using only non-processed cooked poultry
-- Bean chili leftovers with rice and salad
-- Cottage cheese plate with rye bread, vegetables, and fruit
-- Tofu rice bowl with vegetables
-- Sardine potato salad with kefir/yogurt dressing
-
-### 13.3 Dinner examples
-
-- Salmon/mackerel/herring/sardines + potatoes/barley + vegetables
-- Chicken tray bake with buckwheat and salad
-- Lentil/bean stew with yogurt side
-- Tofu stir-fry with rice and vegetables
-- Lean beef chili with beans
-- Turkey meatballs from store-bought raw minced turkey + whole-grain pasta + tomato vegetable sauce
-- Sardine or tuna potato salad with kefir/yogurt dressing
-- Vegetable soup with added beans and chicken/tofu
-- Barley risotto-style dish with mushrooms + chicken/tofu
-- Chickpea and vegetable curry using tomato/yogurt base rather than coconut-heavy sauce
-
-### 13.4 Shared family snack examples
-
-Family snacks should provide approximately 10 g protein per adult serving and calcium for child.
-
-Good options:
-
-- Greek yogurt/skyr + berries + seeds
-- Kefir + rye crispbread + cottage cheese
-- Cottage cheese + cucumber/tomato + whole-grain bread
-- Fortified soy yogurt + walnuts/berries
-- Hummus + vegetables + boiled egg
-- Smoothie with kefir/skyr, berries, oats, and flaxseed
-- Dark chocolate ≥70% in small portion + Greek yogurt + berries
-- Nuts/seeds with dairy or soy protein source
-- Banana + kefir after child sport if extra energy is needed
-
-Avoid:
-
-- Juice
-- Sweet drinks
-- Candy as routine snack
-- Fruit bars unless checked for excluded fruits
-- Sweetened yogurts with high sugar
-- Pastries as routine snack
-
----
-
-## 14. Sodium Management
-
-Salt target:
-
-- Adults: <5 g salt/day, equivalent to <2 g sodium/day.
-- Child: keep below adult ceiling and avoid high-salt stacking.
-
-High-sodium foods that may appear in the family diet:
-
-- Herring
-- Sardines
-- Canned fish
-- Canned beans/chickpeas/lentils
-- Cottage cheese
-- Cheese
-- Rye bread
-- Whole-grain bread
-- Tortillas
-- Cream cheese
-- Ham in the fixed child snack
-
-Operational rules:
-
-- Rinse canned legumes when possible.
-- Prefer lower-salt canned fish/legumes/dairy when available.
-- Do not combine salty fish + cheese + bread/wrap + canned foods in the same day unless portions are small and sodium is reviewed.
-- Since the child’s fixed school snack may be salty, avoid additional salty generated meals for the child on the same day.
-- Use iodized salt in controlled quantity rather than large amounts of non-iodized gourmet salt.
-
----
-
-## 15. LLM Output Requirements
-
-When generating a weekly menu, the LLM must output:
-
-1. Weekly menu table.
-2. Fixed child school snack included in the child’s daily nutrition accounting, without modification suggestions.
-3. Portion adjustments for husband, wife, and child.
-4. Cook-once-eat-twice notes.
-5. Shopping list grouped by category.
-6. Daily nutrition estimate per person.
-7. Weekly validation checklist.
-8. Allergy and processed-meat safety check.
-9. Sodium-risk notes.
-10. Assumptions made.
-
-Nutrition estimates may be approximate, but the LLM must not claim false precision.
-
-Use cooked weights where possible for grains, potatoes, pasta, meat, and fish. Use raw weights only when clearly stated.
-
----
-
-## 16. Supplement and Medical Follow-Up Notes
-
-Food plan should support, but not replace, clinical follow-up.
-
-For wife:
-
-- Vitamin D may require supplementation to maintain or improve status, especially outside summer.
-- LDL should be rechecked after sustained dietary changes.
-- LDL goal should be individualized by clinician based on total cardiovascular risk.
-- Thyroid-related labs should be interpreted by a clinician if fatigue, cold intolerance, cycle changes, or other symptoms are present.
-
-For child:
-
-- Growth, weight trend, and puberty progression should be monitored over time.
-- Do not use adult-style calorie restriction during puberty.
-- Vitamin D and calcium adequacy are especially important during puberty.
-
----
-
-## 17. Priority Order When Rules Conflict
-
-Use this priority order:
-
-1. Child allergy exclusions.
-2. Do not modify or replace the fixed child school snack unless explicitly asked.
-3. No processed meat in the generated menu.
-4. Child energy adequacy and growth support.
-5. Wife LDL and saturated fat control.
-6. Per-person protein minimums.
-7. Child calcium target.
-8. Daily fiber targets.
-9. Weekly fatty fish and legume frequency.
-10. Sodium control.
-11. Cooking time and practicality.
-12. Variety and cuisine diversity.
-
----
-
-## 18. Reference Anchors
-
-The sodium ceiling aligns with WHO guidance to keep adult sodium below 2 g/day, equivalent to about 5 g salt/day, with children’s limits adjusted downward by energy needs.  
-Source: https://www.fao.org/ag/humannutrition/36218-01fcfa3030e8fd3f21952e7c51fc89e79.pdf
-
-The free-sugar target follows WHO guidance recommending free sugars below 10% of energy, with further benefit suggested below 5%.  
-Source: https://www.who.int/publications/i/item/9789241549028
-
-The child calcium target aligns with NIH Office of Dietary Supplements reference intakes for ages 9–18: 1,300 mg calcium/day.  
-Source: https://ods.od.nih.gov/factsheets/Calcium-HealthProfessional/
-
-The vitamin D target of 600 IU/day is consistent with common reference intakes for children and adults, but diet alone may not reliably achieve this every day without fatty fish, fortified foods, or supplementation.  
-Source: https://ods.od.nih.gov/factsheets/VitaminD-Consumer/
-
-The practical LDL-lowering beta-glucan target from oats/barley is approximately 3 g/day.  
-Source: https://efsa.onlinelibrary.wiley.com/doi/abs/10.2903/j.efsa.2011.2471
-
-Food allergy management should include label reading and cross-contact prevention.  
-Source: https://www.foodallergy.org/resources/avoiding-cross-contact
