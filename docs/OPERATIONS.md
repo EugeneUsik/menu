@@ -112,10 +112,10 @@ data/weeks/
 
 ## Validation checks
 
-The validate script enforces 16 checks. Failures exit with code 1:
+The validate script enforces 13 checks. Failures exit with code 1:
 
 1. File exists and JSON parses
-2. Required top-level fields present
+2. Required top-level fields present (`schema_version`, `week`, `menu`, `recipes`, `shopping_list`, `daily_nutrition`)
 3. `week.id` / `start_date` / `end_date` present
 4. `menu` has exactly 7 days
 5. Each day has breakfast / lunch / dinner with non-empty titles
@@ -124,11 +124,10 @@ The validate script enforces 16 checks. Failures exit with code 1:
 8. `shared_snack` on ≥4 days
 9. `shopping_list` is an array, no duplicate item IDs
 10. `daily_nutrition` has 7 entries
-11. Child nutrition entries have `includes_fixed_school_snack`
-12. `safety.fixed_child_snack_accounted_for` present
-13. No banned fruit terms in menu / recipes / shopping content
-14. No processed-meat terms outside `child_fixed_school_snack`
+11. Every recipe has ≥2 non-empty instruction steps
+12. No banned fruit terms anywhere in the document
+13. No processed-meat terms outside `fixed_school_snack`
 
 Warnings (advisory, do not fail):
 
-- Child daily nutrition entries missing `includes_fixed_school_snack` field (note: check 11 is a warning, not error, to accommodate partial data)
+- Child `daily_nutrition` entries missing `includes_fixed_school_snack` field
