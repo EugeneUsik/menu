@@ -67,7 +67,7 @@ function validateWeek(filePath) {
   }
 
   // 3. Required top-level fields
-  const required = ['schema_version','week','menu','recipes','shopping_list','daily_nutrition','weekly_validation','safety'];
+  const required = ['schema_version','week','menu','recipes','shopping_list','daily_nutrition'];
   const missing  = required.filter(f => data[f] == null);
   if (missing.length) add(`Missing required fields: ${missing.join(', ')}`);
 
@@ -162,14 +162,21 @@ function validateWeek(filePath) {
     });
   }
 
-  // 14. safety.fixed_child_snack_accounted_for
-  const safety = data.safety || {};
-  if (safety.fixed_child_snack_accounted_for === undefined) {
-    add('safety.fixed_child_snack_accounted_for is missing');
+  // 14. Every recipe must have real cooking instructions (>=2 non-empty steps)
+  if (Array.isArray(data.recipes)) {
+    for (const r of data.recipes) {
+      const steps = Array.isArray(r.instructions)
+        ? r.instructions.filter(s => typeof s === 'string' && s.trim().length > 0)
+        : [];
+      if (steps.length < 2) {
+        add(`Recipe "${r.id || r.title || '(unknown)'}" must have at least 2 non-empty instruction steps, found ${steps.length}`);
+      }
+    }
   }
 
-  // Meta fields are administrative summaries — skip them in term scans
-  const META_SKIP = ['safety', 'weekly_validation', 'assumptions', 'household_context_version', 'schema_version', 'language'];
+  // Meta fields are administrative summaries — skip them in term scans.
+  // (weekly_validation/safety/assumptions are legacy fields no longer required, but old files may still contain them.)
+  const META_SKIP = ['schema_version', 'weekly_validation', 'safety', 'assumptions', 'household_context_version', 'language'];
 
   // 15. Banned fruit scan (food content only; skip meta + child_fixed_school_snack is already safe since fruits aren't expected there)
   const fruitHits = scanTerms(data, BANNED_FRUITS, META_SKIP);
@@ -177,8 +184,8 @@ function validateWeek(filePath) {
     fruitHits.forEach(h => add(`Banned fruit term "${h.term}" at path: ${h.path}`));
   }
 
-  // 16. Processed meat scan (food content; skip meta + child_fixed_school_snack)
-  const meatHits = scanTerms(data, PROCESSED_MEATS, [...META_SKIP, 'child_fixed_school_snack']);
+  // 16. Processed meat scan (food content; skip meta + fixed_school_snack)
+  const meatHits = scanTerms(data, PROCESSED_MEATS, [...META_SKIP, 'fixed_school_snack']);
   if (meatHits.length) {
     meatHits.forEach(h => add(`Processed meat term "${h.term}" at path: ${h.path}`));
   }
