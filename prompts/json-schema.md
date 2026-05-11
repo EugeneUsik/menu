@@ -6,19 +6,22 @@
 2. `recipe_id` values in `menu` must **exactly match** `id` values in `recipes[]`.
 3. `menu` must contain **exactly 7 objects** (Monday–Sunday).
 4. Shopping item `id` format: `{name-slug}|{unit}` — e.g. `"salmon-fillet|g"`.
-5. `child_fixed_school_snack` must **not be modified or replaced**. Always use the fixed value below.
-6. **No banned fruits** anywhere in the document (not even in notes or tags):
+5. `fixed_school_snack` is defined **once** at the top level. Never copy or repeat it inside day objects. Each day object instead uses `"includes_fixed_school_snack": true` (Mon–Fri) or `false` (Sat–Sun).
+6. **No banned fruits** anywhere in the document (not in titles, notes, ingredients, or any other field):
    - cherry, apple, pear, apricot, peach (and their plural/Lithuanian/Russian forms)
-7. **No processed meat** outside `child_fixed_school_snack`:
+7. **No processed meat** outside `fixed_school_snack`:
    - ham, bacon, sausage, salami, hot dog, deli meat (and variants)
-8. `weekly_validation.pass` must **accurately reflect** whether the week meets all nutritional rules.
+8. Every recipe **must** include real cooking instructions: 3–6 concise steps, each a single short imperative sentence with concrete actions (and times/temperatures where relevant). Do not output placeholders, empty arrays, or generic filler.
 9. All dates in `YYYY-MM-DD` format.
-10. Week ID must match the requested week (e.g. `"2026-W19"`).
+10. `week.id` must match the requested week (e.g. `"2026-W19"`).
+11. In the shopping list indicate raw weights for grains, potatoes, pasta, meat, and fish.
+12. All nutrition estimates must be per-person, not per-serving of the shared recipe.
+13. Only include `cook_once_eat_twice: true` on dinner entries where it applies; omit otherwise. Only include `leftover_from` on lunch entries that are leftovers; omit otherwise.
 
 ## Fixed child school snack (never modify)
 
 ```json
-"child_fixed_school_snack": {
+"fixed_school_snack": {
   "title": "Fixed school snack (external)",
   "description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
   "kcal_estimate": 400,
@@ -32,71 +35,67 @@
 
 ```json
 {
-  "schema_version": "1.0",
+  "schema_version": "2.0",
   "week": {
     "id": "YYYY-Www",
     "label": "YYYY Www · Mon D–Mon D",
     "start_date": "YYYY-MM-DD",
     "end_date": "YYYY-MM-DD",
-    "timezone": "Europe/Vilnius",
-    "notes": ""
+    "timezone": "Europe/Vilnius"
   },
-  "household_context_version": "3.0",
-  "language": "en",
-  "assumptions": [],
+  "fixed_school_snack": {
+    "title": "Fixed school snack (external)",
+    "description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
+    "kcal_estimate": 400,
+    "protein_g_estimate": 24
+  },
   "menu": [
     {
       "day_name": "Monday",
       "date": "YYYY-MM-DD",
+      "includes_fixed_school_snack": true,
       "breakfast": {
-        "title": "",
-        "recipe_id": "",
-        "portions": { "husband": "", "wife": "", "child": "" },
-        "notes": "",
-        "cook_once_eat_twice": false
+        "title": "Meal title",
+        "recipe_id": "recipe-slug"
       },
       "lunch": {
-        "title": "",
-        "recipe_id": "",
-        "portions": { "husband": "", "wife": "", "child": "" },
-        "notes": ""
+        "title": "Meal title",
+        "recipe_id": "recipe-slug",
+        "leftover_from": "Sunday"
       },
       "dinner": {
-        "title": "",
-        "recipe_id": "",
-        "portions": { "husband": "", "wife": "", "child": "" },
-        "notes": "",
-        "cook_once_eat_twice": false
+        "title": "Meal title",
+        "recipe_id": "recipe-slug",
+        "cook_once_eat_twice": true
       },
       "shared_snack": {
-        "title": "",
-        "recipe_id": ""
-      },
-      "child_fixed_school_snack": {
-        "title": "Fixed school snack (external)",
-        "description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
-        "kcal_estimate": 400,
-        "protein_g_estimate": 24
-      },
-      "day_notes": ""
+        "title": "Snack title",
+        "recipe_id": "recipe-slug"
+      }
     }
   ],
   "recipes": [
     {
       "id": "recipe-slug",
-      "title": "",
+      "title": "Full recipe title",
       "meal_types": ["breakfast"],
-      "tags": [],
-      "active_time_min": 0,
-      "total_time_min": 0,
-      "equipment": [],
+      "active_time_min": 10,
+      "total_time_min": 10,
       "ingredients": [
-        { "name": "", "quantity": 0, "unit": "", "prep": "" }
+        { "name": "rolled oats", "quantity": 90, "unit": "g" },
+        { "name": "fortified soy milk", "quantity": 300, "unit": "ml" },
+        { "name": "Greek yogurt", "quantity": 150, "unit": "g" },
+        { "name": "walnuts", "quantity": 25, "unit": "g", "prep": "roughly chopped" },
+        { "name": "berries", "quantity": 120, "unit": "g" }
       ],
-      "instructions": [],
+      "instructions": [
+        "Simmer oats with soy milk for 4–5 minutes, stirring, until creamy.",
+        "Divide into bowls and let cool for a minute.",
+        "Top with Greek yogurt, berries, and chopped walnuts."
+      ],
       "nutrition_estimate_per_person": {
-        "husband": { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0 },
-        "wife":    { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0 },
+        "husband": { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "sat_fat_g": 0 },
+        "wife":    { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "sat_fat_g": 0 },
         "child":   { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0 }
       }
     }
@@ -106,15 +105,18 @@
       "category": "Fish & Seafood",
       "items": [
         {
-          "id": "item-slug|unit",
-          "name": "",
-          "quantity": "",
-          "unit": "",
-          "note": "",
-          "used_in": []
+          "id": "salmon-fillet|g",
+          "name": "Salmon fillet",
+          "quantity": "600",
+          "unit": "g",
+          "note": "Fresh or frozen"
         }
       ]
-    }
+    },
+    { "category": "Vegetables & Fruit", "items": [] },
+    { "category": "Dairy, Eggs & Soy", "items": [] },
+    { "category": "Meat & Poultry", "items": [] },
+    { "category": "Pantry, Grains & Legumes", "items": [] }
   ],
   "daily_nutrition": [
     {
@@ -123,28 +125,6 @@
       "wife":    { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "sat_fat_g": 0 },
       "child":   { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "includes_fixed_school_snack": true }
     }
-  ],
-  "weekly_validation": {
-    "pass": true,
-    "checks": [
-      { "label": "Fatty fish ≥2x this week", "pass": true, "detail": "" },
-      { "label": "Legumes ≥3x this week", "pass": true, "detail": "" },
-      { "label": "Soy foods 4–7 inclusions", "pass": true, "detail": "" },
-      { "label": "Red meat ≤2x (adults)", "pass": true, "detail": "" },
-      { "label": "Wife sat fat ≤11g/day average", "pass": true, "detail": "" },
-      { "label": "Wife beta-glucan ≥3g/day (oats/barley daily)", "pass": true, "detail": "" },
-      { "label": "Husband protein ≥130g/day average", "pass": true, "detail": "" },
-      { "label": "Child calcium ~1300mg/day structurally supported", "pass": true, "detail": "" },
-      { "label": "Shared snack ≥4 days", "pass": true, "detail": "" },
-      { "label": "No banned fruits", "pass": true, "detail": "" },
-      { "label": "No generated processed meat", "pass": true, "detail": "" }
-    ]
-  },
-  "safety": {
-    "allergy_check": { "pass": true, "notes": [] },
-    "processed_meat_check": { "pass": true, "notes": [] },
-    "fixed_child_snack_accounted_for": true,
-    "fixed_child_snack_not_modified": true
-  }
+  ]
 }
 ```
