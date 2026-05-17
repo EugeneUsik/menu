@@ -33,7 +33,6 @@ The system must optimize for:
 - schema-valid weekly JSON files
 - deterministic week dropdown population
 - clear rendering of menu, recipes, and shopping list
-- lightweight validation before commit
 - mobile-first usability
 
 The manager’s weekly workflow must be:
@@ -71,7 +70,6 @@ Content architecture:
   - recipes used that week
   - shopping list
   - daily nutrition estimates
-  - weekly validation checklist
   - safety checks
   - assumptions and notes
 - The website does not need a separate global `recipes.json` for the MVP.
