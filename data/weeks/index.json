@@ -1,7 +1,17 @@
 {
-  "generated_at": "2026-05-11T20:53:26.310Z",
-  "defaultWeekId": "2026-W20",
+  "generated_at": "2026-05-17T20:11:42.805Z",
+  "defaultWeekId": "2026-W21",
   "weeks": [
+    {
+      "id": "2026-W21",
+      "label": "2026 W21 · May 18–24",
+      "start_date": "2026-05-18",
+      "end_date": "2026-05-24",
+      "file": "2026-W21.json",
+      "isCurrent": false,
+      "status": "ready",
+      "notes": ""
+    },
     {
       "id": "2026-W20",
       "label": "2026 W20 · May 11–17",
