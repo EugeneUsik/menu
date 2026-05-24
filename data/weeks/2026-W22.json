@@ -20,8 +20,8 @@
       "date": "2026-05-25",
       "includes_fixed_school_snack": true,
       "breakfast": {
-        "title": "Скир с овсом",
-        "recipe_id": "skyr-oat-blueberry-flax"
+        "title": "Йогурт с овсом",
+        "recipe_id": "greek-yogurt-oat-blueberry-flax"
       },
       "lunch": {
         "title": "Киноа с индейкой",
@@ -65,8 +65,8 @@
       "date": "2026-05-27",
       "includes_fixed_school_snack": true,
       "breakfast": {
-        "title": "Гречка со скиром",
-        "recipe_id": "buckwheat-skyr-raspberry-hazelnut"
+        "title": "Гречка с йогуртом",
+        "recipe_id": "buckwheat-greek-yogurt-raspberry-hazelnut"
       },
       "lunch": {
         "title": "Курица с булгуром",
@@ -122,8 +122,8 @@
         "recipe_id": "mackerel-buckwheat-cabbage"
       },
       "shared_snack": {
-        "title": "Скир с киви",
-        "recipe_id": "skyr-kiwi-walnut-cups"
+        "title": "Йогурт с киви",
+        "recipe_id": "greek-yogurt-kiwi-walnut-cups"
       }
     },
     {
@@ -173,8 +173,8 @@
   ],
   "recipes": [
     {
-      "id": "skyr-oat-blueberry-flax",
-      "title": "Скир-боулы с овсом, черникой, малиной и льном",
+      "id": "greek-yogurt-oat-blueberry-flax",
+      "title": "Боулы с греческим йогуртом, овсом, черникой, малиной и льном",
       "meal_types": [
         "breakfast"
       ],
@@ -192,7 +192,7 @@
           "unit": "ml"
         },
         {
-          "name": "скир 0–2%",
+          "name": "греческий йогурт 0–2%",
           "quantity": 450,
           "unit": "g"
         },
@@ -221,7 +221,7 @@
       "instructions": [
         "Прогрей овсяные хлопья с соевым молоком 4–5 минут до кремовой текстуры.",
         "Разложи основу по мискам, делая порцию мужа самой большой.",
-        "Добавь скир, чернику и малину.",
+        "Добавь греческий йогурт, чернику и малину.",
         "Посыпь грецкими орехами и молотым льном."
       ],
       "nutrition_estimate_per_person": {
@@ -337,8 +337,8 @@
       }
     },
     {
-      "id": "buckwheat-skyr-raspberry-hazelnut",
-      "title": "Гречневые боулы со скиром, малиной, фундуком и чиа",
+      "id": "buckwheat-greek-yogurt-raspberry-hazelnut",
+      "title": "Гречневые боулы с греческим йогуртом, малиной, фундуком и чиа",
       "meal_types": [
         "breakfast"
       ],
@@ -351,7 +351,7 @@
           "unit": "g"
         },
         {
-          "name": "скир 0–2%",
+          "name": "греческий йогурт 0–2%",
           "quantity": 450,
           "unit": "g"
         },
@@ -381,7 +381,7 @@
       "instructions": [
         "Промой гречку и вари в 600 мл воды 12–15 минут до мягкости.",
         "Дай крупе постоять под крышкой 2 минуты.",
-        "Разложи гречку по мискам и добавь скир.",
+        "Разложи гречку по мискам и добавь греческий йогурт.",
         "Укрась малиной, фундуком и семенами чиа.",
         "Подай кефир отдельно."
       ],
@@ -1733,7 +1733,7 @@
           "unit": "ml"
         },
         {
-          "name": "скир 0–2%",
+          "name": "греческий йогурт 0–2%",
           "quantity": 250,
           "unit": "g"
         },
@@ -1992,8 +1992,8 @@
       }
     },
     {
-      "id": "skyr-kiwi-walnut-cups",
-      "title": "Скир с киви, грецкими орехами и чиа",
+      "id": "greek-yogurt-kiwi-walnut-cups",
+      "title": "Греческий йогурт с киви, грецкими орехами и чиа",
       "meal_types": [
         "snack"
       ],
@@ -2001,7 +2001,7 @@
       "total_time_min": 5,
       "ingredients": [
         {
-          "name": "скир 0–2%",
+          "name": "греческий йогурт 0–2%",
           "quantity": 450,
           "unit": "g"
         },
@@ -2024,9 +2024,9 @@
         }
       ],
       "instructions": [
-        "Разложи скир по чашкам.",
+        "Разложи греческий йогурт по чашкам.",
         "Очисти киви и нарежь ломтиками.",
-        "Добавь киви поверх скира.",
+        "Добавь киви поверх йогурта.",
         "Посыпь орехами и чиа."
       ],
       "nutrition_estimate_per_person": {
@@ -2443,15 +2443,9 @@
       "category": "Молочные продукты, яйца и соя",
       "items": [
         {
-          "id": "skyr-lowfat|g",
-          "name": "Скир 0–2%",
-          "quantity": "1600",
-          "unit": "g"
-        },
-        {
           "id": "greek-yogurt-lowfat|g",
           "name": "Греческий йогурт 0–2%",
-          "quantity": "3100",
+          "quantity": "4700",
           "unit": "g"
         },
         {
