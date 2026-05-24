@@ -4,12 +4,16 @@ You are generating a weekly menu JSON file for a family of three. Read it fully 
 
 ---
 
-| Field | Value |
-|---|---|
-| **Week ID** | `YYYY-Www` (e.g. `2026-W20`) |
-| **Week label** | `YYYY Www · Mon D–Mon D` (e.g. `2026 W20 · May 11–17`) |
-| **Start date** | `YYYY-MM-DD` — Monday |
-| **End date** | `YYYY-MM-DD` — Sunday |
+## TARGET WEEK
+
+You will be told which week to generate — by ISO week ID (`2026-W22`), by a Monday start date (`2026-05-25`), or by a relative reference (`next week`, `the week after 2026-W21`). Derive the rest of the week fields yourself; the timezone is always `Europe/Vilnius`.
+
+The JSON must contain all four of these (formats below):
+
+- `week.id` — ISO week, `YYYY-Www` (e.g. `2026-W22`)
+- `week.label` — display string in Russian, format `YYYY Ww · D–D месяц` (e.g. `2026 W22 · 25–31 мая`; if the week crosses months, use `D месяц – D месяц`, e.g. `25 мая – 31 мая` or `28 мая – 3 июня`)
+- `week.start_date` — Monday, `YYYY-MM-DD`
+- `week.end_date` — Sunday, `YYYY-MM-DD`
 
 ---
 
@@ -152,12 +156,31 @@ Use this structure for weekday lunches where practical. Cook double dinner porti
 
 ### Shared family snack
 Present on ≥4 days. Should provide ~10 g protein per adult serving and a calcium source for the child.
-Good options: Greek yogurt/Greek yogurt + berries + seeds; kefir + rye crispbread + cottage cheese; hummus + vegetables + boiled egg; fortified soy yogurt + walnuts.
+
+Example formats (illustrative, not a closed list): Greek yogurt + berries + seeds; skyr + nuts + fruit; kefir + rye crispbread + cottage cheese; hummus + raw vegetables + boiled egg; fortified soy yogurt + walnuts; cottage cheese with herbs on rye + cucumber; banana + nut butter + milk; tuna or mackerel pâté on rye + tomato; edamame + clementines + a handful of almonds. Vary the format across the week — see Variety rules.
 
 ### Portioning
 - Husband: largest protein portion; moderate-large complex carbs around training
 - Wife: high protein and fiber; controlled calories and saturated fat; smaller oil and cheese portions; walnuts intentionally included
 - Child: adequate energy; high calcium; sport-day carbohydrate top-up if needed; never underfeed because of the fixed snack
+
+---
+
+## VARIETY ACROSS THE WEEK
+
+Repetition within a single week reduces nutrient diversity and makes the menu boring to cook and eat. Apply these rules across the 7-day plan:
+
+- **Main protein source:** no single specific main-protein item (a given fish species, a given legume, chicken breast, etc.) should headline more than **two dinners**. Across all dinners, hit at least **four distinct main-protein categories** — e.g. fish/seafood, poultry, red meat, legumes/soy, eggs.
+- **Fish & seafood:** when fish appears multiple times in the week, use **different species** each time (don't repeat the same fish twice). Include at least one **non-fatty seafood or white-fish** meal per week (e.g. shrimp, prawns, mussels, squid, cod, hake, pollock, plaice, perch) when feasible.
+- **Legumes:** rotate species across the week — don't use the same legume more than twice.
+- **Grains & starches:** use at least **three distinct grain/starch bases** across the week (e.g. oats, buckwheat, potatoes, rice, pasta, bulgur, quinoa, barley). No single base should appear in more than three meals.
+- **Vegetables:** at least **eight distinct vegetables** across the week's main meals; avoid using the same vegetable as the headliner more than twice.
+- **Breakfast variety:** no more than **two oat-based breakfasts**; include at least **three distinct breakfast base types** (oats, eggs, cottage-cheese/yogurt bowl, whole-grain toast with topping, savory variant such as shakshuka, etc.).
+- **Dinner format variety:** at least **four distinct cooking formats** per week; no more than two one-pot/mixed-bowl dinners (see Cooking Constraints).
+- **Shared snack variety:** don't repeat the exact same snack on more than two days. Rotate among yogurt-based, savory (hummus + veg / egg / fish topping), nut-and-fruit, soy-yogurt, or cottage-cheese options.
+- **Soy and walnut variety:** soy intake should be varied across delivery forms (e.g. soy milk in breakfast, tofu in a stir-fry, soy yogurt as snack) rather than the same form daily. On a few days, other LDL-friendly nuts (almonds, hazelnuts) may stand in for walnuts to break monotony.
+
+These variety rules sit **on top of** the LDL priorities and nutrition floors — meet both. If two rules collide, satisfy the LDL/nutrition floors first and then maximize variety within them.
 
 ---
 
@@ -169,7 +192,18 @@ Good options: Greek yogurt/Greek yogurt + berries + seeds; kefir + rye crispbrea
 **Weekday active cooking: ≤30 minutes.** Passive time (oven, simmering) does not count.
 Weekend meals may have longer prep if they produce useful weekday leftovers.
 
-Prefer simple weekday methods: oven tray bake, stovetop one-pot, soup + protein side, grain bowl, omelet/egg-white scramble, yogurt/cottage cheese bowl, fish + potatoes + vegetables, tofu/legume stir-fry.
+Use a **mix of weekday-friendly formats** — do not lean on a single style. Suitable formats include:
+
+- **Plated meals** where the protein, vegetables, and starch are cooked and served as separate components (e.g. pan-seared cod with boiled potatoes and a side salad; oven-baked chicken thigh with roasted broccoli and a buckwheat side; grilled-pan shrimp with quinoa and steamed green beans)
+- **Tray bakes** with protein and vegetables roasted on one sheet
+- **Soups served with a protein-rich side** (e.g. lentil soup + boiled egg + rye toast) rather than all-in-one stews every time
+- **Grain or salad bowls** with composed toppings
+- **Stir-fries**
+- **Pasta or grain dishes** with a separate vegetable or salad side
+- **Egg-based dishes** (omelet, frittata, shakshuka, scramble)
+- **Yogurt or cottage-cheese bowls** (breakfast)
+
+Across the week, dinners should use **at least four distinct formats**, and **no more than two dinners may be "everything mixed in one pot/bowl"** (stews, casseroles, mixed-bowl dishes, mixed tray bakes where ingredients lose individual identity). Plated meals with separated components are preferred for visual and textural variety.
 
 ---
 
@@ -188,9 +222,46 @@ Rules:
 
 ## INGREDIENT PREFERENCES
 
-**Preferred staples:** oats, buckwheat, barley, brown rice, whole-grain bread, rye bread, whole-grain pasta, potatoes, lentils, chickpeas, kidney beans, tofu, Greek yogurt, Greek yogurt, kefir, cottage cheese, low-fat milk, fortified soy milk, salmon, mackerel, herring, sardines, cod/white fish, chicken breast, turkey, lean beef, eggs, egg whites, olive oil, walnuts, almonds, pumpkin seeds, sunflower seeds, ground flaxseed, chia seeds, leafy greens, carrots, bell peppers, tomatoes, cucumbers, broccoli, cabbage, beetroot, mushrooms, berries, banana, citrus, kiwi, grapes, melon.
+The lists below are **non-exhaustive examples**, not a closed allow-list. Any ingredient routinely stocked in Lithuanian supermarkets (Maxima, IKI, Rimi, Lidl, Barbora) that fits the safety rules and nutrition targets is fair game — use the examples as inspiration, not as the only permitted ingredients.
 
-**Avoid in generated meals:** butter-heavy dishes, cream sauces, fatty-cheese-heavy meals, coconut milk/fat as regular ingredient, fried foods, all processed meats, sugary breakfast cereals, pastries as breakfast, juice as routine, sweetened yogurts, high-sugar snacks.
+**Preferred staples — examples:**
+
+- Grains & starches: oats, buckwheat, barley, brown rice, bulgur, quinoa, couscous, whole-grain bread, rye bread, whole-grain pasta, potatoes, sweet potatoes
+- Legumes & soy: lentils (red, brown, green), chickpeas, kidney beans, white beans, black beans, butter beans, green peas, edamame, tofu, soy milk, soy yogurt
+- Fish & seafood: salmon, trout, mackerel, herring, sardines, tuna (canned in water), cod, hake, pollock, plaice, perch, shrimp/prawns, mussels, squid
+- Poultry & meat: chicken breast and thighs, turkey breast and mince, lean beef, lean pork tenderloin, eggs, egg whites
+- Dairy: Greek yogurt, skyr, kefir, cottage cheese, low-fat milk, ricotta (occasional), feta (small amounts)
+- Fats, nuts & seeds: olive oil, avocado, walnuts, almonds, hazelnuts, peanuts (unsalted), pumpkin seeds, sunflower seeds, ground flaxseed, chia seeds, sesame seeds, tahini
+- Vegetables: leafy greens (spinach, arugula, lettuce), kale, carrots, bell peppers, tomatoes, cucumbers, broccoli, cauliflower, cabbage, beetroot, zucchini, eggplant, mushrooms, onions, garlic, leeks, fennel, radishes, asparagus (seasonal), green beans, peas
+- Fruit: berries (strawberries, blueberries, raspberries, blackberries), banana, citrus, kiwi, grapes, melon, pineapple, plums, mango (occasional)
+
+**Avoid in generated meals:** butter-heavy dishes, cream sauces, fatty-cheese-heavy meals, coconut milk/fat as regular ingredient, deep-fried foods, all processed meats, sugary breakfast cereals, pastries as breakfast, juice as routine, sweetened yogurts, high-sugar snacks.
+
+---
+
+## OUTPUT LANGUAGE
+
+All user-visible content in the JSON must be written in **Russian**:
+
+- `week.label` (display string shown in the week picker — Russian month name, see Target Week section)
+- Meal titles (`title` in menu entries and in `fixed_school_snack`)
+- Recipe titles (`title` in `recipes[]`)
+- Ingredient names (`name`) and prep notes (`prep`)
+- Recipe `instructions` steps
+- Shopping list item `name` and `note`
+- Shopping list `category` headings
+- `fixed_school_snack.description`
+
+Keep the following in English / ASCII so tooling, IDs, validation, and the frontend filters keep working:
+
+- All JSON keys (e.g. `breakfast`, `lunch`, `recipes`, `nutrition_estimate_per_person`)
+- Enum / structural values: `schema_version`, `week.id`, `day_name` (`Monday`…`Sunday`), `leftover_from` (`Monday`…`Sunday`), `meal_types` (`breakfast` / `lunch` / `dinner` / `snack`), `timezone`
+- All `id` and slug fields: `recipes[].id`, `menu[].*.recipe_id`, shopping item `id` (`name-slug|unit`, ASCII slug only)
+- `unit` values (`g`, `ml`, `pcs`, etc.) and all numeric values
+
+Optionally set `"language": "ru"` at the JSON root — the validator already tolerates this field.
+
+**Reasoning vs output.** You may (and should) reason internally in English for better accuracy on nutrition math, allergy/ingredient checks, and constraint verification. Only the final JSON output must contain Russian in the user-visible fields listed above. Do not include English translations or parallel/bilingual text — only Russian in those fields.
 
 ---
 
@@ -333,20 +404,35 @@ Before producing the final JSON, verify every item:
 - [ ] `leftover_from` only on lunch entries that are actually leftovers
 
 **Safety**
-- [ ] No banned fruit terms anywhere (cherries, apples, pears, apricots, peaches — titles, notes, ingredients, shopping)
-- [ ] No processed-meat terms anywhere in the document
+- [ ] No banned fruit terms anywhere (cherries, apples, pears, apricots, peaches — titles, notes, ingredients, shopping) — checked in both English and Russian
+- [ ] No processed-meat terms anywhere in the document — checked in both English and Russian
+
+**Language**
+- [ ] All user-visible text fields are in Russian (meal titles, recipe titles, ingredient names, prep notes, instructions, shopping names/notes/categories, `fixed_school_snack.description`)
+- [ ] All enum/structural values and IDs remain English/ASCII (`day_name`, `leftover_from`, `meal_types`, recipe `id`, shopping item `id`, `unit`)
 
 **Nutrition**
 - [ ] Shared snack on ≥4 days
 - [ ] Fatty fish on ≥2 days
-- [ ] Legumes on ≥3 days
-- [ ] Soy foods 4–7 inclusions
-- [ ] Oats or barley on >2 days
-- [ ] Wife has walnuts on most days
+- [ ] Legumes on ≥3 days (rotated across different species)
+- [ ] Soy foods on 2–4 days, varied across delivery forms (tofu, soy milk, soy yogurt, edamame)
+- [ ] Oats or barley on ≥2 days
+- [ ] Wife has walnuts on most days (other LDL-friendly nuts may stand in occasionally)
 - [ ] Husband protein ≥35 g at each main meal
 - [ ] Wife protein ≥28 g at each main meal
 - [ ] Child protein ≥20 g at each main meal
 - [ ] Child calcium sources present at every meal where feasible
 - [ ] Leftovers assigned as lunches are checked per-person for protein adequacy
-- [ ] Breakfast variety: ≤2 oat-based breakfasts, ≥3 distinct base types across the week
 - [ ] Sodium not stacked on high-risk days
+
+**Variety**
+- [ ] No single specific main-protein item headlines more than two dinners
+- [ ] ≥4 distinct main-protein categories across dinners (fish/seafood, poultry, red meat, legumes/soy, eggs)
+- [ ] When fish appears multiple times, species differ each time
+- [ ] ≥1 non-fatty seafood or white-fish meal in the week when feasible (shrimp/prawns, mussels, squid, cod, hake, pollock, plaice, perch, etc.)
+- [ ] Legume species rotated — none used more than twice
+- [ ] ≥3 distinct grain/starch bases across the week; no base used in >3 meals
+- [ ] ≥8 distinct vegetables across main meals; no vegetable headlines more than twice
+- [ ] Breakfast variety: ≤2 oat-based breakfasts, ≥3 distinct base types across the week
+- [ ] ≥4 distinct dinner cooking formats; ≤2 one-pot/mixed-bowl dinners
+- [ ] Shared snack not repeated on more than two days
