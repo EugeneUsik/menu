@@ -261,6 +261,8 @@ Keep the following in English / ASCII so tooling, IDs, validation, and the front
 
 Optionally set `"language": "ru"` at the JSON root — the validator already tolerates this field.
 
+**Title length.** Keep all `title` fields in `menu[]` entries and `shared_snack` concise — aim for ≤4 words and ≤30 characters where possible. These titles render in narrow phone grid cells with a 3-line clamp; long titles will be truncated.
+
 **Reasoning vs output.** You may (and should) reason internally in English for better accuracy on nutrition math, allergy/ingredient checks, and constraint verification. Only the final JSON output must contain Russian in the user-visible fields listed above. Do not include English translations or parallel/bilingual text — only Russian in those fields.
 
 ---

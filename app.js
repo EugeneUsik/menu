@@ -154,7 +154,8 @@ function renderMenuView() {
     <div class="menu-col-header"></div>
     <div class="menu-col-header">Breakfast</div>
     <div class="menu-col-header">Lunch</div>
-    <div class="menu-col-header">Dinner</div>`;
+    <div class="menu-col-header">Dinner</div>
+    <div class="menu-col-header">Snack</div>`;
 
   const cells = menu.map((day, i) => {
     return `
@@ -163,7 +164,8 @@ function renderMenuView() {
       </div>
       ${renderCompactMeal(day.breakfast)}
       ${renderCompactMeal(day.lunch)}
-      ${renderCompactMeal(day.dinner)}`;
+      ${renderCompactMeal(day.dinner)}
+      ${renderCompactMeal(day.shared_snack)}`;
   }).join('');
 
   el.innerHTML = `<div class="menu-grid">${headers}${cells}</div>`;

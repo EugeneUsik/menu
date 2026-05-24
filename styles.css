@@ -109,7 +109,7 @@ a { color: var(--color-primary); }
 }
 .menu-grid {
   display: grid;
-  grid-template-columns: 32px repeat(3, 1fr);
+  grid-template-columns: 32px repeat(4, 1fr);
   grid-template-rows: 20px repeat(7, 1fr);
   height: 100%;
   width: 100%;
