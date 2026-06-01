@@ -186,15 +186,15 @@ Output **only** valid JSON. No text before it, no text after it, no markdown cod
 1. Output only valid JSON. No markdown fences, no commentary, no trailing text.
 2. `recipe_id` values in `menu` must **exactly match** `id` values in `recipes[]`.
 3. `menu` must contain **exactly 7 objects** (Monday through Sunday).
-4. Shopping item `id` format: `{name-slug}|{unit}` — e.g. `"salmon-fillet|g"`.
-5. `fixed_school_snack` is defined once at top level. Never copy or repeat it inside day objects.
-6. No banned fruit terms anywhere in the document — not in titles, notes, ingredients, or any other field.
-7. No processed-meat terms anywhere outside `fixed_school_snack`.
-8. Every recipe **must** include real cooking instructions: 3–6 concise steps that a cook can follow. Each step is one short imperative sentence with concrete actions, times or temperatures where relevant. Do not output placeholders, "see notes", empty arrays, or generic filler like "cook as usual".
-9. All dates in `YYYY-MM-DD` format.
-10. `week.id` must match the requested week exactly (e.g. `"2026-W19"`).
-11. In the shopping list indicate raw weights for grains, potatoes, pasta, meat, and fish.
-12. All nutrition estimates must be per-person, not per-serving of the shared recipe.
+4. **`shopping_list` must be `[]`** — leave it empty. A script assembles it from recipe ingredients after generation.
+5. **`daily_nutrition` must be `[]`** — leave it empty. The app computes it at runtime from `nutrition_estimate_per_person` values in each recipe.
+6. `fixed_school_snack` is defined once at top level. Never copy or repeat it inside day objects.
+7. No banned fruit terms anywhere in the document — not in titles, notes, ingredients, or any other field.
+8. No processed-meat terms anywhere outside `fixed_school_snack`.
+9. Every recipe **must** include real cooking instructions: 3–6 concise steps that a cook can follow. Each step is one short imperative sentence with concrete actions, times or temperatures where relevant. Do not output placeholders, "see notes", empty arrays, or generic filler like "cook as usual".
+10. All dates in `YYYY-MM-DD` format.
+11. `week.id` must match the requested week exactly (e.g. `"2026-W19"`).
+12. All nutrition estimates must be per-person, not per-serving of the shared recipe. This is critical — `shopping_list` and `daily_nutrition` are derived from recipe data by scripts.
 13. Only include `cook_once_eat_twice: true` on dinner entries where it applies; omit the field otherwise. Only include `leftover_from` on lunch entries that are leftovers; omit otherwise.
 
 ### JSON structure
@@ -266,32 +266,8 @@ Output **only** valid JSON. No text before it, no text after it, no markdown cod
       }
     }
   ],
-  "shopping_list": [
-    {
-      "category": "Fish & Seafood",
-      "items": [
-        {
-          "id": "salmon-fillet|g",
-          "name": "Salmon fillet",
-          "quantity": "600",
-          "unit": "g",
-          "note": "Fresh or frozen"
-        }
-      ]
-    },
-    { "category": "Vegetables & Fruit", "items": [] },
-    { "category": "Dairy, Eggs & Soy", "items": [] },
-    { "category": "Meat & Poultry", "items": [] },
-    { "category": "Pantry, Grains & Legumes", "items": [] }
-  ],
-  "daily_nutrition": [
-    {
-      "date": "YYYY-MM-DD",
-      "husband": { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "sat_fat_g": 0 },
-      "wife":    { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "sat_fat_g": 0 },
-      "child":   { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "includes_fixed_school_snack": true }
-    }
-  ]
+  "shopping_list": [],
+  "daily_nutrition": []
 }
 ```
 
@@ -307,11 +283,11 @@ Before producing the final JSON, verify every item:
 - [ ] `menu` has exactly 7 day objects (Monday–Sunday)
 - [ ] All `recipe_id` values in `menu` exactly match an `id` in `recipes[]`
 - [ ] Every recipe has 3–6 real, concise `instructions` steps — no placeholders or empty arrays
-- [ ] `daily_nutrition` has exactly 7 entries
-- [ ] Each `daily_nutrition` child entry has `includes_fixed_school_snack: true` (Mon–Fri) or `false` (Sat–Sun)
+- [ ] `daily_nutrition` is `[]` (computed by app at runtime — do not populate)
+- [ ] `shopping_list` is `[]` (assembled by script after generation — do not populate)
 - [ ] Each menu day has `includes_fixed_school_snack: true` (Mon–Fri) or `false` (Sat–Sun)
 - [ ] `fixed_school_snack` appears once at top level only — not inside any day object
-- [ ] Shopping list covers every ingredient, grouped by category, with stable `id` fields
+- [ ] Every recipe `nutrition_estimate_per_person` has `husband`, `wife`, `child` sub-objects with per-person values — this data drives both nutrition display and shopping quantities
 - [ ] `cook_once_eat_twice: true` only on dinner entries that actually produce next-day leftovers
 - [ ] `leftover_from` only on lunch entries that are actually leftovers
 

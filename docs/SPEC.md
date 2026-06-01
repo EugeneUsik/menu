@@ -763,8 +763,8 @@ Checks:
 - `recipes` is an array
 - `shopping_list` is an array
 - recipe IDs referenced by menu exist in recipes
-- `daily_nutrition` exists
-- child daily nutrition has `includes_fixed_school_snack: true` where applicable
+- `daily_nutrition` is `[]` or a 7-entry array (non-empty wrong length fails)
+- child daily nutrition has `includes_fixed_school_snack: true` where applicable (warn only)
 - `safety` exists
 - obvious banned fruit terms do not appear outside ignored fields
 - obvious processed-meat terms do not appear outside `child_fixed_school_snack`

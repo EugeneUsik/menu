@@ -12,8 +12,8 @@ Schema version: **2.0**
 | `fixed_school_snack` | object | ✓ | Child's fixed external snack — never modify |
 | `menu` | object[] | ✓ | Exactly 7 day objects (Mon–Sun) |
 | `recipes` | object[] | ✓ | Non-empty; all referenced IDs must exist |
-| `shopping_list` | object[] | ✓ | Grouped by category |
-| `daily_nutrition` | object[] | ✓ | 7 entries, one per day |
+| `shopping_list` | object[] | ✓ | Grouped by category. Assembled by `generate-shopping-list.js` — `[]` in newly generated files. |
+| `daily_nutrition` | object[] | ✓ | `[]` in newly generated files — computed at runtime by `app.js` from recipe nutrition. Legacy files may contain 7 entries. |
 | `weekly_validation` | object | — | LLM self-check summary (advisory, not validated by script) |
 
 ---
@@ -127,7 +127,7 @@ Keys: `husband`, `wife`, `child`. Values:
 
 ## `daily_nutrition[]` object
 
-Array of 7, one per day (Mon–Sun). Each entry:
+`[]` in newly generated files — `app.js` computes this at load time from `nutrition_estimate_per_person` values in each recipe plus `fixed_school_snack`. Legacy files may still contain a populated 7-entry array (also accepted). Each entry, when present:
 
 | Field | Type |
 |---|---|
@@ -160,7 +160,7 @@ Child object must include `includes_fixed_school_snack: boolean`.
 7. All `recipe_id` values in `menu` resolve to an entry in `recipes[]`.
 8. `shared_snack` appears on ≥4 days.
 9. `shopping_list` is an array; no duplicate item IDs.
-10. `daily_nutrition` has 7 entries; child entries must have `includes_fixed_school_snack`.
+10. `daily_nutrition` is `[]` or a 7-entry array; a non-empty array of wrong length is a `[FAIL]`. Child entries must have `includes_fixed_school_snack` (warn only).
 11. Every recipe must have ≥2 non-empty instruction steps.
 12. No banned fruit terms anywhere in the document (titles, ingredients, notes, shopping list):
     - cherry, apple, pear, apricot, peach — and their Lithuanian/Russian forms.
@@ -168,4 +168,4 @@ Child object must include `includes_fixed_school_snack: boolean`.
     - ham, bacon, sausage, salami, hot dog, deli meat — and variants.
 
 Warnings (advisory, do not fail):
-- Child `daily_nutrition` entries missing `includes_fixed_school_snack`.
+- Child `daily_nutrition` entries missing `includes_fixed_school_snack` (only applies when the array is populated).

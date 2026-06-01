@@ -123,7 +123,7 @@ The validate script enforces 13 checks. Failures exit with code 1:
 7. All `recipe_id` values in menu resolve to a recipe
 8. `shared_snack` on ≥4 days
 9. `shopping_list` is an array, no duplicate item IDs
-10. `daily_nutrition` has 7 entries
+10. `daily_nutrition` is `[]` or a 7-entry array (non-empty wrong length is a fail)
 11. Every recipe has ≥2 non-empty instruction steps
 12. No banned fruit terms anywhere in the document
 13. No processed-meat terms outside `fixed_school_snack`

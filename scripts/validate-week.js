@@ -143,6 +143,21 @@ function validateWeek(filePath) {
     if (count < 4) add(`shared_snack must appear on ≥4 days, found ${count}`);
   }
 
+  // 9a. cook_once_eat_twice / leftover_from consistency
+  if (Array.isArray(data.menu)) {
+    for (let i = 0; i < data.menu.length - 1; i++) {
+      const dinner = data.menu[i].dinner;
+      if (!dinner?.cook_once_eat_twice) continue;
+      const nextLunch = data.menu[i + 1].lunch;
+      if (nextLunch?.recipe_id !== dinner.recipe_id) {
+        add(`menu[${i}] dinner cook_once_eat_twice=true but menu[${i+1}] lunch recipe_id doesn't match`);
+      }
+      if (!nextLunch?.leftover_from) {
+        warn(`menu[${i+1}] lunch missing leftover_from (expected since previous dinner is cook_once_eat_twice)`);
+      }
+    }
+  }
+
   // 10. shopping_list is array
   if (!Array.isArray(data.shopping_list)) {
     add('shopping_list is not an array');
@@ -161,12 +176,12 @@ function validateWeek(filePath) {
     }
   }
 
-  // 12. daily_nutrition length = 7
+  // 12. daily_nutrition — must be [] (computed at runtime) or a valid 7-entry array
   if (!Array.isArray(data.daily_nutrition)) {
     add('daily_nutrition is not an array');
-  } else if (data.daily_nutrition.length !== 7) {
-    add(`daily_nutrition must have 7 entries, found ${data.daily_nutrition.length}`);
-  } else {
+  } else if (data.daily_nutrition.length !== 0 && data.daily_nutrition.length !== 7) {
+    add(`daily_nutrition must be empty [] or have 7 entries, found ${data.daily_nutrition.length}`);
+  } else if (data.daily_nutrition.length === 7) {
     // 13. child entries have includes_fixed_school_snack
     data.daily_nutrition.forEach((d, i) => {
       if (!d.child || d.child.includes_fixed_school_snack === undefined) {

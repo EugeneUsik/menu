@@ -18,6 +18,11 @@ node scripts/validate-week.js data/weeks/2026-W20.json
 
 # Validate every week listed in the manifest (CI runs this)
 node scripts/validate-all-weeks.js
+
+# Assemble shopping list (two-step: generate template, fill it, then assemble)
+node scripts/generate-shopping-list.js data/weeks/2026-W20.json --template
+# → writes data/weeks/2026-W20-shopping-meta.json (gitignored; fill display_name/category/note)
+node scripts/generate-shopping-list.js data/weeks/2026-W20.json data/weeks/2026-W20-shopping-meta.json
 ```
 
 Scripts are vanilla Node ≥16, no dependencies, no build step. There is no test runner.
@@ -45,8 +50,8 @@ data/weeks/{id}.json  →  sync-weeks-index.js  →  data/weeks/index.json  → 
 - `week.id` inside the JSON **must equal the filename without `.json`** ([scripts/sync-weeks-index.js:67](scripts/sync-weeks-index.js#L67)). Renaming a file requires updating `week.id` and vice versa.
 - Filename format: `YYYY-Www.json` (ISO 8601 week).
 - `menu` has exactly 7 days; each day has breakfast/lunch/dinner with non-empty titles; `shared_snack` appears on ≥4 days.
-- Every recipe needs **≥2 non-empty instruction steps** — placeholders fail validation ([scripts/validate-week.js:179](scripts/validate-week.js#L179)).
-- `daily_nutrition` has 7 entries; child entries should have `includes_fixed_school_snack` (warning, not failure, if missing).
+- Every recipe needs **≥2 non-empty instruction steps** — placeholders fail validation ([scripts/validate-week.js:199](scripts/validate-week.js#L199)).
+- `daily_nutrition` is either `[]` (newly generated files — `app.js` computes it at load time from recipe nutrition) or a 7-entry array (legacy files). A non-empty array of wrong length is a `[FAIL]`. Child entries should have `includes_fixed_school_snack` (warning, not failure, if missing).
 
 ### Schema 2.0 (current)
 
@@ -65,7 +70,7 @@ data/weeks/{id}.json  →  sync-weeks-index.js  →  data/weeks/index.json  → 
 
 Single global `state` object: `{ manifest, selectedWeekId, weekData, activeView, recipeFilters }`. Three hash-routed views: `#menu`, `#recipes`, `#shopping`.
 
-Week selection priority (`selectDefaultWeek` in [app.js:76](app.js#L76)): `?week=` URL param → `localStorage` → manifest `defaultWeekId` → `isCurrent` week → nearest upcoming → first entry.
+Week selection priority (`selectDefaultWeek` in [app.js:99](app.js#L99)): `?week=` URL param → `localStorage` → manifest `defaultWeekId` → `isCurrent` week → nearest upcoming → first entry.
 
 LocalStorage key conventions:
 - Selected week: `weekly-menu:selectedWeekId`

@@ -53,6 +53,27 @@ function todayISO() {
   return `${y}-${m}-${day}`;
 }
 
+/* ── Nutrition computation ── */
+function r1(n) { return Math.round(n * 10) / 10; }
+
+function computeDailyNutrition(weekData) {
+  const recipeMap = Object.fromEntries((weekData.recipes || []).map(r => [r.id, r]));
+  const snap = weekData.fixed_school_snack || {};
+  return (weekData.menu || []).map(day => {
+    const meals = ['breakfast', 'lunch', 'dinner', 'shared_snack']
+      .filter(m => day[m]?.recipe_id)
+      .map(m => recipeMap[day[m].recipe_id]?.nutrition_estimate_per_person || {});
+    const sum = (person, key) => meals.reduce((t, n) => t + (n[person]?.[key] || 0), 0);
+    const childSnap = day.includes_fixed_school_snack;
+    return {
+      date: day.date,
+      husband: { kcal: r1(sum('husband','kcal')), protein_g: r1(sum('husband','protein_g')), carbs_g: r1(sum('husband','carbs_g')), fat_g: r1(sum('husband','fat_g')), fiber_g: r1(sum('husband','fiber_g')), sat_fat_g: r1(sum('husband','sat_fat_g')) },
+      wife:    { kcal: r1(sum('wife','kcal')),    protein_g: r1(sum('wife','protein_g')),    carbs_g: r1(sum('wife','carbs_g')),    fat_g: r1(sum('wife','fat_g')),    fiber_g: r1(sum('wife','fiber_g')),    sat_fat_g: r1(sum('wife','sat_fat_g')) },
+      child:   { kcal: r1(sum('child','kcal') + (childSnap ? (snap.kcal_estimate||0) : 0)), protein_g: r1(sum('child','protein_g') + (childSnap ? (snap.protein_g_estimate||0) : 0)), carbs_g: r1(sum('child','carbs_g')), fat_g: r1(sum('child','fat_g')), fiber_g: r1(sum('child','fiber_g')), includes_fixed_school_snack: !!childSnap }
+    };
+  });
+}
+
 /* ── Fetch helpers ── */
 async function loadManifest() {
   const res = await fetch('data/weeks/index.json');
@@ -66,6 +87,7 @@ async function loadWeek(weekId) {
   const res = await fetch(`data/weeks/${entry.file}`);
   if (!res.ok) throw new Error(`Week file fetch failed: ${res.status}`);
   state.weekData = await res.json();
+  state.weekData.daily_nutrition = computeDailyNutrition(state.weekData);
   state.selectedWeekId = weekId;
   lsSet(LS.WEEK_ID, weekId);
   if (state.weekData.language) document.documentElement.lang = state.weekData.language;

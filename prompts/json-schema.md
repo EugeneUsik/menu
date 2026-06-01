@@ -100,31 +100,7 @@
       }
     }
   ],
-  "shopping_list": [
-    {
-      "category": "Fish & Seafood",
-      "items": [
-        {
-          "id": "salmon-fillet|g",
-          "name": "Salmon fillet",
-          "quantity": "600",
-          "unit": "g",
-          "note": "Fresh or frozen"
-        }
-      ]
-    },
-    { "category": "Vegetables & Fruit", "items": [] },
-    { "category": "Dairy, Eggs & Soy", "items": [] },
-    { "category": "Meat & Poultry", "items": [] },
-    { "category": "Pantry, Grains & Legumes", "items": [] }
-  ],
-  "daily_nutrition": [
-    {
-      "date": "YYYY-MM-DD",
-      "husband": { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "sat_fat_g": 0 },
-      "wife":    { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "sat_fat_g": 0 },
-      "child":   { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "includes_fixed_school_snack": true }
-    }
-  ]
+  "shopping_list": [],
+  "daily_nutrition": []
 }
 ```
