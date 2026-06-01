@@ -1,7 +1,17 @@
 {
-  "generated_at": "2026-05-24T17:14:52.753Z",
-  "defaultWeekId": "2026-W22",
+  "generated_at": "2026-06-01T10:54:19.609Z",
+  "defaultWeekId": "2026-W23",
   "weeks": [
+    {
+      "id": "2026-W23",
+      "label": "2026 W23 · 1–7 июня",
+      "start_date": "2026-06-01",
+      "end_date": "2026-06-07",
+      "file": "2026-W23.json",
+      "isCurrent": true,
+      "status": "ready",
+      "notes": ""
+    },
     {
       "id": "2026-W22",
       "label": "2026 W22 · 25–31 мая",
@@ -18,7 +28,7 @@
       "start_date": "2026-05-18",
       "end_date": "2026-05-24",
       "file": "2026-W21.json",
-      "isCurrent": true,
+      "isCurrent": false,
       "status": "ready",
       "notes": ""
     },

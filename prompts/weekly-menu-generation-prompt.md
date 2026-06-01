@@ -157,7 +157,7 @@ Use this structure for weekday lunches where practical. Cook double dinner porti
 ### Shared family snack
 Present on ≥4 days. Should provide ~10 g protein per adult serving and a calcium source for the child.
 
-Example formats (illustrative, not a closed list): Greek yogurt + berries + seeds; skyr + nuts + fruit; kefir + rye crispbread + cottage cheese; hummus + raw vegetables + boiled egg; fortified soy yogurt + walnuts; cottage cheese with herbs on rye + cucumber; banana + nut butter + milk; tuna or mackerel pâté on rye + tomato; edamame + clementines + a handful of almonds. Vary the format across the week — see Variety rules.
+Example formats (illustrative, not a closed list): Greek yogurt + berries + seeds; Greek yogurt + nuts + fruit; kefir + rye crispbread + cottage cheese; hummus + raw vegetables + boiled egg; fortified soy yogurt + walnuts; cottage cheese with herbs on rye + cucumber; banana + nut butter + milk; tuna or mackerel pâté on rye + tomato; edamame + clementines + a handful of almonds. Vary the format across the week — see Variety rules.
 
 ### Portioning
 - Husband: largest protein portion; moderate-large complex carbs around training
@@ -230,7 +230,7 @@ The lists below are **non-exhaustive examples**, not a closed allow-list. Any in
 - Legumes & soy: lentils (red, brown, green), chickpeas, kidney beans, white beans, black beans, butter beans, green peas, edamame, tofu, soy milk, soy yogurt
 - Fish & seafood: salmon, trout, mackerel, herring, sardines, tuna (canned in water), cod, hake, pollock, plaice, perch, shrimp/prawns, mussels, squid
 - Poultry & meat: chicken breast and thighs, turkey breast and mince, lean beef, lean pork tenderloin, eggs, egg whites
-- Dairy: Greek yogurt, skyr, kefir, cottage cheese, low-fat milk, ricotta (occasional), feta (small amounts)
+- Dairy: Greek yogurt, kefir, cottage cheese, low-fat milk, ricotta (occasional), feta (small amounts)
 - Fats, nuts & seeds: olive oil, avocado, walnuts, almonds, hazelnuts, peanuts (unsalted), pumpkin seeds, sunflower seeds, ground flaxseed, chia seeds, sesame seeds, tahini
 - Vegetables: leafy greens (spinach, arugula, lettuce), kale, carrots, bell peppers, tomatoes, cucumbers, broccoli, cauliflower, cabbage, beetroot, zucchini, eggplant, mushrooms, onions, garlic, leeks, fennel, radishes, asparagus (seasonal), green beans, peas
 - Fruit: berries (strawberries, blueberries, raspberries, blackberries), banana, citrus, kiwi, grapes, melon, pineapple, plums, mango (occasional)

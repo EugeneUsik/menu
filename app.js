@@ -68,6 +68,7 @@ async function loadWeek(weekId) {
   state.weekData = await res.json();
   state.selectedWeekId = weekId;
   lsSet(LS.WEEK_ID, weekId);
+  if (state.weekData.language) document.documentElement.lang = state.weekData.language;
   const url = new URL(location.href);
   url.searchParams.set('week', weekId);
   history.replaceState(null, '', url);
@@ -112,9 +113,7 @@ function setActiveView(viewId) {
     btn.setAttribute('aria-selected', active);
   });
   document.querySelectorAll('.view').forEach(el => {
-    const active = el.id === `view-${viewId}`;
-    el.classList.toggle('active', active);
-    el.classList.toggle('hidden', !active);
+    el.classList.toggle('active', el.id === `view-${viewId}`);
   });
   history.replaceState(null, '', `#${viewId}`);
   renderActiveView();
@@ -174,6 +173,7 @@ function renderMenuView() {
     a.addEventListener('click', e => {
       e.preventDefault();
       const rid = a.dataset.recipe;
+      state.recipeFilters = { text: '', mealType: '' };
       setActiveView('recipes');
       requestAnimationFrame(() => {
         const card = document.getElementById(`recipe-${rid}`);
@@ -358,7 +358,9 @@ function renderShoppingView() {
 }
 
 function shoppingItemId(item) {
-  return item.id || `${(item.name || '').toLowerCase().replace(/\s+/g, '-')}|${item.unit || ''}`;
+  if (item.id) return item.id;
+  const slug = (item.name || '').toLowerCase().replace(/\s+/g, '-');
+  return `${slug}|${item.quantity || ''}|${item.unit || ''}`;
 }
 
 function renderShoppingItem(item) {
@@ -379,6 +381,33 @@ function renderShoppingItem(item) {
 /* ══════════════════════════════════════════
    INIT
 ══════════════════════════════════════════ */
+async function loadInitialData() {
+  showLoading(state.activeView);
+
+  try {
+    await loadManifest();
+  } catch (err) {
+    showError(state.activeView, `Could not load week list. ${err.message}`, loadInitialData);
+    return;
+  }
+
+  const weekId = selectDefaultWeek();
+  if (!weekId) {
+    showError(state.activeView, 'No weeks available in the manifest.');
+    return;
+  }
+
+  try {
+    await loadWeek(weekId);
+  } catch (err) {
+    showError(state.activeView, `Could not load week ${weekId}. ${err.message}`, loadInitialData);
+    return;
+  }
+
+  populateWeekSelector();
+  renderActiveView();
+}
+
 async function init() {
   const hashView = location.hash.replace('#', '');
   if (['menu','recipes','shopping'].includes(hashView)) {
@@ -396,30 +425,6 @@ async function init() {
     }
   });
 
-  showLoading(state.activeView);
-
-  try {
-    await loadManifest();
-  } catch (err) {
-    showError(state.activeView, `Could not load week list. ${err.message}`, init);
-    return;
-  }
-
-  const weekId = selectDefaultWeek();
-  if (!weekId) {
-    showError(state.activeView, 'No weeks available in the manifest.');
-    return;
-  }
-
-  try {
-    await loadWeek(weekId);
-  } catch (err) {
-    showError(state.activeView, `Could not load week ${weekId}. ${err.message}`);
-    return;
-  }
-
-  populateWeekSelector();
-
   document.getElementById('week-selector').addEventListener('change', async e => {
     const newId = e.target.value;
     showLoading(state.activeView);
@@ -433,18 +438,7 @@ async function init() {
     }
   });
 
-  document.querySelectorAll('.tab').forEach(btn => {
-    const active = btn.dataset.view === state.activeView;
-    btn.classList.toggle('active', active);
-    btn.setAttribute('aria-selected', active);
-  });
-  document.querySelectorAll('.view').forEach(el => {
-    const active = el.id === `view-${state.activeView}`;
-    el.classList.toggle('active', active);
-    el.classList.toggle('hidden', !active);
-  });
-
-  renderActiveView();
+  await loadInitialData();
 }
 
 document.addEventListener('DOMContentLoaded', init);

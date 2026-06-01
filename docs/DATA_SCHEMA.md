@@ -7,6 +7,7 @@ Schema version: **2.0**
 | Field | Type | Required | Notes |
 |---|---|---|---|
 | `schema_version` | string | ✓ | `"2.0"` |
+| `language` | string | — | BCP-47 tag for user-visible content. `"en"` or `"ru"`. Advisory only — not validated. |
 | `week` | object | ✓ | Week metadata |
 | `fixed_school_snack` | object | ✓ | Child's fixed external snack — never modify |
 | `menu` | object[] | ✓ | Exactly 7 day objects (Mon–Sun) |

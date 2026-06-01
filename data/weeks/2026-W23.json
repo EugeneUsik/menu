@@ -1,0 +1,2781 @@
+{
+  "schema_version": "2.0",
+  "language": "ru",
+  "week": {
+    "id": "2026-W23",
+    "label": "2026 W23 · 1–7 июня",
+    "start_date": "2026-06-01",
+    "end_date": "2026-06-07",
+    "timezone": "Europe/Vilnius"
+  },
+  "fixed_school_snack": {
+    "title": "Фиксированный школьный перекус",
+    "description": "Тортилья с крем-сыром и овощами — внешний перекус, не генерируется",
+    "kcal_estimate": 400,
+    "protein_g_estimate": 24
+  },
+  "menu": [
+    {
+      "day_name": "Monday",
+      "date": "2026-06-01",
+      "includes_fixed_school_snack": true,
+      "breakfast": {
+        "title": "Творог и тосты",
+        "recipe_id": "cottage-rye-eggwhite-breakfast"
+      },
+      "lunch": {
+        "title": "Чечевичный суп",
+        "recipe_id": "chicken-red-lentil-vegetable-soup"
+      },
+      "dinner": {
+        "title": "Форель с булгуром",
+        "recipe_id": "trout-bulgur-green-bean-plates",
+        "cook_once_eat_twice": true
+      },
+      "shared_snack": {
+        "title": "Скир с черникой",
+        "recipe_id": "skyr-blueberry-walnut-cups"
+      }
+    },
+    {
+      "day_name": "Tuesday",
+      "date": "2026-06-02",
+      "includes_fixed_school_snack": true,
+      "breakfast": {
+        "title": "Овсянка со скиром",
+        "recipe_id": "oat-skyr-raspberry-chia"
+      },
+      "lunch": {
+        "title": "Форель с булгуром",
+        "recipe_id": "trout-bulgur-green-bean-plates",
+        "leftover_from": "Monday"
+      },
+      "dinner": {
+        "title": "Индейка с киноа",
+        "recipe_id": "turkey-quinoa-white-bean-plates",
+        "cook_once_eat_twice": true
+      },
+      "shared_snack": {
+        "title": "Кефир и хлебцы",
+        "recipe_id": "kefir-cottage-vegetable-crispbread"
+      }
+    },
+    {
+      "day_name": "Wednesday",
+      "date": "2026-06-03",
+      "includes_fixed_school_snack": true,
+      "breakfast": {
+        "title": "Гречка с йогуртом",
+        "recipe_id": "buckwheat-yogurt-blueberry-flax"
+      },
+      "lunch": {
+        "title": "Индейка с киноа",
+        "recipe_id": "turkey-quinoa-white-bean-plates",
+        "leftover_from": "Tuesday"
+      },
+      "dinner": {
+        "title": "Тофу с лапшой",
+        "recipe_id": "tofu-edamame-vegetable-noodles",
+        "cook_once_eat_twice": true
+      },
+      "shared_snack": {
+        "title": "Соевый йогурт",
+        "recipe_id": "soy-yogurt-raspberry-almonds"
+      }
+    },
+    {
+      "day_name": "Thursday",
+      "date": "2026-06-04",
+      "includes_fixed_school_snack": true,
+      "breakfast": {
+        "title": "Тофу-скрэмбл",
+        "recipe_id": "tofu-scramble-toast-soy"
+      },
+      "lunch": {
+        "title": "Тофу с лапшой",
+        "recipe_id": "tofu-edamame-vegetable-noodles",
+        "leftover_from": "Wednesday"
+      },
+      "dinner": {
+        "title": "Вырезка с картофелем",
+        "recipe_id": "pork-potato-cauliflower-plates",
+        "cook_once_eat_twice": true
+      },
+      "shared_snack": {
+        "title": "Хумус и кефир",
+        "recipe_id": "hummus-egg-veg-kefir"
+      }
+    },
+    {
+      "day_name": "Friday",
+      "date": "2026-06-05",
+      "includes_fixed_school_snack": true,
+      "breakfast": {
+        "title": "Ячменная каша",
+        "recipe_id": "barley-flake-strawberry-yogurt"
+      },
+      "lunch": {
+        "title": "Вырезка с картофелем",
+        "recipe_id": "pork-potato-cauliflower-plates",
+        "leftover_from": "Thursday"
+      },
+      "dinner": {
+        "title": "Треска с ячменем",
+        "recipe_id": "cod-barley-zucchini-plates"
+      },
+      "shared_snack": {
+        "title": "Эдамаме и скир",
+        "recipe_id": "edamame-clementine-skyr"
+      }
+    },
+    {
+      "day_name": "Saturday",
+      "date": "2026-06-06",
+      "includes_fixed_school_snack": false,
+      "breakfast": {
+        "title": "Омлет со скиром",
+        "recipe_id": "eggwhite-omelet-avocado-skyr"
+      },
+      "lunch": {
+        "title": "Салат с тунцом",
+        "recipe_id": "tuna-chickpea-barley-salad"
+      },
+      "dinner": {
+        "title": "Чили с фасолью",
+        "recipe_id": "beef-black-bean-rice-chili",
+        "cook_once_eat_twice": true
+      },
+      "shared_snack": {
+        "title": "Творог с бананом",
+        "recipe_id": "cottage-banana-cocoa-bowl"
+      }
+    },
+    {
+      "day_name": "Sunday",
+      "date": "2026-06-07",
+      "includes_fixed_school_snack": false,
+      "breakfast": {
+        "title": "Ночная овсянка",
+        "recipe_id": "overnight-oat-banana-soy"
+      },
+      "lunch": {
+        "title": "Чили с фасолью",
+        "recipe_id": "beef-black-bean-rice-chili",
+        "leftover_from": "Saturday"
+      },
+      "dinner": {
+        "title": "Лосось с гречкой",
+        "recipe_id": "salmon-buckwheat-broccoli-plates"
+      },
+      "shared_snack": {
+        "title": "Йогурт с клубникой",
+        "recipe_id": "greek-yogurt-strawberry-pumpkin"
+      }
+    }
+  ],
+  "recipes": [
+    {
+      "id": "cottage-rye-eggwhite-breakfast",
+      "title": "Творожные ржаные тосты с белковым скрэмблом",
+      "meal_types": [
+        "breakfast"
+      ],
+      "active_time_min": 15,
+      "total_time_min": 15,
+      "ingredients": [
+        {
+          "name": "творог 0–5%",
+          "quantity": 600,
+          "unit": "g"
+        },
+        {
+          "name": "ржаной хлеб",
+          "quantity": 6,
+          "unit": "slices"
+        },
+        {
+          "name": "яичные белки",
+          "quantity": 250,
+          "unit": "ml"
+        },
+        {
+          "name": "яйца",
+          "quantity": 2,
+          "unit": "pcs"
+        },
+        {
+          "name": "помидоры",
+          "quantity": 300,
+          "unit": "g",
+          "prep": "нарезать"
+        },
+        {
+          "name": "огурец",
+          "quantity": 1,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "грецкие орехи",
+          "quantity": 50,
+          "unit": "g",
+          "prep": "крупно порубить"
+        },
+        {
+          "name": "кефир 1–2,5%",
+          "quantity": 500,
+          "unit": "ml",
+          "prep": "подать отдельно"
+        },
+        {
+          "name": "оливковое масло",
+          "quantity": 10,
+          "unit": "ml"
+        }
+      ],
+      "instructions": [
+        "Подсушите ржаной хлеб 2–3 минуты в тостере или на сухой сковороде.",
+        "Взбейте яйца с белками и приготовьте скрэмбл на оливковом масле 3–4 минуты.",
+        "Разложите творог, скрэмбл, помидоры и огурец по тарелкам.",
+        "Посыпьте творог грецкими орехами и подайте кефир отдельно."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 580,
+          "protein_g": 43,
+          "carbs_g": 58,
+          "fat_g": 18,
+          "fiber_g": 9,
+          "sat_fat_g": 4.0
+        },
+        "wife": {
+          "kcal": 405,
+          "protein_g": 33,
+          "carbs_g": 38,
+          "fat_g": 13,
+          "fiber_g": 7,
+          "sat_fat_g": 3.0
+        },
+        "child": {
+          "kcal": 555,
+          "protein_g": 30,
+          "carbs_g": 62,
+          "fat_g": 17,
+          "fiber_g": 8
+        }
+      }
+    },
+    {
+      "id": "oat-skyr-raspberry-chia",
+      "title": "Овсяная каша со скиром, малиной, чиа и орехами",
+      "meal_types": [
+        "breakfast"
+      ],
+      "active_time_min": 10,
+      "total_time_min": 10,
+      "ingredients": [
+        {
+          "name": "овсяные хлопья",
+          "quantity": 260,
+          "unit": "g"
+        },
+        {
+          "name": "обогащённое соевое молоко",
+          "quantity": 650,
+          "unit": "ml"
+        },
+        {
+          "name": "скир 0–2%",
+          "quantity": 450,
+          "unit": "g"
+        },
+        {
+          "name": "малина",
+          "quantity": 250,
+          "unit": "g"
+        },
+        {
+          "name": "грецкие орехи",
+          "quantity": 55,
+          "unit": "g",
+          "prep": "крупно порубить"
+        },
+        {
+          "name": "семена чиа",
+          "quantity": 25,
+          "unit": "g"
+        }
+      ],
+      "instructions": [
+        "Доведите соевое молоко до слабого кипения и всыпьте овсяные хлопья.",
+        "Варите кашу 4–5 минут, помешивая, до кремовой текстуры.",
+        "Разложите кашу по мискам и добавьте скир.",
+        "Посыпьте малиной, чиа и грецкими орехами."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 620,
+          "protein_g": 44,
+          "carbs_g": 74,
+          "fat_g": 19,
+          "fiber_g": 13,
+          "sat_fat_g": 3.0
+        },
+        "wife": {
+          "kcal": 425,
+          "protein_g": 32,
+          "carbs_g": 50,
+          "fat_g": 13,
+          "fiber_g": 10,
+          "sat_fat_g": 2.0
+        },
+        "child": {
+          "kcal": 575,
+          "protein_g": 28,
+          "carbs_g": 76,
+          "fat_g": 16,
+          "fiber_g": 11
+        }
+      }
+    },
+    {
+      "id": "buckwheat-yogurt-blueberry-flax",
+      "title": "Гречневая каша с греческим йогуртом, черникой и льном",
+      "meal_types": [
+        "breakfast"
+      ],
+      "active_time_min": 10,
+      "total_time_min": 20,
+      "ingredients": [
+        {
+          "name": "гречка сухая",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "name": "греческий йогурт 0–2%",
+          "quantity": 450,
+          "unit": "g"
+        },
+        {
+          "name": "черника",
+          "quantity": 250,
+          "unit": "g"
+        },
+        {
+          "name": "молотый лён",
+          "quantity": 25,
+          "unit": "g"
+        },
+        {
+          "name": "грецкие орехи",
+          "quantity": 45,
+          "unit": "g",
+          "prep": "крупно порубить"
+        },
+        {
+          "name": "кефир 1–2,5%",
+          "quantity": 450,
+          "unit": "ml",
+          "prep": "подать отдельно"
+        }
+      ],
+      "instructions": [
+        "Промойте гречку и варите её в 600 ml воды 12–15 минут.",
+        "Оставьте гречку под крышкой на 2 минуты и разрыхлите вилкой.",
+        "Разложите кашу по мискам и добавьте греческий йогурт.",
+        "Посыпьте черникой, льном и орехами, затем подайте кефир отдельно."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 600,
+          "protein_g": 41,
+          "carbs_g": 72,
+          "fat_g": 17,
+          "fiber_g": 12,
+          "sat_fat_g": 3.0
+        },
+        "wife": {
+          "kcal": 415,
+          "protein_g": 31,
+          "carbs_g": 50,
+          "fat_g": 12,
+          "fiber_g": 10,
+          "sat_fat_g": 2.0
+        },
+        "child": {
+          "kcal": 570,
+          "protein_g": 26,
+          "carbs_g": 76,
+          "fat_g": 15,
+          "fiber_g": 10
+        }
+      }
+    },
+    {
+      "id": "tofu-scramble-toast-soy",
+      "title": "Тофу-скрэмбл с тостами, овощами и соевым напитком",
+      "meal_types": [
+        "breakfast"
+      ],
+      "active_time_min": 15,
+      "total_time_min": 15,
+      "ingredients": [
+        {
+          "name": "твёрдый тофу",
+          "quantity": 500,
+          "unit": "g",
+          "prep": "размять вилкой"
+        },
+        {
+          "name": "цельнозерновой хлеб",
+          "quantity": 6,
+          "unit": "slices"
+        },
+        {
+          "name": "шпинат",
+          "quantity": 150,
+          "unit": "g"
+        },
+        {
+          "name": "помидоры",
+          "quantity": 250,
+          "unit": "g",
+          "prep": "нарезать"
+        },
+        {
+          "name": "авокадо",
+          "quantity": 2,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "обогащённое соевое молоко",
+          "quantity": 600,
+          "unit": "ml",
+          "prep": "подать отдельно"
+        },
+        {
+          "name": "оливковое масло",
+          "quantity": 15,
+          "unit": "ml"
+        },
+        {
+          "name": "куркума",
+          "quantity": 1,
+          "unit": "tsp"
+        }
+      ],
+      "instructions": [
+        "Подсушите хлеб 2–3 минуты до лёгкой корочки.",
+        "Обжарьте размятый тофу с куркумой на оливковом масле 4 минуты.",
+        "Добавьте шпинат и готовьте ещё 2 минуты до мягкости.",
+        "Разложите тосты, тофу, помидоры и авокадо по тарелкам.",
+        "Подайте соевое молоко отдельно."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 590,
+          "protein_g": 42,
+          "carbs_g": 56,
+          "fat_g": 19,
+          "fiber_g": 10,
+          "sat_fat_g": 3.0
+        },
+        "wife": {
+          "kcal": 405,
+          "protein_g": 31,
+          "carbs_g": 36,
+          "fat_g": 14,
+          "fiber_g": 8,
+          "sat_fat_g": 2.0
+        },
+        "child": {
+          "kcal": 570,
+          "protein_g": 28,
+          "carbs_g": 62,
+          "fat_g": 17,
+          "fiber_g": 9
+        }
+      }
+    },
+    {
+      "id": "barley-flake-strawberry-yogurt",
+      "title": "Ячменная каша с йогуртом, клубникой и грецкими орехами",
+      "meal_types": [
+        "breakfast"
+      ],
+      "active_time_min": 10,
+      "total_time_min": 10,
+      "ingredients": [
+        {
+          "name": "ячменные хлопья",
+          "quantity": 260,
+          "unit": "g"
+        },
+        {
+          "name": "молоко 1–2,5%",
+          "quantity": 500,
+          "unit": "ml"
+        },
+        {
+          "name": "греческий йогурт 0–2%",
+          "quantity": 450,
+          "unit": "g"
+        },
+        {
+          "name": "клубника",
+          "quantity": 300,
+          "unit": "g",
+          "prep": "нарезать"
+        },
+        {
+          "name": "грецкие орехи",
+          "quantity": 55,
+          "unit": "g",
+          "prep": "крупно порубить"
+        },
+        {
+          "name": "молотый лён",
+          "quantity": 25,
+          "unit": "g"
+        }
+      ],
+      "instructions": [
+        "Доведите молоко до слабого кипения и всыпьте ячменные хлопья.",
+        "Варите 4–5 минут, помешивая, до мягкой каши.",
+        "Разложите кашу по мискам и добавьте греческий йогурт.",
+        "Сверху положите клубнику, лён и грецкие орехи."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 625,
+          "protein_g": 43,
+          "carbs_g": 76,
+          "fat_g": 18,
+          "fiber_g": 13,
+          "sat_fat_g": 3.0
+        },
+        "wife": {
+          "kcal": 425,
+          "protein_g": 31,
+          "carbs_g": 50,
+          "fat_g": 13,
+          "fiber_g": 11,
+          "sat_fat_g": 2.0
+        },
+        "child": {
+          "kcal": 580,
+          "protein_g": 26,
+          "carbs_g": 80,
+          "fat_g": 15,
+          "fiber_g": 11
+        }
+      }
+    },
+    {
+      "id": "eggwhite-omelet-avocado-skyr",
+      "title": "Омлет из яиц и белков с авокадо, хлебом и скиром",
+      "meal_types": [
+        "breakfast"
+      ],
+      "active_time_min": 15,
+      "total_time_min": 15,
+      "ingredients": [
+        {
+          "name": "яйца",
+          "quantity": 3,
+          "unit": "pcs"
+        },
+        {
+          "name": "яичные белки",
+          "quantity": 300,
+          "unit": "ml"
+        },
+        {
+          "name": "ржаной хлеб",
+          "quantity": 6,
+          "unit": "slices"
+        },
+        {
+          "name": "авокадо",
+          "quantity": 2,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "огурец",
+          "quantity": 1,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "скир 0–2%",
+          "quantity": 450,
+          "unit": "g",
+          "prep": "подать отдельно"
+        },
+        {
+          "name": "оливковое масло",
+          "quantity": 10,
+          "unit": "ml"
+        }
+      ],
+      "instructions": [
+        "Взбейте яйца с белками до однородности.",
+        "Приготовьте омлет на оливковом масле 4–5 минут под крышкой.",
+        "Подсушите ржаной хлеб на сухой сковороде 2 минуты.",
+        "Разложите омлет, хлеб, авокадо и огурец по тарелкам.",
+        "Подайте скир отдельно."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 600,
+          "protein_g": 45,
+          "carbs_g": 50,
+          "fat_g": 22,
+          "fiber_g": 9,
+          "sat_fat_g": 4.0
+        },
+        "wife": {
+          "kcal": 420,
+          "protein_g": 35,
+          "carbs_g": 34,
+          "fat_g": 16,
+          "fiber_g": 7,
+          "sat_fat_g": 3.0
+        },
+        "child": {
+          "kcal": 580,
+          "protein_g": 29,
+          "carbs_g": 58,
+          "fat_g": 18,
+          "fiber_g": 8
+        }
+      }
+    },
+    {
+      "id": "overnight-oat-banana-soy",
+      "title": "Ночная овсянка с бананом, соевым молоком и йогуртом",
+      "meal_types": [
+        "breakfast"
+      ],
+      "active_time_min": 10,
+      "total_time_min": 480,
+      "ingredients": [
+        {
+          "name": "овсяные хлопья",
+          "quantity": 260,
+          "unit": "g"
+        },
+        {
+          "name": "обогащённое соевое молоко",
+          "quantity": 600,
+          "unit": "ml"
+        },
+        {
+          "name": "греческий йогурт 0–2%",
+          "quantity": 450,
+          "unit": "g"
+        },
+        {
+          "name": "бананы",
+          "quantity": 3,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "малина",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "name": "семена чиа",
+          "quantity": 25,
+          "unit": "g"
+        },
+        {
+          "name": "грецкие орехи",
+          "quantity": 45,
+          "unit": "g",
+          "prep": "крупно порубить"
+        }
+      ],
+      "instructions": [
+        "Смешайте овсяные хлопья, соевое молоко и чиа в контейнере.",
+        "Поставьте контейнер в холодильник минимум на 8 часов.",
+        "Утром разложите овсянку по мискам и добавьте йогурт.",
+        "Сверху положите банан, малину и грецкие орехи."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 620,
+          "protein_g": 44,
+          "carbs_g": 78,
+          "fat_g": 18,
+          "fiber_g": 13,
+          "sat_fat_g": 3.0
+        },
+        "wife": {
+          "kcal": 430,
+          "protein_g": 32,
+          "carbs_g": 54,
+          "fat_g": 12,
+          "fiber_g": 10,
+          "sat_fat_g": 2.0
+        },
+        "child": {
+          "kcal": 590,
+          "protein_g": 28,
+          "carbs_g": 80,
+          "fat_g": 15,
+          "fiber_g": 12
+        }
+      }
+    },
+    {
+      "id": "chicken-red-lentil-vegetable-soup",
+      "title": "Куриный суп с красной чечевицей, овощами и ржаными тостами",
+      "meal_types": [
+        "lunch"
+      ],
+      "active_time_min": 20,
+      "total_time_min": 45,
+      "ingredients": [
+        {
+          "name": "куриная грудка",
+          "quantity": 650,
+          "unit": "g",
+          "prep": "нарезать кубиками"
+        },
+        {
+          "name": "красная чечевица сухая",
+          "quantity": 220,
+          "unit": "g"
+        },
+        {
+          "name": "морковь",
+          "quantity": 3,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "лук",
+          "quantity": 1,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "сельдерей",
+          "quantity": 3,
+          "unit": "stalks",
+          "prep": "нарезать"
+        },
+        {
+          "name": "чеснок",
+          "quantity": 3,
+          "unit": "cloves",
+          "prep": "измельчить"
+        },
+        {
+          "name": "шпинат",
+          "quantity": 150,
+          "unit": "g"
+        },
+        {
+          "name": "помидоры в собственном соку",
+          "quantity": 400,
+          "unit": "g"
+        },
+        {
+          "name": "оливковое масло",
+          "quantity": 15,
+          "unit": "ml"
+        },
+        {
+          "name": "ржаной хлеб",
+          "quantity": 6,
+          "unit": "slices",
+          "prep": "подать отдельно"
+        },
+        {
+          "name": "лавровый лист",
+          "quantity": 1,
+          "unit": "pcs"
+        }
+      ],
+      "instructions": [
+        "Разогрейте оливковое масло в кастрюле и готовьте лук, морковь и сельдерей 5 минут.",
+        "Добавьте чеснок, чечевицу, помидоры, лавровый лист и 1.6 l воды.",
+        "Доведите до кипения и варите 15 минут на среднем огне.",
+        "Добавьте куриную грудку и варите ещё 10–12 минут до готовности.",
+        "Вмешайте шпинат на 2 минуты и подайте суп с ржаным хлебом."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 720,
+          "protein_g": 56,
+          "carbs_g": 80,
+          "fat_g": 15,
+          "fiber_g": 14,
+          "sat_fat_g": 3.0
+        },
+        "wife": {
+          "kcal": 510,
+          "protein_g": 40,
+          "carbs_g": 58,
+          "fat_g": 10,
+          "fiber_g": 12,
+          "sat_fat_g": 2.0
+        },
+        "child": {
+          "kcal": 660,
+          "protein_g": 37,
+          "carbs_g": 84,
+          "fat_g": 12,
+          "fiber_g": 12
+        }
+      }
+    },
+    {
+      "id": "trout-bulgur-green-bean-plates",
+      "title": "Запечённая форель с булгуром, фасолью и огуречным салатом",
+      "meal_types": [
+        "dinner"
+      ],
+      "active_time_min": 20,
+      "total_time_min": 45,
+      "ingredients": [
+        {
+          "name": "филе форели",
+          "quantity": 900,
+          "unit": "g",
+          "prep": "разделить на 6 порций"
+        },
+        {
+          "name": "булгур сухой",
+          "quantity": 420,
+          "unit": "g"
+        },
+        {
+          "name": "стручковая фасоль",
+          "quantity": 700,
+          "unit": "g"
+        },
+        {
+          "name": "морковь",
+          "quantity": 4,
+          "unit": "pcs",
+          "prep": "нарезать брусками"
+        },
+        {
+          "name": "огурцы",
+          "quantity": 2,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "помидоры",
+          "quantity": 400,
+          "unit": "g",
+          "prep": "нарезать"
+        },
+        {
+          "name": "греческий йогурт 0–2%",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "name": "лимон",
+          "quantity": 2,
+          "unit": "pcs",
+          "prep": "выжать сок"
+        },
+        {
+          "name": "укроп",
+          "quantity": 25,
+          "unit": "g",
+          "prep": "мелко нарезать"
+        },
+        {
+          "name": "оливковое масло",
+          "quantity": 35,
+          "unit": "ml"
+        }
+      ],
+      "instructions": [
+        "Разогрейте духовку до 200°C.",
+        "Запеките морковь с 20 ml оливкового масла 15 минут.",
+        "Добавьте форель и стручковую фасоль на противень и запекайте 12–15 минут.",
+        "Сварите булгур в 840 ml воды 12 минут и оставьте под крышкой на 5 минут.",
+        "Смешайте йогурт, укроп и лимонный сок, затем подайте с форелью, булгуром и салатом."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 745,
+          "protein_g": 53,
+          "carbs_g": 76,
+          "fat_g": 23,
+          "fiber_g": 11,
+          "sat_fat_g": 4.5
+        },
+        "wife": {
+          "kcal": 520,
+          "protein_g": 38,
+          "carbs_g": 50,
+          "fat_g": 16,
+          "fiber_g": 9,
+          "sat_fat_g": 3.0
+        },
+        "child": {
+          "kcal": 670,
+          "protein_g": 34,
+          "carbs_g": 78,
+          "fat_g": 18,
+          "fiber_g": 10
+        }
+      }
+    },
+    {
+      "id": "turkey-quinoa-white-bean-plates",
+      "title": "Индейка с киноа, белой фасолью, перцем и шпинатом",
+      "meal_types": [
+        "dinner"
+      ],
+      "active_time_min": 25,
+      "total_time_min": 45,
+      "ingredients": [
+        {
+          "name": "филе индейки",
+          "quantity": 900,
+          "unit": "g",
+          "prep": "нарезать полосками"
+        },
+        {
+          "name": "киноа сухая",
+          "quantity": 360,
+          "unit": "g"
+        },
+        {
+          "name": "белая фасоль консервированная",
+          "quantity": 480,
+          "unit": "g",
+          "prep": "промыть"
+        },
+        {
+          "name": "сладкий перец",
+          "quantity": 4,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "шпинат",
+          "quantity": 250,
+          "unit": "g"
+        },
+        {
+          "name": "лук",
+          "quantity": 2,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "чеснок",
+          "quantity": 4,
+          "unit": "cloves",
+          "prep": "измельчить"
+        },
+        {
+          "name": "помидоры в собственном соку",
+          "quantity": 400,
+          "unit": "g"
+        },
+        {
+          "name": "оливковое масло",
+          "quantity": 30,
+          "unit": "ml"
+        },
+        {
+          "name": "сладкая паприка",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "name": "кумин",
+          "quantity": 1,
+          "unit": "tsp"
+        }
+      ],
+      "instructions": [
+        "Промойте киноа и варите её в 720 ml воды 15 минут.",
+        "Обжарьте индейку на половине оливкового масла 6–7 минут до готовности.",
+        "На оставшемся масле готовьте лук и перец 5 минут.",
+        "Добавьте чеснок, фасоль, помидоры, паприку и кумин, затем прогрейте 5 минут.",
+        "Разложите киноа, индейку и овощную смесь по тарелкам, добавив шпинат в конце."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 735,
+          "protein_g": 57,
+          "carbs_g": 80,
+          "fat_g": 18,
+          "fiber_g": 13,
+          "sat_fat_g": 3.5
+        },
+        "wife": {
+          "kcal": 500,
+          "protein_g": 40,
+          "carbs_g": 54,
+          "fat_g": 12,
+          "fiber_g": 11,
+          "sat_fat_g": 2.5
+        },
+        "child": {
+          "kcal": 650,
+          "protein_g": 37,
+          "carbs_g": 78,
+          "fat_g": 14,
+          "fiber_g": 12
+        }
+      }
+    },
+    {
+      "id": "tofu-edamame-vegetable-noodles",
+      "title": "Тофу с эдамаме, овощами и гречневой лапшой",
+      "meal_types": [
+        "dinner"
+      ],
+      "active_time_min": 25,
+      "total_time_min": 35,
+      "ingredients": [
+        {
+          "name": "твёрдый тофу",
+          "quantity": 700,
+          "unit": "g",
+          "prep": "обсушить и нарезать кубиками"
+        },
+        {
+          "name": "эдамаме очищенные",
+          "quantity": 350,
+          "unit": "g"
+        },
+        {
+          "name": "гречневая лапша сухая",
+          "quantity": 450,
+          "unit": "g"
+        },
+        {
+          "name": "брокколи",
+          "quantity": 500,
+          "unit": "g",
+          "prep": "разобрать на соцветия"
+        },
+        {
+          "name": "сладкий перец",
+          "quantity": 3,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "морковь",
+          "quantity": 3,
+          "unit": "pcs",
+          "prep": "нарезать тонко"
+        },
+        {
+          "name": "чеснок",
+          "quantity": 4,
+          "unit": "cloves",
+          "prep": "измельчить"
+        },
+        {
+          "name": "имбирь свежий",
+          "quantity": 25,
+          "unit": "g",
+          "prep": "натереть"
+        },
+        {
+          "name": "соевый соус с пониженным содержанием соли",
+          "quantity": 45,
+          "unit": "ml"
+        },
+        {
+          "name": "оливковое масло",
+          "quantity": 25,
+          "unit": "ml"
+        }
+      ],
+      "instructions": [
+        "Отварите гречневую лапшу 5–6 минут и промойте холодной водой.",
+        "Обжарьте тофу на 15 ml оливкового масла 6 минут до золотистых краёв.",
+        "Добавьте брокколи, перец, морковь, чеснок и имбирь, затем готовьте 5 минут.",
+        "Вмешайте эдамаме, лапшу и соевый соус, затем прогрейте 3 минуты.",
+        "Разложите по мискам, оставив половину блюда на завтрашний обед."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 740,
+          "protein_g": 46,
+          "carbs_g": 94,
+          "fat_g": 21,
+          "fiber_g": 14,
+          "sat_fat_g": 3.0
+        },
+        "wife": {
+          "kcal": 500,
+          "protein_g": 34,
+          "carbs_g": 64,
+          "fat_g": 14,
+          "fiber_g": 12,
+          "sat_fat_g": 2.0
+        },
+        "child": {
+          "kcal": 660,
+          "protein_g": 34,
+          "carbs_g": 92,
+          "fat_g": 16,
+          "fiber_g": 13
+        }
+      }
+    },
+    {
+      "id": "pork-potato-cauliflower-plates",
+      "title": "Свиная вырезка с картофелем, цветной капустой и свекольным салатом",
+      "meal_types": [
+        "dinner"
+      ],
+      "active_time_min": 25,
+      "total_time_min": 50,
+      "ingredients": [
+        {
+          "name": "свиная вырезка",
+          "quantity": 900,
+          "unit": "g",
+          "prep": "нарезать медальонами"
+        },
+        {
+          "name": "картофель",
+          "quantity": 1400,
+          "unit": "g",
+          "prep": "нарезать дольками"
+        },
+        {
+          "name": "цветная капуста",
+          "quantity": 800,
+          "unit": "g",
+          "prep": "разобрать на соцветия"
+        },
+        {
+          "name": "свёкла варёная",
+          "quantity": 500,
+          "unit": "g",
+          "prep": "нарезать"
+        },
+        {
+          "name": "капуста белокочанная",
+          "quantity": 400,
+          "unit": "g",
+          "prep": "тонко нашинковать"
+        },
+        {
+          "name": "лимон",
+          "quantity": 1,
+          "unit": "pcs",
+          "prep": "выжать сок"
+        },
+        {
+          "name": "греческий йогурт 0–2%",
+          "quantity": 250,
+          "unit": "g"
+        },
+        {
+          "name": "петрушка",
+          "quantity": 25,
+          "unit": "g",
+          "prep": "нарезать"
+        },
+        {
+          "name": "оливковое масло",
+          "quantity": 40,
+          "unit": "ml"
+        }
+      ],
+      "instructions": [
+        "Разогрейте духовку до 200°C.",
+        "Запекайте картофель с 25 ml оливкового масла 25 минут.",
+        "Добавьте цветную капусту и запекайте ещё 15 минут.",
+        "Обжарьте медальоны вырезки на сковороде по 3–4 минуты с каждой стороны.",
+        "Смешайте свёклу, капусту, лимонный сок, петрушку и йогурт, затем подайте с мясом и овощами."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 750,
+          "protein_g": 55,
+          "carbs_g": 78,
+          "fat_g": 21,
+          "fiber_g": 10,
+          "sat_fat_g": 5.0
+        },
+        "wife": {
+          "kcal": 510,
+          "protein_g": 39,
+          "carbs_g": 52,
+          "fat_g": 14,
+          "fiber_g": 8,
+          "sat_fat_g": 3.0
+        },
+        "child": {
+          "kcal": 660,
+          "protein_g": 36,
+          "carbs_g": 78,
+          "fat_g": 16,
+          "fiber_g": 9
+        }
+      }
+    },
+    {
+      "id": "cod-barley-zucchini-plates",
+      "title": "Треска с ячменной крупой, цукини, горошком и салатом",
+      "meal_types": [
+        "dinner"
+      ],
+      "active_time_min": 25,
+      "total_time_min": 45,
+      "ingredients": [
+        {
+          "name": "филе трески",
+          "quantity": 650,
+          "unit": "g",
+          "prep": "разделить на 3 порции"
+        },
+        {
+          "name": "ячменная крупа сухая",
+          "quantity": 260,
+          "unit": "g"
+        },
+        {
+          "name": "цукини",
+          "quantity": 2,
+          "unit": "pcs",
+          "prep": "нарезать полукружьями"
+        },
+        {
+          "name": "зелёный горошек замороженный",
+          "quantity": 250,
+          "unit": "g"
+        },
+        {
+          "name": "помидоры",
+          "quantity": 300,
+          "unit": "g",
+          "prep": "нарезать"
+        },
+        {
+          "name": "огурец",
+          "quantity": 1,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "руккола",
+          "quantity": 100,
+          "unit": "g"
+        },
+        {
+          "name": "лимон",
+          "quantity": 1,
+          "unit": "pcs",
+          "prep": "выжать сок"
+        },
+        {
+          "name": "оливковое масло",
+          "quantity": 30,
+          "unit": "ml"
+        },
+        {
+          "name": "укроп",
+          "quantity": 20,
+          "unit": "g",
+          "prep": "нарезать"
+        }
+      ],
+      "instructions": [
+        "Сварите ячменную крупу в 780 ml воды 25–30 минут.",
+        "Припустите цукини и горошек на 10 ml оливкового масла 6 минут.",
+        "Запекайте треску при 190°C 12–14 минут с лимонным соком и укропом.",
+        "Смешайте помидоры, огурец, рукколу и оставшееся масло.",
+        "Подайте треску с ячменной крупой, овощами и салатом."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 720,
+          "protein_g": 53,
+          "carbs_g": 84,
+          "fat_g": 15,
+          "fiber_g": 12,
+          "sat_fat_g": 2.0
+        },
+        "wife": {
+          "kcal": 500,
+          "protein_g": 38,
+          "carbs_g": 58,
+          "fat_g": 10,
+          "fiber_g": 10,
+          "sat_fat_g": 1.5
+        },
+        "child": {
+          "kcal": 640,
+          "protein_g": 35,
+          "carbs_g": 82,
+          "fat_g": 12,
+          "fiber_g": 11
+        }
+      }
+    },
+    {
+      "id": "tuna-chickpea-barley-salad",
+      "title": "Салат с тунцом, нутом, ячменной крупой и овощами",
+      "meal_types": [
+        "lunch"
+      ],
+      "active_time_min": 15,
+      "total_time_min": 30,
+      "ingredients": [
+        {
+          "name": "тунец в воде консервированный",
+          "quantity": 360,
+          "unit": "g",
+          "prep": "слить жидкость"
+        },
+        {
+          "name": "нут консервированный",
+          "quantity": 480,
+          "unit": "g",
+          "prep": "промыть"
+        },
+        {
+          "name": "ячменная крупа сухая",
+          "quantity": 220,
+          "unit": "g"
+        },
+        {
+          "name": "огурцы",
+          "quantity": 2,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "помидоры",
+          "quantity": 350,
+          "unit": "g",
+          "prep": "нарезать"
+        },
+        {
+          "name": "сладкий перец",
+          "quantity": 2,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "руккола",
+          "quantity": 100,
+          "unit": "g"
+        },
+        {
+          "name": "греческий йогурт 0–2%",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "name": "лимон",
+          "quantity": 1,
+          "unit": "pcs",
+          "prep": "выжать сок"
+        },
+        {
+          "name": "оливковое масло",
+          "quantity": 20,
+          "unit": "ml"
+        }
+      ],
+      "instructions": [
+        "Сварите ячменную крупу в 660 ml воды 25 минут и остудите 5 минут.",
+        "Смешайте йогурт, лимонный сок и оливковое масло для заправки.",
+        "Соедините крупу, нут, тунец, огурцы, помидоры, перец и рукколу.",
+        "Полейте заправкой и аккуратно перемешайте.",
+        "Разложите салат по тарелкам, увеличив порцию тунца для мужа."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 710,
+          "protein_g": 52,
+          "carbs_g": 80,
+          "fat_g": 19,
+          "fiber_g": 13,
+          "sat_fat_g": 3.0
+        },
+        "wife": {
+          "kcal": 500,
+          "protein_g": 36,
+          "carbs_g": 55,
+          "fat_g": 12,
+          "fiber_g": 11,
+          "sat_fat_g": 2.0
+        },
+        "child": {
+          "kcal": 630,
+          "protein_g": 34,
+          "carbs_g": 78,
+          "fat_g": 14,
+          "fiber_g": 11
+        }
+      }
+    },
+    {
+      "id": "beef-black-bean-rice-chili",
+      "title": "Чили из постной говядины с чёрной фасолью и бурым рисом",
+      "meal_types": [
+        "dinner"
+      ],
+      "active_time_min": 25,
+      "total_time_min": 60,
+      "ingredients": [
+        {
+          "name": "постный говяжий фарш до 10% жира",
+          "quantity": 650,
+          "unit": "g"
+        },
+        {
+          "name": "чёрная фасоль консервированная",
+          "quantity": 720,
+          "unit": "g",
+          "prep": "промыть"
+        },
+        {
+          "name": "бурый рис сухой",
+          "quantity": 420,
+          "unit": "g"
+        },
+        {
+          "name": "помидоры в собственном соку",
+          "quantity": 800,
+          "unit": "g"
+        },
+        {
+          "name": "лук",
+          "quantity": 2,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "чеснок",
+          "quantity": 4,
+          "unit": "cloves",
+          "prep": "измельчить"
+        },
+        {
+          "name": "сладкий перец",
+          "quantity": 3,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "морковь",
+          "quantity": 3,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "оливковое масло",
+          "quantity": 25,
+          "unit": "ml"
+        },
+        {
+          "name": "кумин",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "name": "сладкая паприка",
+          "quantity": 1,
+          "unit": "tsp"
+        },
+        {
+          "name": "греческий йогурт 0–2%",
+          "quantity": 250,
+          "unit": "g",
+          "prep": "для подачи"
+        }
+      ],
+      "instructions": [
+        "Сварите бурый рис в 900 ml воды 30 минут.",
+        "Обжарьте говяжий фарш на оливковом масле 6 минут, разбивая лопаткой.",
+        "Добавьте лук, морковь, перец и чеснок, затем готовьте 6 минут.",
+        "Вмешайте фасоль, помидоры, кумин и паприку, затем тушите 20 минут.",
+        "Подайте чили с рисом и ложкой греческого йогурта."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 770,
+          "protein_g": 56,
+          "carbs_g": 90,
+          "fat_g": 23,
+          "fiber_g": 16,
+          "sat_fat_g": 7.0
+        },
+        "wife": {
+          "kcal": 510,
+          "protein_g": 38,
+          "carbs_g": 60,
+          "fat_g": 14,
+          "fiber_g": 13,
+          "sat_fat_g": 4.0
+        },
+        "child": {
+          "kcal": 680,
+          "protein_g": 39,
+          "carbs_g": 88,
+          "fat_g": 18,
+          "fiber_g": 14
+        }
+      }
+    },
+    {
+      "id": "salmon-buckwheat-broccoli-plates",
+      "title": "Лосось с гречкой, брокколи и шпинатным салатом",
+      "meal_types": [
+        "dinner"
+      ],
+      "active_time_min": 20,
+      "total_time_min": 40,
+      "ingredients": [
+        {
+          "name": "филе лосося",
+          "quantity": 650,
+          "unit": "g",
+          "prep": "разделить на 3 порции"
+        },
+        {
+          "name": "гречка сухая",
+          "quantity": 260,
+          "unit": "g"
+        },
+        {
+          "name": "брокколи",
+          "quantity": 600,
+          "unit": "g",
+          "prep": "разобрать на соцветия"
+        },
+        {
+          "name": "шпинат",
+          "quantity": 150,
+          "unit": "g"
+        },
+        {
+          "name": "огурец",
+          "quantity": 1,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "помидоры",
+          "quantity": 300,
+          "unit": "g",
+          "prep": "нарезать"
+        },
+        {
+          "name": "лимон",
+          "quantity": 1,
+          "unit": "pcs",
+          "prep": "выжать сок"
+        },
+        {
+          "name": "греческий йогурт 0–2%",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "name": "укроп",
+          "quantity": 20,
+          "unit": "g",
+          "prep": "нарезать"
+        },
+        {
+          "name": "оливковое масло",
+          "quantity": 25,
+          "unit": "ml"
+        }
+      ],
+      "instructions": [
+        "Сварите гречку в 520 ml воды 12–15 минут.",
+        "Запекайте лосось при 200°C 12–14 минут с лимонным соком.",
+        "Отварите брокколи на пару или в воде 4–5 минут.",
+        "Смешайте йогурт с укропом для соуса.",
+        "Подайте лосось с гречкой, брокколи, соусом и салатом из шпината, огурца и помидоров."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 750,
+          "protein_g": 53,
+          "carbs_g": 72,
+          "fat_g": 25,
+          "fiber_g": 10,
+          "sat_fat_g": 5.0
+        },
+        "wife": {
+          "kcal": 505,
+          "protein_g": 37,
+          "carbs_g": 50,
+          "fat_g": 17,
+          "fiber_g": 9,
+          "sat_fat_g": 3.5
+        },
+        "child": {
+          "kcal": 660,
+          "protein_g": 35,
+          "carbs_g": 74,
+          "fat_g": 20,
+          "fiber_g": 10
+        }
+      }
+    },
+    {
+      "id": "skyr-blueberry-walnut-cups",
+      "title": "Скир с черникой, грецкими орехами и чиа",
+      "meal_types": [
+        "snack"
+      ],
+      "active_time_min": 5,
+      "total_time_min": 5,
+      "ingredients": [
+        {
+          "name": "скир 0–2%",
+          "quantity": 450,
+          "unit": "g"
+        },
+        {
+          "name": "черника",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "name": "грецкие орехи",
+          "quantity": 40,
+          "unit": "g",
+          "prep": "крупно порубить"
+        },
+        {
+          "name": "семена чиа",
+          "quantity": 20,
+          "unit": "g"
+        }
+      ],
+      "instructions": [
+        "Разложите скир по небольшим мискам.",
+        "Добавьте чернику, чиа и грецкие орехи.",
+        "Подавайте сразу или охладите 20 минут."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 310,
+          "protein_g": 23,
+          "carbs_g": 26,
+          "fat_g": 13,
+          "fiber_g": 5,
+          "sat_fat_g": 2.0
+        },
+        "wife": {
+          "kcal": 205,
+          "protein_g": 16,
+          "carbs_g": 17,
+          "fat_g": 8,
+          "fiber_g": 4,
+          "sat_fat_g": 1.5
+        },
+        "child": {
+          "kcal": 250,
+          "protein_g": 15,
+          "carbs_g": 26,
+          "fat_g": 9,
+          "fiber_g": 4
+        }
+      }
+    },
+    {
+      "id": "kefir-cottage-vegetable-crispbread",
+      "title": "Кефир с творогом, овощами и ржаными хлебцами",
+      "meal_types": [
+        "snack"
+      ],
+      "active_time_min": 5,
+      "total_time_min": 5,
+      "ingredients": [
+        {
+          "name": "кефир 1–2,5%",
+          "quantity": 600,
+          "unit": "ml"
+        },
+        {
+          "name": "творог 0–5%",
+          "quantity": 250,
+          "unit": "g"
+        },
+        {
+          "name": "ржаные хлебцы",
+          "quantity": 9,
+          "unit": "pcs"
+        },
+        {
+          "name": "огурец",
+          "quantity": 1,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "помидоры",
+          "quantity": 200,
+          "unit": "g",
+          "prep": "нарезать"
+        }
+      ],
+      "instructions": [
+        "Разложите творог по тарелкам.",
+        "Поставьте рядом ржаные хлебцы, огурец и помидоры.",
+        "Разлейте кефир по стаканам и подайте."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 320,
+          "protein_g": 24,
+          "carbs_g": 38,
+          "fat_g": 8,
+          "fiber_g": 5,
+          "sat_fat_g": 3.0
+        },
+        "wife": {
+          "kcal": 220,
+          "protein_g": 17,
+          "carbs_g": 26,
+          "fat_g": 5,
+          "fiber_g": 4,
+          "sat_fat_g": 2.0
+        },
+        "child": {
+          "kcal": 285,
+          "protein_g": 19,
+          "carbs_g": 36,
+          "fat_g": 6,
+          "fiber_g": 4
+        }
+      }
+    },
+    {
+      "id": "soy-yogurt-raspberry-almonds",
+      "title": "Соевый йогурт с малиной, миндалём и льном",
+      "meal_types": [
+        "snack"
+      ],
+      "active_time_min": 5,
+      "total_time_min": 5,
+      "ingredients": [
+        {
+          "name": "обогащённый соевый йогурт",
+          "quantity": 450,
+          "unit": "g"
+        },
+        {
+          "name": "малина",
+          "quantity": 200,
+          "unit": "g"
+        },
+        {
+          "name": "миндаль",
+          "quantity": 40,
+          "unit": "g",
+          "prep": "крупно порубить"
+        },
+        {
+          "name": "молотый лён",
+          "quantity": 15,
+          "unit": "g"
+        }
+      ],
+      "instructions": [
+        "Разложите соевый йогурт по мискам.",
+        "Добавьте малину, миндаль и молотый лён.",
+        "Подавайте охлаждённым."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 285,
+          "protein_g": 15,
+          "carbs_g": 28,
+          "fat_g": 13,
+          "fiber_g": 6,
+          "sat_fat_g": 1.0
+        },
+        "wife": {
+          "kcal": 195,
+          "protein_g": 11,
+          "carbs_g": 19,
+          "fat_g": 9,
+          "fiber_g": 5,
+          "sat_fat_g": 0.8
+        },
+        "child": {
+          "kcal": 235,
+          "protein_g": 11,
+          "carbs_g": 28,
+          "fat_g": 9,
+          "fiber_g": 5
+        }
+      }
+    },
+    {
+      "id": "hummus-egg-veg-kefir",
+      "title": "Хумус с яйцом, овощами и кефиром",
+      "meal_types": [
+        "snack"
+      ],
+      "active_time_min": 12,
+      "total_time_min": 12,
+      "ingredients": [
+        {
+          "name": "хумус",
+          "quantity": 220,
+          "unit": "g"
+        },
+        {
+          "name": "яйца",
+          "quantity": 3,
+          "unit": "pcs"
+        },
+        {
+          "name": "морковь",
+          "quantity": 2,
+          "unit": "pcs",
+          "prep": "нарезать палочками"
+        },
+        {
+          "name": "сладкий перец",
+          "quantity": 1,
+          "unit": "pcs",
+          "prep": "нарезать полосками"
+        },
+        {
+          "name": "огурец",
+          "quantity": 1,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "кефир 1–2,5%",
+          "quantity": 500,
+          "unit": "ml"
+        }
+      ],
+      "instructions": [
+        "Отварите яйца 10 минут и остудите в холодной воде.",
+        "Разложите хумус, овощи и очищенные яйца по тарелкам.",
+        "Разлейте кефир по стаканам и подайте."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 340,
+          "protein_g": 23,
+          "carbs_g": 36,
+          "fat_g": 14,
+          "fiber_g": 7,
+          "sat_fat_g": 3.5
+        },
+        "wife": {
+          "kcal": 235,
+          "protein_g": 17,
+          "carbs_g": 25,
+          "fat_g": 9,
+          "fiber_g": 5,
+          "sat_fat_g": 2.5
+        },
+        "child": {
+          "kcal": 285,
+          "protein_g": 18,
+          "carbs_g": 32,
+          "fat_g": 9,
+          "fiber_g": 5
+        }
+      }
+    },
+    {
+      "id": "edamame-clementine-skyr",
+      "title": "Эдамаме со скиром, клементинами и тыквенными семечками",
+      "meal_types": [
+        "snack"
+      ],
+      "active_time_min": 8,
+      "total_time_min": 8,
+      "ingredients": [
+        {
+          "name": "эдамаме очищенные",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "name": "скир 0–2%",
+          "quantity": 300,
+          "unit": "g"
+        },
+        {
+          "name": "клементины",
+          "quantity": 4,
+          "unit": "pcs",
+          "prep": "очистить"
+        },
+        {
+          "name": "тыквенные семечки",
+          "quantity": 30,
+          "unit": "g"
+        }
+      ],
+      "instructions": [
+        "Прогрейте эдамаме в кипящей воде 3–4 минуты и слейте воду.",
+        "Разложите эдамаме, скир и клементины по тарелкам.",
+        "Посыпьте скир тыквенными семечками и подайте."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 310,
+          "protein_g": 24,
+          "carbs_g": 32,
+          "fat_g": 9,
+          "fiber_g": 6,
+          "sat_fat_g": 1.5
+        },
+        "wife": {
+          "kcal": 210,
+          "protein_g": 17,
+          "carbs_g": 22,
+          "fat_g": 6,
+          "fiber_g": 5,
+          "sat_fat_g": 1.0
+        },
+        "child": {
+          "kcal": 260,
+          "protein_g": 17,
+          "carbs_g": 34,
+          "fat_g": 6,
+          "fiber_g": 5
+        }
+      }
+    },
+    {
+      "id": "cottage-banana-cocoa-bowl",
+      "title": "Творог с бананом, какао и миндалём",
+      "meal_types": [
+        "snack"
+      ],
+      "active_time_min": 5,
+      "total_time_min": 5,
+      "ingredients": [
+        {
+          "name": "творог 0–5%",
+          "quantity": 450,
+          "unit": "g"
+        },
+        {
+          "name": "бананы",
+          "quantity": 2,
+          "unit": "pcs",
+          "prep": "нарезать"
+        },
+        {
+          "name": "миндаль",
+          "quantity": 35,
+          "unit": "g",
+          "prep": "крупно порубить"
+        },
+        {
+          "name": "какао без сахара",
+          "quantity": 10,
+          "unit": "g"
+        },
+        {
+          "name": "кефир 1–2,5%",
+          "quantity": 300,
+          "unit": "ml",
+          "prep": "добавить для мягкой текстуры"
+        }
+      ],
+      "instructions": [
+        "Разомните творог с кефиром до мягкой текстуры.",
+        "Разложите смесь по мискам и добавьте банан.",
+        "Посыпьте какао и миндалём."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 320,
+          "protein_g": 23,
+          "carbs_g": 38,
+          "fat_g": 8,
+          "fiber_g": 5,
+          "sat_fat_g": 2.5
+        },
+        "wife": {
+          "kcal": 220,
+          "protein_g": 17,
+          "carbs_g": 26,
+          "fat_g": 5,
+          "fiber_g": 4,
+          "sat_fat_g": 1.8
+        },
+        "child": {
+          "kcal": 285,
+          "protein_g": 18,
+          "carbs_g": 36,
+          "fat_g": 6,
+          "fiber_g": 4
+        }
+      }
+    },
+    {
+      "id": "greek-yogurt-strawberry-pumpkin",
+      "title": "Греческий йогурт с клубникой и тыквенными семечками",
+      "meal_types": [
+        "snack"
+      ],
+      "active_time_min": 5,
+      "total_time_min": 5,
+      "ingredients": [
+        {
+          "name": "греческий йогурт 0–2%",
+          "quantity": 450,
+          "unit": "g"
+        },
+        {
+          "name": "клубника",
+          "quantity": 250,
+          "unit": "g",
+          "prep": "нарезать"
+        },
+        {
+          "name": "тыквенные семечки",
+          "quantity": 35,
+          "unit": "g"
+        },
+        {
+          "name": "молотый лён",
+          "quantity": 15,
+          "unit": "g"
+        }
+      ],
+      "instructions": [
+        "Разложите греческий йогурт по мискам.",
+        "Добавьте клубнику, тыквенные семечки и молотый лён.",
+        "Подавайте сразу."
+      ],
+      "nutrition_estimate_per_person": {
+        "husband": {
+          "kcal": 320,
+          "protein_g": 23,
+          "carbs_g": 32,
+          "fat_g": 13,
+          "fiber_g": 5,
+          "sat_fat_g": 2.5
+        },
+        "wife": {
+          "kcal": 215,
+          "protein_g": 17,
+          "carbs_g": 21,
+          "fat_g": 8,
+          "fiber_g": 4,
+          "sat_fat_g": 2.0
+        },
+        "child": {
+          "kcal": 255,
+          "protein_g": 15,
+          "carbs_g": 30,
+          "fat_g": 8,
+          "fiber_g": 4
+        }
+      }
+    }
+  ],
+  "shopping_list": [
+    {
+      "category": "Рыба и морепродукты",
+      "items": [
+        {
+          "id": "trout-fillet|g",
+          "name": "Филе форели",
+          "quantity": "900",
+          "unit": "g",
+          "note": "Свежее или замороженное"
+        },
+        {
+          "id": "cod-fillet|g",
+          "name": "Филе трески",
+          "quantity": "650",
+          "unit": "g",
+          "note": "Свежее или замороженное"
+        },
+        {
+          "id": "tuna-water-canned|g",
+          "name": "Тунец в воде консервированный",
+          "quantity": "360",
+          "unit": "g",
+          "note": "Выбрать вариант с меньшим содержанием соли"
+        },
+        {
+          "id": "salmon-fillet|g",
+          "name": "Филе лосося",
+          "quantity": "650",
+          "unit": "g",
+          "note": "Свежее или замороженное"
+        }
+      ]
+    },
+    {
+      "category": "Мясо и птица",
+      "items": [
+        {
+          "id": "chicken-breast|g",
+          "name": "Куриная грудка",
+          "quantity": "650",
+          "unit": "g"
+        },
+        {
+          "id": "turkey-fillet|g",
+          "name": "Филе индейки",
+          "quantity": "900",
+          "unit": "g"
+        },
+        {
+          "id": "pork-tenderloin|g",
+          "name": "Свиная вырезка",
+          "quantity": "900",
+          "unit": "g"
+        },
+        {
+          "id": "lean-beef-mince|g",
+          "name": "Постный говяжий фарш до 10% жира",
+          "quantity": "650",
+          "unit": "g"
+        }
+      ]
+    },
+    {
+      "category": "Молочные продукты, яйца и соя",
+      "items": [
+        {
+          "id": "cottage-cheese-lowfat|g",
+          "name": "Творог 0–5%",
+          "quantity": "1750",
+          "unit": "g"
+        },
+        {
+          "id": "kefir|ml",
+          "name": "Кефир 1–2,5%",
+          "quantity": "2350",
+          "unit": "ml"
+        },
+        {
+          "id": "skyr|g",
+          "name": "Скир 0–2%",
+          "quantity": "1200",
+          "unit": "g"
+        },
+        {
+          "id": "greek-yogurt-lowfat|g",
+          "name": "Греческий йогурт 0–2%",
+          "quantity": "2500",
+          "unit": "g"
+        },
+        {
+          "id": "milk-lowfat|ml",
+          "name": "Молоко 1–2,5%",
+          "quantity": "500",
+          "unit": "ml"
+        },
+        {
+          "id": "soy-milk-fortified|ml",
+          "name": "Обогащённое соевое молоко",
+          "quantity": "1850",
+          "unit": "ml",
+          "note": "С кальцием"
+        },
+        {
+          "id": "soy-yogurt-fortified|g",
+          "name": "Обогащённый соевый йогурт",
+          "quantity": "450",
+          "unit": "g",
+          "note": "Без сладких добавок"
+        },
+        {
+          "id": "tofu-firm|g",
+          "name": "Твёрдый тофу",
+          "quantity": "1200",
+          "unit": "g"
+        },
+        {
+          "id": "edamame-shelled|g",
+          "name": "Эдамаме очищенные",
+          "quantity": "650",
+          "unit": "g"
+        },
+        {
+          "id": "eggs|pcs",
+          "name": "Яйца",
+          "quantity": "8",
+          "unit": "pcs"
+        },
+        {
+          "id": "egg-whites|ml",
+          "name": "Яичные белки",
+          "quantity": "550",
+          "unit": "ml"
+        },
+        {
+          "id": "hummus|g",
+          "name": "Хумус",
+          "quantity": "220",
+          "unit": "g",
+          "note": "Выбрать вариант с меньшим содержанием соли"
+        }
+      ]
+    },
+    {
+      "category": "Овощи и фрукты",
+      "items": [
+        {
+          "id": "tomatoes|g",
+          "name": "Помидоры",
+          "quantity": "2600",
+          "unit": "g"
+        },
+        {
+          "id": "cucumbers|pcs",
+          "name": "Огурцы",
+          "quantity": "9",
+          "unit": "pcs"
+        },
+        {
+          "id": "carrots|pcs",
+          "name": "Морковь",
+          "quantity": "15",
+          "unit": "pcs"
+        },
+        {
+          "id": "onions|pcs",
+          "name": "Лук",
+          "quantity": "7",
+          "unit": "pcs"
+        },
+        {
+          "id": "garlic|heads",
+          "name": "Чеснок",
+          "quantity": "2",
+          "unit": "heads"
+        },
+        {
+          "id": "celery|stalks",
+          "name": "Сельдерей",
+          "quantity": "3",
+          "unit": "stalks"
+        },
+        {
+          "id": "spinach|g",
+          "name": "Шпинат",
+          "quantity": "700",
+          "unit": "g"
+        },
+        {
+          "id": "green-beans|g",
+          "name": "Стручковая фасоль",
+          "quantity": "700",
+          "unit": "g"
+        },
+        {
+          "id": "sweet-peppers|pcs",
+          "name": "Сладкий перец",
+          "quantity": "13",
+          "unit": "pcs"
+        },
+        {
+          "id": "broccoli|g",
+          "name": "Брокколи",
+          "quantity": "1100",
+          "unit": "g"
+        },
+        {
+          "id": "cauliflower|g",
+          "name": "Цветная капуста",
+          "quantity": "800",
+          "unit": "g"
+        },
+        {
+          "id": "beetroot-cooked|g",
+          "name": "Свёкла варёная",
+          "quantity": "500",
+          "unit": "g"
+        },
+        {
+          "id": "white-cabbage|g",
+          "name": "Капуста белокочанная",
+          "quantity": "400",
+          "unit": "g"
+        },
+        {
+          "id": "zucchini|pcs",
+          "name": "Цукини",
+          "quantity": "2",
+          "unit": "pcs"
+        },
+        {
+          "id": "green-peas-frozen|g",
+          "name": "Зелёный горошек замороженный",
+          "quantity": "250",
+          "unit": "g"
+        },
+        {
+          "id": "arugula|g",
+          "name": "Руккола",
+          "quantity": "200",
+          "unit": "g"
+        },
+        {
+          "id": "avocado|pcs",
+          "name": "Авокадо",
+          "quantity": "4",
+          "unit": "pcs",
+          "note": "Спелые"
+        },
+        {
+          "id": "blueberries|g",
+          "name": "Черника",
+          "quantity": "450",
+          "unit": "g"
+        },
+        {
+          "id": "raspberries|g",
+          "name": "Малина",
+          "quantity": "650",
+          "unit": "g"
+        },
+        {
+          "id": "strawberries|g",
+          "name": "Клубника",
+          "quantity": "550",
+          "unit": "g"
+        },
+        {
+          "id": "bananas|pcs",
+          "name": "Бананы",
+          "quantity": "5",
+          "unit": "pcs"
+        },
+        {
+          "id": "clementines|pcs",
+          "name": "Клементины",
+          "quantity": "4",
+          "unit": "pcs"
+        },
+        {
+          "id": "lemons|pcs",
+          "name": "Лимоны",
+          "quantity": "7",
+          "unit": "pcs"
+        },
+        {
+          "id": "dill|g",
+          "name": "Укроп",
+          "quantity": "65",
+          "unit": "g"
+        },
+        {
+          "id": "parsley|g",
+          "name": "Петрушка",
+          "quantity": "25",
+          "unit": "g"
+        },
+        {
+          "id": "ginger|g",
+          "name": "Имбирь свежий",
+          "quantity": "25",
+          "unit": "g"
+        }
+      ]
+    },
+    {
+      "category": "Бакалея, крупы и бобовые",
+      "items": [
+        {
+          "id": "rye-bread|loaves",
+          "name": "Ржаной хлеб",
+          "quantity": "2",
+          "unit": "loaves"
+        },
+        {
+          "id": "wholegrain-bread|loaves",
+          "name": "Цельнозерновой хлеб",
+          "quantity": "1",
+          "unit": "loaves"
+        },
+        {
+          "id": "rye-crispbread|pcs",
+          "name": "Ржаные хлебцы",
+          "quantity": "9",
+          "unit": "pcs"
+        },
+        {
+          "id": "rolled-oats|g",
+          "name": "Овсяные хлопья",
+          "quantity": "520",
+          "unit": "g"
+        },
+        {
+          "id": "buckwheat-raw|g",
+          "name": "Гречка сухая",
+          "quantity": "560",
+          "unit": "g"
+        },
+        {
+          "id": "barley-flakes|g",
+          "name": "Ячменные хлопья",
+          "quantity": "260",
+          "unit": "g"
+        },
+        {
+          "id": "barley-groats|g",
+          "name": "Ячменная крупа сухая",
+          "quantity": "740",
+          "unit": "g"
+        },
+        {
+          "id": "bulgur-raw|g",
+          "name": "Булгур сухой",
+          "quantity": "420",
+          "unit": "g"
+        },
+        {
+          "id": "quinoa-raw|g",
+          "name": "Киноа сухая",
+          "quantity": "360",
+          "unit": "g"
+        },
+        {
+          "id": "buckwheat-noodles|g",
+          "name": "Гречневая лапша сухая",
+          "quantity": "450",
+          "unit": "g"
+        },
+        {
+          "id": "potatoes|g",
+          "name": "Картофель",
+          "quantity": "1400",
+          "unit": "g"
+        },
+        {
+          "id": "brown-rice|g",
+          "name": "Бурый рис сухой",
+          "quantity": "420",
+          "unit": "g"
+        },
+        {
+          "id": "red-lentils|g",
+          "name": "Красная чечевица сухая",
+          "quantity": "220",
+          "unit": "g"
+        },
+        {
+          "id": "white-beans-canned|g",
+          "name": "Белая фасоль консервированная",
+          "quantity": "480",
+          "unit": "g",
+          "note": "Промыть перед использованием"
+        },
+        {
+          "id": "chickpeas-canned|g",
+          "name": "Нут консервированный",
+          "quantity": "480",
+          "unit": "g",
+          "note": "Промыть перед использованием"
+        },
+        {
+          "id": "black-beans-canned|g",
+          "name": "Чёрная фасоль консервированная",
+          "quantity": "720",
+          "unit": "g",
+          "note": "Промыть перед использованием"
+        },
+        {
+          "id": "canned-tomatoes|g",
+          "name": "Помидоры в собственном соку",
+          "quantity": "1600",
+          "unit": "g"
+        },
+        {
+          "id": "olive-oil|ml",
+          "name": "Оливковое масло",
+          "quantity": "500",
+          "unit": "ml"
+        },
+        {
+          "id": "walnuts|g",
+          "name": "Грецкие орехи",
+          "quantity": "240",
+          "unit": "g"
+        },
+        {
+          "id": "almonds|g",
+          "name": "Миндаль",
+          "quantity": "75",
+          "unit": "g"
+        },
+        {
+          "id": "chia-seeds|g",
+          "name": "Семена чиа",
+          "quantity": "95",
+          "unit": "g"
+        },
+        {
+          "id": "ground-flaxseed|g",
+          "name": "Молотый лён",
+          "quantity": "80",
+          "unit": "g"
+        },
+        {
+          "id": "pumpkin-seeds|g",
+          "name": "Тыквенные семечки",
+          "quantity": "65",
+          "unit": "g"
+        },
+        {
+          "id": "cocoa-unsweetened|g",
+          "name": "Какао без сахара",
+          "quantity": "10",
+          "unit": "g"
+        },
+        {
+          "id": "low-sodium-soy-sauce|ml",
+          "name": "Соевый соус с пониженным содержанием соли",
+          "quantity": "45",
+          "unit": "ml"
+        },
+        {
+          "id": "turmeric|tsp",
+          "name": "Куркума",
+          "quantity": "1",
+          "unit": "tsp"
+        },
+        {
+          "id": "sweet-paprika|tsp",
+          "name": "Сладкая паприка",
+          "quantity": "2",
+          "unit": "tsp"
+        },
+        {
+          "id": "cumin|tsp",
+          "name": "Кумин",
+          "quantity": "2",
+          "unit": "tsp"
+        },
+        {
+          "id": "bay-leaf|pcs",
+          "name": "Лавровый лист",
+          "quantity": "1",
+          "unit": "pcs"
+        }
+      ]
+    }
+  ],
+  "daily_nutrition": [
+    {
+      "date": "2026-06-01",
+      "husband": {
+        "kcal": 2355,
+        "protein_g": 175,
+        "carbs_g": 240,
+        "fat_g": 69,
+        "fiber_g": 39,
+        "sat_fat_g": 13.5
+      },
+      "wife": {
+        "kcal": 1640,
+        "protein_g": 127,
+        "carbs_g": 163,
+        "fat_g": 47,
+        "fiber_g": 32,
+        "sat_fat_g": 9.5
+      },
+      "child": {
+        "kcal": 2535,
+        "protein_g": 140,
+        "carbs_g": 290,
+        "fat_g": 70,
+        "fiber_g": 38,
+        "includes_fixed_school_snack": true
+      }
+    },
+    {
+      "date": "2026-06-02",
+      "husband": {
+        "kcal": 2420,
+        "protein_g": 178,
+        "carbs_g": 268,
+        "fat_g": 68,
+        "fiber_g": 42,
+        "sat_fat_g": 14.0
+      },
+      "wife": {
+        "kcal": 1645,
+        "protein_g": 127,
+        "carbs_g": 182,
+        "fat_g": 46,
+        "fiber_g": 34,
+        "sat_fat_g": 9.5
+      },
+      "child": {
+        "kcal": 2520,
+        "protein_g": 143,
+        "carbs_g": 312,
+        "fat_g": 68,
+        "fiber_g": 40,
+        "includes_fixed_school_snack": true
+      }
+    },
+    {
+      "date": "2026-06-03",
+      "husband": {
+        "kcal": 2360,
+        "protein_g": 159,
+        "carbs_g": 274,
+        "fat_g": 69,
+        "fiber_g": 45,
+        "sat_fat_g": 10.5
+      },
+      "wife": {
+        "kcal": 1610,
+        "protein_g": 117,
+        "carbs_g": 188,
+        "fat_g": 47,
+        "fiber_g": 38,
+        "sat_fat_g": 7.3
+      },
+      "child": {
+        "kcal": 2515,
+        "protein_g": 132,
+        "carbs_g": 316,
+        "fat_g": 67,
+        "fiber_g": 44,
+        "includes_fixed_school_snack": true
+      }
+    },
+    {
+      "date": "2026-06-04",
+      "husband": {
+        "kcal": 2420,
+        "protein_g": 166,
+        "carbs_g": 264,
+        "fat_g": 75,
+        "fiber_g": 41,
+        "sat_fat_g": 14.5
+      },
+      "wife": {
+        "kcal": 1635,
+        "protein_g": 121,
+        "carbs_g": 177,
+        "fat_g": 51,
+        "fiber_g": 33,
+        "sat_fat_g": 9.5
+      },
+      "child": {
+        "kcal": 2530,
+        "protein_g": 139,
+        "carbs_g": 306,
+        "fat_g": 72,
+        "fiber_g": 40,
+        "includes_fixed_school_snack": true
+      }
+    },
+    {
+      "date": "2026-06-05",
+      "husband": {
+        "kcal": 2405,
+        "protein_g": 175,
+        "carbs_g": 270,
+        "fat_g": 63,
+        "fiber_g": 41,
+        "sat_fat_g": 11.5
+      },
+      "wife": {
+        "kcal": 1615,
+        "protein_g": 125,
+        "carbs_g": 183,
+        "fat_g": 43,
+        "fiber_g": 34,
+        "sat_fat_g": 7.5
+      },
+      "child": {
+        "kcal": 2525,
+        "protein_g": 138,
+        "carbs_g": 316,
+        "fat_g": 64,
+        "fiber_g": 40,
+        "includes_fixed_school_snack": true
+      }
+    },
+    {
+      "date": "2026-06-06",
+      "husband": {
+        "kcal": 2400,
+        "protein_g": 176,
+        "carbs_g": 258,
+        "fat_g": 72,
+        "fiber_g": 43,
+        "sat_fat_g": 16.5
+      },
+      "wife": {
+        "kcal": 1650,
+        "protein_g": 127,
+        "carbs_g": 176,
+        "fat_g": 49,
+        "fiber_g": 35,
+        "sat_fat_g": 10.8
+      },
+      "child": {
+        "kcal": 2195,
+        "protein_g": 122,
+        "carbs_g": 262,
+        "fat_g": 57,
+        "fiber_g": 37,
+        "includes_fixed_school_snack": false
+      }
+    },
+    {
+      "date": "2026-06-07",
+      "husband": {
+        "kcal": 2460,
+        "protein_g": 176,
+        "carbs_g": 272,
+        "fat_g": 79,
+        "fiber_g": 44,
+        "sat_fat_g": 17.5
+      },
+      "wife": {
+        "kcal": 1660,
+        "protein_g": 124,
+        "carbs_g": 187,
+        "fat_g": 51,
+        "fiber_g": 36,
+        "sat_fat_g": 10.8
+      },
+      "child": {
+        "kcal": 2215,
+        "protein_g": 118,
+        "carbs_g": 278,
+        "fat_g": 62,
+        "fiber_g": 40,
+        "includes_fixed_school_snack": false
+      }
+    }
+  ]
+}

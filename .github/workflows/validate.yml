@@ -22,5 +22,11 @@ jobs:
           node-version: '20'
       - name: Sync manifest
         run: node scripts/sync-weeks-index.js
+      - name: Check manifest is up to date
+        run: |
+          if ! git diff --exit-code data/weeks/index.json; then
+            echo "::error::data/weeks/index.json is out of sync. Run 'node scripts/sync-weeks-index.js' locally and commit the result."
+            exit 1
+          fi
       - name: Validate all weeks
         run: node scripts/validate-all-weeks.js

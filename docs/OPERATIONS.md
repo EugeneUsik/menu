@@ -78,7 +78,7 @@ Do not commit `index.json` generated with `--include-sample` to the main branch.
 | JSON parse error on validate | Invalid JSON from LLM | Fix JSON, re-run validate |
 | `week.id does not match filename` | Mismatch between `week.id` in JSON and filename | Rename file or fix the id field |
 | Broken recipe_id reference | recipe_id in menu not matching any recipe | validate-week.js lists the broken IDs |
-| Wrong default week | `isCurrent` check uses local system date | Verify system date; re-run sync |
+| Wrong default week | Manifest is stale, or `isCurrent` was computed on a different date | Re-run `node scripts/sync-weeks-index.js`; use `--default 2026-Wxx` to force a specific week |
 | Shopping checkboxes wrong week | Different `week.id` format across weeks | Ensure `week.id` matches filename exactly |
 | GitHub Pages not updating | CDN cache | Wait 2–5 min, hard-refresh (Cmd+Shift+R) |
 | `fetch()` fails locally | Opened HTML directly via filesystem | Use `python3 -m http.server 8080` |

@@ -307,16 +307,17 @@ Examples:
 
 The `week.id` inside the JSON must match the filename without `.json`.
 
-The file must include:
+The file must include (Schema 2.0):
 
+- `schema_version` (`"2.0"`)
 - `week`
+- `fixed_school_snack`
 - `menu`
 - `recipes`
 - `shopping_list`
 - `daily_nutrition`
-- `weekly_validation`
-- `safety`
-- `assumptions`
+
+Legacy fields `weekly_validation`, `safety`, and `assumptions` were required in Schema 1.0; in 2.0 they are tolerated for backward compatibility but no longer required or generated.
 
 ---
 
@@ -339,7 +340,7 @@ Both should describe the same contract, but `prompts/json-schema.md` should be s
 
 ```json
 {
-  "schema_version": "1.0",
+  "schema_version": "2.0",
   "week": {
     "id": "2026-W19",
     "label": "2026 W19 · May 4–10",
@@ -349,30 +350,20 @@ Both should describe the same contract, but `prompts/json-schema.md` should be s
     "notes": []
   },
   "household_context_version": "3.0",
-  "language": "en",
-  "assumptions": [],
+  "language": "ru",
+  "fixed_school_snack": {
+    "applies_on_days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    "description": "Fixed external school snack accounted for but not modified.",
+    "notes": ""
+  },
   "menu": [],
   "recipes": [],
   "shopping_list": [],
-  "daily_nutrition": [],
-  "weekly_validation": {
-    "pass": false,
-    "checks": []
-  },
-  "safety": {
-    "allergy_check": {
-      "pass": false,
-      "notes": []
-    },
-    "processed_meat_check": {
-      "pass": false,
-      "notes": []
-    },
-    "fixed_child_snack_accounted_for": false,
-    "fixed_child_snack_not_modified": false
-  }
+  "daily_nutrition": []
 }
 ```
+
+`fixed_school_snack` is defined **once at the top level**. Each `menu[]` day instead carries `includes_fixed_school_snack: boolean` (true on school days, false on weekends).
 
 ## 8.2 Menu Day Shape
 
@@ -382,42 +373,24 @@ Both should describe the same contract, but `prompts/json-schema.md` should be s
   "date": "2026-05-04",
   "breakfast": {
     "title": "",
-    "recipe_id": "",
-    "portion_notes": {
-      "husband": "",
-      "wife": "",
-      "child": ""
-    }
+    "recipe_id": ""
   },
   "lunch": {
     "title": "",
     "recipe_id": "",
-    "leftover_from": null,
-    "portion_notes": {
-      "husband": "",
-      "wife": "",
-      "child": ""
-    }
+    "leftover_from": null
   },
   "dinner": {
     "title": "",
     "recipe_id": "",
-    "cook_once_eat_twice": false,
-    "portion_notes": {
-      "husband": "",
-      "wife": "",
-      "child": ""
-    }
+    "cook_once_eat_twice": false
   },
   "shared_snack": {
     "title": "",
     "recipe_id": "",
     "optional": true
   },
-  "child_fixed_school_snack": {
-    "included_in_nutrition": true,
-    "description": "Fixed external school snack accounted for but not modified."
-  },
+  "includes_fixed_school_snack": true,
   "daily_notes": []
 }
 ```
@@ -920,7 +893,7 @@ Russian/basic variants:
 
 Important:
 
-- The processed-meat scan must ignore the object path `*.child_fixed_school_snack.*`.
+- The processed-meat scan must ignore the top-level `fixed_school_snack` subtree (the child's external school snack legitimately contains processed meat).
 - It must not ignore processed-meat terms elsewhere.
 
 ---
