@@ -1,7 +1,17 @@
 {
-  "generated_at": "2026-06-01T10:54:19.609Z",
+  "generated_at": "2026-06-01T16:14:51.647Z",
   "defaultWeekId": "2026-W23",
   "weeks": [
+    {
+      "id": "2026-W24",
+      "label": "2026 W24 · 8–14 июня",
+      "start_date": "2026-06-08",
+      "end_date": "2026-06-14",
+      "file": "2026-W24.json",
+      "isCurrent": false,
+      "status": "ready",
+      "notes": ""
+    },
     {
       "id": "2026-W23",
       "label": "2026 W23 · 1–7 июня",

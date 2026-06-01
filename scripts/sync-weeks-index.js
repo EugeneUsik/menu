@@ -31,7 +31,7 @@ function main() {
 
   let files;
   try {
-    files = fs.readdirSync(WEEKS_DIR).filter(f => f.endsWith('.json'));
+    files = fs.readdirSync(WEEKS_DIR).filter(f => f.endsWith('.json') && !f.endsWith('-shopping-meta.json'));
   } catch (err) {
     console.error(`Error reading directory ${WEEKS_DIR}: ${err.message}`);
     process.exit(1);
