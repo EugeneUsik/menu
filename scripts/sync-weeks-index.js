@@ -115,7 +115,6 @@ function main() {
   }
 
   const output = {
-    generated_at: new Date().toISOString(),
     defaultWeekId,
     weeks: entries
   };
