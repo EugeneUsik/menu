@@ -162,6 +162,13 @@ All user-visible content in the JSON must be written in **Russian**:
 - Shopping list `category` headings
 - `fixed_school_snack.description`
 
+**Ingredient name order (critical for shopping dedup).** Russian ingredient `name` values must follow **noun-first** order — the main noun comes first, adjectives and qualifiers after. The shopping script aggregates by `(name, unit)` as the dedup key; inconsistent ordering creates duplicate entries.
+
+Correct: `"укроп свежий"`, `"петрушка свежая"`, `"молоко 2%"`, `"томаты консервированные кусочками"`
+Wrong: `"свежий укроп"`, `"свежая петрушка"`, `"консервированные томаты кусочками"`
+
+Apply this rule to every ingredient in every recipe throughout the file. Prep instructions (`prep` field) are exempt — they describe actions, not names.
+
 Keep the following in English / ASCII so tooling, IDs, validation, and the frontend filters keep working:
 
 - All JSON keys (e.g. `breakfast`, `lunch`, `recipes`, `nutrition_estimate_per_person`)
@@ -293,11 +300,13 @@ Before producing the final JSON, verify every item:
 
 **Safety**
 - [ ] No banned fruit terms anywhere (cherries, apples, pears, apricots, peaches — titles, notes, ingredients, shopping) — checked in both English and Russian
+- [ ] Shopping notes (`note` field) do not contain banned fruit terms — never write "без вишни" or similar; say "проверить состав" or omit
 - [ ] No processed-meat terms anywhere in the document — checked in both English and Russian
 
 **Language**
 - [ ] All user-visible text fields are in Russian (meal titles, recipe titles, ingredient names, prep notes, instructions, shopping names/notes/categories, `fixed_school_snack.description`)
 - [ ] All enum/structural values and IDs remain English/ASCII (`day_name`, `leftover_from`, `meal_types`, recipe `id`, shopping item `id`, `unit`)
+- [ ] All ingredient `name` values follow noun-first order (e.g. `"укроп свежий"` not `"свежий укроп"`) — dedup depends on consistent naming
 
 **Nutrition**
 - [ ] Shared snack on ≥4 days

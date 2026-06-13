@@ -21,7 +21,8 @@ node scripts/validate-all-weeks.js
 
 # Assemble shopping list (two-step: generate template, fill it, then assemble)
 node scripts/generate-shopping-list.js data/weeks/2026-W20.json --template
-# → writes data/weeks/2026-W20-shopping-meta.json (gitignored; fill display_name/category/note)
+# → writes data/weeks/2026-W20-shopping-meta.json (gitignored)
+# → display_name is auto-filled (capitalised recipe_key); only fill category and note
 node scripts/generate-shopping-list.js data/weeks/2026-W20.json data/weeks/2026-W20-shopping-meta.json
 ```
 

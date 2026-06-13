@@ -17,6 +17,7 @@
 11. In the shopping list indicate raw weights for grains, potatoes, pasta, meat, and fish.
 12. All nutrition estimates must be per-person, not per-serving of the shared recipe.
 13. Only include `cook_once_eat_twice: true` on dinner entries where it applies; omit otherwise. Only include `leftover_from` on lunch entries that are leftovers; omit otherwise.
+14. **Ingredient names must use noun-first order** in Russian. The shopping script deduplicates by `(name, unit)` — inconsistent ordering creates phantom duplicates that fail validation. Correct: `"укроп свежий"`, `"петрушка свежая"`, `"томаты консервированные кусочками"`. Wrong: `"свежий укроп"`, `"свежая петрушка"`. The `prep` field is exempt.
 
 ## Fixed child school snack (never modify)
 

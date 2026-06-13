@@ -35,7 +35,7 @@ function templateMode(weekPath) {
   const entries = [...agg.values()].map(({ name, unit }) => ({
     recipe_key:   name,
     unit,
-    display_name: null,
+    display_name: name.charAt(0).toUpperCase() + name.slice(1),
     category:     null,
     note:         null
   }));
