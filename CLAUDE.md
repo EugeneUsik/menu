@@ -31,9 +31,13 @@ node scripts/derive-history.js --weeks 10                         # default 6
 node scripts/promote-plan.js <plan> --force                       # promote despite failures
 ```
 
-Vanilla Node ≥18, no dependencies, no build step. Tests use the built-in `node:test` runner,
-so there is still nothing to install. Pass the glob (`tests/*.test.js`) rather than the
-directory — `node --test tests/` resolves the path as a module and fails.
+Vanilla Node, no dependencies, no build step. Tests use the built-in `node:test` runner, so
+there is still nothing to install. Pass the glob (`tests/*.test.js`) rather than the directory —
+`node --test tests/` resolves the path as a module and fails.
+
+CI runs Node 24, matching the development machine, so "works locally" and "passes CI" mean the
+same thing. Nothing in the tree needs anything past Node 18, but only 24 is actually exercised —
+if you care about a lower floor, add it to the workflow as a matrix rather than asserting it here.
 
 Tests cover the arithmetic that cannot be eyeballed: unit conversion, the eater model and
 per-person split, budget severity routing, and the banned-term scanner. Anything that reads

@@ -38,10 +38,13 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          # Matches the development machine, so "works locally" and "passes CI" mean the same
+          # thing. Node 20 was pinned here until its LTS maintenance ended, at which point CI
+          # was exercising the scripts on an end-of-life runtime.
+          node-version: '24'
 
       # Unit tests first: they cover the conversion, eater-model and budget-severity logic
       # every check below depends on, and they fail in milliseconds.
