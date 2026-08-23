@@ -9,13 +9,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 python3 -m http.server 8080
 
 # ── Generation pipeline (in order) ──────────────────────────────────────────
-node scripts/derive-history.js                                    # FIRST: history + portion calibration
+node scripts/derive-history.js --brief                            # FIRST: history + calibration, 36 lines
 node scripts/catalog-digest.js                                    # ingredient vocabulary, compact
-node scripts/normalise-plan.js  data/weeks/2026-W36-plan.json     # derive dates, days, serves
+node scripts/scaffold-plan.js   data/weeks/2026-W36-spec.json     # spec → scaled, normalised plan
 node scripts/validate-plan.js   data/weeks/2026-W36-plan.json     # iterate HERE
 node scripts/diagnose-plan.js   data/weeks/2026-W36-plan.json     # ...and why, and by how much
 node scripts/patch-plan.js      data/weeks/2026-W36-plan.json <recipe-id> "ингредиент=700"
 node scripts/promote-plan.js    data/weeks/2026-W36-plan.json     # plan → week skeleton
+node scripts/apply-expansion.js data/weeks/2026-W36.json <fragments...>   # merge parallel expansion
 node scripts/compute-nutrition.js data/weeks/2026-W36.json        # derive nutrition + day totals
 node scripts/generate-shopping-list.js data/weeks/2026-W36.json   # assemble shopping list
 node scripts/validate-week.js   data/weeks/2026-W36.json          # final gate
@@ -63,8 +64,8 @@ several respects — don't reference it.
 ### Two-stage generation — the load-bearing design decision
 
 ```
-plan  →  normalise-plan.js  →  validate-plan.js  →  promote-plan.js  →  expand  →  compute  →  publish
-                                     ↑ iterate here
+spec  →  scaffold-plan.js  →  validate-plan.js  →  promote-plan.js  →  expand  →  compute  →  publish
+                                   ↑ iterate here          (parallel, apply-expansion.js merges)
 ```
 
 Every nutrition and variety rule is a property of the **whole 7-day week**, not of a single
@@ -100,11 +101,24 @@ quantity. `serves` matters most — three scripts hard-fail on a mismatch — an
 the error class impossible rather than merely detected.
 
 There is a third failure mode beyond asserting and mis-deriving: **reasoning your way to a number
-the tooling would hand you.** `recent-history.json` carries `portion_calibration`, the observed
-total recipe kcal by slot from the last passing week. Seed portions from it. Working them out
-from the portion-weight split instead is slow *and* error-prone — the first W35 attempt reached
-1240 kcal for a breakfast against an actual 2018, because it treated the `for:`-tagged rows as
-outside the recipe total when they are inside it, and that cost two extra validation rounds.
+the tooling would hand you.** `recent-history.json` carries `portion_calibration` — observed total
+recipe kcal *and protein* by slot from the last passing week. Working portions out from the
+portion-weight split instead is slow *and* error-prone: the first W35 attempt reached 1240 kcal
+for a breakfast against an actual 2018, because it treated the `for:`-tagged rows as outside the
+recipe total when they are inside it, and that cost two extra validation rounds.
+
+So quantities are no longer authored at all. [scripts/scaffold-plan.js](scripts/scaffold-plan.js)
+takes a spec of decisions — which dish, which slot, which foods, no numbers — and solves for both
+medians at once. Two constraints, not one: energy alone does not pin a recipe's shape, because 40%
+of a lunch's kcal is reasonable as red lentils (24% protein, 60% carbohydrate) and absurd as
+chicken breast, where it works out to ~107 g of protein and puts the husband 26% over his ceiling.
+The first scaffolded week did exactly that, which is why `calibration()` now records protein too
+and the allocator solves a 2×2 system over protein-dense and everything-else rows. Measured
+effect on a fresh week: 30 → 10 → 3 failures on the first gate run, then one patch round to green.
+
+Role energy shares in that allocator are **measured from the last passing week**, not chosen. The
+one-liner that regenerates them is in [docs/OPERATIONS.md](docs/OPERATIONS.md); a guess there is
+what put the husband over his protein ceiling and under his fat floor simultaneously.
 
 `scripts/catalog-digest.js` prints the same 174 foods as `data/foods.json` at ~40% of the size,
 with the per-100 g figures in columns. Generation reads the digest; nothing reads a stale copy,

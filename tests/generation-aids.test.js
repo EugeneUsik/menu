@@ -18,6 +18,10 @@ const { analyze, loadTargets } = require('../scripts/lib/analyze.js');
 const { checkBudgets } = require('../scripts/lib/budgets.js');
 const { diagnose, sharedShare, occasionsAttended } = require('../scripts/diagnose-plan.js');
 const { patchPlan, recipeKcal, tidy, parseArgs } = require('../scripts/patch-plan.js');
+const { scaffold } = require('../scripts/scaffold-plan.js');
+const F  = require('../scripts/lib/foods.js');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const iso = d => d.toISOString().slice(0, 10);
 
@@ -335,6 +339,139 @@ test('parseArgs separates the file, the recipe and the assignments', () => {
   assert.deepEqual(p.ops.set, [['говядина постная', 800]]);
   assert.equal(p.ops.scale, 1.1);
   assert.equal(p.dryRun, true);
+});
+
+/* ── scaffold-plan ──
+ *
+ * A plan is ~400 lines of JSON of which only a fraction is a decision; the rest is arithmetic and
+ * convention. These pin the two things the scaffold exists to get right, because both were
+ * round-costing failures when done by hand: the scale, and the for:-tagged rows.
+ */
+
+/** The terse spec form: which dish, which slot, which foods — no quantities. */
+function spec(overrides = {}) {
+  const day = i => ({
+    breakfast: { title: `завтрак ${i}`, id: `b${i}`, base: 'oats',
+                 foods: ['хлопья овсяные', 'скир 0–2%', 'черника', 'семена тыквы'] },
+    lunch:     { title: `обед ${i}`, id: `l${i}`,
+                 foods: ['грудка куриная', 'булгур', 'шпинат свежий', 'масло оливковое'] },
+    dinner:    { title: `ужин ${i}`, id: `d${i}`, format: 'plated',
+                 foods: ['филе трески', 'картофель', 'брокколи', 'масло оливковое'] },
+    snack:     { title: `перекус ${i}`, id: `s${i}`, snack_format: 'yogurt_based',
+                 foods: ['кефир 1–2,5%', 'малина', 'семена льна молотые'] }
+  });
+  return { week: '2026-W37', days: [0, 1, 2, 3, 4, 5, 6].map(day), ...overrides };
+}
+
+const calib = () => {
+  const p = path.join(__dirname, '..', 'data', 'weeks', 'recent-history.json');
+  return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, 'utf8')).portion_calibration : null;
+};
+
+test('calibration carries protein as well as energy', () => {
+  // Energy alone does not pin a recipe's shape: 40% of a lunch's kcal is sane as red lentils and
+  // absurd as chicken breast. Protein is the macro with a hard ceiling for both adults.
+  const cal = calib();
+  if (!cal) return;
+  for (const key of Object.keys(cal.recipe_total_kcal)) {
+    assert.ok(cal.recipe_total_protein_g?.[key]?.median > 0, `no protein median for ${key}`);
+  }
+});
+
+test('a scaffolded recipe lands on both its energy and its protein median', () => {
+  const cal = calib();
+  if (!cal) return;
+
+  const { plan } = scaffold(spec());
+  const A = analyze(plan);
+
+  let checked = 0;
+  for (const [id, facts] of A.recipeFacts) {
+    const key  = `${[...new Set(facts.occasions.map(o => o.slot))].sort().join('+')} (serves ${facts.expectedServes})`;
+    const kcal = cal.recipe_total_kcal[key]?.median;
+    const prot = cal.recipe_total_protein_g[key]?.median;
+    if (!kcal || !prot) continue;
+
+    const gotK = facts.rows.reduce((s, r) => s + r.nut.kcal, 0);
+    const gotP = facts.rows.reduce((s, r) => s + r.nut.protein_g, 0);
+    assert.ok(Math.abs(gotK - kcal) / kcal < 0.12, `${id}: ${Math.round(gotK)} kcal vs median ${kcal}`);
+    // Protein is allowed more slack: a fruit-and-yogurt snack genuinely cannot reach 57 g, and
+    // the solver reports that rather than distorting the recipe to fake it.
+    assert.ok(Math.abs(gotP - prot) / prot < 0.45, `${id}: ${Math.round(gotP)} g protein vs median ${prot}`);
+    checked++;
+  }
+  assert.ok(checked >= 4, `expected several recipes to be checked, got ${checked}`);
+});
+
+test('every breakfast gets all three tagged-row conventions', () => {
+  // The husband's row is the one that gets forgotten, and it is the widest-failing omission in
+  // the flow: without it he is ~400 kcal short on all seven days plus the weekly average.
+  const { plan } = scaffold(spec());
+  const breakfasts = plan.recipes.filter(r => r.meal_types.includes('breakfast'));
+  assert.equal(breakfasts.length, 7);
+
+  for (const r of breakfasts) {
+    const tags = new Set(r.ingredients.filter(i => i.for).map(i => i.for));
+    for (const who of ['husband', 'child', 'wife']) {
+      assert.ok(tags.has(who), `${r.id} has no for:"${who}" row`);
+    }
+    const carb = r.ingredients.find(i => i.for === 'husband');
+    assert.ok(F.resolve(carb.name).food.tags.includes('grain'), `${carb.name} is not a carbohydrate`);
+  }
+
+  // Rotating flakes rather than bread, because grain_base_meals_max is 3 across 21 main meals.
+  const husbandFoods = new Set(breakfasts.map(r => r.ingredients.find(i => i.for === 'husband').name));
+  assert.ok(husbandFoods.size > 1, 'the husband carbohydrate should rotate');
+});
+
+test('carry: true wires the next day lunch and derives the right portion count', () => {
+  const s = spec();
+  for (const d of s.days) delete d.lunch;             // let the carry supply the lunches
+  s.days[2].dinner.carry = true;                       // Wed dinner → Thu school lunch
+  s.days[4].dinner.carry = true;                       // Fri dinner → Sat lunch
+  const { plan } = scaffold(s);
+
+  assert.equal(plan.menu[3].lunch.recipe_id, 'd2');
+  assert.equal(plan.menu[3].lunch.leftover_from, 'Wednesday dinner');
+  assert.equal(plan.menu[2].dinner.cook_once_eat_twice, true);
+
+  assert.equal(plan.recipes.find(r => r.id === 'd2').serves, 5, 'Wed dinner (3) + Thu school lunch (2)');
+  assert.equal(plan.recipes.find(r => r.id === 'd4').serves, 6, 'Fri dinner (3) + Sat lunch (3)');
+});
+
+test('a Sunday dinner cannot carry, because there is no next day', () => {
+  const s = spec();
+  s.days[6].dinner.carry = true;
+  assert.throws(() => scaffold(s), /no next day/);
+});
+
+test('a food outside the catalog stops the scaffold rather than reaching the validator', () => {
+  const s = spec();
+  s.days[0].dinner.foods = ['мясо дракона', 'картофель'];
+  assert.throws(() => scaffold(s), /unknown ingredient/);
+});
+
+test('dry-weight grains stay under the per-portion cap', () => {
+  // 16 catalog foods carry per-100 g figures on a DRY basis. A cooked weight against one of them
+  // overstates energy ~3x and over-buys ~3x, so the scaffold must not generate one by scaling.
+  const { plan } = scaffold(spec());
+  const cap = loadTargets().cooking.dry_grain_g_per_portion_max;
+  for (const r of plan.recipes) {
+    for (const ing of r.ingredients) {
+      const food = F.resolve(ing.name).food;
+      if (food.basis !== 'dry') continue;
+      const grams = F.toGrams(food, ing.quantity, ing.unit).grams;
+      assert.ok(grams / r.serves <= cap, `${r.id} ${ing.name}: ${grams / r.serves} g/portion over ${cap}`);
+    }
+  }
+});
+
+test('a pinned quantity is left exactly as written', () => {
+  const s = spec();
+  s.days[0].dinner.foods = ['филе трески=850', 'картофель', 'брокколи', 'масло оливковое'];
+  const { plan } = scaffold(s);
+  const cod = plan.recipes.find(r => r.id === 'd0').ingredients.find(i => i.name === 'филе трески');
+  assert.equal(cod.quantity, 850);
 });
 
 test('an unreferenced recipe keeps whatever serves it had', () => {

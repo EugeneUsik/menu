@@ -87,9 +87,9 @@ function findRow(recipe, selector) {
  * variables: they are the conventions a passing week established — the child's 250 ml of milk,
  * the wife's 25 g of walnuts, and above all her sterol drink, which is one 100 ml bottle
  * delivering the 2 g the LDL protocol asks for. Scaling that to 125 ml asks for something the
- * shop does not sell and quietly reprices the one item Family-context.md §4.2 calls the
- * highest-yield in the protocol. So scaling moves the shared rows and holds the tagged ones,
- * and the factor is solved on the shared portion alone.
+ * shop does not sell, and quietly reprices the highest-yield single item in her LDL protocol.
+ * So scaling moves the shared rows and holds the tagged ones, and the factor is solved on the
+ * shared portion alone.
  */
 function recipeKcal(recipe) {
   let shared = 0, tagged = 0;

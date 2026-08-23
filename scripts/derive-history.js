@@ -133,24 +133,29 @@ function recipeSlotKey(facts) {
 }
 
 function calibration(data, A) {
+  // Energy AND protein, because energy alone does not pin a recipe's shape. A lunch sized only
+  // by kcal can put 40% of them into chicken breast, which is ~107 g of protein and puts the
+  // husband 26% over his ceiling — the first scaffolded W37 draft did exactly that. Protein is
+  // the one macro with a hard ceiling for both adults, so it is the second constraint worth
+  // carrying; fat and carbohydrate follow from it once energy is fixed.
   const groups = new Map();
   for (const facts of A.recipeFacts.values()) {
     if (!facts.occasions.length) continue;
-    const key   = recipeSlotKey(facts);
-    const kcal  = facts.rows.reduce((sum, r) => sum + r.nut.kcal, 0);
-    if (!groups.has(key)) groups.set(key, []);
-    groups.get(key).push(Math.round(kcal));
+    const key = recipeSlotKey(facts);
+    if (!groups.has(key)) groups.set(key, { kcal: [], protein: [] });
+    groups.get(key).kcal.push(Math.round(facts.rows.reduce((s, r) => s + r.nut.kcal, 0)));
+    groups.get(key).protein.push(Math.round(facts.rows.reduce((s, r) => s + r.nut.protein_g, 0)));
   }
 
-  const recipe_total_kcal = {};
-  for (const [key, list] of [...groups].sort()) {
+  const band = list => {
     list.sort((a, b) => a - b);
-    recipe_total_kcal[key] = {
-      median: list[Math.floor(list.length / 2)],
-      min: list[0],
-      max: list[list.length - 1],
-      n: list.length
-    };
+    return { median: list[Math.floor(list.length / 2)], min: list[0], max: list[list.length - 1], n: list.length };
+  };
+
+  const recipe_total_kcal = {}, recipe_total_protein_g = {};
+  for (const [key, lists] of [...groups].sort()) {
+    recipe_total_kcal[key]      = band(lists.kcal);
+    recipe_total_protein_g[key] = band(lists.protein);
   }
 
   // The `for:`-tagged rows are load-bearing and easy to omit: a shared ingredient gives the
@@ -171,7 +176,7 @@ function calibration(data, A) {
     })
     .sort((a, b) => b.recipes - a.recipes || a.for.localeCompare(b.for));
 
-  return { source_week: data.week.id, recipe_total_kcal, tagged_rows };
+  return { source_week: data.week.id, recipe_total_kcal, recipe_total_protein_g, tagged_rows };
 }
 
 function main(argv) {
@@ -219,10 +224,56 @@ function main(argv) {
   fs.writeFileSync(OUT_PATH, JSON.stringify(out, null, 2), 'utf8');
 
   const lookback = loadTargets().history?.lookback_weeks;
+
+  if (args.includes('--brief')) { printBrief(out, lookback); return 0; }
+
   console.log(`Wrote ${weeks.length} week summary/ies to ${path.relative(process.cwd(), OUT_PATH)} ` +
               `(${fs.statSync(OUT_PATH).size} bytes; validate-plan.js enforces against the newest ${lookback})`);
   weeks.forEach(w => console.log(`  ${w.id}: ${w.dinner_pairings.length} dinner pairing(s), bases [${w.breakfast_bases.join(', ') || '—'}]`));
   return 0;
+}
+
+/**
+ * The same history, as only the decisions it constrains.
+ *
+ * `recent-history.json` is ~420 lines because it keeps six weeks of titles, pairings, proteins,
+ * grains, bases and snack formats. Generation needs far less than that: the scale to seed from,
+ * the tagged-row conventions, the pairings that are blocked, and last week's dinner titles. The
+ * rest is only there for `derive-history.js` itself and for reading after the fact. Printing the
+ * short version — the same trick `catalog-digest.js` plays on `data/foods.json` — is worth about
+ * 380 lines of context on every run, and context is the scarce resource in this flow.
+ */
+function printBrief(out, lookback) {
+  const cal = out.portion_calibration;
+  console.log(`# Recent history brief — ${out.weeks.length} week(s), rules enforced against the newest ${lookback}\n`);
+
+  if (cal) {
+    console.log(`## Seed portions from these (source: ${cal.source_week})`);
+    console.log('Totals are per RECIPE across every row, for:-tagged rows included.\n');
+    for (const key of Object.keys(cal.recipe_total_kcal)) {
+      console.log(`  ${key.padEnd(26)} ${String(cal.recipe_total_kcal[key].median).padStart(5)} kcal   ` +
+                  `${String(cal.recipe_total_protein_g?.[key]?.median ?? '?').padStart(4)} g protein`);
+    }
+    console.log('\n## for:-tagged rows a passing week used — carry all of these forward');
+    for (const r of cal.tagged_rows) {
+      console.log(`  for:${r.for.padEnd(8)} ${r.name.padEnd(40)} ${r.quantity} ${r.unit}   (${r.recipes} recipe(s))`);
+    }
+  } else {
+    console.log('## No calibration available — no schema-2.1 week to seed from');
+  }
+
+  const recent = out.weeks.slice(0, lookback);
+  const blocked = [...new Set(recent.flatMap(w => w.dinner_pairings || []))].sort();
+  console.log(`\n## Blocked dinner pairings (protein+starch used in the last ${lookback} weeks)`);
+  console.log(blocked.length ? `  ${blocked.join(', ')}` : '  none');
+
+  const last = out.weeks[0];
+  if (last) {
+    console.log(`\n## ${last.id} dinner titles — at most 1 may repeat`);
+    console.log(`  ${(last.dinner_titles || []).join(' · ')}`);
+    console.log(`\n## ${last.id} breakfast bases: ${(last.breakfast_bases || []).join(', ') || '—'}`);
+    console.log(`## ${last.id} snack formats:   ${(last.snack_formats || []).join(', ') || '—'}`);
+  }
 }
 
 if (require.main === module) process.exit(main(process.argv));

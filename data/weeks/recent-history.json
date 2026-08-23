@@ -47,6 +47,50 @@
         "n": 7
       }
     },
+    "recipe_total_protein_g": {
+      "breakfast (serves 3)": {
+        "median": 117,
+        "min": 87,
+        "max": 130,
+        "n": 7
+      },
+      "dinner (serves 3)": {
+        "median": 127,
+        "min": 104,
+        "max": 133,
+        "n": 3
+      },
+      "dinner+lunch (serves 5)": {
+        "median": 219,
+        "min": 192,
+        "max": 224,
+        "n": 3
+      },
+      "dinner+lunch (serves 6)": {
+        "median": 250,
+        "min": 250,
+        "max": 250,
+        "n": 1
+      },
+      "lunch (serves 2)": {
+        "median": 84,
+        "min": 75,
+        "max": 84,
+        "n": 2
+      },
+      "lunch (serves 3)": {
+        "median": 113,
+        "min": 113,
+        "max": 113,
+        "n": 1
+      },
+      "shared_snack (serves 3)": {
+        "median": 57,
+        "min": 36,
+        "max": 64,
+        "n": 7
+      }
+    },
     "tagged_rows": [
       {
         "for": "child",

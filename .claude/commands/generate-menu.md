@@ -2,28 +2,36 @@
 
 Generate one or more weekly menus and publish them.
 
-The flow is **plan → normalise → validate → expand → compute → publish**. All nutrition and
+The flow is **spec → scaffold → validate → expand → compute → publish**. All nutrition and
 variety constraints are settled on the plan, so iteration is cheap. Once `validate-plan.js`
 passes, expansion cannot reopen a global constraint.
 
+**Target: a published week in about 3 minutes.** Everything below is shaped by that. The scripts
+take 0.3 s in total, so the entire budget is reading and authoring — which is why the read set is
+short, the plan is scaffolded rather than typed, and expansion runs in parallel. Do not add
+reading or authoring to this flow without taking some out.
+
 ## STRICT CONSTRAINTS
 
-- Do NOT read existing week JSON files. `data/weeks/recent-history.json` is the summary that
-  exists for this purpose, and it now carries portion calibration too.
+- Do NOT read existing week JSON files. The history brief in Step 2 exists for this purpose.
+- Do NOT read `prompts/Family-context.md`. Every *enforced* number is in `data/targets.json` and
+  the design intent is in `prompts/weekly-menu-generation-prompt.md`. It is 690 lines of
+  rationale, lab history and monitoring gaps, none of which changes a menu decision — and it
+  holds a minor's health data that does not need to be in context to cook dinner. Read it only if
+  the user asks a question about *why* a target is what it is.
+- Do NOT read `scripts/validate-plan.js`, `scripts/validate-week.js` or anything in
+  `scripts/lib/`. The gate's own output carries its severity and its percentage on every line.
+  Reading the implementation feels like diligence, costs ~1,000 lines of context, and has never
+  yet prevented a failure.
 - Do NOT output JSON to the chat. Write to files.
 - Do NOT narrate reasoning or print intermediate plans to the chat.
 - Do NOT hand-write `nutrition_estimate_per_person` or `daily_nutrition`. Scripts derive both.
-- Do NOT write `serves`, `week.start_date`, `week.end_date`, `week.label`, `week.timezone`,
-  `menu[].day_name`, `menu[].date` or `menu[].includes_fixed_school_lunch`.
-  `normalise-plan.js` derives all of them in Step 5.
-- Do NOT self-verify nutrition or variety. `validate-plan.js` does that mechanically.
-- **Do NOT derive portion sizes from the portion-weight arithmetic.** See Step 4.
+- Do NOT write `serves`, week dates, `label`, `timezone`, `day_name`, `date` or
+  `includes_fixed_school_lunch`. `scaffold-plan.js` derives all of them.
 - **Do NOT compute per-person nutrition by hand at any point** — not to size a portion, and not
-  to work out what to change after a failure. `diagnose-plan.js` derives both. See Step 6.
-- **Do NOT read `scripts/validate-plan.js`, `scripts/validate-week.js` or anything in
-  `scripts/lib/`.** The inputs in Step 3 are the whole brief, and the gate's own output carries
-  its severity and its percentage on every line. Reading the implementation feels like
-  diligence, costs ~1,000 lines of context, and has never yet prevented a failure.
+  to work out what to change after a failure. `scaffold-plan.js` and `diagnose-plan.js` derive
+  both.
+- Do NOT self-verify nutrition or variety. `validate-plan.js` does that mechanically.
 - Read each prompt file exactly once per run.
 
 ## Step 1 — Resolve target week(s)
@@ -31,148 +39,135 @@ passes, expansion cannot reopen a global constraint.
 Today's date is in the `currentDate` system context. ISO 8601 weeks, Monday start.
 
 - "this week" → current ISO week; "next week" → +1; "next two weeks" → +1 and +2
-- "2026-W36" → that week; "weeks 36 and 37" → both
+- "2026-W37" → that week; "weeks 37 and 38" → both
 
-You only need the week **ID**. Do not compute Monday/Sunday — Step 5 does it, correctly,
-including across year boundaries.
+You only need the week **ID**. Do not compute Monday/Sunday — Step 4 does it, correctly,
+including across year boundaries. If `data/weeks/{weekId}.json` exists, ask before overwriting.
 
-If `data/weeks/{weekId}.json` exists, ask before overwriting.
-
-## Step 2 — Refresh history first
+## Step 2 — Refresh history and read the brief
 
 ```bash
-node scripts/derive-history.js
+node scripts/derive-history.js --brief
 ```
 
-Before reading it, not after: it carries the portion calibration Step 4 depends on, and a stale
-copy would seed the plan from the wrong week.
+Refreshes `recent-history.json` and prints the ~36 lines generation actually needs: the kcal and
+protein medians to seed from, the `for:`-tagged conventions, the blocked dinner pairings already
+deduped across the lookback window, and last week's titles, bases and snack formats. Do not then
+open the 465-line JSON.
 
-## Step 3 — Read inputs (once, in parallel)
+## Step 3 — Read the remaining inputs (once, in parallel)
 
 One parallel batch, no repeats:
 
-- `prompts/weekly-menu-generation-prompt.md`
-- `prompts/Family-context.md`
+- `prompts/weekly-menu-generation-prompt.md` — the design brief and the safety rules
 - `data/targets.json` — the enforced numbers
-- `data/weeks/recent-history.json` — recent weeks, and `portion_calibration`
 - `node scripts/catalog-digest.js` — the ingredient vocabulary
 
-Use the digest, **not** `data/foods.json`. Same 174 foods and the same names, ~40 KB less, with
-the per-100 g numbers in columns so sizing is a reading exercise. `--tag fatty_fish` narrows it
-if you want one category.
+`--tag fatty_fish` narrows the digest if you want one category.
 
-## Step 4 — Write the plan
+## Step 4 — Write a spec, scaffold the plan
 
-Write `data/weeks/{weekId}-plan.json` in **one** Write call: `week.id`, the 7-day menu, and each
-recipe with its declared `base`/`format`/`snack_format` and its 4–7 nutritionally dominant
-ingredients with total quantities.
+Write `data/weeks/{weekId}-spec.json` — the decisions only, no quantities:
 
-**Size portions from `portion_calibration`, not from first principles.** It gives the observed
-total recipe kcal by slot and serves from the last passing week — e.g. a breakfast at ~2000 kcal,
-a school-day lunch at ~1280, a dinner at ~1900, a snack at ~850. Pick dishes, then scale their
-quantities so each recipe lands near the matching median.
-
-> Why this is a rule and not a hint: deriving portions from the portion-weight split by hand is
-> slow and it was wrong. The first attempt at W35 estimated breakfasts at 1240 kcal against an
-> actual 2018 — a 60% miss, because the derivation treated the `for:`-tagged rows as sitting
-> outside the recipe total when they are inside it. That cost two extra validation rounds. The
-> validator computes the real numbers in a second; your job is choosing good food and getting
-> the scale roughly right.
-
-`portion_calibration.tagged_rows` is a **template to replicate, not background reading.** It
-lists the `for:`-tagged conventions a passing week used, and they are how per-person targets are
-actually met — a shared ingredient gives the child only 1.1/3.0 and the wife 0.75/3.0. Every
-breakfast needs all four:
-
-| Tag | Rows | Why it cannot be shared |
-|---|---|---|
-| `for: "child"` | ~250 ml milk + ~150 g Greek yogurt | 1,300 mg calcium is unreachable from shared pours |
-| `for: "wife"` | 25 g walnuts + 100 ml sterol drink | 2 g of sterols and 30 g of nuts, not a third of each |
-| `for: "husband"` | **~350 kcal of bread or flakes** | 2,400–2,500 kcal is unreachable at a 1.15/3.0 share |
-
-**The husband's row is the one that gets forgotten, and it fails the widest.** Dropping it puts
-him ~400 kcal short *on all seven days plus the weekly average*, and takes his breakfast protein
-under the 35 g pre-training floor as well — 11 failures from one omission, which is exactly what
-happened on the first W36 attempt. Vary the food across the week (whole-grain bread, rye bread,
-oats, barley flakes) so it does not pin `grain_bread` to more than 3 main meals.
-
-**Get the first plan written and validated quickly.** Treat iteration 1 as the measurement, not
-the answer.
-
-## Step 5 — Derive the mechanical fields
-
-```bash
-node scripts/normalise-plan.js data/weeks/{weekId}-plan.json
+```json
+{
+  "week": "2026-W37",
+  "days": [
+    { "breakfast": { "title": "Овсянка с черникой", "id": "oats-blueberry", "base": "oats",
+                     "foods": ["хлопья овсяные", "скир 0–2%", "черника", "семена тыквы"] },
+      "lunch":     { "title": "Курица с бататом", "id": "chicken-sweet-potato",
+                     "foods": ["грудка куриная", "батат", "шпинат свежий", "масло оливковое"] },
+      "dinner":    { "title": "Форель с булгуром", "id": "trout-bulgur", "format": "plated",
+                     "carry": true,
+                     "foods": ["филе форели", "булгур", "брокколи", "масло оливковое"] },
+      "snack":     { "title": "Соевый йогурт", "id": "soy-yogurt", "snack_format": "soy_yogurt",
+                     "foods": ["йогурт соевый натуральный", "черника", "хлопья овсяные"] } }
+  ]
+}
 ```
 
-Fills the week dates and Russian label, the day scaffolding, and every recipe's `serves` from
-who actually eats each slot. Read its output — it prints what it set.
+Seven days, Monday first. `carry: true` on a dinner wires the next day's lunch to the same
+recipe, so omit that lunch. A food can pin its own quantity — `"филе лосося=520"` — when the
+split needs a hand. Then:
 
-## Step 6 — Validate the plan, iterate here
+```bash
+node scripts/scaffold-plan.js data/weeks/{weekId}-spec.json
+```
+
+It writes a **normalised** plan: quantities scaled to hit both the energy and protein medians for
+each recipe's slot-and-serves bucket, the `for:`-tagged conventions on every breakfast, cook-once
+dinners wired to next-day lunches, `serves` derived from who actually eats, dates and label. Read
+its output — any `!` line is a recipe whose protein target was unreachable from the foods you
+chose, which is information about the spec, not an error.
+
+**Your job is choosing good food and getting the variety right.** The scale is derived. Spend the
+thinking on: 4+ dinner protein categories, a different fish species each time, ≥8 distinct
+vegetables, ≥3 breakfast bases, ≥4 dinner formats, 7 distinct snacks, red meat on 1–2 days, and
+no dinner pairing from the blocked list in Step 2.
+
+## Step 5 — Validate, diagnose, patch
 
 ```bash
 node scripts/validate-plan.js  data/weeks/{weekId}-plan.json   # the gate: what is wrong
-node scripts/diagnose-plan.js  data/weeks/{weekId}-plan.json   # the fix: what to change, by how much
+node scripts/diagnose-plan.js  data/weeks/{weekId}-plan.json   # the fix: what to change, how much
 ```
 
-**Run both.** The gate says *"Monday husband kcal 2084 below min 2400 (-13%)"*. Every number in
-that sentence is a per-person share of a recipe total, so it does not tell you what to edit.
-`diagnose-plan.js` translates it:
+Run `diagnose-plan.js` whenever the gate fails. Every number the gate prints is a per-person
+*share* of a recipe total, so it cannot say what to edit; the diagnostic prints each slot's
+contribution, the share that person receives, and both routes out — change the recipe total,
+which moves every eater, or change a `for:`-tagged row, which moves only them.
 
-```
-[FAIL] Monday husband kcal 2084kcal vs min 2400kcal (-13%) → needs +316kcal
-    lunch         red-lentil-soup              873kcal  share 0.605
-    dinner        mackerel-quinoa-broccoli     734kcal  share 0.235
-    breakfast     oats-blueberry-seeds         389kcal  share 0.383
-    → via recipe total (moves all eaters):     breakfast +825 | lunch +522 | dinner +1345
-    → via for:"husband" rows (moves only them): breakfast +316 | lunch +316 | dinner +632 (×2 days)
-```
-
-It also opens with every recipe more than 15% off its calibration median, which is the cheapest
-possible signal that a plan is mis-scaled — visible before any budget is consulted.
-
-Then patch, do not rewrite:
+Then patch. **Never regenerate the plan**, and never hand-edit it — a normalised plan is one
+field per line, so `"quantity": 750` is not a unique string:
 
 ```bash
-node scripts/patch-plan.js data/weeks/{weekId}-plan.json chicken-barley-kale "грудка куриная=700"
-node scripts/patch-plan.js data/weeks/{weekId}-plan.json oats-blueberry-seeds --add "хлеб цельнозерновой=150,g,husband"
-node scripts/patch-plan.js data/weeks/{weekId}-plan.json mackerel-quinoa-broccoli --kcal 3200
+node scripts/patch-plan.js data/weeks/{weekId}-plan.json cod-potato "картофель=1150" --add "авокадо=220,g"
+node scripts/patch-plan.js data/weeks/{weekId}-plan.json yogurt-bowl "йогурт греческий 2%#shared=200"
 ```
 
-- **Never regenerate the whole plan.** A rewrite re-derives quantities that already passed, so it
-  can reopen a settled constraint — and a normalised plan is one field per line, so `"quantity":
-  750` is not a unique string and a text Edit cannot safely target it. That is what `patch-plan.js`
-  is for. `--scale`/`--kcal` hold `for:`-tagged rows fixed on purpose.
-- The `· ` lines from the gate are the derived picture of the week — weekly averages, day counts,
-  distinct vegetables, formats. Read them for direction.
-- Read a `[FAIL]` percentage as a magnitude and move by roughly that much. `+17%` on saturated fat
-  means cut about 17%; do not recompute the day to find out.
-- Expect 2 rounds. Energy and saturated fat are the usual ones; variety and cross-week rules
-  normally pass first time. If you are on round 4, something structural is wrong — say so.
-- `[WARN]` lines never block, and a hard budget within 10% of its bound is reported as a warning
-  too. Sodium, calcium, iron, zinc, viscous fibre and sterols are warn-level on purpose — see
-  `targets.json` `_severity_rule`. Do not chase them at the cost of a hard budget.
-- If a failure looks like a bad rule rather than a bad menu, stop and say so instead of
-  contorting the menu around it.
+Qualify a name with `#shared` or `#husband` when the same food appears twice in one recipe.
 
-## Step 7 — Expand into the week file
+- Expect **1 patch round** from a scaffolded plan. Saturated fat and the husband's fat share are
+  the usual survivors. If you are on round 3, something structural is wrong — say so.
+- Read a `[FAIL]` percentage as a magnitude and move by roughly that much.
+- `[WARN]` never blocks, and a hard budget within 10% of its bound reports as a warning too. Do
+  not chase warn-level items at the cost of a hard budget.
+- If a failure looks like a bad rule rather than a bad menu, stop and say so.
+
+## Step 6 — Promote, then expand in parallel
 
 ```bash
 node scripts/promote-plan.js data/weeks/{weekId}-plan.json
 ```
 
-This refuses a plan that does not pass Step 6, so there is no way to launder a failure
-downstream. Then for each recipe add:
+This refuses a plan that does not pass Step 5. Expansion is the slowest part of the run and every
+recipe is independent, so **fan it out**: split the recipe ids into 4 roughly equal groups and
+give each group to one subagent. Each writes its own fragment to
+`data/weeks/{weekId}-exp-{n}.json`:
 
-- Remaining minor ingredients — aromatics, herbs, spices, lemon. State `соль` and
-  `перец чёрный молотый` in grams. Be sparing with salt: ingredient sodium is already near the
-  ceiling from bread, crispbread and canned goods, and the child has ~0.75 g of added-salt
-  headroom across three home meals.
-- `instructions`: 3–6 short Russian imperative steps with real actions, times, temperatures.
+```json
+{ "cod-potato": {
+    "add": [ { "name": "чеснок", "quantity": 12, "unit": "g" },
+             { "name": "соль",   "quantity": 2,  "unit": "g" } ],
+    "instructions": [ "Разогреть духовку до 200 °C…", "…", "…" ] } }
+```
 
-Do not touch `serves`, dominant quantities, titles, or the menu — those passed validation.
+Brief each subagent with: its recipe ids and their ingredients and `serves`, the requirement for
+3–6 short Russian imperative steps with real actions, times and temperatures, and both safety
+rules (no cherries/apples/pears/apricots/peaches in any form including `уксус яблочный`; no
+processed meat). Tell them to state `соль` and `перец чёрный молотый` in grams and to be sparing:
+ingredient sodium is already near the ceiling from bread, crispbread and canned goods, and the
+child has ~0.75 g of added-salt headroom across three home meals. Tell them not to touch
+`serves`, existing quantities, titles or the menu — those passed validation.
 
-## Step 8 — Compute, shop, validate
+```bash
+node scripts/apply-expansion.js data/weeks/{weekId}.json data/weeks/{weekId}-exp-*.json
+```
+
+It refuses partial work and checks every added ingredient against the catalog, so a bad name is
+named with its fragment rather than surfacing two steps later.
+
+## Step 7 — Compute, shop, validate
 
 ```bash
 node scripts/compute-nutrition.js       data/weeks/{weekId}.json
@@ -181,10 +176,10 @@ node scripts/validate-week.js           data/weeks/{weekId}.json
 ```
 
 Failures here should be small — a minor ingredient nudged a day out of band. Fix with targeted
-Edits, then re-run all three (nutrition must be recomputed, or `validate-week.js` will report
+edits, then re-run all three (nutrition must be recomputed, or `validate-week.js` will report
 `daily_nutrition` as stale).
 
-## Step 9 — Publish
+## Step 8 — Publish
 
 ```bash
 node scripts/sync-weeks-index.js
@@ -194,16 +189,16 @@ git commit -m "W{nn}: generate menu for {weekId}"
 git push
 ```
 
-Commit `data/foods.json` too if you added foods to it. The `-plan.json` and `-notes.json` files
-are gitignored working artifacts — leave them uncommitted.
+Commit `data/foods.json` too if you added foods to it. The `-plan.json`, `-spec.json`,
+`-notes.json` and `-exp-*.json` files are gitignored working artifacts — leave them uncommitted.
 
 ## Multiple weeks
 
-Sequential: finish Step 9 for week N before starting week N+1, so N+1's cross-week variety check
+Sequential: finish Step 8 for week N before starting week N+1, so N+1's cross-week variety check
 and portion calibration both see N.
 
 ## Done
 
-One line per week: week ID, plan iterations needed, validation result, push status. Report any
-warn-level budget that was missed by a wide margin — that is calibration feedback, and
-`targets.json` §8.1 asks for it before any warn is promoted to hard.
+One line per week: week ID, patch rounds needed, validation result, push status. Report any
+warn-level budget missed by a wide margin — that is calibration feedback, and `targets.json`
+§8.1 asks for it before any warn is promoted to hard.

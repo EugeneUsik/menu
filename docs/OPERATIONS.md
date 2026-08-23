@@ -19,18 +19,57 @@ Writes `data/weeks/recent-history.json` — a ~5 KB summary of the last 4 weeks'
 protein/starch pairings, breakfast bases and snack formats. This is the only thing generation
 should read about previous weeks, and `validate-plan.js` uses it to reject recent repeats.
 
-### Step 2 — Write the plan
+Use `--brief` when the output is going to an LLM: it prints the ~36 lines generation needs — the
+energy and protein medians to seed from, the `for:`-tagged conventions, the blocked dinner pairings
+already deduped over the lookback window, and last week's titles, bases and snack formats —
+instead of the 465-line JSON. Same trick `catalog-digest.js` plays on `data/foods.json`.
 
-Feed the LLM `prompts/weekly-menu-generation-prompt.md`, `prompts/Family-context.md`,
-`data/foods.json`, `data/targets.json` and `data/weeks/recent-history.json`. It writes:
+### Step 2 — Write a spec, scaffold the plan
 
+Feed the LLM `prompts/weekly-menu-generation-prompt.md`, `data/targets.json`, the output of
+`catalog-digest.js` and the output of `derive-history.js --brief`. It writes a spec of decisions
+only — which dish, which slot, which foods, **no quantities**:
+
+```jsonc
+{ "week": "2026-W37",
+  "days": [
+    { "breakfast": { "title": "Овсянка с черникой", "id": "oats-blueberry", "base": "oats",
+                     "foods": ["хлопья овсяные", "скир 0–2%", "черника", "семена тыквы"] },
+      "dinner":    { "title": "Форель с булгуром", "id": "trout-bulgur", "format": "plated",
+                     "carry": true,                    // wires the next day's lunch
+                     "foods": ["филе форели", "булгур", "брокколи", "масло оливковое=25"] } }
+    // ... 7 days, Monday first
+  ] }
 ```
-data/weeks/YYYY-Www-plan.json
+
+```bash
+node scripts/scaffold-plan.js data/weeks/2026-W37-spec.json
 ```
 
-The plan holds the week metadata, the 7-day menu, and each recipe's `serves`, declared
-`base`/`format`/`snack_format`, and 4–7 nutritionally dominant ingredients with total
-quantities. No instructions, no minor ingredients, no nutrition figures.
+This writes a **normalised** plan — so there is no separate `normalise-plan.js` step — with
+quantities solved to hit both the energy and protein medians for each recipe's slot-and-serves
+bucket, the `for:`-tagged conventions on every breakfast, cook-once dinners wired to next-day
+lunches, and `serves` derived from who actually eats. A `!` line means a recipe's protein target
+was unreachable from the foods chosen, which is information about the spec rather than an error.
+
+Why two constraints and not just energy: 40% of a lunch's kcal is a reasonable share for red
+lentils (24% protein, 60% carbohydrate) and absurd for chicken breast, where it is ~107 g of
+protein and puts the husband 26% over his ceiling. The first scaffolded week did exactly that.
+
+The allocator's role energy shares are measured, not chosen. Regenerate them from the newest
+passing week when the pattern shifts materially, and paste the result into `ROLE_SHARE`:
+
+```bash
+node -e '
+const F=require("./scripts/lib/foods.js"),{analyze}=require("./scripts/lib/analyze.js");
+const {roleOf}=require("./scripts/scaffold-plan.js"),w=require("./data/weeks/2026-W36.json");
+const by={};for(const f of analyze(w).recipeFacts.values()){if(!f.occasions.length)continue;
+const s=[...new Set(f.occasions.map(o=>o.slot))].sort().join("+");by[s]=by[s]||{};
+for(const r of f.rows)by[s][roleOf(r.food)]=(by[s][roleOf(r.food)]||0)+r.nut.kcal;}
+for(const[s,r]of Object.entries(by)){const t=Object.values(r).reduce((a,b)=>a+b,0);
+console.log(s.padEnd(15),Object.entries(r).sort((a,b)=>b[1]-a[1])
+  .map(([k,v])=>k+" "+(v/t).toFixed(2)).join("  "));}'
+```
 
 ### Step 3 — Validate the plan and iterate
 
@@ -96,13 +135,32 @@ node scripts/promote-plan.js data/weeks/2026-W27-plan.json
 Writes `data/weeks/2026-W27.json` with everything the plan settled, `instructions: []`, and
 the `fixed_school_lunch` block copied from `targets.json`.
 
-Then the LLM adds, per recipe:
+Then, per recipe:
 
 - Remaining minor ingredients — aromatics, herbs, spices, lemon. State `соль` and
   `перец чёрный молотый` in grams; the legacy `соль, перец` catch-all makes sodium untrackable.
 - `instructions`: 3–6 short Russian imperative steps.
 
 Nothing else changes — `serves`, dominant quantities, titles and the menu all passed validation.
+
+This is the slowest part of a run and every recipe is independent of every other, so it
+parallelises. Several workers cannot write one JSON file, so each writes its own fragment and
+`apply-expansion.js` merges them:
+
+```jsonc
+// data/weeks/2026-W27-exp-1.json
+{ "cod-potato": {
+    "add": [ { "name": "чеснок", "quantity": 12, "unit": "g" },
+             { "name": "соль",   "quantity": 2,  "unit": "g" } ],
+    "instructions": [ "Разогреть духовку до 200 °C…", "…", "…" ] } }
+```
+
+```bash
+node scripts/apply-expansion.js data/weeks/2026-W27.json data/weeks/2026-W27-exp-*.json
+```
+
+It refuses partial work and resolves every added name against the catalog, so a bad ingredient is
+reported against its fragment rather than surfacing in `compute-nutrition.js` two steps later.
 
 ### Step 5 — Compute nutrition
 
@@ -256,10 +314,12 @@ nothing about their quality.
 
 | Script | Purpose |
 |---|---|
-| `derive-history.js` | Build `recent-history.json` from the last N weeks (`--weeks N`) |
+| `derive-history.js` | Build `recent-history.json` from the last N weeks (`--weeks N`, `--brief`) |
+| `scaffold-plan.js` | Turn a spec of decisions into a scaled, normalised plan (`--dry-run`) |
 | `validate-plan.js` | Validate a plan: structure, safety, budgets, variety, cross-week repeats |
 | `diagnose-plan.js` | Explain a budget miss as an edit: per-slot shares and the deltas that close it (`--warn`, `--person`, `--json`) |
 | `patch-plan.js` | Change ingredient quantities by recipe id and name (`--add`, `--remove`, `--scale`, `--kcal`, `--dry-run`) |
+| `apply-expansion.js` | Merge parallel expansion fragments into a promoted week (`--dry-run`) |
 | `promote-plan.js` | Expand a validated plan into the week skeleton (`--force` to overwrite) |
 | `normalise-plan.js` | Derive week dates, label, day scaffolding and every `serves` (`--check`) |
 | `catalog-digest.js` | Print the ingredient vocabulary compactly for generation (`--tag X`) |

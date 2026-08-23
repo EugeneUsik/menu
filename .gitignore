@@ -6,6 +6,8 @@ prompts/Family-context.md
 # Working artifacts of menu generation — not part of the published site
 data/weeks/*-plan.json
 data/weeks/*-notes.json
+data/weeks/*-spec.json
+data/weeks/*-exp-*.json
 
 .DS_Store
 .vscode/
