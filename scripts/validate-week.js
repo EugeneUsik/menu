@@ -17,11 +17,11 @@ const fs   = require('fs');
 const path = require('path');
 const { scanSafety } = require('./lib/scan.js');
 const { analyze, loadTargets, eatersFor, MAIN_SLOTS, ALL_SLOTS } = require('./lib/analyze.js');
+const { checkBudgets } = require('./lib/budgets.js');
 
 const DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-function r1(n) { return Math.round(n * 10) / 10; }
-function pct(n) { return `${n > 0 ? '+' : ''}${Math.round(n * 100)}%`; }
+// Numeric formatting for budget messages lives in lib/budgets.js alongside the checks.
 
 function validateWeek(filePath) {
   const errors   = [];
@@ -220,44 +220,11 @@ function validateWeek(filePath) {
     A.problems.forEach(p => report(p));
 
     if (!A.problems.length) {
-      const { targets, people, daily } = A;
-      const tol = targets.tolerance;
-
-      for (const d of daily) {
-        for (const p of people) {
-          const t = targets.daily[p], v = d.totals[p];
-          for (const key of ['kcal', 'protein_g', 'fiber_g', 'sat_fat_g']) {
-            const spec = t[key];
-            if (!spec) continue;
-            const actual = v[key];
-            if (spec.min != null && actual < spec.min) {
-              const off = (actual - spec.min) / spec.min;
-              const msg = `${d.day_name} ${p} ${key} ${r1(actual)} below min ${spec.min} (${pct(off)})`;
-              Math.abs(off) > tol.day_pct ? report(msg) : warn(msg);
-            }
-            if (spec.max != null && actual > spec.max) {
-              const off = (actual - spec.max) / spec.max;
-              const msg = `${d.day_name} ${p} ${key} ${r1(actual)} above max ${spec.max} (${pct(off)})`;
-              Math.abs(off) > tol.day_pct ? report(msg) : warn(msg);
-            }
-          }
-        }
-      }
-
-      for (const p of people) {
-        const t = targets.daily[p];
-        for (const key of ['kcal', 'protein_g', 'fiber_g']) {
-          const spec = t[key];
-          if (!spec) continue;
-          const avg = daily.reduce((s, d) => s + d.totals[p][key], 0) / daily.length;
-          if (spec.min != null && avg < spec.min * (1 - tol.avg_pct)) {
-            report(`Weekly average ${p} ${key} ${r1(avg)} below min ${spec.min}`);
-          }
-          if (spec.max != null && avg > spec.max * (1 + tol.avg_pct)) {
-            report(`Weekly average ${p} ${key} ${r1(avg)} above max ${spec.max}`);
-          }
-        }
-      }
+      // Same thresholds and the same severity rules as validate-plan.js — one
+      // implementation in lib/budgets.js so the two gates cannot drift apart.
+      const B = checkBudgets(A);
+      B.errors.forEach(report);
+      B.warnings.forEach(warn);
     }
   }
 

@@ -104,13 +104,18 @@ function computeWeek(weekData, opts = {}) {
     for (const p of people) {
       const acc = facts.perPerson[p];
       perPerson[p] = {
-        kcal:      Math.round(acc.kcal),
-        protein_g: round(acc.protein_g),
-        carbs_g:   round(acc.carbs_g),
-        fat_g:     round(acc.fat_g),
-        fiber_g:   round(acc.fiber_g),
-        sat_fat_g: round(acc.sat_fat_g),
-        sodium_mg: Math.round(acc.sodium_mg)
+        kcal:       Math.round(acc.kcal),
+        protein_g:  round(acc.protein_g),
+        carbs_g:    round(acc.carbs_g),
+        fat_g:      round(acc.fat_g),
+        fiber_g:    round(acc.fiber_g),
+        sat_fat_g:  round(acc.sat_fat_g),
+        sodium_mg:  Math.round(acc.sodium_mg),
+        // Minerals are TOTAL intake from composition tables, not bioavailable intake —
+        // see the _micronutrient_caveat in data/foods.json before reading much into them.
+        calcium_mg: Math.round(acc.calcium_mg),
+        iron_mg:    round(acc.iron_mg),
+        zinc_mg:    round(acc.zinc_mg)
       };
     }
     results.set(recipe.id, { serves: expected || declared, perPerson, occasions: facts.occasions });

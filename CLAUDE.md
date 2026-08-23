@@ -68,12 +68,16 @@ yourself adding a checklist item, add a check to `validate-plan.js` instead.
 
 ```
 data/foods.json    ─┐
-data/targets.json  ─┼─→ scripts/lib/{foods,analyze,scan}.js ─→ validate-plan / compute-nutrition / validate-week
+data/targets.json  ─┼─→ scripts/lib/{foods,analyze,budgets,scan}.js ─→ validate-plan / compute-nutrition / validate-week
 {weekId}-plan.json ─┘                                                      │
                                                                            ↓
 data/weeks/{weekId}.json → sync-weeks-index.js → index.json → app.js fetches both
 data/weeks/{weekId}.json → derive-history.js   → recent-history.json → next week's variety check
 ```
+
+`lib/budgets.js` holds the daily/weekly budget loop and the surviving per-meal rules. Both
+validators call it. They used to carry near-identical copies, which is the drift this repo
+keeps paying for — add a budget there, not in either validator.
 
 ### Three data files, one source of truth each
 
@@ -87,6 +91,17 @@ Change a threshold in `targets.json` and in `Family-context.md` together. Script
 the former; the LLM reads mainly the latter. Divergence means designing against one set of
 numbers and judging against another.
 
+`Family-context.md` §8.2 must stay **exhaustive**: any number in that document not present in
+`targets.json` belongs on that list. A number that is neither enforced nor listed as
+unenforced reads as though it were being checked. That was how the wife's sterol target, the
+vegetable-weight targets and every salt figure went years without a mechanism.
+
+A budget entry is hard-fail unless it carries `"severity": "warn"`. Hard where the data is
+complete and the lever direct (energy, macros, fibre, gram weights); warn where the
+measurement itself is uncertain (sodium is an ingredient-only lower bound; ca/fe/zn are total
+rather than bioavailable and exclude the school lunch). Don't promote a warn to hard without
+first generating a real week against it.
+
 ### Nutrition is computed, never authored
 
 `compute-nutrition.js` derives every per-person figure from ingredient quantities via the
@@ -99,6 +114,17 @@ degrading week over week (0% mismatch in W20 → 20% in W26).
 
 `sodium_mg` counts only sodium present in ingredients — a lower bound, since added salt is
 often unstated. Do not present it as total salt intake.
+
+`veg_fruit_g` is a pseudo-nutrient carried through the same split: a food's own gram weight
+when it counts toward the fruit-and-vegetable target, 0 otherwise. Potato and sweet potato
+carry `vegetable_starchy` *without* `vegetable` and so don't count; parsnip carries both and
+does. Adding a per-day metric this way costs nothing — no separate accumulation path.
+
+`calcium_mg`/`iron_mg`/`zinc_mg` are **total** intake from composition tables, not
+bioavailable intake, and the school lunch contributes zero by design. They detect a floor;
+they do not measure adequacy. `for:` tagging matters most here: a shared ingredient gives the
+child 1.1/3.0 of its total, so 500 ml of shared milk delivers him ~220 mg of calcium against a
+1300 mg target. His dairy has to be `for: "child"`.
 
 ### The eater model — easy to get wrong
 

@@ -47,11 +47,20 @@ Common failures and what they mean:
 | Failure | Meaning |
 |---|---|
 | `serves=6 but the menu needs 5` | A Mon–Thu dinner carrying into next-day lunch feeds 3 + 2 adults, not 3 + 3 |
-| `child protein_g above max` | Too much protein — a real constraint, not an aspiration |
+| `husband/wife protein_g above max` | Too much protein — a real constraint, not an aspiration. The **child has no gram ceiling**; only `protein is N% of energy, above max 30%` applies to him |
+| `child: only 1 of 2 home main meals reach the 15 g protein anchor` | Both his anchors must be home food — breakfast *and* dinner each need 15 g. The school lunch does not count |
+| `child calcium_mg below min` (warn) | Almost always missing `for: "child"` dairy. A shared pour gives him 1.1/3.0 of it — tag ~400 ml milk + ~200 g yogurt to him |
+| `wife fat is 28% of energy, below min 30%` | Her floor went **up** in v6.0 — don't ration olive oil or nuts. Saturated fat at ≤11 g is the real cap |
+| `veg_fruit_g below min` | Potato and sweet potato don't count toward it; add actual vegetables or fruit |
+| `red_meat_days = 0, need at least 1` | Lean red meat is the wife's heme-iron source; the rule is a floor as well as a ceiling |
 | `Only 1 distinct dinner formats` | Vary `format`; ≥4 needed, ≤2 `one_pot` |
 | `Dinner pairing "salmon+grain_buckwheat" was already used` | Cross-week repeat within 3 weeks |
 | `used in 2 slots but only a dinner → next-day-lunch pair is supported` | The same snack on two days would be bought once |
 | `unknown ingredient` | Not in `data/foods.json` — add it there, don't rename around it |
+
+Warn-level budgets (sodium, calcium, iron, zinc, viscous fibre, sterols) never block the gate —
+see `Family-context.md` §8.1 for why each sits where it does. Read them anyway; the child's
+calcium in particular will flag every week until his dairy is `for:`-tagged.
 
 ### Step 4 — Expand into the week file
 

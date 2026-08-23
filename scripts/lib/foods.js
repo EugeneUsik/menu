@@ -134,22 +134,54 @@ function toGrams(food, quantity, unit) {
   };
 }
 
-/** Scale a per-100 g nutrition block to an arbitrary gram amount. */
+/**
+ * Does this food count toward the "vegetables + fruit per day" target?
+ *
+ * Potato and sweet potato do not: they are starchy staples, and every mainstream
+ * 5-a-day scheme excludes them. They carry `vegetable_starchy` WITHOUT `vegetable`.
+ * Parsnip carries both and does count. Herbs and aromatics-only entries (dill,
+ * parsley, ginger) carry `herb`/`aromatic` without `vegetable` and do not count.
+ */
+function isVegFruit(food) {
+  const t = food.tags || [];
+  if (t.includes('vegetable') || t.includes('fruit')) return true;
+  return false;
+}
+
+/**
+ * Scale a per-100 g nutrition block to an arbitrary gram amount.
+ *
+ * `veg_fruit_g` is a pseudo-nutrient: the food's own gram weight when it counts
+ * toward the fruit-and-vegetable target, 0 otherwise. Carrying it here means it
+ * flows through the same per-person portion-weight split as everything else,
+ * so a person's share of the week's vegetables needs no separate machinery.
+ */
 function nutritionFor(food, grams) {
   const p = food.per100g || {};
   const f = grams / 100;
   return {
-    kcal:      (p.kcal || 0) * f,
-    protein_g: (p.p    || 0) * f,
-    carbs_g:   (p.c    || 0) * f,
-    fat_g:     (p.f    || 0) * f,
-    sat_fat_g: (p.sf   || 0) * f,
-    fiber_g:   (p.fib  || 0) * f,
-    sodium_mg: (p.na   || 0) * f
+    kcal:         (p.kcal || 0) * f,
+    protein_g:    (p.p    || 0) * f,
+    carbs_g:      (p.c    || 0) * f,
+    fat_g:        (p.f    || 0) * f,
+    sat_fat_g:    (p.sf   || 0) * f,
+    fiber_g:      (p.fib  || 0) * f,
+    sodium_mg:    (p.na   || 0) * f,
+    calcium_mg:   (p.ca   || 0) * f,
+    iron_mg:      (p.fe   || 0) * f,
+    zinc_mg:      (p.zn   || 0) * f,
+    free_sugar_g: (p.fs   || 0) * f,
+    sterol_g:     (p.st   || 0) * f,
+    viscous_fiber_g: (p.vf || 0) * f,
+    veg_fruit_g:  isVegFruit(food) ? grams : 0
   };
 }
 
-const EMPTY = () => ({ kcal: 0, protein_g: 0, carbs_g: 0, fat_g: 0, sat_fat_g: 0, fiber_g: 0, sodium_mg: 0 });
+const EMPTY = () => ({
+  kcal: 0, protein_g: 0, carbs_g: 0, fat_g: 0, sat_fat_g: 0, fiber_g: 0, sodium_mg: 0,
+  calcium_mg: 0, iron_mg: 0, zinc_mg: 0,
+  free_sugar_g: 0, sterol_g: 0, viscous_fiber_g: 0, veg_fruit_g: 0
+});
 
 function addInto(target, source, factor = 1) {
   for (const k of Object.keys(target)) target[k] += (source[k] || 0) * factor;
@@ -161,7 +193,7 @@ function hasTag(food, tag) {
 }
 
 module.exports = {
-  loadCatalog, resolve, toGrams, nutritionFor,
+  loadCatalog, resolve, toGrams, nutritionFor, isVegFruit,
   normalise, wordSetKey, EMPTY, addInto, hasTag,
   CATALOG_PATH
 };

@@ -22,13 +22,12 @@
 const fs   = require('fs');
 const path = require('path');
 const { analyze, MAIN_SLOTS, ALL_SLOTS } = require('./lib/analyze.js');
+const { checkBudgets, checkMealStructure } = require('./lib/budgets.js');
 const { scanSafety } = require('./lib/scan.js');
 
 const DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-function pct(n) { return `${n > 0 ? '+' : ''}${Math.round(n * 100)}%`; }
-function r0(n)  { return Math.round(n); }
-function r1(n)  { return Math.round(n * 10) / 10; }
+// Numeric formatting for budget messages lives in lib/budgets.js alongside the checks.
 
 function validatePlan(plan) {
   const errors = [], warnings = [], notes = [];
@@ -126,8 +125,7 @@ function validatePlan(plan) {
   A.problems.forEach(fail);
   if (errors.length) return { pass: false, errors, warnings, notes };
 
-  const { targets, people, recipeFacts, daily } = A;
-  const tol = targets.tolerance;
+  const { targets, recipeFacts, daily } = A;
 
   // 4a-pre. serves must match who actually eats the recipe.
   // A dinner for three that becomes next-day school lunch for two is 5 portions, not 6.
@@ -143,84 +141,16 @@ function validatePlan(plan) {
     }
   }
 
-  // 4a. Daily budgets
-  for (const d of daily) {
-    for (const p of people) {
-      const t = targets.daily[p], v = d.totals[p];
-      for (const key of ['kcal', 'protein_g', 'fiber_g', 'sat_fat_g']) {
-        const spec = t[key];
-        if (!spec) continue;
-        const actual = v[key];
-        if (spec.min != null && actual < spec.min) {
-          const off = (actual - spec.min) / spec.min;
-          const msg = `${d.day_name} ${p} ${key} ${r1(actual)} below min ${spec.min} (${pct(off)})`;
-          Math.abs(off) > tol.day_pct ? fail(msg) : warn(msg);
-        }
-        if (spec.max != null && actual > spec.max) {
-          const off = (actual - spec.max) / spec.max;
-          const msg = `${d.day_name} ${p} ${key} ${r1(actual)} above max ${spec.max} (${pct(off)})`;
-          Math.abs(off) > tol.day_pct ? fail(msg) : warn(msg);
-        }
-      }
-    }
-  }
+  // 4a/4b. Daily and weekly-average budgets, and 4c. the surviving per-meal rules.
+  // Both live in lib/budgets.js so validate-week.js applies exactly the same thresholds.
+  const B = checkBudgets(A);
+  B.errors.forEach(fail);
+  B.warnings.forEach(warn);
+  B.notes.forEach(n => notes.push(n));
 
-  // 4b. Weekly averages — tighter band than individual days
-  for (const p of people) {
-    const t = targets.daily[p];
-    for (const key of ['kcal', 'protein_g', 'fiber_g']) {
-      const spec = t[key];
-      if (!spec) continue;
-      const avg = daily.reduce((s, d) => s + d.totals[p][key], 0) / daily.length;
-      if (spec.min != null && avg < spec.min * (1 - tol.avg_pct)) {
-        fail(`Weekly average ${p} ${key} ${r1(avg)} below min ${spec.min}`);
-      }
-      if (spec.max != null && avg > spec.max * (1 + tol.avg_pct)) {
-        fail(`Weekly average ${p} ${key} ${r1(avg)} above max ${spec.max}`);
-      }
-      notes.push(`avg ${p} ${key}: ${r1(avg)}${spec.min != null ? ` (target ${spec.min}${spec.max != null ? `-${spec.max}` : '+'})` : ''}`);
-    }
-  }
-
-  // 4c. Meal structure — the few per-meal rules that survived
-  const ms = targets.meal_structure;
-  for (const d of daily) {
-    const hb = d.bySlot.breakfast?.husband;
-    if (hb) {
-      if (hb.protein_g < ms.husband_breakfast_protein_min_g * (1 - tol.day_pct)) {
-        fail(`${d.day_name}: husband breakfast protein ${r1(hb.protein_g)} g below ${ms.husband_breakfast_protein_min_g} g (pre-training meal)`);
-      }
-      if (hb.carbs_g < ms.husband_breakfast_carbs_min_g * (1 - tol.day_pct)) {
-        warn(`${d.day_name}: husband breakfast carbs ${r1(hb.carbs_g)} g below ${ms.husband_breakfast_carbs_min_g} g (pre-training fuel)`);
-      }
-    }
-    for (const p of people) {
-      // Only meals this person actually eats. On a school day the child's midday meal
-      // is the external school lunch, not the family lunch slot.
-      const mainSlotNames = [...MAIN_SLOTS, 'school_lunch'];
-      const mains = mainSlotNames
-        .map(s => d.bySlot[s])
-        .filter(b => b && b._eaters.includes(p) && b[p])
-        .map(b => b[p]);
-      const atAnchor = mains.filter(m => m.protein_g >= ms.anchor_protein_min_g[p]).length;
-      if (atAnchor < ms.min_main_meals_at_anchor) {
-        fail(`${d.day_name} ${p}: only ${atAnchor} of ${mains.length} main meals reach the ${ms.anchor_protein_min_g[p]} g protein anchor (need ${ms.min_main_meals_at_anchor})`);
-      }
-      const dayProtein = targets.daily[p].protein_g;
-      if (dayProtein?.max) {
-        const cap = dayProtein.max * ms.max_single_meal_protein_share;
-        const worst = mains.reduce((m, x) => Math.max(m, x.protein_g), 0);
-        if (worst > cap) {
-          warn(`${d.day_name} ${p}: a single main meal carries ${r1(worst)} g protein, over ${r1(cap)} g (${Math.round(ms.max_single_meal_protein_share * 100)}% of the daily max) — spread it out`);
-        }
-      }
-    }
-    if (!d.day.shared_snack?.recipe_id) continue;
-    const snackFacts = recipeFacts.get(d.day.shared_snack.recipe_id);
-    if (snackFacts && !snackFacts.hasCalcium) {
-      warn(`${d.day_name}: shared snack has no calcium source (child's calcium target)`);
-    }
-  }
+  const M = checkMealStructure(A, recipeFacts, MAIN_SLOTS);
+  M.errors.forEach(fail);
+  M.warnings.forEach(warn);
 
   // 4d. Weekly counts
   const W = targets.weekly;
@@ -239,7 +169,8 @@ function validatePlan(plan) {
     soy_days:                     dayHas(f => f.hasSoy),
     oats_or_barley_days:          dayHas(f => f.hasOatsBarley),
     red_meat_days:                dayHas(f => f.hasRedMeat),
-    walnut_or_ldl_nut_days:       dayHas(f => f.hasLdlNut)
+    walnut_or_ldl_nut_days:       dayHas(f => f.hasLdlNut),
+    high_mercury_fish_days:       dayHas(f => f.hasHighMercury)
   };
   const checkMin = (label, actual, min) => {
     notes.push(`${label}: ${actual} (min ${min})`);
@@ -252,9 +183,23 @@ function validatePlan(plan) {
   checkMin('soy_days',                   counts.soy_days,                   W.soy_days_min);
   checkMin('oats_or_barley_days',        counts.oats_or_barley_days,        W.oats_or_barley_days_min);
   checkMin('walnut_or_ldl_nut_days',     counts.walnut_or_ldl_nut_days,     W.walnut_or_ldl_nut_days_min);
-  notes.push(`red_meat_days: ${counts.red_meat_days} (max ${W.red_meat_days_max})`);
+
+  // Red meat has a floor as well as a ceiling: it is the wife's most bioavailable iron
+  // source, her iron status is unmeasured, and the rest of the pattern is legume-dominant.
+  notes.push(`red_meat_days: ${counts.red_meat_days} (${W.red_meat_days_min}-${W.red_meat_days_max})`);
   if (counts.red_meat_days > W.red_meat_days_max) {
     fail(`red_meat_days = ${counts.red_meat_days}, max ${W.red_meat_days_max}`);
+  }
+  if (W.red_meat_days_min != null && counts.red_meat_days < W.red_meat_days_min) {
+    fail(`red_meat_days = ${counts.red_meat_days}, need at least ${W.red_meat_days_min} — lean red meat is the wife's heme-iron source`);
+  }
+
+  // Methylmercury: the variety rules distinguish fish species but not their mercury load,
+  // and the child is the constraining eater.
+  notes.push(`high_mercury_fish_days: ${counts.high_mercury_fish_days} (max ${W.high_mercury_fish_days_max})`);
+  if (W.high_mercury_fish_days_max != null && counts.high_mercury_fish_days > W.high_mercury_fish_days_max) {
+    fail(`high_mercury_fish_days = ${counts.high_mercury_fish_days}, max ${W.high_mercury_fish_days_max} — ` +
+         `prefer skipjack/light tuna, or swap for a low-mercury species`);
   }
 
   // Wife's legume servings are counted per meal, not per day

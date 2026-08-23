@@ -162,18 +162,20 @@ The rules below shape good menus. They are **not** a checklist to verify — the
 Daily totals are what bind. A single meal does not need to be balanced on its own; it needs to make the day work. The only hard per-meal rules are:
 
 - Husband's breakfast: ≥35 g protein, ≥60 g complex carbohydrate (he trains straight after).
-- Each person: ≥2 main meals reaching their protein anchor (husband 30 g, wife 20 g, child 15 g). The child's school lunch counts as one.
+- Each person: ≥2 main meals reaching their protein anchor (husband 30 g, wife 20 g, child 15 g). **For the child, both must be home meals** — the school lunch does not count, because its protein figure is an estimate. In practice: breakfast and dinner each need ≥15 g for him.
 - No single main meal above 45% of a person's daily protein maximum.
 
 **Use that freedom.** A light vegetable soup lunch, a pasta-and-vegetable dinner, a fruit-forward yogurt breakfast are all now available and were not before. Previous menus forced a protein anchor into all 28 slots, which is exactly why they felt repetitive.
 
-### Don't over-deliver protein
+### Don't over-deliver protein — but the child has no gram ceiling
 
-The daily protein *maximums* are real constraints, not aspirations. Historic menus ran the child at ~1.7× target and the adults 20–30% over. Extra protein displaces the carbohydrate the child's growth and the husband's running need, and it crowds out variety by forcing animal or legume protein into every slot.
+The adults' daily protein *maximums* are real constraints, not aspirations. Extra protein displaces the carbohydrate the child's growth and the husband's running need, and it crowds out variety by forcing animal or legume protein into every slot.
+
+The child is different: he has a ≥70 g floor and **no gram ceiling**, only a ≤30% of energy guard. Because he eats the adults' dishes scaled by portion size, he lands around 110–145 g whatever you do, and that is fine. Do not engineer his meals to suppress protein. What actually binds for him is energy adequacy, calcium, fibre and saturated fat.
 
 ### Breakfast
 
-No grain-only breakfasts. Include a protein element, a fibre-rich carbohydrate or fruit/vegetable, and a calcium source for the child. Avoid plain porridge without protein, cereal with milk only, toast with jam, pastries, sweetened yogurt bowls.
+No grain-only breakfasts. Include a protein element, a fibre-rich carbohydrate or fruit/vegetable, and a `for: "child"` calcium source. Avoid plain porridge without protein, cereal with milk only, toast with jam, pastries, sweetened yogurt bowls. The child needs ≥15 g protein here (one of his two required home anchors).
 
 ### Lunch
 
@@ -181,7 +183,7 @@ Mon–Fri lunch is a **two-person adult meal**. This is the freest slot in the w
 
 ### Dinner
 
-Family-shared, three eaters. Usually one clear protein, one whole-grain or starchy carbohydrate, at least two vegetables or one large vegetable component, and a healthy fat.
+Family-shared, three eaters. Usually one clear protein, one whole-grain or starchy carbohydrate, at least two vegetables or one large vegetable component, and a healthy fat. This is the child's second required protein anchor, so it needs ≥15 g for him even when it is a lighter vegetable-forward dish.
 
 ### Shared snack
 
@@ -193,15 +195,36 @@ Across the week: ≥4 distinct dinner protein categories; no protein item headli
 
 Also enforced **across weeks**: a dinner protein+starch pairing used in the last 3 weeks is rejected, and at most 1 dinner title may repeat last week. `data/weeks/recent-history.json` lists what was recently used — consult it. Salmon-with-buckwheat appeared three times in five weeks under the old flow.
 
+### Weekly frequency floors and ceilings
+
+Fatty fish ≥2 days; white fish or seafood ≥1 day; legumes ≥3 days (and ≥5 servings for the wife); soy ≥4 days in ≥2 forms; oats or barley ≥2 days; walnuts or other LDL nuts ≥5 days; shared snack ≥4 days.
+
+**Red meat is 1–2 days — a floor as well as a ceiling.** Lean red meat is the wife's most bioavailable iron source, her iron status is unmeasured, and the rest of this pattern is legume-dominant where non-heme iron absorbs poorly.
+
+**Canned tuna: at most 1 day per week**, methylmercury, with the child as the constraining eater. Prefer skipjack/light. Salmon, trout, herring, sardines and mackerel are unaffected.
+
+### Vegetables, fruit and free sugars
+
+Enforced per person per day, computed from ingredient weights: vegetables + fruit ≥400 g husband, ≥500 g wife, ≥350 g child. Potato and sweet potato do **not** count toward this — they are starchy staples. Parsnip does.
+
+Free sugars ≤30 g husband, ≤20 g wife, ≤29 g child (<5% of energy each). Only added sugars count — honey, sugar, dark chocolate, balsamic — not the sugar in intact fruit or milk. Note that a single tablespoon of honey is 17 g of free sugars.
+
 ### LDL priorities for the wife
 
-Viscous fibre ≥10 g/day (oats, barley, legumes, flaxseed, chia, berries, citrus, aubergine); soy ~25 g protein on most days, varied across tofu / soy milk / soy yogurt / edamame; nuts ~30 g/day with walnuts featured; legumes ≥5 servings/week as structure not garnish; fatty fish ≥2×/week; no saturated-fat stacking (cheese + fatty meat + cream in one meal or one day). Prefer olive oil, avocado, nuts, seeds and fatty fish over butter, cream and fatty cheese.
+Viscous fibre ≥10 g/day (oats, barley, legumes, flaxseed, chia, berries, citrus, aubergine); soy ~25 g protein on most days, varied across tofu / soy milk / soy yogurt / edamame; nuts ~30 g/day with walnuts featured; **one `sterol-drink` daily** (≥2 g plant sterols, taken with a meal); legumes ≥5 servings/week as structure not garnish; fatty fish ≥2×/week; no saturated-fat stacking (cheese + fatty meat + cream in one meal or one day). Prefer olive oil, avocado, nuts, seeds and fatty fish over butter, cream and fatty cheese.
 
-Use `for: "wife"` on ingredients meant only for her — that is how her walnuts, sterol spread, or smaller oil share get accounted correctly.
+Her **total** fat budget is 30–38% of energy — deliberately generous, so do not ration olive oil or nuts to save fat. The binding constraint is **saturated** fat at ≤11 g/day. A previous version capped total fat at 30%, which made her walnuts, tofu, sterol source and oil jointly impossible and quietly squeezed out the LDL-lowering items.
+
+### The `for:` tag is load-bearing
+
+A shared ingredient gives the wife 0.75/3.0 of its total and the child 1.1/3.0. Anything that has to reach a **per-person** number must be tagged, or it arrives at roughly a third of the intended amount:
+
+- `for: "wife"` — her walnuts, her sterol drink, her smaller oil share.
+- `for: "child"` — his dairy. His 1,300 mg calcium target cannot be met from shared pours: 500 ml milk plus 300 g Greek yogurt in a family dish gives him only ~341 mg. Tag ~400 ml milk + ~200 g yogurt to him at home meals.
 
 ### Sodium
 
-Adults <5 g salt/day, child lower. High-sodium items here: herring, sardines, canned fish, canned legumes, cheese, rye and whole-grain bread, crispbread, tortillas, soy sauce, broth, mustard, capers. Do not stack salty fish + cheese + bread + canned foods on one day. The child's school lunch is already salt-heavy (~900 mg estimated), so keep their home meals on school days lower. Rinse canned legumes.
+Adults and child alike: <5 g salt/day total. The enforced figure is ingredient sodium — ≤1,400 mg for each adult, ≤1,700 mg for the child *including* the school lunch's 900 mg, which leaves him only ~800 mg from home food. High-sodium items here: herring, lightly salted salmon, sardines, canned fish, canned legumes, cheese (hard cheese is 819 mg/100 g), rye and whole-grain bread, crispbread, tortillas, soy sauce, broth, mustard, capers. Do not stack salty fish + cheese + bread + canned foods on one day, and keep the child's school-day home meals at the low end. Rinse canned legumes. Use iodized salt.
 
 ### Cooking constraints
 

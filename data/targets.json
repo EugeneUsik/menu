@@ -1,6 +1,8 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "_comment": "Single source of truth for nutrition budgets, portion split, and variety rules. Read by scripts/validate-plan.js and scripts/validate-week.js. prompts/Family-context.md explains the WHY; this file holds the checkable numbers. Keep them in sync.",
+
+  "_severity_rule": "A budget entry is hard-fail unless it carries \"severity\": \"warn\". The split is not arbitrary: a budget is hard where the underlying data is COMPLETE and the lever is DIRECT (energy, macros, fibre, gram weights of vegetables and free sugars). It is warn where the measurement itself is uncertain — sodium is an ingredient-only lower bound because added salt is unquantified; ca/fe/zn are total rather than bioavailable intake and the school lunch's contribution is unknown; viscous-fibre and sterol figures depend on a handful of approximate catalog values and one specific retail product. Warn-level budgets are diagnostics, not gates. Promote one to hard only after a real week has been generated against it and the threshold is calibrated.",
 
   "people": ["husband", "wife", "child"],
 
@@ -19,44 +21,68 @@
 
   "daily": {
     "husband": {
-      "_comment": "[redacted]. Mifflin-St Jeor BMR ~1660 kcal; TDEE ~2550-2600 with 3x5 km/week jogging plus calisthenics. Slight deficit for visceral-fat reduction. Protein 1.8-2.0 g/kg: resistance volume (3x20 push-ups, 3x15 pull-ups) supports lean-mass preservation, not hypertrophy, so there is no case for going higher.",
-      "kcal":      { "min": 2400, "max": 2500 },
-      "protein_g": { "min": 130,  "max": 150 },
-      "fiber_g":   { "min": 35 },
-      "sat_fat_g": { "max": 28 }
+      "_comment": "[redacted]. Mifflin-St Jeor BMR ~1660 kcal; TDEE ~2550-2600 with 3x5 km/week jogging plus calisthenics. Slight deficit for visceral-fat reduction. Protein 1.8-2.0 g/kg: resistance volume (3x20 push-ups, 3x15 pull-ups) supports lean-mass preservation, not hypertrophy, so there is no case for going higher. NOTE: this whole band rests on a PREDICTED TDEE with +/-10-15% error and no biomarker or weight-trend feedback. See Family-context.md 4.1 — drive it from measured weight trend, not from the equation.",
+      "kcal":           { "min": 2400, "max": 2500 },
+      "protein_g":      { "min": 130,  "max": 150 },
+      "fiber_g":        { "min": 35 },
+      "sat_fat_g":      { "max": 28 },
+      "fat_pct_energy": { "min": 0.25, "max": 0.30 },
+      "veg_fruit_g":    { "min": 400 },
+      "free_sugar_g":   { "max": 30 },
+      "sodium_mg":      { "max": 1400, "severity": "warn" },
+      "calcium_mg":     { "min": 1000, "severity": "warn" }
     },
     "wife": {
-      "kcal":      { "min": 1550, "max": 1650 },
-      "protein_g": { "min": 95,   "max": 105 },
-      "fiber_g":   { "min": 30 },
-      "sat_fat_g": { "max": 11 }
+      "_comment": "[redacted]. TDEE ~1800-1950; 1550-1650 is a 250-350 kcal deficit (~0.3 kg/week). Protein 95-105 g = 1.53-1.69 g/kg, appropriate for lean-mass preservation in a deficit. fat_pct_energy raised from the old 25-30% to 30-38% in v6.0: at 1600 kcal the old cap was 44-53 g, but her own mandated LDL protocol (30 g walnuts 19.5 g fat + 25 g soy protein from tofu 12.5 g + a sterol vehicle + olive oil) costs ~57 g before any dairy, egg or fish. The cap therefore selected AGAINST the LDL-lowering components it was meant to support. Total fat is not the LDL lever; saturated-for-unsaturated substitution is, and sat_fat_g stays at 11 g. Portfolio-Diet and PREDIMED patterns ran at 31-41% fat.",
+      "kcal":            { "min": 1550, "max": 1650 },
+      "protein_g":       { "min": 95,   "max": 105 },
+      "fiber_g":         { "min": 30 },
+      "sat_fat_g":       { "max": 11 },
+      "fat_pct_energy":  { "min": 0.30, "max": 0.38 },
+      "veg_fruit_g":     { "min": 500 },
+      "free_sugar_g":    { "max": 20 },
+      "sodium_mg":       { "max": 1400, "severity": "warn" },
+      "calcium_mg":      { "min": 1000, "severity": "warn" },
+      "iron_mg":         { "min": 18,   "severity": "warn" },
+      "viscous_fiber_g": { "min": 10,   "severity": "warn" },
+      "sterol_g":        { "min": 2,    "severity": "warn" }
     },
     "child": {
-      "_comment": "[redacted]. Totals INCLUDE the fixed school lunch. Energy is deliberately not restricted; the goal is height velocity. Protein min 70 g (~1.4 g/kg) is the nutritional target. The 125 g max (~2.5 g/kg) is a sanity guard, NOT a target: an 85 g ceiling is arithmetically impossible alongside 2100-2550 kcal on shared family meals, because everyone eats the same dishes scaled by portion size and so gets the same protein share of energy — the adults need that share at 21-27%, which puts the child at 110-155 g. See the note in prompts/Family-context.md 4.3.",
-      "kcal":      { "min": 2100, "max": 2550 },
-      "protein_g": { "min": 70,   "max": 125 },
-      "fiber_g":   { "min": 25 },
-      "sat_fat_g": { "max": 26 }
-    }
+      "_comment": "[redacted]. Totals INCLUDE the fixed school lunch. Energy is deliberately not restricted; the goal is height velocity. Protein min 70 g (~1.4 g/kg) is the nutritional target and is already generous against the 0.95 g/kg RDA for 9-13y. There is NO gram ceiling: v5.x set 125 g, but the worst legitimate case (2550 kcal with home food at the husband's 24% protein density) lands at ~144 g, so the guard rejected compliant weeks. The real guard is protein_pct_energy: a share above 30% means protein is displacing carbohydrate a growing, sporting child needs. Expressed as a share it is scale-free and does not move when the energy band moves. fiber raised 25 -> 30 g in v6.0 (AI for boys 9-13 is ~31 g; 25 g was the loosest fibre density in the household, on its highest energy intake). salt ceiling raised 3.75 -> 5 g/day equivalent: the old 1500 mg sodium was stricter than UK SACN (6 g salt at 11-14y) and the US CDRR (1800 mg), and the 900 mg school lunch consumed 60% of it before a single home meal.",
+      "kcal":              { "min": 2100, "max": 2550 },
+      "protein_g":         { "min": 70 },
+      "protein_pct_energy": { "max": 0.30 },
+      "fiber_g":           { "min": 30 },
+      "sat_fat_g":         { "max": 26 },
+      "veg_fruit_g":       { "min": 350 },
+      "free_sugar_g":      { "max": 29 },
+      "sodium_mg":         { "max": 1700, "severity": "warn" },
+      "calcium_mg":        { "min": 1300, "severity": "warn" },
+      "iron_mg":           { "min": 8,    "severity": "warn" },
+      "zinc_mg":           { "min": 8,    "severity": "warn" }
+    },
+    "_child_micronutrient_note": "The child's computed calcium, iron and zinc are HOME-FOOD-ONLY lower bounds: the school lunch's micronutrient contribution is unknown and is deliberately counted as zero (Family-context.md 5.3). Raise iron and zinc to 11 mg at age 14 or at peak height velocity, whichever comes first."
   },
 
   "tolerance": {
-    "_comment": "Daily totals are estimates, not measurements. A day is a FAIL only outside target ± this fraction; inside the band but outside target is a WARN. Weekly averages are held to the tighter avg_pct.",
+    "_comment": "Daily totals are estimates, not measurements. A day is a FAIL only outside target +- this fraction; inside the band but outside target is a WARN. Weekly averages are held to the tighter avg_pct.",
     "day_pct": 0.1,
     "avg_pct": 0.04
   },
 
   "meal_structure": {
-    "_comment": "Replaces the old per-meal protein floors, which summed above the daily protein ceiling and forced a protein anchor into all 28 weekly slots. Only rules with a specific physiological reason are hard now. The child's fixed school lunch counts as one of their main meals.",
+    "_comment": "Replaces the old per-meal protein floors, which summed above the daily protein ceiling and forced a protein anchor into all 28 weekly slots. Only rules with a specific physiological reason are hard now.",
     "husband_breakfast_protein_min_g": 35,
     "husband_breakfast_carbs_min_g": 60,
     "anchor_protein_min_g": { "husband": 30, "wife": 20, "child": 15 },
     "min_main_meals_at_anchor": 2,
-    "max_single_meal_protein_share": 0.45
+    "max_single_meal_protein_share": 0.45,
+    "child_anchor_meals_home_only": true,
+    "_child_anchor_comment": "v5.x counted the estimated school lunch as one of the child's two anchor meals, which left exactly ONE verified anchor meal — and the school figures are unmeasured (fixed_school_lunch.assumed). Requiring both anchors from home food means breakfast and dinner must each reach 15 g. That is trivially satisfiable and removes the dependency on an estimate."
   },
 
   "fixed_school_lunch": {
-    "_comment": "External, not generated, not modifiable. ESTIMATED values for a standard Lithuanian school-canteen hot lunch (soup or main + side + bread). Replace with measured figures when available — the child's whole daily budget is built on top of these. Because the menu never specifies its contents, the processed-meat scan skips this field.",
+    "_comment": "External, not generated, not modifiable. ESTIMATED values for a standard Lithuanian school-canteen hot lunch (soup or main + side + bread). Replace with measured figures when available — the child's whole daily budget is built on top of these. Because the menu never specifies its contents, the processed-meat scan skips this field. Calcium, iron, zinc, vegetable/fruit weight and viscous fibre are deliberately absent rather than guessed: counting them as zero makes the child's totals an honest lower bound.",
     "kcal_estimate": 620,
     "protein_g_estimate": 28,
     "carbs_g_estimate": 78,
@@ -77,7 +103,11 @@
     "soy_days_min": 4,
     "oats_or_barley_days_min": 2,
     "red_meat_days_max": 2,
-    "walnut_or_ldl_nut_days_min": 5
+    "red_meat_days_min": 1,
+    "walnut_or_ldl_nut_days_min": 5,
+    "high_mercury_fish_days_max": 1,
+    "_red_meat_min_comment": "v5.x had only a ceiling, so 'lean red meat 1x/week' for the wife's iron (Family-context.md 4.2) had no mechanism at all. Her iron status is unmeasured and the pattern is legume-dominant, where non-heme iron absorbs poorly.",
+    "_mercury_comment": "Counts days using a species tagged high_mercury (currently canned tuna). The fish_species_repeat_max variety rule does not distinguish species by methylmercury, and the child is the constraining eater."
   },
 
   "variety": {

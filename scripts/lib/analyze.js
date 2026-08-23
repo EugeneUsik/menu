@@ -213,6 +213,8 @@ function analyze(weekData) {
       hasWhiteFishOrSeafood: rows.some(r => F.hasTag(r.food, 'white_fish') || F.hasTag(r.food, 'seafood')),
       hasRedMeat:     rows.some(r => F.hasTag(r.food, 'red_meat')),
       hasCalcium:     rows.some(r => F.hasTag(r.food, 'calcium')),
+      hasHighMercury: rows.some(r => F.hasTag(r.food, 'high_mercury')),
+      hasSterol:      rows.some(r => F.hasTag(r.food, 'sterol')),
       viscousFiber:   rows.some(r => F.hasTag(r.food, 'viscous_fiber'))
     });
   }

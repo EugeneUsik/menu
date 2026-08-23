@@ -466,24 +466,9 @@ Rules:
     "child": ""
   },
   "nutrition_estimate_per_person": {
-    "husband": {
-      "kcal": 0,
-      "protein_g": 0,
-      "fiber_g": 0,
-      "sat_fat_g": 0
-    },
-    "wife": {
-      "kcal": 0,
-      "protein_g": 0,
-      "fiber_g": 0,
-      "sat_fat_g": 0
-    },
-    "child": {
-      "kcal": 0,
-      "protein_g": 0,
-      "fiber_g": 0,
-      "calcium_mg": 0
-    }
+    "husband": { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "sat_fat_g": 0, "sodium_mg": 0, "calcium_mg": 0, "iron_mg": 0, "zinc_mg": 0 },
+    "wife":    { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "sat_fat_g": 0, "sodium_mg": 0, "calcium_mg": 0, "iron_mg": 0, "zinc_mg": 0 },
+    "child":   { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "sat_fat_g": 0, "sodium_mg": 0, "calcium_mg": 0, "iron_mg": 0, "zinc_mg": 0 }
   },
   "tags": ["fatty-fish", "high-protein", "batch-friendly"]
 }
@@ -493,7 +478,11 @@ Rules:
 
 - `id` must be stable and URL-safe.
 - `ingredients` may use approximate quantities.
-- Nutrition estimates are approximate and must not be presented as exact.
+- `nutrition_estimate_per_person` is **written by `scripts/compute-nutrition.js`, never authored.**
+  The block above is its exact output shape for schema 2.1.
+- Nutrition estimates are approximate and must not be presented as exact. `sodium_mg` counts
+  only ingredient sodium, a lower bound; `calcium_mg`/`iron_mg`/`zinc_mg` are total rather than
+  bioavailable intake.
 - Recipes are scoped to the week file for MVP.
 
 ## 8.4 Shopping List Shape
@@ -523,39 +512,30 @@ Rules:
 
 ## 8.5 Daily Nutrition Shape
 
+In a published week file `daily_nutrition` is `[]`. `app.js` computes it at load time via
+`computeDailyNutrition()`, producing one entry per day in this shape:
+
 ```json
 {
   "date": "2026-05-04",
-  "husband": {
-    "kcal": 0,
-    "protein_g": 0,
-    "fiber_g": 0,
-    "notes": []
-  },
-  "wife": {
-    "kcal": 0,
-    "protein_g": 0,
-    "fiber_g": 0,
-    "sat_fat_g": 0,
-    "ldl_support_notes": []
-  },
-  "child": {
-    "kcal": 0,
-    "protein_g": 0,
-    "fiber_g": 0,
-    "calcium_mg": 0,
-    "includes_fixed_school_snack": true,
-    "notes": []
-  },
-  "day_notes": []
+  "husband": { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "sat_fat_g": 0 },
+  "wife":    { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "sat_fat_g": 0 },
+  "child":   { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "sat_fat_g": 0,
+               "includes_fixed_school_lunch": true }
 }
 ```
 
 Rules:
 
 - Daily nutrition must include all three family members.
-- Child nutrition must explicitly show whether the fixed school snack was included.
+- Child nutrition must explicitly show whether the external school lunch was included
+  (`includes_fixed_school_lunch`; legacy 2.0 files use `includes_fixed_school_snack`).
+- Totals credit only the people who actually eat each slot, so a weekday lunch adds nothing
+  to the child's day.
 - The UI should show these values as estimates.
+- The per-day budget metrics the validators use (vegetable weight, sodium, calcium, iron, zinc,
+  free sugars, viscous fibre, sterols) are **not** part of this shape. They are derived at
+  validation time by `scripts/lib/budgets.js` and are not published to the frontend.
 
 ---
 

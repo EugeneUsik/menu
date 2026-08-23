@@ -25,7 +25,30 @@ const cat = F.loadCatalog();
 cat.conflicts.forEach(c => errors.push(c));
 
 const BANNED = [...S.BANNED_FRUITS, ...S.PROCESSED_MEATS];
-const NUM_FIELDS = ['kcal', 'p', 'c', 'f', 'sf', 'fib', 'na'];
+const NUM_FIELDS = ['kcal', 'p', 'c', 'f', 'sf', 'fib', 'na', 'ca', 'fe', 'zn'];
+/** Present only where non-zero; absent means zero. */
+const OPTIONAL_NUM_FIELDS = ['fs', 'st', 'vf'];
+
+/**
+ * A boolean tag and its numeric field must agree, or the tag-driven variety rules and
+ * the quantity-driven budgets tell different stories about the same food.
+ *
+ * `bidirectional` also warns on a non-zero number WITHOUT the tag. That only makes sense
+ * where any amount at all is material: free sugars and sterols. The mineral and
+ * viscous-fibre tags mean "notable source" and drive the priority rules, so plenty of
+ * foods legitimately carry a small amount without earning the tag — tagging rye bread
+ * `viscous_fiber` would dilute the tag for the wife's LDL protocol, which is its job.
+ *
+ * [tag, per100g field, minimum value that justifies the tag, bidirectional]
+ */
+const TAG_BACKING = [
+  ['calcium',       'ca', 80,  false],
+  ['iron',          'fe', 2,   false],
+  ['zinc',          'zn', 2,   false],
+  ['viscous_fiber', 'vf', 0.5, false],
+  ['free_sugar',    'fs', 1,   true],
+  ['sterol',        'st', 0.5, true]
+];
 
 for (const food of cat.foods) {
   const at = `food "${food.key || '(no key)'}"`;
@@ -69,6 +92,25 @@ for (const food of cat.foods) {
     }
     if ((p.sf || 0) > (p.f || 0) + 0.01) {
       errors.push(`${at}: saturated fat ${p.sf} exceeds total fat ${p.f}`);
+    }
+    for (const key of OPTIONAL_NUM_FIELDS) {
+      if (p[key] == null) continue;
+      if (typeof p[key] !== 'number' || p[key] < 0) errors.push(`${at}: per100g.${key} must be a non-negative number`);
+    }
+    // Free sugars and viscous fibre are subsets of the carbohydrate and fibre figures.
+    if ((p.fs || 0) > (p.c || 0) + 0.01) errors.push(`${at}: free sugars ${p.fs} exceed total carbs ${p.c}`);
+    if ((p.vf || 0) > (p.fib || 0) + 0.01) errors.push(`${at}: viscous fibre ${p.vf} exceeds total fibre ${p.fib}`);
+
+    // Tag and number must agree.
+    for (const [tag, field, min, bidirectional] of TAG_BACKING) {
+      const tagged = Array.isArray(food.tags) && food.tags.includes(tag);
+      const value  = p[field] || 0;
+      if (tagged && value < min) {
+        errors.push(`${at}: tagged "${tag}" but per100g.${field} is ${value} (expected >= ${min}) — tag and number disagree`);
+      }
+      if (bidirectional && !tagged && value > 0) {
+        errors.push(`${at}: per100g.${field} is ${value} but the food is not tagged "${tag}"`);
+      }
     }
   }
 
