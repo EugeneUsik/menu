@@ -1,6 +1,15 @@
 {
-  "defaultWeekId": "2026-W35",
+  "defaultWeekId": "2026-W36",
   "weeks": [
+    {
+      "id": "2026-W36",
+      "label": "2026 W36 · 31 августа – 6 сентября",
+      "start_date": "2026-08-31",
+      "end_date": "2026-09-06",
+      "file": "2026-W36.json",
+      "status": "ready",
+      "notes": ""
+    },
     {
       "id": "2026-W35",
       "label": "2026 W35 · 24–30 августа",
