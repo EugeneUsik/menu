@@ -83,6 +83,7 @@
 
   "fixed_school_lunch": {
     "_comment": "External, not generated, not modifiable. ESTIMATED values for a standard Lithuanian school-canteen hot lunch (soup or main + side + bread). Replace with measured figures when available — the child's whole daily budget is built on top of these. Because the menu never specifies its contents, the processed-meat scan skips this field. Calcium, iron, zinc, vegetable/fruit weight and viscous fibre are deliberately absent rather than guessed: counting them as zero makes the child's totals an honest lower bound.",
+    "_max_side_comment": "The lower-bound argument above holds only for MINIMUMS — under-counting an unknown makes a floor stricter. It inverts for a ceiling, where counting an unknown as zero makes the gate falsely lenient. So every max-side nutrient is estimated rather than omitted: sat fat (7 g), sodium (900 mg) and free sugars (3 g). The free-sugar figure assumes a savoury meal whose only free sugar is incidental, consistent with the child skipping the usual apple- or cherry-based kompotas on allergy grounds (§2.1). Raise it toward 10-15 g if he is in fact served a sweetened drink or dessert.",
     "kcal_estimate": 620,
     "protein_g_estimate": 28,
     "carbs_g_estimate": 78,
@@ -90,6 +91,7 @@
     "sat_fat_g_estimate": 7,
     "fiber_g_estimate": 6,
     "sodium_mg_estimate": 900,
+    "free_sugar_g_estimate": 3,
     "assumed": true
   },
 

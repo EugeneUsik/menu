@@ -143,6 +143,65 @@ test('the external school lunch is added on school days only', () => {
   }
 });
 
+/* ── The external school lunch ── */
+
+test('every declared *_estimate reaches the child\'s totals', () => {
+  // The block used to name seven nutrients by hand while F.EMPTY() grew to fourteen, so
+  // calcium, iron, zinc, vegetable weight, free sugar, sterols and viscous fibre were all
+  // silently contributed as zero.
+  const w = week([], []);
+  w.fixed_school_lunch = {
+    kcal_estimate: 600, protein_g_estimate: 25, carbs_g_estimate: 70, fat_g_estimate: 20,
+    sat_fat_g_estimate: 7, fiber_g_estimate: 6, sodium_mg_estimate: 900,
+    calcium_mg_estimate: 150, iron_mg_estimate: 2, zinc_mg_estimate: 1.5,
+    free_sugar_g_estimate: 8, sterol_g_estimate: 0.2, viscous_fiber_g_estimate: 1,
+    veg_fruit_g_estimate: 90
+  };
+  const totals = A.analyze(w).daily[0].totals.child;
+
+  for (const [key, value] of Object.entries({
+    kcal: 600, protein_g: 25, carbs_g: 70, fat_g: 20, sat_fat_g: 7, fiber_g: 6,
+    sodium_mg: 900, calcium_mg: 150, iron_mg: 2, zinc_mg: 1.5,
+    free_sugar_g: 8, sterol_g: 0.2, viscous_fiber_g: 1, veg_fruit_g: 90
+  })) {
+    assert.equal(totals[key], value, `${key} did not reach the child's totals`);
+  }
+});
+
+test('an estimate the code has never heard of still flows through', () => {
+  // The guarantee is structural: the mapping is derived from F.EMPTY()'s keys, so a nutrient
+  // added to the model needs no edit here. This asserts the derivation, not a key list.
+  const w = week([], []);
+  const nutrients = Object.keys(F.EMPTY());
+  w.fixed_school_lunch = Object.fromEntries(nutrients.map(k => [`${k}_estimate`, 1]));
+  const totals = A.analyze(w).daily[0].totals.child;
+  for (const k of nutrients) assert.equal(totals[k], 1, `${k}`);
+});
+
+test('an absent estimate counts as zero rather than NaN', () => {
+  // Zero is the documented choice for the minimums: an unknown contribution counted as zero
+  // keeps the child's totals an honest lower bound. NaN would silently disable the check.
+  const w = week([], []);
+  w.fixed_school_lunch = { kcal_estimate: 600 };
+  const totals = A.analyze(w).daily[0].totals.child;
+  assert.equal(totals.kcal, 600);
+  assert.equal(totals.calcium_mg, 0);
+  for (const v of Object.values(totals)) assert.ok(Number.isFinite(v), 'no NaN in totals');
+});
+
+test('the shipped school-lunch estimate declares every max-side nutrient', () => {
+  // Counting an unknown as zero is safe for a floor and unsafe for a ceiling, so any budget
+  // with a max must have an estimate behind it or the gate is falsely lenient.
+  const child = targets.daily.child;
+  const external = targets.fixed_school_lunch;
+  for (const [key, spec] of Object.entries(child)) {
+    if (key.startsWith('_') || spec.max == null) continue;
+    if (key.endsWith('_pct_energy')) continue;   // a ratio: both parts get the school meal
+    assert.ok(Number.isFinite(external[`${key}_estimate`]),
+      `child budget "${key}" has a max but fixed_school_lunch declares no ${key}_estimate`);
+  }
+});
+
 /* ── Problem reporting ── */
 
 test('an unresolvable ingredient is reported, not silently skipped', () => {

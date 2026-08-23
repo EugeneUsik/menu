@@ -169,6 +169,29 @@ function tagsWithPrefix(rows, prefix) {
 }
 
 /**
+ * The external school meal as a nutrition block, built from whatever `*_estimate` keys the
+ * source declares rather than from a list written here.
+ *
+ * The list that used to live here named seven nutrients. `F.EMPTY()` now has fourteen, so
+ * the block silently contributed zero for calcium, iron, zinc, vegetable weight, free sugar,
+ * sterols and viscous fibre — and would have silently ignored the next estimate anyone added.
+ *
+ * An absent key stays zero, which is deliberate for the minimums: `targets.json` explains
+ * that counting an unknown contribution as zero keeps the child's totals an honest lower
+ * bound. That reasoning inverts for a maximum, though — an unknown counted as zero makes a
+ * ceiling falsely lenient — which is why `free_sugar_g_estimate` is declared rather than
+ * left absent.
+ */
+function externalBlock(external) {
+  const block = F.EMPTY();
+  for (const key of Object.keys(block)) {
+    const value = external[`${key}_estimate`];
+    if (Number.isFinite(value)) block[key] = value;
+  }
+  return block;
+}
+
+/**
  * Build a full derived picture of the week.
  * @returns {{targets, recipeFacts: Map, daily: array, problems: string[]}}
  */
@@ -244,26 +267,10 @@ function analyze(weekData) {
     }
 
     if (isSchoolLunchDay(day)) {
-      totals.child.kcal      += external.kcal_estimate      || 0;
-      totals.child.protein_g += external.protein_g_estimate || 0;
-      totals.child.carbs_g   += external.carbs_g_estimate   || 0;
-      totals.child.fat_g     += external.fat_g_estimate     || 0;
-      totals.child.sat_fat_g += external.sat_fat_g_estimate || 0;
-      totals.child.fiber_g   += external.fiber_g_estimate   || 0;
-      totals.child.sodium_mg += external.sodium_mg_estimate || 0;
+      const meal = externalBlock(external);
+      F.addInto(totals.child, meal);
       // Treat it as one of the child's main meals for the anchor rule.
-      bySlot.school_lunch = {
-        child: {
-          kcal:      external.kcal_estimate      || 0,
-          protein_g: external.protein_g_estimate || 0,
-          carbs_g:   external.carbs_g_estimate   || 0,
-          fat_g:     external.fat_g_estimate     || 0,
-          sat_fat_g: external.sat_fat_g_estimate || 0,
-          fiber_g:   external.fiber_g_estimate   || 0,
-          sodium_mg: external.sodium_mg_estimate || 0
-        },
-        _eaters: ['child']
-      };
+      bySlot.school_lunch = { child: meal, _eaters: ['child'] };
     }
 
     return { index: i, day_name: day.day_name, date: day.date, day, totals, bySlot, schoolLunch: isSchoolLunchDay(day) };
