@@ -32,7 +32,9 @@ boundaries, which hand arithmetic gets wrong. Do not compute them.
 
 ### Rule 1 — Child fruit allergy
 
-No **cherries, apples, pears, apricots, or peaches** in any form — fresh, cooked, dried, juice, jam, compote, purée, sauce, filling, yogurt layer, smoothie ingredient, or hidden ingredient. This includes derived products: **apple cider vinegar is excluded** (use `уксус винный белый` or `сок лимонный`).
+No **cherries, apples, pears, apricots, peaches, or plums** in any form — fresh, cooked, dried, juice, jam, compote, purée, sauce, filling, yogurt layer, smoothie ingredient, or hidden ingredient. This includes derived products: **apple cider vinegar is excluded** (use `уксус винный белый` or `сок лимонный`).
+
+Plums were added to this list after they reached two published weeks. They are *Prunus domestica* — the same genus as cherry, apricot and peach, three of the other five — and the list is otherwise exactly the Rosaceae stone and pome fruits. Treat the list as botanical rather than as a set of individually tested items: if a fruit is a stone fruit or a pome, do not use it without asking.
 
 Applies to every field: titles, notes, ingredients. Avoid vague "multifruit" / "forest fruit" / "mixed fruit" products unless the ingredient list is verifiably clear. All other fruits are fine.
 
@@ -128,6 +130,8 @@ Use the exact `name_ru` from the catalog. Read it via `node scripts/catalog-dige
 than opening `data/foods.json`: same 174 foods and the same names, about 40 KB less, with the
 per-100 g figures in columns so portion sizing is reading rather than arithmetic. An
 unrecognised name is a **hard failure** — nutrition cannot be computed for it.
+
+Everything in the catalog must be buyable in a Lithuanian supermarket (Maxima, IKI, Rimi, Lidl). Nothing enforces this — it is the one requirement with no mechanism — so a food marked `AVOID` in the digest may be there for availability rather than nutrition. Kale and skyr were both in the catalog and in three published weeks before anyone noticed neither is stocked.
 
 If you genuinely need a food that is not in the catalog, add an entry to `data/foods.json` (key, `name_ru` noun-first, `cat`, `tags`, `per100g`, `aliases`) and then use it. The catalog is meant to grow; it is not meant to be bypassed.
 

@@ -5,113 +5,106 @@
     "source_week": "2026-W37",
     "recipe_total_kcal": {
       "breakfast (serves 3)": {
-        "median": 1810,
-        "min": 1642,
-        "max": 2224,
+        "median": 1769,
+        "min": 1605,
+        "max": 2052,
         "n": 7
       },
       "dinner (serves 3)": {
-        "median": 1826,
-        "min": 1498,
-        "max": 2015,
+        "median": 1885,
+        "min": 1611,
+        "max": 2169,
         "n": 3
       },
       "dinner+lunch (serves 5)": {
-        "median": 2935,
-        "min": 2887,
-        "max": 3098,
+        "median": 3106,
+        "min": 2718,
+        "max": 3296,
         "n": 3
       },
       "dinner+lunch (serves 6)": {
-        "median": 3869,
-        "min": 3869,
-        "max": 3869,
+        "median": 3815,
+        "min": 3815,
+        "max": 3815,
         "n": 1
       },
       "lunch (serves 2)": {
-        "median": 1303,
-        "min": 1022,
-        "max": 1303,
+        "median": 1242,
+        "min": 1159,
+        "max": 1242,
         "n": 2
       },
       "lunch (serves 3)": {
-        "median": 1791,
-        "min": 1791,
-        "max": 1791,
+        "median": 1937,
+        "min": 1937,
+        "max": 1937,
         "n": 1
       },
       "shared_snack (serves 3)": {
-        "median": 863,
-        "min": 670,
-        "max": 1089,
+        "median": 909,
+        "min": 738,
+        "max": 1123,
         "n": 7
       }
     },
     "recipe_total_protein_g": {
       "breakfast (serves 3)": {
-        "median": 124,
-        "min": 115,
-        "max": 166,
+        "median": 139,
+        "min": 113,
+        "max": 177,
         "n": 7
       },
       "dinner (serves 3)": {
-        "median": 106,
-        "min": 75,
-        "max": 119,
+        "median": 99,
+        "min": 83,
+        "max": 115,
         "n": 3
       },
       "dinner+lunch (serves 5)": {
-        "median": 174,
-        "min": 174,
-        "max": 215,
+        "median": 168,
+        "min": 157,
+        "max": 210,
         "n": 3
       },
       "dinner+lunch (serves 6)": {
-        "median": 203,
-        "min": 203,
-        "max": 203,
+        "median": 194,
+        "min": 194,
+        "max": 194,
         "n": 1
       },
       "lunch (serves 2)": {
-        "median": 78,
-        "min": 45,
-        "max": 78,
+        "median": 66,
+        "min": 40,
+        "max": 66,
         "n": 2
       },
       "lunch (serves 3)": {
-        "median": 100,
-        "min": 100,
-        "max": 100,
+        "median": 89,
+        "min": 89,
+        "max": 89,
         "n": 1
       },
       "shared_snack (serves 3)": {
         "median": 56,
-        "min": 30,
-        "max": 71,
+        "min": 32,
+        "max": 85,
         "n": 7
       }
     },
     "tagged_rows": [
       {
         "for": "wife",
+        "name": "орехи грецкие",
+        "quantity": 25,
+        "unit": "g",
+        "recipes": 7
+      },
+      {
+        "for": "wife",
         "name": "напиток кисломолочный с фитостеролами",
         "quantity": 100,
         "unit": "ml",
         "recipes": 7
-      },
-      {
-        "for": "husband",
-        "name": "хлопья овсяные",
-        "quantity": 70,
-        "unit": "g",
-        "recipes": 4
-      },
-      {
-        "for": "wife",
-        "name": "орехи грецкие",
-        "quantity": 35,
-        "unit": "g",
-        "recipes": 4
       },
       {
         "for": "child",
@@ -128,24 +121,24 @@
         "recipes": 3
       },
       {
-        "for": "husband",
-        "name": "хлопья ячменные",
-        "quantity": 70,
-        "unit": "g",
-        "recipes": 3
-      },
-      {
-        "for": "wife",
-        "name": "орехи грецкие",
-        "quantity": 25,
-        "unit": "g",
-        "recipes": 3
-      },
-      {
         "for": "child",
         "name": "молоко 2%",
         "quantity": 255,
         "unit": "ml",
+        "recipes": 2
+      },
+      {
+        "for": "husband",
+        "name": "хлопья овсяные",
+        "quantity": 45,
+        "unit": "g",
+        "recipes": 2
+      },
+      {
+        "for": "husband",
+        "name": "хлопья овсяные",
+        "quantity": 50,
+        "unit": "g",
         "recipes": 2
       },
       {
@@ -189,6 +182,27 @@
         "quantity": 145,
         "unit": "g",
         "recipes": 1
+      },
+      {
+        "for": "husband",
+        "name": "хлопья ячменные",
+        "quantity": 55,
+        "unit": "g",
+        "recipes": 1
+      },
+      {
+        "for": "husband",
+        "name": "хлопья ячменные",
+        "quantity": 70,
+        "unit": "g",
+        "recipes": 1
+      },
+      {
+        "for": "husband",
+        "name": "хлопья ячменные",
+        "quantity": 60,
+        "unit": "g",
+        "recipes": 1
       }
     ]
   },
@@ -198,7 +212,7 @@
       "start_date": "2026-09-07",
       "dinner_titles": [
         "Окунь с киноа и горошком",
-        "Курица с булгуром и кейлом",
+        "Курица с булгуром и шпинатом",
         "Суп из зелёной чечевицы",
         "Скумбрия с перловкой",
         "Свинина с картофелем",
@@ -255,7 +269,7 @@
       "start_date": "2026-08-31",
       "dinner_titles": [
         "Скумбрия с киноа и брокколи",
-        "Курица с перловкой и кейлом",
+        "Курица с перловкой и шпинатом",
         "Тофу с бурым рисом и овощами",
         "Камбала с картофелем и спаржей",
         "Говядина с кускусом и фенхелем",
@@ -313,7 +327,7 @@
       "dinner_titles": [
         "Форель с пшеном и спаржей",
         "Тофу с кускусом и овощами",
-        "Минтай с перловкой и кейлом",
+        "Минтай с перловкой и шпинатом",
         "Говядина с гречкой и фасолью",
         "Индейка с картофелем",
         "Кальмар с булгуром",

@@ -27,8 +27,8 @@
       "date": "2026-08-24",
       "includes_fixed_school_lunch": true,
       "breakfast": {
-        "title": "Овсянка со скиром и черникой",
-        "recipe_id": "oat-skyr-blueberry-bowl"
+        "title": "Овсянка с творогом и черникой",
+        "recipe_id": "oat-quark-blueberry-bowl"
       },
       "lunch": {
         "title": "Чечевичный суп с овощами",
@@ -77,8 +77,8 @@
         "recipe_id": "egg-bulgur-vegetable-salad"
       },
       "dinner": {
-        "title": "Минтай с перловкой и кейлом",
-        "recipe_id": "pollock-barley-kale"
+        "title": "Минтай с перловкой и шпинатом",
+        "recipe_id": "pollock-barley-spinach"
       },
       "shared_snack": {
         "title": "Соевый йогурт с миндалём",
@@ -94,8 +94,8 @@
         "recipe_id": "cottage-cheese-mango-plate"
       },
       "lunch": {
-        "title": "Скир с овощами и хлебцами",
-        "recipe_id": "skyr-vegetable-crispbread-plate"
+        "title": "Творог с овощами и хлебцами",
+        "recipe_id": "quark-vegetable-crispbread-plate"
       },
       "dinner": {
         "title": "Говядина с гречкой и фасолью",
@@ -176,8 +176,8 @@
   ],
   "recipes": [
     {
-      "id": "oat-skyr-blueberry-bowl",
-      "title": "Овсянка со скиром и черникой",
+      "id": "oat-quark-blueberry-bowl",
+      "title": "Овсянка с творогом и черникой",
       "meal_types": [
         "breakfast"
       ],
@@ -188,18 +188,18 @@
       "ingredients": [
         {
           "name": "хлопья овсяные",
-          "quantity": 170,
+          "quantity": 155,
           "unit": "g",
           "prep": "сухой вес"
         },
         {
           "name": "молоко 2%",
-          "quantity": 500,
+          "quantity": 490,
           "unit": "ml"
         },
         {
-          "name": "скир 0–2%",
-          "quantity": 350,
+          "name": "творог 0–2%",
+          "quantity": 315,
           "unit": "g"
         },
         {
@@ -209,7 +209,7 @@
         },
         {
           "name": "хлопья овсяные",
-          "quantity": 90,
+          "quantity": 65,
           "unit": "g",
           "prep": "сухой вес",
           "for": "husband"
@@ -222,13 +222,13 @@
         },
         {
           "name": "молоко 2%",
-          "quantity": 400,
+          "quantity": 390,
           "unit": "ml",
           "for": "child"
         },
         {
           "name": "соль",
-          "quantity": 0.5,
+          "quantity": 1,
           "unit": "g"
         },
         {
@@ -241,45 +241,45 @@
         "Всыпать овсяные хлопья в кастрюлю, залить молоком, добавить щепотку соли.",
         "Варить на среднем огне 5–7 минут, постоянно помешивая, до густоты.",
         "Снять с огня, дать постоять 2 минуты, вмешать корицу.",
-        "Разложить по тарелкам, выложить сверху скир и чернику.",
+        "Разложить по тарелкам, выложить сверху творог и чернику.",
         "Порцию мужа дополнить отдельно сваренными хлопьями, жене добавить грецкие орехи, ребёнку подать молоко отдельно."
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 811,
-          "protein_g": 42.1,
-          "carbs_g": 121.7,
-          "fat_g": 15.3,
-          "fiber_g": 18.2,
-          "sat_fat_g": 4.5,
-          "sodium_mg": 221,
-          "calcium_mg": 529,
-          "iron_mg": 7.8,
-          "zinc_mg": 7.9
+          "kcal": 710,
+          "protein_g": 44.4,
+          "carbs_g": 101.9,
+          "fat_g": 14,
+          "fiber_g": 15.1,
+          "sat_fat_g": 4.7,
+          "sodium_mg": 289,
+          "calcium_mg": 439,
+          "iron_mg": 6.4,
+          "zinc_mg": 6.5
         },
         "wife": {
-          "kcal": 475,
-          "protein_g": 23.6,
-          "carbs_g": 47.7,
-          "fat_g": 22.1,
-          "fiber_g": 7.7,
-          "sat_fat_g": 3.7,
-          "sodium_mg": 142,
-          "calcium_mg": 337,
-          "iron_mg": 3,
-          "zinc_mg": 3.6
+          "kcal": 470,
+          "protein_g": 27.2,
+          "carbs_g": 44.5,
+          "fat_g": 22.4,
+          "fiber_g": 7.3,
+          "sat_fat_g": 4.1,
+          "sodium_mg": 187,
+          "calcium_mg": 288,
+          "iron_mg": 2.9,
+          "zinc_mg": 3.3
         },
         "child": {
-          "kcal": 657,
-          "protein_g": 42.7,
-          "carbs_g": 84,
-          "fat_g": 16.6,
-          "fiber_g": 8.8,
-          "sat_fat_g": 8.5,
-          "sodium_mg": 383,
-          "calcium_mg": 939,
-          "iron_mg": 3.5,
-          "zinc_mg": 5.8
+          "kcal": 644,
+          "protein_g": 47.6,
+          "carbs_g": 78.9,
+          "fat_g": 16.8,
+          "fiber_g": 8.3,
+          "sat_fat_g": 8.8,
+          "sodium_mg": 445,
+          "calcium_mg": 854,
+          "iron_mg": 3.3,
+          "zinc_mg": 5.3
         }
       }
     },
@@ -301,12 +301,12 @@
         },
         {
           "name": "белки яичные",
-          "quantity": 200,
+          "quantity": 225,
           "unit": "g"
         },
         {
           "name": "шпинат свежий",
-          "quantity": 200,
+          "quantity": 205,
           "unit": "g"
         },
         {
@@ -316,36 +316,36 @@
         },
         {
           "name": "картофель",
-          "quantity": 300,
+          "quantity": 330,
           "unit": "g",
           "prep": "нарезать кубиками"
         },
         {
           "name": "хлеб цельнозерновой",
-          "quantity": 120,
+          "quantity": 125,
           "unit": "g"
         },
         {
           "name": "хлеб цельнозерновой",
-          "quantity": 150,
+          "quantity": 55,
           "unit": "g",
           "for": "husband"
         },
         {
           "name": "орехи грецкие",
-          "quantity": 25,
+          "quantity": 30,
           "unit": "g",
           "for": "wife"
         },
         {
           "name": "молоко 2%",
-          "quantity": 400,
+          "quantity": 385,
           "unit": "ml",
           "for": "child"
         },
         {
           "name": "масло оливковое",
-          "quantity": 8,
+          "quantity": 13,
           "unit": "ml"
         },
         {
@@ -373,39 +373,39 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 869,
-          "protein_g": 56.4,
-          "carbs_g": 108.9,
-          "fat_g": 23,
-          "fiber_g": 19.5,
-          "sat_fat_g": 6,
-          "sodium_mg": 1423,
-          "calcium_mg": 400,
-          "iron_mg": 10.8,
-          "zinc_mg": 6.2
+          "kcal": 669,
+          "protein_g": 45.7,
+          "carbs_g": 72.9,
+          "fat_g": 21.7,
+          "fiber_g": 13.3,
+          "sat_fat_g": 5.6,
+          "sodium_mg": 1022,
+          "calcium_mg": 304,
+          "iron_mg": 8.6,
+          "zinc_mg": 4.6
         },
         "wife": {
-          "kcal": 489,
-          "protein_g": 27.8,
-          "carbs_g": 34.4,
-          "fat_g": 27.9,
-          "fiber_g": 7.5,
-          "sat_fat_g": 4.8,
-          "sodium_mg": 488,
-          "calcium_mg": 180,
-          "iron_mg": 5.3,
-          "zinc_mg": 3.1
+          "kcal": 544,
+          "protein_g": 29.6,
+          "carbs_g": 37,
+          "fat_g": 32.4,
+          "fiber_g": 8.1,
+          "sat_fat_g": 5.2,
+          "sodium_mg": 506,
+          "calcium_mg": 189,
+          "iron_mg": 5.6,
+          "zinc_mg": 3.3
         },
         "child": {
-          "kcal": 677,
-          "protein_g": 48.9,
-          "carbs_g": 64.6,
-          "fat_g": 25.2,
-          "fiber_g": 8.6,
-          "sat_fat_g": 9.9,
-          "sodium_mg": 891,
-          "calcium_mg": 709,
-          "iron_mg": 6.8,
+          "kcal": 702,
+          "protein_g": 50,
+          "carbs_g": 66.6,
+          "fat_g": 26.6,
+          "fiber_g": 9,
+          "sat_fat_g": 10,
+          "sodium_mg": 910,
+          "calcium_mg": 696,
+          "iron_mg": 7,
           "zinc_mg": 5
         }
       }
@@ -423,12 +423,12 @@
       "ingredients": [
         {
           "name": "йогурт греческий 2%",
-          "quantity": 430,
+          "quantity": 420,
           "unit": "g"
         },
         {
-          "name": "скир 0–2%",
-          "quantity": 300,
+          "name": "творог 0–2%",
+          "quantity": 285,
           "unit": "g"
         },
         {
@@ -438,7 +438,7 @@
         },
         {
           "name": "семена чиа",
-          "quantity": 45,
+          "quantity": 35,
           "unit": "g"
         },
         {
@@ -448,7 +448,7 @@
         },
         {
           "name": "хлебцы ржаные",
-          "quantity": 90,
+          "quantity": 75,
           "unit": "g",
           "for": "husband"
         },
@@ -466,7 +466,7 @@
         },
         {
           "name": "сок лимонный",
-          "quantity": 10,
+          "quantity": 16,
           "unit": "ml"
         },
         {
@@ -477,47 +477,47 @@
       ],
       "instructions": [
         "Разморозить ягодную смесь и слить лишнюю жидкость.",
-        "Смешать греческий йогурт со скиром и семенами чиа до однородности.",
+        "Смешать греческий йогурт со творогом и семенами чиа до однородности.",
         "Нарезать бананы кружками.",
         "Разложить йогурт по тарелкам, выложить ягоды и бананы, сбрызнуть лимонным соком, присыпать корицей.",
         "Мужу подать с ржаными хлебцами, жене добавить грецкие орехи, ребёнку — молоко."
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 723,
-          "protein_g": 42.5,
-          "carbs_g": 111,
-          "fat_g": 11.1,
-          "fiber_g": 29.1,
-          "sat_fat_g": 3.2,
-          "sodium_mg": 515,
-          "calcium_mg": 543,
-          "iron_mg": 5.6,
-          "zinc_mg": 5.6
+          "kcal": 669,
+          "protein_g": 46.5,
+          "carbs_g": 99.4,
+          "fat_g": 10.4,
+          "fiber_g": 25.2,
+          "sat_fat_g": 3.5,
+          "sodium_mg": 446,
+          "calcium_mg": 455,
+          "iron_mg": 4.8,
+          "zinc_mg": 4.8
         },
         "wife": {
-          "kcal": 441,
-          "protein_g": 25.6,
-          "carbs_g": 39.5,
-          "fat_g": 22.6,
-          "fiber_g": 10.7,
-          "sat_fat_g": 3.4,
-          "sodium_mg": 73,
-          "calcium_mg": 352,
-          "iron_mg": 2.3,
-          "zinc_mg": 2.6
+          "kcal": 439,
+          "protein_g": 29.2,
+          "carbs_g": 38,
+          "fat_g": 22.3,
+          "fiber_g": 9.8,
+          "sat_fat_g": 3.7,
+          "sodium_mg": 71,
+          "calcium_mg": 299,
+          "iron_mg": 2.2,
+          "zinc_mg": 2.4
         },
         "child": {
-          "kcal": 607,
-          "protein_g": 45.7,
-          "carbs_g": 72,
-          "fat_g": 17.3,
-          "fiber_g": 13.2,
-          "sat_fat_g": 8,
-          "sodium_mg": 282,
-          "calcium_mg": 960,
-          "iron_mg": 2.4,
-          "zinc_mg": 4.3
+          "kcal": 604,
+          "protein_g": 50.9,
+          "carbs_g": 69.8,
+          "fat_g": 16.9,
+          "fiber_g": 11.9,
+          "sat_fat_g": 8.3,
+          "sodium_mg": 280,
+          "calcium_mg": 883,
+          "iron_mg": 2.2,
+          "zinc_mg": 4
         }
       }
     },
@@ -538,28 +538,28 @@
           "unit": "g"
         },
         {
-          "name": "скир 0–2%",
-          "quantity": 380,
+          "name": "творог 0–2%",
+          "quantity": 305,
           "unit": "g"
         },
         {
           "name": "манго",
-          "quantity": 300,
+          "quantity": 305,
           "unit": "g"
         },
         {
           "name": "семена льна молотые",
-          "quantity": 40,
+          "quantity": 35,
           "unit": "g"
         },
         {
           "name": "хлеб ржаной",
-          "quantity": 150,
+          "quantity": 145,
           "unit": "g"
         },
         {
           "name": "хлеб ржаной",
-          "quantity": 120,
+          "quantity": 105,
           "unit": "g",
           "for": "husband"
         },
@@ -571,13 +571,13 @@
         },
         {
           "name": "молоко 2%",
-          "quantity": 400,
+          "quantity": 390,
           "unit": "ml",
           "for": "child"
         },
         {
           "name": "сок лимонный",
-          "quantity": 10,
+          "quantity": 17,
           "unit": "ml"
         },
         {
@@ -587,47 +587,47 @@
         }
       ],
       "instructions": [
-        "Растереть творог со скиром до однородной массы.",
+        "Растереть творог со творогом до однородной массы.",
         "Нарезать манго кубиками, сбрызнуть лимонным соком.",
         "Выложить творожную массу на тарелки, сверху манго, присыпать молотым льном и корицей.",
         "Подать с ломтиками ржаного хлеба; мужу добавить дополнительные ломтики, жене — грецкие орехи, ребёнку — молоко."
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 758,
-          "protein_g": 44.6,
-          "carbs_g": 111.5,
-          "fat_g": 15.9,
-          "fiber_g": 16.8,
-          "sat_fat_g": 3.7,
-          "sodium_mg": 1155,
-          "calcium_mg": 456,
-          "iron_mg": 6.2,
-          "zinc_mg": 4.4
+          "kcal": 711,
+          "protein_g": 47.3,
+          "carbs_g": 101.9,
+          "fat_g": 15.5,
+          "fiber_g": 15.4,
+          "sat_fat_g": 4.1,
+          "sodium_mg": 1044,
+          "calcium_mg": 349,
+          "iron_mg": 5.7,
+          "zinc_mg": 3.8
         },
         "wife": {
-          "kcal": 462,
-          "protein_g": 26.2,
-          "carbs_g": 40.2,
+          "kcal": 456,
+          "protein_g": 28.8,
+          "carbs_g": 38.4,
           "fat_g": 24.1,
-          "fiber_g": 8,
-          "sat_fat_g": 3.5,
-          "sodium_mg": 284,
-          "calcium_mg": 265,
-          "iron_mg": 2.6,
-          "zinc_mg": 2.5
+          "fiber_g": 7.6,
+          "sat_fat_g": 3.8,
+          "sodium_mg": 270,
+          "calcium_mg": 202,
+          "iron_mg": 2.5,
+          "zinc_mg": 2.3
         },
         "child": {
-          "kcal": 638,
-          "protein_g": 46.5,
-          "carbs_g": 73,
-          "fat_g": 19.5,
-          "fiber_g": 9.2,
-          "sat_fat_g": 8.1,
-          "sodium_mg": 592,
-          "calcium_mg": 832,
-          "iron_mg": 2.8,
-          "zinc_mg": 4.2
+          "kcal": 624,
+          "protein_g": 49.9,
+          "carbs_g": 70,
+          "fat_g": 19.3,
+          "fiber_g": 8.7,
+          "sat_fat_g": 8.4,
+          "sodium_mg": 567,
+          "calcium_mg": 728,
+          "iron_mg": 2.7,
+          "zinc_mg": 3.7
         }
       }
     },
@@ -644,33 +644,33 @@
       "ingredients": [
         {
           "name": "хлопья ячменные",
-          "quantity": 190,
+          "quantity": 110,
           "unit": "g",
           "prep": "сухой вес"
         },
         {
           "name": "молоко соевое обогащённое",
-          "quantity": 500,
+          "quantity": 475,
           "unit": "ml"
         },
         {
-          "name": "скир 0–2%",
-          "quantity": 300,
+          "name": "творог 0–2%",
+          "quantity": 180,
           "unit": "g"
         },
         {
           "name": "малина",
-          "quantity": 300,
+          "quantity": 290,
           "unit": "g"
         },
         {
           "name": "семена тыквы",
-          "quantity": 40,
+          "quantity": 45,
           "unit": "g"
         },
         {
           "name": "хлопья ячменные",
-          "quantity": 90,
+          "quantity": 70,
           "unit": "g",
           "prep": "сухой вес",
           "for": "husband"
@@ -683,13 +683,13 @@
         },
         {
           "name": "молоко 2%",
-          "quantity": 400,
+          "quantity": 390,
           "unit": "ml",
           "for": "child"
         },
         {
           "name": "соль",
-          "quantity": 0.5,
+          "quantity": 1,
           "unit": "g"
         },
         {
@@ -702,45 +702,45 @@
         "Залить ячменные хлопья соевым молоком, добавить щепотку соли.",
         "Варить на среднем огне 8–10 минут, помешивая, до мягкости хлопьев.",
         "Снять с огня, вмешать корицу и дать постоять 2 минуты.",
-        "Разложить по тарелкам, выложить скир, малину и семена тыквы.",
+        "Разложить по тарелкам, выложить творог, малину и семена тыквы.",
         "Мужу добавить отдельно сваренные хлопья, жене — грецкие орехи, ребёнку подать молоко."
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 872,
-          "protein_g": 41.3,
-          "carbs_g": 136.2,
-          "fat_g": 15.5,
-          "fiber_g": 26,
-          "sat_fat_g": 2.7,
-          "sodium_mg": 222,
-          "calcium_mg": 500,
-          "iron_mg": 7.1,
-          "zinc_mg": 6.4
+          "kcal": 684,
+          "protein_g": 35.8,
+          "carbs_g": 99.1,
+          "fat_g": 15.6,
+          "fiber_g": 20.8,
+          "sat_fat_g": 2.9,
+          "sodium_mg": 271,
+          "calcium_mg": 375,
+          "iron_mg": 6,
+          "zinc_mg": 5.1
         },
         "wife": {
-          "kcal": 527,
-          "protein_g": 24.8,
-          "carbs_g": 52.4,
-          "fat_g": 25.2,
-          "fiber_g": 12.8,
-          "sat_fat_g": 3,
-          "sodium_mg": 140,
-          "calcium_mg": 331,
-          "iron_mg": 3.9,
-          "zinc_mg": 3.7
+          "kcal": 450,
+          "protein_g": 22.6,
+          "carbs_g": 37.1,
+          "fat_g": 25.5,
+          "fiber_g": 10.7,
+          "sat_fat_g": 3.2,
+          "sodium_mg": 173,
+          "calcium_mg": 254,
+          "iron_mg": 3.5,
+          "zinc_mg": 3.1
         },
         "child": {
-          "kcal": 733,
-          "protein_g": 44.5,
-          "carbs_g": 91,
-          "fat_g": 21.1,
-          "fiber_g": 16.3,
-          "sat_fat_g": 7.4,
-          "sodium_mg": 381,
-          "calcium_mg": 930,
-          "iron_mg": 4.8,
-          "zinc_mg": 5.9
+          "kcal": 615,
+          "protein_g": 40.8,
+          "carbs_g": 68,
+          "fat_g": 21.4,
+          "fiber_g": 13.2,
+          "sat_fat_g": 7.6,
+          "sodium_mg": 425,
+          "calcium_mg": 805,
+          "iron_mg": 4.1,
+          "zinc_mg": 5
         }
       }
     },
@@ -757,17 +757,17 @@
       "ingredients": [
         {
           "name": "яйца",
-          "quantity": 5,
+          "quantity": 4,
           "unit": "pcs"
         },
         {
           "name": "белки яичные",
-          "quantity": 150,
+          "quantity": 165,
           "unit": "g"
         },
         {
           "name": "томаты консервированные кусочками",
-          "quantity": 450,
+          "quantity": 445,
           "unit": "g"
         },
         {
@@ -777,17 +777,17 @@
         },
         {
           "name": "шпинат свежий",
-          "quantity": 200,
+          "quantity": 195,
           "unit": "g"
         },
         {
           "name": "хлеб цельнозерновой",
-          "quantity": 240,
+          "quantity": 210,
           "unit": "g"
         },
         {
           "name": "хлеб цельнозерновой",
-          "quantity": 120,
+          "quantity": 70,
           "unit": "g",
           "for": "husband"
         },
@@ -799,23 +799,23 @@
         },
         {
           "name": "молоко 2%",
-          "quantity": 400,
+          "quantity": 390,
           "unit": "ml",
           "for": "child"
         },
         {
           "name": "лук репчатый",
-          "quantity": 120,
+          "quantity": 150,
           "unit": "g"
         },
         {
           "name": "чеснок",
-          "quantity": 3,
+          "quantity": 50,
           "unit": "cloves"
         },
         {
           "name": "масло оливковое",
-          "quantity": 20,
+          "quantity": 18,
           "unit": "ml"
         },
         {
@@ -830,7 +830,7 @@
         },
         {
           "name": "соль",
-          "quantity": 1.5,
+          "quantity": 2,
           "unit": "g"
         },
         {
@@ -849,40 +849,40 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 887,
-          "protein_g": 53.2,
-          "carbs_g": 116.4,
-          "fat_g": 24.9,
-          "fiber_g": 22.6,
-          "sat_fat_g": 5.6,
-          "sodium_mg": 1806,
-          "calcium_mg": 453,
-          "iron_mg": 12.2,
-          "zinc_mg": 6.2
+          "kcal": 789,
+          "protein_g": 46.9,
+          "carbs_g": 109.8,
+          "fat_g": 20.6,
+          "fiber_g": 19.6,
+          "sat_fat_g": 4.5,
+          "sodium_mg": 1591,
+          "calcium_mg": 475,
+          "iron_mg": 11.2,
+          "zinc_mg": 5.5
         },
         "wife": {
-          "kcal": 549,
-          "protein_g": 28.3,
-          "carbs_g": 47.3,
-          "fat_g": 29.8,
-          "fiber_g": 11,
-          "sat_fat_g": 4.6,
-          "sodium_mg": 826,
-          "calcium_mg": 236,
-          "iron_mg": 6.7,
-          "zinc_mg": 3.4
+          "kcal": 565,
+          "protein_g": 28.4,
+          "carbs_g": 56.4,
+          "fat_g": 28.1,
+          "fiber_g": 11.3,
+          "sat_fat_g": 4.1,
+          "sodium_mg": 832,
+          "calcium_mg": 285,
+          "iron_mg": 6.9,
+          "zinc_mg": 3.5
         },
         "child": {
-          "kcal": 765,
-          "protein_g": 49.6,
-          "carbs_g": 83.5,
-          "fat_g": 27.9,
-          "fiber_g": 13.6,
-          "sat_fat_g": 9.7,
-          "sodium_mg": 1387,
-          "calcium_mg": 791,
-          "iron_mg": 8.9,
-          "zinc_mg": 5.5
+          "kcal": 784,
+          "protein_g": 49.4,
+          "carbs_g": 96.3,
+          "fat_g": 25.2,
+          "fiber_g": 14.1,
+          "sat_fat_g": 8.9,
+          "sodium_mg": 1392,
+          "calcium_mg": 851,
+          "iron_mg": 9.2,
+          "zinc_mg": 5.6
         }
       }
     },
@@ -899,18 +899,18 @@
       "ingredients": [
         {
           "name": "хлопья овсяные",
-          "quantity": 170,
+          "quantity": 160,
           "unit": "g",
           "prep": "сухой вес"
         },
         {
           "name": "молоко соевое обогащённое",
-          "quantity": 450,
+          "quantity": 445,
           "unit": "ml"
         },
         {
-          "name": "скир 0–2%",
-          "quantity": 400,
+          "name": "творог 0–2%",
+          "quantity": 385,
           "unit": "g"
         },
         {
@@ -925,7 +925,7 @@
         },
         {
           "name": "хлопья овсяные",
-          "quantity": 90,
+          "quantity": 55,
           "unit": "g",
           "prep": "сухой вес",
           "for": "husband"
@@ -938,13 +938,13 @@
         },
         {
           "name": "молоко 2%",
-          "quantity": 400,
+          "quantity": 390,
           "unit": "ml",
           "for": "child"
         },
         {
           "name": "соль",
-          "quantity": 0.5,
+          "quantity": 1,
           "unit": "g"
         },
         {
@@ -957,45 +957,45 @@
         "Залить овсяные хлопья соевым молоком, добавить щепотку соли.",
         "Варить на среднем огне 5–7 минут, помешивая, до густоты.",
         "Снять с огня, вмешать корицу и молотый лён.",
-        "Разложить по тарелкам, выложить скир, кружочки банана и ежевику.",
+        "Разложить по тарелкам, выложить творог, кружочки банана и ежевику.",
         "Мужу добавить отдельно сваренные хлопья, жене — грецкие орехи, ребёнку подать молоко."
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 840,
-          "protein_g": 44.4,
-          "carbs_g": 127.6,
-          "fat_g": 15,
-          "fiber_g": 21.8,
-          "sat_fat_g": 2.6,
-          "sodium_mg": 222,
-          "calcium_mg": 549,
-          "iron_mg": 8.7,
-          "zinc_mg": 8.1
+          "kcal": 720,
+          "protein_g": 48.3,
+          "carbs_g": 103.2,
+          "fat_g": 13.4,
+          "fiber_g": 17.9,
+          "sat_fat_g": 2.9,
+          "sodium_mg": 295,
+          "calcium_mg": 458,
+          "iron_mg": 6.9,
+          "zinc_mg": 6.3
         },
         "wife": {
-          "kcal": 494,
-          "protein_g": 25.1,
-          "carbs_g": 51.5,
-          "fat_g": 21.9,
-          "fiber_g": 10,
-          "sat_fat_g": 2.5,
-          "sodium_mg": 143,
-          "calcium_mg": 351,
+          "kcal": 500,
+          "protein_g": 30.6,
+          "carbs_g": 49.3,
+          "fat_g": 22.5,
+          "fiber_g": 9.8,
+          "sat_fat_g": 3,
+          "sodium_mg": 191,
+          "calcium_mg": 304,
           "iron_mg": 3.6,
-          "zinc_mg": 3.7
+          "zinc_mg": 3.5
         },
         "child": {
-          "kcal": 685,
-          "protein_g": 44.9,
-          "carbs_g": 89.6,
-          "fat_g": 16.3,
-          "fiber_g": 12.3,
-          "sat_fat_g": 6.7,
-          "sodium_mg": 384,
-          "calcium_mg": 959,
-          "iron_mg": 4.4,
-          "zinc_mg": 5.9
+          "kcal": 689,
+          "protein_g": 52.6,
+          "carbs_g": 85.9,
+          "fat_g": 16.9,
+          "fiber_g": 11.9,
+          "sat_fat_g": 7.2,
+          "sodium_mg": 451,
+          "calcium_mg": 878,
+          "iron_mg": 4.3,
+          "zinc_mg": 5.5
         }
       }
     },
@@ -1011,7 +1011,7 @@
       "ingredients": [
         {
           "name": "чечевица красная",
-          "quantity": 170,
+          "quantity": 115,
           "unit": "g",
           "prep": "сухой вес"
         },
@@ -1027,22 +1027,22 @@
         },
         {
           "name": "томаты консервированные кусочками",
-          "quantity": 250,
+          "quantity": 245,
           "unit": "g"
         },
         {
           "name": "шпинат свежий",
-          "quantity": 150,
-          "unit": "g"
-        },
-        {
-          "name": "авокадо",
           "quantity": 140,
           "unit": "g"
         },
         {
+          "name": "авокадо",
+          "quantity": 135,
+          "unit": "g"
+        },
+        {
           "name": "масло оливковое",
-          "quantity": 25,
+          "quantity": 18,
           "unit": "ml"
         },
         {
@@ -1052,7 +1052,7 @@
         },
         {
           "name": "чеснок",
-          "quantity": 3,
+          "quantity": 36,
           "unit": "cloves"
         },
         {
@@ -1077,7 +1077,7 @@
         },
         {
           "name": "соль",
-          "quantity": 1.5,
+          "quantity": 2,
           "unit": "g"
         },
         {
@@ -1096,40 +1096,40 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 803,
-          "protein_g": 34.9,
-          "carbs_g": 108.6,
-          "fat_g": 29.3,
-          "fiber_g": 28,
-          "sat_fat_g": 4.1,
-          "sodium_mg": 877,
-          "calcium_mg": 309,
-          "iron_mg": 15.1,
-          "zinc_mg": 5.8
+          "kcal": 734,
+          "protein_g": 30.5,
+          "carbs_g": 107.7,
+          "fat_g": 24.9,
+          "fiber_g": 25.2,
+          "sat_fat_g": 3.5,
+          "sodium_mg": 991,
+          "calcium_mg": 399,
+          "iron_mg": 13.5,
+          "zinc_mg": 5.3
         },
         "wife": {
-          "kcal": 524,
-          "protein_g": 22.8,
-          "carbs_g": 70.8,
-          "fat_g": 19.1,
-          "fiber_g": 18.3,
-          "sat_fat_g": 2.7,
-          "sodium_mg": 572,
-          "calcium_mg": 202,
-          "iron_mg": 9.9,
-          "zinc_mg": 3.8
+          "kcal": 478,
+          "protein_g": 19.9,
+          "carbs_g": 70.2,
+          "fat_g": 16.2,
+          "fiber_g": 16.5,
+          "sat_fat_g": 2.3,
+          "sodium_mg": 646,
+          "calcium_mg": 260,
+          "iron_mg": 8.8,
+          "zinc_mg": 3.4
         },
         "child": {
-          "kcal": 768,
-          "protein_g": 33.4,
-          "carbs_g": 103.9,
-          "fat_g": 28.1,
-          "fiber_g": 26.8,
-          "sat_fat_g": 3.9,
-          "sodium_mg": 838,
-          "calcium_mg": 296,
-          "iron_mg": 14.5,
-          "zinc_mg": 5.6
+          "kcal": 702,
+          "protein_g": 29.1,
+          "carbs_g": 103,
+          "fat_g": 23.8,
+          "fiber_g": 24.1,
+          "sat_fat_g": 3.3,
+          "sodium_mg": 948,
+          "calcium_mg": 381,
+          "iron_mg": 12.9,
+          "zinc_mg": 5
         }
       }
     },
@@ -1145,13 +1145,13 @@
       "ingredients": [
         {
           "name": "киноа",
-          "quantity": 140,
+          "quantity": 155,
           "unit": "g",
           "prep": "сухой вес"
         },
         {
           "name": "эдамаме очищенные",
-          "quantity": 220,
+          "quantity": 250,
           "unit": "g"
         },
         {
@@ -1166,7 +1166,7 @@
         },
         {
           "name": "руккола",
-          "quantity": 80,
+          "quantity": 90,
           "unit": "g"
         },
         {
@@ -1176,12 +1176,12 @@
         },
         {
           "name": "масло оливковое",
-          "quantity": 16,
+          "quantity": 11,
           "unit": "ml"
         },
         {
           "name": "сок лимонный",
-          "quantity": 20,
+          "quantity": 19,
           "unit": "ml"
         },
         {
@@ -1214,40 +1214,40 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 714,
-          "protein_g": 31.5,
-          "carbs_g": 82,
-          "fat_g": 30.6,
-          "fiber_g": 20.6,
-          "sat_fat_g": 4,
-          "sodium_mg": 280,
-          "calcium_mg": 263,
-          "iron_mg": 9.2,
-          "zinc_mg": 5.7
+          "kcal": 746,
+          "protein_g": 35,
+          "carbs_g": 89.2,
+          "fat_g": 29.3,
+          "fiber_g": 22.2,
+          "sat_fat_g": 3.8,
+          "sodium_mg": 283,
+          "calcium_mg": 288,
+          "iron_mg": 10.1,
+          "zinc_mg": 6.2
         },
         "wife": {
-          "kcal": 466,
-          "protein_g": 20.6,
-          "carbs_g": 53.5,
-          "fat_g": 19.9,
-          "fiber_g": 13.4,
-          "sat_fat_g": 2.6,
-          "sodium_mg": 183,
-          "calcium_mg": 171,
-          "iron_mg": 6,
-          "zinc_mg": 3.7
+          "kcal": 487,
+          "protein_g": 22.8,
+          "carbs_g": 58.2,
+          "fat_g": 19.1,
+          "fiber_g": 14.5,
+          "sat_fat_g": 2.4,
+          "sodium_mg": 185,
+          "calcium_mg": 188,
+          "iron_mg": 6.6,
+          "zinc_mg": 4.1
         },
         "child": {
-          "kcal": 683,
-          "protein_g": 30.2,
-          "carbs_g": 78.4,
-          "fat_g": 29.2,
-          "fiber_g": 19.7,
-          "sat_fat_g": 3.8,
-          "sodium_mg": 268,
-          "calcium_mg": 251,
-          "iron_mg": 8.8,
-          "zinc_mg": 5.4
+          "kcal": 714,
+          "protein_g": 33.4,
+          "carbs_g": 85.4,
+          "fat_g": 28,
+          "fiber_g": 21.2,
+          "sat_fat_g": 3.6,
+          "sodium_mg": 271,
+          "calcium_mg": 276,
+          "iron_mg": 9.7,
+          "zinc_mg": 6
         }
       }
     },
@@ -1294,12 +1294,12 @@
         },
         {
           "name": "масло оливковое",
-          "quantity": 22,
+          "quantity": 18,
           "unit": "ml"
         },
         {
           "name": "лук красный",
-          "quantity": 60,
+          "quantity": 100,
           "unit": "g"
         },
         {
@@ -1332,46 +1332,46 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 775,
-          "protein_g": 28.3,
-          "carbs_g": 92,
-          "fat_g": 35.7,
-          "fiber_g": 28.5,
-          "sat_fat_g": 6.5,
-          "sodium_mg": 423,
-          "calcium_mg": 167,
-          "iron_mg": 6.7,
+          "kcal": 765,
+          "protein_g": 28.6,
+          "carbs_g": 94.1,
+          "fat_g": 33.5,
+          "fiber_g": 28.9,
+          "sat_fat_g": 6.2,
+          "sodium_mg": 424,
+          "calcium_mg": 172,
+          "iron_mg": 6.8,
           "zinc_mg": 4.2
         },
         "wife": {
-          "kcal": 505,
-          "protein_g": 18.5,
-          "carbs_g": 60,
-          "fat_g": 23.3,
-          "fiber_g": 18.6,
-          "sat_fat_g": 4.2,
+          "kcal": 499,
+          "protein_g": 18.6,
+          "carbs_g": 61.4,
+          "fat_g": 21.9,
+          "fiber_g": 18.9,
+          "sat_fat_g": 4,
           "sodium_mg": 276,
-          "calcium_mg": 109,
+          "calcium_mg": 112,
           "iron_mg": 4.4,
           "zinc_mg": 2.7
         },
         "child": {
-          "kcal": 741,
-          "protein_g": 27.1,
-          "carbs_g": 88,
-          "fat_g": 34.2,
-          "fiber_g": 27.3,
-          "sat_fat_g": 6.2,
+          "kcal": 732,
+          "protein_g": 27.3,
+          "carbs_g": 90,
+          "fat_g": 32.1,
+          "fiber_g": 27.7,
+          "sat_fat_g": 5.9,
           "sodium_mg": 405,
-          "calcium_mg": 160,
-          "iron_mg": 6.4,
+          "calcium_mg": 165,
+          "iron_mg": 6.5,
           "zinc_mg": 4
         }
       }
     },
     {
-      "id": "skyr-vegetable-crispbread-plate",
-      "title": "Скир с овощами и хлебцами",
+      "id": "quark-vegetable-crispbread-plate",
+      "title": "Творог с овощами и хлебцами",
       "meal_types": [
         "lunch"
       ],
@@ -1380,13 +1380,13 @@
       "total_time_min": 12,
       "ingredients": [
         {
-          "name": "скир 0–2%",
-          "quantity": 350,
+          "name": "творог 0–2%",
+          "quantity": 230,
           "unit": "g"
         },
         {
           "name": "хлебцы ржаные",
-          "quantity": 70,
+          "quantity": 90,
           "unit": "g"
         },
         {
@@ -1406,13 +1406,13 @@
         },
         {
           "name": "фасоль белая консервированная",
-          "quantity": 250,
+          "quantity": 220,
           "unit": "g",
           "prep": "промыть"
         },
         {
           "name": "масло оливковое",
-          "quantity": 15,
+          "quantity": 17,
           "unit": "ml"
         },
         {
@@ -1422,12 +1422,12 @@
         },
         {
           "name": "сок лимонный",
-          "quantity": 10,
+          "quantity": 14,
           "unit": "ml"
         },
         {
           "name": "соль",
-          "quantity": 0.5,
+          "quantity": 1,
           "unit": "g"
         },
         {
@@ -1437,48 +1437,48 @@
         }
       ],
       "instructions": [
-        "Смешать скир с рубленым укропом, лимонным соком, солью и перцем.",
+        "Смешать творог с рубленым укропом, лимонным соком, солью и перцем.",
         "Промыть и обсушить белую фасоль, заправить оливковым маслом.",
         "Нарезать огурцы и редис тонкими кружками.",
-        "Выложить на тарелки скир, фасоль и овощи, добавить ломтики авокадо.",
+        "Выложить на тарелки творог, фасоль и овощи, добавить ломтики авокадо.",
         "Подать с ржаными хлебцами."
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 699,
-          "protein_g": 42.7,
-          "carbs_g": 82.6,
-          "fat_g": 23.1,
-          "fiber_g": 24.8,
-          "sat_fat_g": 3.5,
-          "sodium_mg": 867,
-          "calcium_mg": 507,
-          "iron_mg": 6.4,
-          "zinc_mg": 4.6
+          "kcal": 709,
+          "protein_g": 43.6,
+          "carbs_g": 83.1,
+          "fat_g": 25.3,
+          "fiber_g": 25.8,
+          "sat_fat_g": 4.3,
+          "sodium_mg": 961,
+          "calcium_mg": 337,
+          "iron_mg": 6.5,
+          "zinc_mg": 4.3
         },
         "wife": {
-          "kcal": 456,
-          "protein_g": 27.8,
-          "carbs_g": 53.9,
-          "fat_g": 15.1,
-          "fiber_g": 16.2,
-          "sat_fat_g": 2.3,
-          "sodium_mg": 565,
-          "calcium_mg": 331,
+          "kcal": 463,
+          "protein_g": 28.4,
+          "carbs_g": 54.2,
+          "fat_g": 16.5,
+          "fiber_g": 16.8,
+          "sat_fat_g": 2.8,
+          "sodium_mg": 627,
+          "calcium_mg": 220,
           "iron_mg": 4.2,
-          "zinc_mg": 3
+          "zinc_mg": 2.8
         },
         "child": {
-          "kcal": 669,
-          "protein_g": 40.8,
-          "carbs_g": 79,
-          "fat_g": 22.1,
-          "fiber_g": 23.7,
-          "sat_fat_g": 3.3,
-          "sodium_mg": 829,
-          "calcium_mg": 485,
-          "iron_mg": 6.1,
-          "zinc_mg": 4.4
+          "kcal": 679,
+          "protein_g": 41.7,
+          "carbs_g": 79.4,
+          "fat_g": 24.2,
+          "fiber_g": 24.6,
+          "sat_fat_g": 4.1,
+          "sodium_mg": 920,
+          "calcium_mg": 322,
+          "iron_mg": 6.2,
+          "zinc_mg": 4.1
         }
       }
     },
@@ -1494,13 +1494,13 @@
       "ingredients": [
         {
           "name": "нут консервированный",
-          "quantity": 400,
+          "quantity": 395,
           "unit": "g",
           "prep": "промыть"
         },
         {
           "name": "филе индейки",
-          "quantity": 340,
+          "quantity": 315,
           "unit": "g"
         },
         {
@@ -1520,7 +1520,7 @@
         },
         {
           "name": "авокадо",
-          "quantity": 140,
+          "quantity": 150,
           "unit": "g"
         },
         {
@@ -1558,40 +1558,40 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 636,
-          "protein_g": 47,
-          "carbs_g": 60.2,
-          "fat_g": 24.8,
-          "fiber_g": 19.7,
-          "sat_fat_g": 3.6,
-          "sodium_mg": 679,
-          "calcium_mg": 253,
-          "iron_mg": 5.8,
-          "zinc_mg": 4.1
+          "kcal": 629,
+          "protein_g": 44.7,
+          "carbs_g": 60.1,
+          "fat_g": 25.3,
+          "fiber_g": 19.8,
+          "sat_fat_g": 3.7,
+          "sodium_mg": 668,
+          "calcium_mg": 252,
+          "iron_mg": 5.7,
+          "zinc_mg": 4
         },
         "wife": {
-          "kcal": 415,
-          "protein_g": 30.7,
-          "carbs_g": 39.3,
-          "fat_g": 16.2,
-          "fiber_g": 12.8,
+          "kcal": 410,
+          "protein_g": 29.1,
+          "carbs_g": 39.2,
+          "fat_g": 16.5,
+          "fiber_g": 12.9,
           "sat_fat_g": 2.4,
-          "sodium_mg": 443,
-          "calcium_mg": 165,
-          "iron_mg": 3.8,
-          "zinc_mg": 2.7
+          "sodium_mg": 436,
+          "calcium_mg": 164,
+          "iron_mg": 3.7,
+          "zinc_mg": 2.6
         },
         "child": {
-          "kcal": 608,
-          "protein_g": 45,
-          "carbs_g": 57.6,
-          "fat_g": 23.8,
-          "fiber_g": 18.8,
+          "kcal": 601,
+          "protein_g": 42.7,
+          "carbs_g": 57.5,
+          "fat_g": 24.2,
+          "fiber_g": 19,
           "sat_fat_g": 3.5,
-          "sodium_mg": 649,
-          "calcium_mg": 242,
-          "iron_mg": 5.5,
-          "zinc_mg": 4
+          "sodium_mg": 639,
+          "calcium_mg": 241,
+          "iron_mg": 5.4,
+          "zinc_mg": 3.9
         }
       }
     },
@@ -1608,23 +1608,23 @@
       "ingredients": [
         {
           "name": "филе форели",
-          "quantity": 480,
+          "quantity": 435,
           "unit": "g"
         },
         {
           "name": "пшено",
-          "quantity": 160,
+          "quantity": 155,
           "unit": "g",
           "prep": "сухой вес"
         },
         {
           "name": "спаржа",
-          "quantity": 350,
+          "quantity": 345,
           "unit": "g"
         },
         {
           "name": "горошек зелёный замороженный",
-          "quantity": 250,
+          "quantity": 245,
           "unit": "g"
         },
         {
@@ -1634,7 +1634,7 @@
         },
         {
           "name": "масло оливковое",
-          "quantity": 20,
+          "quantity": 13,
           "unit": "ml"
         },
         {
@@ -1645,7 +1645,7 @@
         },
         {
           "name": "чеснок",
-          "quantity": 3,
+          "quantity": 51,
           "unit": "cloves"
         },
         {
@@ -1660,7 +1660,7 @@
         },
         {
           "name": "соль",
-          "quantity": 1.5,
+          "quantity": 2,
           "unit": "g"
         },
         {
@@ -1679,40 +1679,40 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 696,
-          "protein_g": 54.5,
-          "carbs_g": 66.6,
-          "fat_g": 23.3,
-          "fiber_g": 14.3,
-          "sat_fat_g": 4.8,
-          "sodium_mg": 337,
-          "calcium_mg": 170,
-          "iron_mg": 7.5,
-          "zinc_mg": 4.4
+          "kcal": 721,
+          "protein_g": 54,
+          "carbs_g": 83.1,
+          "fat_g": 19.8,
+          "fiber_g": 15.1,
+          "sat_fat_g": 4.2,
+          "sodium_mg": 412,
+          "calcium_mg": 262,
+          "iron_mg": 8.2,
+          "zinc_mg": 4.9
         },
         "wife": {
-          "kcal": 499,
-          "protein_g": 38.6,
-          "carbs_g": 50.1,
-          "fat_g": 15.9,
-          "fiber_g": 9.3,
-          "sat_fat_g": 3.6,
-          "sodium_mg": 271,
-          "calcium_mg": 235,
-          "iron_mg": 4.9,
-          "zinc_mg": 3.3
+          "kcal": 516,
+          "protein_g": 38.3,
+          "carbs_g": 60.9,
+          "fat_g": 13.7,
+          "fiber_g": 9.9,
+          "sat_fat_g": 3.2,
+          "sodium_mg": 320,
+          "calcium_mg": 294,
+          "iron_mg": 5.4,
+          "zinc_mg": 3.6
         },
         "child": {
-          "kcal": 665,
-          "protein_g": 52.1,
-          "carbs_g": 63.7,
-          "fat_g": 22.3,
-          "fiber_g": 13.7,
-          "sat_fat_g": 4.6,
-          "sodium_mg": 323,
-          "calcium_mg": 163,
-          "iron_mg": 7.2,
-          "zinc_mg": 4.2
+          "kcal": 690,
+          "protein_g": 51.7,
+          "carbs_g": 79.5,
+          "fat_g": 19,
+          "fiber_g": 14.5,
+          "sat_fat_g": 4,
+          "sodium_mg": 394,
+          "calcium_mg": 250,
+          "iron_mg": 7.9,
+          "zinc_mg": 4.6
         }
       }
     },
@@ -1729,18 +1729,18 @@
       "ingredients": [
         {
           "name": "тофу твёрдый",
-          "quantity": 500,
+          "quantity": 525,
           "unit": "g"
         },
         {
           "name": "кускус",
-          "quantity": 190,
+          "quantity": 180,
           "unit": "g",
           "prep": "сухой вес"
         },
         {
           "name": "брокколи",
-          "quantity": 350,
+          "quantity": 355,
           "unit": "g"
         },
         {
@@ -1750,12 +1750,12 @@
         },
         {
           "name": "морковь",
-          "quantity": 200,
+          "quantity": 195,
           "unit": "g"
         },
         {
           "name": "масло кунжутное",
-          "quantity": 14,
+          "quantity": 13,
           "unit": "ml"
         },
         {
@@ -1766,12 +1766,12 @@
         },
         {
           "name": "чеснок",
-          "quantity": 4,
+          "quantity": 51,
           "unit": "cloves"
         },
         {
           "name": "имбирь свежий",
-          "quantity": 25,
+          "quantity": 20,
           "unit": "g"
         },
         {
@@ -1781,7 +1781,7 @@
         },
         {
           "name": "лайм",
-          "quantity": 70,
+          "quantity": 150,
           "unit": "g"
         }
       ],
@@ -1795,46 +1795,46 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 722,
-          "protein_g": 46.4,
-          "carbs_g": 92.6,
-          "fat_g": 21.9,
-          "fiber_g": 16.4,
-          "sat_fat_g": 3.1,
-          "sodium_mg": 136,
-          "calcium_mg": 810,
-          "iron_mg": 8.1,
-          "zinc_mg": 4.7
+          "kcal": 806,
+          "protein_g": 51.1,
+          "carbs_g": 110.8,
+          "fat_g": 22.6,
+          "fiber_g": 18.3,
+          "sat_fat_g": 3.2,
+          "sodium_mg": 145,
+          "calcium_mg": 951,
+          "iron_mg": 9.4,
+          "zinc_mg": 5.4
         },
         "wife": {
-          "kcal": 516,
-          "protein_g": 33.4,
-          "carbs_g": 67.1,
-          "fat_g": 15,
-          "fiber_g": 10.7,
-          "sat_fat_g": 2.4,
-          "sodium_mg": 140,
-          "calcium_mg": 652,
-          "iron_mg": 5.3,
-          "zinc_mg": 3.5
+          "kcal": 571,
+          "protein_g": 36.4,
+          "carbs_g": 78.9,
+          "fat_g": 15.4,
+          "fiber_g": 11.9,
+          "sat_fat_g": 2.5,
+          "sodium_mg": 146,
+          "calcium_mg": 744,
+          "iron_mg": 6.2,
+          "zinc_mg": 4
         },
         "child": {
-          "kcal": 690,
-          "protein_g": 44.4,
-          "carbs_g": 88.6,
-          "fat_g": 20.9,
-          "fiber_g": 15.7,
-          "sat_fat_g": 3,
-          "sodium_mg": 130,
-          "calcium_mg": 775,
-          "iron_mg": 7.7,
-          "zinc_mg": 4.5
+          "kcal": 771,
+          "protein_g": 48.9,
+          "carbs_g": 106,
+          "fat_g": 21.6,
+          "fiber_g": 17.5,
+          "sat_fat_g": 3.1,
+          "sodium_mg": 139,
+          "calcium_mg": 910,
+          "iron_mg": 9,
+          "zinc_mg": 5.2
         }
       }
     },
     {
-      "id": "pollock-barley-kale",
-      "title": "Минтай с перловкой и кейлом",
+      "id": "pollock-barley-spinach",
+      "title": "Минтай с перловкой и шпинатом",
       "meal_types": [
         "dinner"
       ],
@@ -1845,7 +1845,7 @@
       "ingredients": [
         {
           "name": "филе минтая",
-          "quantity": 600,
+          "quantity": 585,
           "unit": "g"
         },
         {
@@ -1855,7 +1855,7 @@
           "prep": "сухой вес"
         },
         {
-          "name": "кейл",
+          "name": "шпинат свежий",
           "quantity": 250,
           "unit": "g"
         },
@@ -1871,7 +1871,7 @@
         },
         {
           "name": "авокадо",
-          "quantity": 140,
+          "quantity": 150,
           "unit": "g"
         },
         {
@@ -1887,7 +1887,7 @@
         },
         {
           "name": "чеснок",
-          "quantity": 3,
+          "quantity": 52,
           "unit": "cloves"
         },
         {
@@ -1902,7 +1902,7 @@
         },
         {
           "name": "соль",
-          "quantity": 1.5,
+          "quantity": 2,
           "unit": "g"
         },
         {
@@ -1913,48 +1913,48 @@
       ],
       "instructions": [
         "Промыть перловку, залить 500 мл воды и варить 30–35 минут до мягкости, слить лишнюю жидкость.",
-        "Нарезать кабачок полукружками, кейл крупно порубить, удалив жёсткие черешки.",
-        "Разогреть половину масла в сковороде, обжарить кабачок 5 минут, добавить чеснок и кейл, тушить 4 минуты.",
+        "Нарезать кабачок полукружками, шпинат крупно порубить, удалив жёсткие черешки.",
+        "Разогреть половину масла в сковороде, обжарить кабачок 5 минут, добавить чеснок и шпинат, тушить 4 минуты.",
         "Посыпать филе минтая солью, перцем и тимьяном, обжарить на оставшемся масле 3–4 минуты с каждой стороны.",
         "Смешать перловку с овощами, разложить по тарелкам, сверху рыба и половинки черри.",
         "Сбрызнуть лимонным соком, добавить ломтики авокадо; жене подать напиток с фитостеролами к еде."
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 708,
-          "protein_g": 58.2,
-          "carbs_g": 71.4,
-          "fat_g": 21.5,
-          "fiber_g": 20.1,
-          "sat_fat_g": 3.3,
-          "sodium_mg": 511,
-          "calcium_mg": 357,
-          "iron_mg": 5.9,
-          "zinc_mg": 3.8
+          "kcal": 768,
+          "protein_g": 59.5,
+          "carbs_g": 85.2,
+          "fat_g": 21.8,
+          "fiber_g": 20.2,
+          "sat_fat_g": 3.4,
+          "sodium_mg": 629,
+          "calcium_mg": 408,
+          "iron_mg": 8,
+          "zinc_mg": 4.6
         },
         "wife": {
-          "kcal": 507,
-          "protein_g": 41.1,
-          "carbs_g": 53.3,
-          "fat_g": 14.7,
-          "fiber_g": 13.1,
-          "sat_fat_g": 2.5,
-          "sodium_mg": 385,
-          "calcium_mg": 357,
-          "iron_mg": 3.9,
-          "zinc_mg": 2.9
+          "kcal": 546,
+          "protein_g": 41.9,
+          "carbs_g": 62.2,
+          "fat_g": 14.9,
+          "fiber_g": 13.2,
+          "sat_fat_g": 2.6,
+          "sodium_mg": 462,
+          "calcium_mg": 389,
+          "iron_mg": 5.3,
+          "zinc_mg": 3.4
         },
         "child": {
-          "kcal": 678,
-          "protein_g": 55.7,
-          "carbs_g": 68.3,
-          "fat_g": 20.5,
-          "fiber_g": 19.2,
-          "sat_fat_g": 3.1,
-          "sodium_mg": 489,
-          "calcium_mg": 342,
-          "iron_mg": 5.6,
-          "zinc_mg": 3.6
+          "kcal": 735,
+          "protein_g": 56.9,
+          "carbs_g": 81.5,
+          "fat_g": 20.8,
+          "fiber_g": 19.3,
+          "sat_fat_g": 3.2,
+          "sodium_mg": 602,
+          "calcium_mg": 390,
+          "iron_mg": 7.6,
+          "zinc_mg": 4.4
         }
       }
     },
@@ -1972,39 +1972,39 @@
       "ingredients": [
         {
           "name": "говядина постная",
-          "quantity": 540,
+          "quantity": 450,
           "unit": "g"
         },
         {
           "name": "крупа гречневая",
-          "quantity": 330,
+          "quantity": 220,
           "unit": "g",
           "prep": "сухой вес"
         },
         {
           "name": "фасоль белая консервированная",
-          "quantity": 400,
+          "quantity": 335,
           "unit": "g",
           "prep": "промыть"
         },
         {
           "name": "капуста белокочанная",
-          "quantity": 450,
+          "quantity": 440,
           "unit": "g"
         },
         {
           "name": "морковь",
-          "quantity": 300,
+          "quantity": 295,
           "unit": "g"
         },
         {
           "name": "томаты консервированные кусочками",
-          "quantity": 400,
+          "quantity": 385,
           "unit": "g"
         },
         {
           "name": "масло оливковое",
-          "quantity": 30,
+          "quantity": 25,
           "unit": "ml"
         },
         {
@@ -2015,12 +2015,12 @@
         },
         {
           "name": "лук репчатый",
-          "quantity": 220,
+          "quantity": 250,
           "unit": "g"
         },
         {
           "name": "чеснок",
-          "quantity": 4,
+          "quantity": 84,
           "unit": "cloves"
         },
         {
@@ -2059,40 +2059,40 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 730,
-          "protein_g": 49.6,
-          "carbs_g": 95.9,
-          "fat_g": 17.8,
-          "fiber_g": 20.8,
-          "sat_fat_g": 4.6,
-          "sodium_mg": 767,
-          "calcium_mg": 210,
-          "iron_mg": 9.1,
-          "zinc_mg": 8.9
+          "kcal": 668,
+          "protein_g": 44,
+          "carbs_g": 94.7,
+          "fat_g": 14.8,
+          "fiber_g": 18.5,
+          "sat_fat_g": 3.8,
+          "sodium_mg": 715,
+          "calcium_mg": 294,
+          "iron_mg": 8.7,
+          "zinc_mg": 7.9
         },
         "wife": {
-          "kcal": 521,
-          "protein_g": 35.4,
-          "carbs_g": 69.2,
-          "fat_g": 12.3,
-          "fiber_g": 13.6,
-          "sat_fat_g": 3.4,
-          "sodium_mg": 552,
-          "calcium_mg": 260,
-          "iron_mg": 6,
-          "zinc_mg": 6.2
+          "kcal": 481,
+          "protein_g": 31.8,
+          "carbs_g": 68.5,
+          "fat_g": 10.4,
+          "fiber_g": 12.1,
+          "sat_fat_g": 2.9,
+          "sodium_mg": 518,
+          "calcium_mg": 316,
+          "iron_mg": 5.7,
+          "zinc_mg": 5.6
         },
         "child": {
-          "kcal": 698,
-          "protein_g": 47.4,
-          "carbs_g": 91.7,
-          "fat_g": 17,
-          "fiber_g": 19.9,
-          "sat_fat_g": 4.4,
-          "sodium_mg": 734,
-          "calcium_mg": 201,
-          "iron_mg": 8.7,
-          "zinc_mg": 8.5
+          "kcal": 639,
+          "protein_g": 42.1,
+          "carbs_g": 90.6,
+          "fat_g": 14.1,
+          "fiber_g": 17.7,
+          "sat_fat_g": 3.7,
+          "sodium_mg": 684,
+          "calcium_mg": 282,
+          "iron_mg": 8.3,
+          "zinc_mg": 7.5
         }
       }
     },
@@ -2110,42 +2110,42 @@
       "ingredients": [
         {
           "name": "филе индейки",
-          "quantity": 700,
+          "quantity": 540,
           "unit": "g"
         },
         {
           "name": "картофель",
-          "quantity": 1400,
+          "quantity": 1385,
           "unit": "g"
         },
         {
           "name": "капуста цветная",
-          "quantity": 500,
+          "quantity": 485,
           "unit": "g"
         },
         {
           "name": "фасоль стручковая",
-          "quantity": 400,
+          "quantity": 385,
           "unit": "g"
         },
         {
           "name": "перец сладкий",
-          "quantity": 350,
+          "quantity": 340,
           "unit": "g"
         },
         {
           "name": "авокадо",
-          "quantity": 240,
+          "quantity": 300,
           "unit": "g"
         },
         {
           "name": "семена тыквы",
-          "quantity": 40,
+          "quantity": 50,
           "unit": "g"
         },
         {
           "name": "масло оливковое",
-          "quantity": 42,
+          "quantity": 25,
           "unit": "ml"
         },
         {
@@ -2156,7 +2156,7 @@
         },
         {
           "name": "чеснок",
-          "quantity": 5,
+          "quantity": 100,
           "unit": "cloves"
         },
         {
@@ -2171,12 +2171,12 @@
         },
         {
           "name": "сок лимонный",
-          "quantity": 25,
+          "quantity": 30,
           "unit": "ml"
         },
         {
           "name": "соль",
-          "quantity": 2.5,
+          "quantity": 3,
           "unit": "g"
         },
         {
@@ -2195,40 +2195,40 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 613,
-          "protein_g": 45.1,
-          "carbs_g": 65.6,
-          "fat_g": 20.8,
-          "fiber_g": 15.9,
-          "sat_fat_g": 3.3,
-          "sodium_mg": 324,
-          "calcium_mg": 123,
-          "iron_mg": 6,
-          "zinc_mg": 3.9
+          "kcal": 659,
+          "protein_g": 41.8,
+          "carbs_g": 84.1,
+          "fat_g": 20.4,
+          "fiber_g": 17.7,
+          "sat_fat_g": 3.2,
+          "sodium_mg": 351,
+          "calcium_mg": 219,
+          "iron_mg": 6.8,
+          "zinc_mg": 4.4
         },
         "wife": {
-          "kcal": 445,
-          "protein_g": 32.5,
-          "carbs_g": 49.5,
-          "fat_g": 14.3,
-          "fiber_g": 10.3,
+          "kcal": 475,
+          "protein_g": 30.4,
+          "carbs_g": 61.5,
+          "fat_g": 14,
+          "fiber_g": 11.5,
           "sat_fat_g": 2.5,
-          "sodium_mg": 263,
-          "calcium_mg": 204,
-          "iron_mg": 4,
-          "zinc_mg": 3
+          "sodium_mg": 281,
+          "calcium_mg": 267,
+          "iron_mg": 4.5,
+          "zinc_mg": 3.3
         },
         "child": {
-          "kcal": 587,
-          "protein_g": 43.1,
-          "carbs_g": 62.8,
-          "fat_g": 19.9,
-          "fiber_g": 15.2,
+          "kcal": 630,
+          "protein_g": 40,
+          "carbs_g": 80.4,
+          "fat_g": 19.5,
+          "fiber_g": 16.9,
           "sat_fat_g": 3.1,
-          "sodium_mg": 310,
-          "calcium_mg": 117,
-          "iron_mg": 5.7,
-          "zinc_mg": 3.8
+          "sodium_mg": 336,
+          "calcium_mg": 210,
+          "iron_mg": 6.5,
+          "zinc_mg": 4.2
         }
       }
     },
@@ -2245,12 +2245,12 @@
       "ingredients": [
         {
           "name": "кальмар",
-          "quantity": 380,
+          "quantity": 345,
           "unit": "g"
         },
         {
           "name": "булгур",
-          "quantity": 230,
+          "quantity": 200,
           "unit": "g",
           "prep": "сухой вес"
         },
@@ -2266,17 +2266,17 @@
         },
         {
           "name": "шпинат свежий",
-          "quantity": 150,
+          "quantity": 145,
           "unit": "g"
         },
         {
           "name": "авокадо",
-          "quantity": 110,
+          "quantity": 150,
           "unit": "g"
         },
         {
           "name": "масло оливковое",
-          "quantity": 30,
+          "quantity": 25,
           "unit": "ml"
         },
         {
@@ -2287,12 +2287,12 @@
         },
         {
           "name": "чеснок",
-          "quantity": 3,
+          "quantity": 50,
           "unit": "cloves"
         },
         {
           "name": "сок лимонный",
-          "quantity": 20,
+          "quantity": 19,
           "unit": "ml"
         },
         {
@@ -2307,7 +2307,7 @@
         },
         {
           "name": "соль",
-          "quantity": 1.5,
+          "quantity": 2,
           "unit": "g"
         },
         {
@@ -2326,40 +2326,40 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 676,
-          "protein_g": 39.3,
-          "carbs_g": 87.1,
-          "fat_g": 21,
-          "fiber_g": 26,
+          "kcal": 713,
+          "protein_g": 39.5,
+          "carbs_g": 97.8,
+          "fat_g": 21.5,
+          "fiber_g": 26.1,
           "sat_fat_g": 3.1,
-          "sodium_mg": 364,
-          "calcium_mg": 183,
-          "iron_mg": 6.3,
-          "zinc_mg": 5
+          "sodium_mg": 439,
+          "calcium_mg": 272,
+          "iron_mg": 6.8,
+          "zinc_mg": 5.3
         },
         "wife": {
-          "kcal": 486,
-          "protein_g": 28.7,
-          "carbs_g": 63.5,
-          "fat_g": 14.4,
+          "kcal": 510,
+          "protein_g": 28.9,
+          "carbs_g": 70.4,
+          "fat_g": 14.7,
           "fiber_g": 17,
-          "sat_fat_g": 2.4,
-          "sodium_mg": 289,
-          "calcium_mg": 243,
-          "iron_mg": 4.1,
-          "zinc_mg": 3.7
+          "sat_fat_g": 2.5,
+          "sodium_mg": 338,
+          "calcium_mg": 301,
+          "iron_mg": 4.5,
+          "zinc_mg": 3.9
         },
         "child": {
-          "kcal": 646,
-          "protein_g": 37.6,
-          "carbs_g": 83.3,
-          "fat_g": 20.1,
-          "fiber_g": 24.9,
-          "sat_fat_g": 2.9,
-          "sodium_mg": 348,
-          "calcium_mg": 175,
-          "iron_mg": 6,
-          "zinc_mg": 4.8
+          "kcal": 682,
+          "protein_g": 37.8,
+          "carbs_g": 93.5,
+          "fat_g": 20.5,
+          "fiber_g": 25,
+          "sat_fat_g": 3,
+          "sodium_mg": 420,
+          "calcium_mg": 260,
+          "iron_mg": 6.5,
+          "zinc_mg": 5.1
         }
       }
     },
@@ -2376,18 +2376,18 @@
       "ingredients": [
         {
           "name": "филе лосося",
-          "quantity": 350,
+          "quantity": 330,
           "unit": "g"
         },
         {
           "name": "паста цельнозерновая",
-          "quantity": 270,
+          "quantity": 255,
           "unit": "g",
           "prep": "сухой вес"
         },
         {
           "name": "шпинат свежий",
-          "quantity": 250,
+          "quantity": 245,
           "unit": "g"
         },
         {
@@ -2397,12 +2397,12 @@
         },
         {
           "name": "горошек стручковый",
-          "quantity": 200,
+          "quantity": 195,
           "unit": "g"
         },
         {
           "name": "масло оливковое",
-          "quantity": 12,
+          "quantity": 20,
           "unit": "ml"
         },
         {
@@ -2413,7 +2413,7 @@
         },
         {
           "name": "чеснок",
-          "quantity": 3,
+          "quantity": 51,
           "unit": "cloves"
         },
         {
@@ -2428,7 +2428,7 @@
         },
         {
           "name": "соль",
-          "quantity": 1.5,
+          "quantity": 2,
           "unit": "g"
         },
         {
@@ -2447,40 +2447,40 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 761,
-          "protein_g": 48.1,
-          "carbs_g": 82.4,
-          "fat_g": 25.3,
-          "fiber_g": 14.9,
-          "sat_fat_g": 5.4,
-          "sodium_mg": 404,
-          "calcium_mg": 220,
-          "iron_mg": 9.3,
-          "zinc_mg": 4.3
+          "kcal": 831,
+          "protein_g": 49.2,
+          "carbs_g": 96.7,
+          "fat_g": 27.2,
+          "fiber_g": 15.4,
+          "sat_fat_g": 5.5,
+          "sodium_mg": 481,
+          "calcium_mg": 315,
+          "iron_mg": 9.9,
+          "zinc_mg": 4.7
         },
         "wife": {
-          "kcal": 541,
-          "protein_g": 34.5,
-          "carbs_g": 60.5,
-          "fat_g": 17.2,
-          "fiber_g": 9.7,
-          "sat_fat_g": 3.9,
-          "sodium_mg": 315,
-          "calcium_mg": 267,
-          "iron_mg": 6.1,
-          "zinc_mg": 3.2
+          "kcal": 587,
+          "protein_g": 35.2,
+          "carbs_g": 69.8,
+          "fat_g": 18.5,
+          "fiber_g": 10.1,
+          "sat_fat_g": 4,
+          "sodium_mg": 365,
+          "calcium_mg": 329,
+          "iron_mg": 6.5,
+          "zinc_mg": 3.5
         },
         "child": {
-          "kcal": 728,
-          "protein_g": 46,
-          "carbs_g": 78.9,
-          "fat_g": 24.2,
-          "fiber_g": 14.2,
-          "sat_fat_g": 5.1,
-          "sodium_mg": 386,
-          "calcium_mg": 211,
-          "iron_mg": 8.9,
-          "zinc_mg": 4.1
+          "kcal": 795,
+          "protein_g": 47.1,
+          "carbs_g": 92.5,
+          "fat_g": 26,
+          "fiber_g": 14.8,
+          "sat_fat_g": 5.3,
+          "sodium_mg": 460,
+          "calcium_mg": 301,
+          "iron_mg": 9.5,
+          "zinc_mg": 4.5
         }
       }
     },
@@ -2497,7 +2497,7 @@
       "ingredients": [
         {
           "name": "йогурт греческий 2%",
-          "quantity": 450,
+          "quantity": 430,
           "unit": "g"
         },
         {
@@ -2507,7 +2507,7 @@
         },
         {
           "name": "орехи грецкие",
-          "quantity": 35,
+          "quantity": 30,
           "unit": "g"
         },
         {
@@ -2529,40 +2529,40 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 269,
-          "protein_g": 19.1,
-          "carbs_g": 22.5,
-          "fat_g": 12.5,
-          "fiber_g": 3.4,
-          "sat_fat_g": 3.1,
-          "sodium_mg": 63,
-          "calcium_mg": 212,
-          "iron_mg": 0.8,
-          "zinc_mg": 1.4
+          "kcal": 251,
+          "protein_g": 18.1,
+          "carbs_g": 21.9,
+          "fat_g": 11.1,
+          "fiber_g": 3.3,
+          "sat_fat_g": 2.8,
+          "sodium_mg": 61,
+          "calcium_mg": 202,
+          "iron_mg": 0.7,
+          "zinc_mg": 1.3
         },
         "wife": {
-          "kcal": 176,
-          "protein_g": 12.4,
-          "carbs_g": 14.7,
-          "fat_g": 8.1,
-          "fiber_g": 2.2,
-          "sat_fat_g": 2,
-          "sodium_mg": 41,
-          "calcium_mg": 139,
+          "kcal": 164,
+          "protein_g": 11.8,
+          "carbs_g": 14.3,
+          "fat_g": 7.2,
+          "fiber_g": 2.1,
+          "sat_fat_g": 1.9,
+          "sodium_mg": 39,
+          "calcium_mg": 132,
           "iron_mg": 0.5,
           "zinc_mg": 0.9
         },
         "child": {
-          "kcal": 404,
-          "protein_g": 37.3,
-          "carbs_g": 29.5,
-          "fat_g": 15.9,
-          "fiber_g": 3.3,
-          "sat_fat_g": 5.5,
-          "sodium_mg": 133,
-          "calcium_mg": 423,
-          "iron_mg": 0.8,
-          "zinc_mg": 2.4
+          "kcal": 386,
+          "protein_g": 36.3,
+          "carbs_g": 29,
+          "fat_g": 14.6,
+          "fiber_g": 3.1,
+          "sat_fat_g": 5.3,
+          "sodium_mg": 130,
+          "calcium_mg": 413,
+          "iron_mg": 0.7,
+          "zinc_mg": 2.3
         }
       }
     },
@@ -2584,7 +2584,7 @@
         },
         {
           "name": "морковь",
-          "quantity": 250,
+          "quantity": 245,
           "unit": "g"
         },
         {
@@ -2594,18 +2594,18 @@
         },
         {
           "name": "хлебцы ржаные",
-          "quantity": 50,
+          "quantity": 75,
           "unit": "g"
         },
         {
           "name": "йогурт греческий 2%",
-          "quantity": 200,
+          "quantity": 190,
           "unit": "g",
           "for": "child"
         },
         {
           "name": "сок лимонный",
-          "quantity": 10,
+          "quantity": 15,
           "unit": "ml"
         },
         {
@@ -2622,40 +2622,40 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 258,
-          "protein_g": 10,
-          "carbs_g": 38.6,
-          "fat_g": 8.5,
-          "fiber_g": 12.7,
-          "sat_fat_g": 1.1,
-          "sodium_mg": 448,
-          "calcium_mg": 78,
-          "iron_mg": 3.4,
-          "zinc_mg": 1.8
+          "kcal": 289,
+          "protein_g": 10.9,
+          "carbs_g": 44.5,
+          "fat_g": 8.7,
+          "fiber_g": 14.3,
+          "sat_fat_g": 1.2,
+          "sodium_mg": 490,
+          "calcium_mg": 82,
+          "iron_mg": 3.7,
+          "zinc_mg": 2.1
         },
         "wife": {
-          "kcal": 168,
-          "protein_g": 6.5,
-          "carbs_g": 25.2,
-          "fat_g": 5.6,
-          "fiber_g": 8.3,
-          "sat_fat_g": 0.7,
-          "sodium_mg": 292,
-          "calcium_mg": 51,
-          "iron_mg": 2.2,
-          "zinc_mg": 1.2
+          "kcal": 188,
+          "protein_g": 7.1,
+          "carbs_g": 29,
+          "fat_g": 5.7,
+          "fiber_g": 9.3,
+          "sat_fat_g": 0.8,
+          "sodium_mg": 320,
+          "calcium_mg": 53,
+          "iron_mg": 2.4,
+          "zinc_mg": 1.4
         },
         "child": {
-          "kcal": 393,
-          "protein_g": 28.6,
-          "carbs_g": 45,
-          "fat_g": 12.2,
-          "fiber_g": 12.2,
-          "sat_fat_g": 3.7,
-          "sodium_mg": 501,
-          "calcium_mg": 295,
-          "iron_mg": 3.3,
-          "zinc_mg": 2.7
+          "kcal": 415,
+          "protein_g": 28.5,
+          "carbs_g": 50.2,
+          "fat_g": 12.1,
+          "fiber_g": 13.7,
+          "sat_fat_g": 3.6,
+          "sodium_mg": 537,
+          "calcium_mg": 287,
+          "iron_mg": 3.6,
+          "zinc_mg": 3
         }
       }
     },
@@ -2672,7 +2672,7 @@
       "ingredients": [
         {
           "name": "йогурт соевый натуральный",
-          "quantity": 600,
+          "quantity": 595,
           "unit": "g"
         },
         {
@@ -2682,7 +2682,7 @@
         },
         {
           "name": "миндаль",
-          "quantity": 50,
+          "quantity": 40,
           "unit": "g"
         },
         {
@@ -2704,40 +2704,40 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 288,
-          "protein_g": 14.4,
-          "carbs_g": 25.2,
-          "fat_g": 16,
-          "fiber_g": 10.7,
-          "sat_fat_g": 1.6,
+          "kcal": 265,
+          "protein_g": 13.5,
+          "carbs_g": 24.3,
+          "fat_g": 14,
+          "fiber_g": 10.2,
+          "sat_fat_g": 1.5,
           "sodium_mg": 70,
-          "calcium_mg": 355,
-          "iron_mg": 2.6,
-          "zinc_mg": 1.7
+          "calcium_mg": 343,
+          "iron_mg": 2.4,
+          "zinc_mg": 1.6
         },
         "wife": {
-          "kcal": 188,
-          "protein_g": 9.4,
-          "carbs_g": 16.5,
-          "fat_g": 10.4,
-          "fiber_g": 7,
-          "sat_fat_g": 1.1,
-          "sodium_mg": 46,
-          "calcium_mg": 232,
-          "iron_mg": 1.7,
-          "zinc_mg": 1.1
+          "kcal": 173,
+          "protein_g": 8.8,
+          "carbs_g": 15.9,
+          "fat_g": 9.2,
+          "fiber_g": 6.6,
+          "sat_fat_g": 1,
+          "sodium_mg": 45,
+          "calcium_mg": 224,
+          "iron_mg": 1.6,
+          "zinc_mg": 1
         },
         "child": {
-          "kcal": 422,
-          "protein_g": 32.8,
-          "carbs_g": 32.1,
-          "fat_g": 19.3,
-          "fiber_g": 10.2,
-          "sat_fat_g": 4.2,
+          "kcal": 399,
+          "protein_g": 31.9,
+          "carbs_g": 31.3,
+          "fat_g": 17.4,
+          "fiber_g": 9.7,
+          "sat_fat_g": 4,
           "sodium_mg": 139,
-          "calcium_mg": 560,
-          "iron_mg": 2.5,
-          "zinc_mg": 2.6
+          "calcium_mg": 548,
+          "iron_mg": 2.4,
+          "zinc_mg": 2.5
         }
       }
     },
@@ -2754,7 +2754,7 @@
       "ingredients": [
         {
           "name": "кефир 1–2,5%",
-          "quantity": 400,
+          "quantity": 380,
           "unit": "ml"
         },
         {
@@ -2764,12 +2764,12 @@
         },
         {
           "name": "семена тыквы",
-          "quantity": 40,
+          "quantity": 25,
           "unit": "g"
         },
         {
           "name": "миндаль",
-          "quantity": 30,
+          "quantity": 35,
           "unit": "g"
         },
         {
@@ -2787,40 +2787,40 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 267,
-          "protein_g": 12.9,
-          "carbs_g": 19.2,
-          "fat_g": 17.1,
-          "fiber_g": 4.7,
-          "sat_fat_g": 4.1,
-          "sodium_mg": 79,
-          "calcium_mg": 240,
-          "iron_mg": 2.3,
-          "zinc_mg": 2.3
+          "kcal": 242,
+          "protein_g": 11.3,
+          "carbs_g": 18.7,
+          "fat_g": 15.1,
+          "fiber_g": 4.6,
+          "sat_fat_g": 3.5,
+          "sodium_mg": 75,
+          "calcium_mg": 234,
+          "iron_mg": 1.9,
+          "zinc_mg": 1.9
         },
         "wife": {
-          "kcal": 174,
-          "protein_g": 8.4,
-          "carbs_g": 12.5,
-          "fat_g": 11.2,
+          "kcal": 158,
+          "protein_g": 7.4,
+          "carbs_g": 12.2,
+          "fat_g": 9.8,
           "fiber_g": 3,
-          "sat_fat_g": 2.7,
-          "sodium_mg": 52,
-          "calcium_mg": 157,
-          "iron_mg": 1.5,
-          "zinc_mg": 1.5
+          "sat_fat_g": 2.3,
+          "sodium_mg": 49,
+          "calcium_mg": 152,
+          "iron_mg": 1.2,
+          "zinc_mg": 1.2
         },
         "child": {
-          "kcal": 402,
-          "protein_g": 31.3,
-          "carbs_g": 26.4,
-          "fat_g": 20.4,
-          "fiber_g": 4.5,
-          "sat_fat_g": 6.5,
-          "sodium_mg": 148,
-          "calcium_mg": 450,
-          "iron_mg": 2.3,
-          "zinc_mg": 3.2
+          "kcal": 378,
+          "protein_g": 29.8,
+          "carbs_g": 25.9,
+          "fat_g": 18.4,
+          "fiber_g": 4.4,
+          "sat_fat_g": 6,
+          "sodium_mg": 144,
+          "calcium_mg": 444,
+          "iron_mg": 1.9,
+          "zinc_mg": 2.8
         }
       }
     },
@@ -2837,22 +2837,22 @@
       "ingredients": [
         {
           "name": "сардины консервированные",
-          "quantity": 180,
+          "quantity": 270,
           "unit": "g"
         },
         {
           "name": "хлебцы ржаные",
-          "quantity": 70,
+          "quantity": 75,
           "unit": "g"
         },
         {
           "name": "помидоры черри",
-          "quantity": 250,
+          "quantity": 240,
           "unit": "g"
         },
         {
           "name": "авокадо",
-          "quantity": 140,
+          "quantity": 150,
           "unit": "g"
         },
         {
@@ -2868,7 +2868,7 @@
         },
         {
           "name": "сок лимонный",
-          "quantity": 10,
+          "quantity": 15,
           "unit": "ml"
         },
         {
@@ -2885,40 +2885,40 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 341,
-          "protein_g": 22.2,
-          "carbs_g": 26.7,
-          "fat_g": 16.3,
-          "fiber_g": 9.9,
-          "sat_fat_g": 2.2,
-          "sodium_mg": 408,
-          "calcium_mg": 304,
-          "iron_mg": 3.7,
-          "zinc_mg": 2.3
+          "kcal": 425,
+          "protein_g": 31,
+          "carbs_g": 28.2,
+          "fat_g": 20.7,
+          "fiber_g": 10.5,
+          "sat_fat_g": 2.8,
+          "sodium_mg": 555,
+          "calcium_mg": 437,
+          "iron_mg": 4.8,
+          "zinc_mg": 2.8
         },
         "wife": {
-          "kcal": 223,
-          "protein_g": 14.5,
-          "carbs_g": 17.4,
-          "fat_g": 10.6,
-          "fiber_g": 6.5,
-          "sat_fat_g": 1.5,
-          "sodium_mg": 266,
-          "calcium_mg": 198,
-          "iron_mg": 2.4,
-          "zinc_mg": 1.5
+          "kcal": 277,
+          "protein_g": 20.2,
+          "carbs_g": 18.4,
+          "fat_g": 13.5,
+          "fiber_g": 6.8,
+          "sat_fat_g": 1.9,
+          "sodium_mg": 362,
+          "calcium_mg": 285,
+          "iron_mg": 3.1,
+          "zinc_mg": 1.8
         },
         "child": {
-          "kcal": 473,
-          "protein_g": 40.2,
-          "carbs_g": 33.5,
-          "fat_g": 19.6,
-          "fiber_g": 9.5,
-          "sat_fat_g": 4.7,
-          "sodium_mg": 462,
-          "calcium_mg": 511,
-          "iron_mg": 3.7,
-          "zinc_mg": 3.2
+          "kcal": 553,
+          "protein_g": 48.7,
+          "carbs_g": 35,
+          "fat_g": 23.8,
+          "fiber_g": 10,
+          "sat_fat_g": 5.3,
+          "sodium_mg": 602,
+          "calcium_mg": 638,
+          "iron_mg": 4.7,
+          "zinc_mg": 3.7
         }
       }
     },
@@ -2935,27 +2935,27 @@
       "ingredients": [
         {
           "name": "творог 5%",
-          "quantity": 170,
+          "quantity": 155,
           "unit": "g"
         },
         {
           "name": "киви",
-          "quantity": 320,
+          "quantity": 315,
           "unit": "g"
         },
         {
           "name": "семена льна молотые",
-          "quantity": 30,
+          "quantity": 25,
           "unit": "g"
         },
         {
           "name": "фундук",
-          "quantity": 20,
+          "quantity": 25,
           "unit": "g"
         },
         {
           "name": "йогурт греческий 2%",
-          "quantity": 200,
+          "quantity": 195,
           "unit": "g",
           "for": "child"
         }
@@ -2968,40 +2968,40 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 263,
-          "protein_g": 15.6,
-          "carbs_g": 25,
+          "kcal": 257,
+          "protein_g": 14.6,
+          "carbs_g": 24.3,
           "fat_g": 13.4,
-          "fiber_g": 7.5,
-          "sat_fat_g": 2.9,
-          "sodium_mg": 36,
-          "calcium_mg": 138,
-          "iron_mg": 1.5,
+          "fiber_g": 7.1,
+          "sat_fat_g": 2.7,
+          "sodium_mg": 33,
+          "calcium_mg": 130,
+          "iron_mg": 1.4,
           "zinc_mg": 1.1
         },
         "wife": {
-          "kcal": 172,
-          "protein_g": 10.2,
-          "carbs_g": 16.3,
-          "fat_g": 8.7,
-          "fiber_g": 4.9,
-          "sat_fat_g": 1.9,
-          "sodium_mg": 24,
-          "calcium_mg": 90,
-          "iron_mg": 1,
+          "kcal": 168,
+          "protein_g": 9.5,
+          "carbs_g": 15.9,
+          "fat_g": 8.8,
+          "fiber_g": 4.7,
+          "sat_fat_g": 1.8,
+          "sodium_mg": 22,
+          "calcium_mg": 85,
+          "iron_mg": 0.9,
           "zinc_mg": 0.7
         },
         "child": {
-          "kcal": 398,
-          "protein_g": 34,
-          "carbs_g": 31.9,
+          "kcal": 388,
+          "protein_g": 32.5,
+          "carbs_g": 31,
           "fat_g": 16.8,
-          "fiber_g": 7.2,
-          "sat_fat_g": 5.3,
-          "sodium_mg": 107,
-          "calcium_mg": 352,
-          "iron_mg": 1.5,
-          "zinc_mg": 2.1
+          "fiber_g": 6.8,
+          "sat_fat_g": 5.1,
+          "sodium_mg": 102,
+          "calcium_mg": 339,
+          "iron_mg": 1.4,
+          "zinc_mg": 2
         }
       }
     },
@@ -3028,7 +3028,7 @@
         },
         {
           "name": "фундук",
-          "quantity": 45,
+          "quantity": 35,
           "unit": "g"
         },
         {
@@ -3046,40 +3046,40 @@
       ],
       "nutrition_estimate_per_person": {
         "husband": {
-          "kcal": 286,
-          "protein_g": 4.9,
-          "carbs_g": 48.1,
-          "fat_g": 11.2,
-          "fiber_g": 7.1,
-          "sat_fat_g": 0.9,
+          "kcal": 262,
+          "protein_g": 4.4,
+          "carbs_g": 47.5,
+          "fat_g": 8.9,
+          "fiber_g": 6.8,
+          "sat_fat_g": 0.7,
           "sodium_mg": 3,
-          "calcium_mg": 65,
-          "iron_mg": 1.3,
-          "zinc_mg": 0.7
+          "calcium_mg": 60,
+          "iron_mg": 1.1,
+          "zinc_mg": 0.6
         },
         "wife": {
-          "kcal": 187,
-          "protein_g": 3.2,
-          "carbs_g": 31.4,
-          "fat_g": 7.3,
-          "fiber_g": 4.6,
-          "sat_fat_g": 0.6,
+          "kcal": 171,
+          "protein_g": 2.8,
+          "carbs_g": 31,
+          "fat_g": 5.8,
+          "fiber_g": 4.4,
+          "sat_fat_g": 0.5,
           "sodium_mg": 2,
-          "calcium_mg": 42,
-          "iron_mg": 0.9,
-          "zinc_mg": 0.5
+          "calcium_mg": 39,
+          "iron_mg": 0.7,
+          "zinc_mg": 0.4
         },
         "child": {
-          "kcal": 420,
-          "protein_g": 23.7,
-          "carbs_g": 54,
-          "fat_g": 14.8,
-          "fiber_g": 6.8,
-          "sat_fat_g": 3.5,
+          "kcal": 397,
+          "protein_g": 23.2,
+          "carbs_g": 53.4,
+          "fat_g": 12.5,
+          "fiber_g": 6.5,
+          "sat_fat_g": 3.3,
           "sodium_mg": 75,
-          "calcium_mg": 282,
-          "iron_mg": 1.3,
-          "zinc_mg": 1.7
+          "calcium_mg": 278,
+          "iron_mg": 1.2,
+          "zinc_mg": 1.6
         }
       }
     }
@@ -3091,31 +3091,31 @@
         {
           "id": "squid|g",
           "name": "Кальмар",
-          "quantity": "380",
+          "quantity": "345",
           "unit": "g"
         },
         {
           "id": "sardines-canned|g",
           "name": "Сардины консервированные",
-          "quantity": "180",
+          "quantity": "270",
           "unit": "g"
         },
         {
           "id": "salmon|g",
           "name": "Филе лосося",
-          "quantity": "350",
+          "quantity": "330",
           "unit": "g"
         },
         {
           "id": "pollock|g",
           "name": "Филе минтая",
-          "quantity": "600",
+          "quantity": "585",
           "unit": "g"
         },
         {
           "id": "trout|g",
           "name": "Филе форели",
-          "quantity": "480",
+          "quantity": "435",
           "unit": "g"
         }
       ]
@@ -3126,13 +3126,13 @@
         {
           "id": "beef-lean|g",
           "name": "Говядина постная",
-          "quantity": "540",
+          "quantity": "450",
           "unit": "g"
         },
         {
           "id": "turkey-breast|g",
           "name": "Филе индейки",
-          "quantity": "1040",
+          "quantity": "855",
           "unit": "g"
         }
       ]
@@ -3143,25 +3143,25 @@
         {
           "id": "egg-whites|g",
           "name": "Белки яичные",
-          "quantity": "350",
+          "quantity": "390",
           "unit": "g"
         },
         {
           "id": "greek-yogurt-2|g",
           "name": "Йогурт греческий 2%",
-          "quantity": "2280",
+          "quantity": "2235",
           "unit": "g"
         },
         {
           "id": "kefir-2|ml",
           "name": "Кефир 1–2,5%",
-          "quantity": "400",
+          "quantity": "380",
           "unit": "ml"
         },
         {
           "id": "milk-2|ml",
           "name": "Молоко 2%",
-          "quantity": "3300",
+          "quantity": "3225",
           "unit": "ml"
         },
         {
@@ -3171,21 +3171,21 @@
           "unit": "ml"
         },
         {
-          "id": "skyr|g",
-          "name": "Скир 0–2%",
-          "quantity": "2080",
+          "id": "cottage-cheese-lowfat|g",
+          "name": "Творог 0–2%",
+          "quantity": "1700",
           "unit": "g"
         },
         {
           "id": "cottage-cheese-5|g",
           "name": "Творог 5%",
-          "quantity": "320",
+          "quantity": "305",
           "unit": "g"
         },
         {
           "id": "egg|pcs",
           "name": "Яйца",
-          "quantity": "15",
+          "quantity": "14",
           "unit": "pcs"
         }
       ]
@@ -3196,25 +3196,25 @@
         {
           "id": "soy-yogurt|g",
           "name": "Йогурт соевый натуральный",
-          "quantity": "600",
+          "quantity": "595",
           "unit": "g"
         },
         {
           "id": "soy-milk-fortified|ml",
           "name": "Молоко соевое обогащённое",
-          "quantity": "950",
+          "quantity": "920",
           "unit": "ml"
         },
         {
           "id": "tofu-firm|g",
           "name": "Тофу твёрдый",
-          "quantity": "500",
+          "quantity": "525",
           "unit": "g"
         },
         {
           "id": "edamame|g",
           "name": "Эдамаме очищенные",
-          "quantity": "220",
+          "quantity": "250",
           "unit": "g"
         }
       ]
@@ -3225,7 +3225,7 @@
         {
           "id": "avocado|g",
           "name": "Авокадо",
-          "quantity": "1290",
+          "quantity": "1415",
           "unit": "g"
         },
         {
@@ -3237,25 +3237,25 @@
         {
           "id": "broccoli|g",
           "name": "Брокколи",
-          "quantity": "350",
+          "quantity": "355",
           "unit": "g"
         },
         {
           "id": "green-peas|g",
           "name": "Горошек зелёный замороженный",
-          "quantity": "250",
+          "quantity": "245",
           "unit": "g"
         },
         {
           "id": "snap-peas|g",
           "name": "Горошек стручковый",
-          "quantity": "200",
+          "quantity": "195",
           "unit": "g"
         },
         {
           "id": "ginger|g",
           "name": "Имбирь свежий",
-          "quantity": "25",
+          "quantity": "20",
           "unit": "g"
         },
         {
@@ -3267,25 +3267,19 @@
         {
           "id": "white-cabbage|g",
           "name": "Капуста белокочанная",
-          "quantity": "450",
+          "quantity": "440",
           "unit": "g"
         },
         {
           "id": "cauliflower|g",
           "name": "Капуста цветная",
-          "quantity": "500",
+          "quantity": "485",
           "unit": "g"
         },
         {
           "id": "potato|g",
           "name": "Картофель",
-          "quantity": "1700",
-          "unit": "g"
-        },
-        {
-          "id": "kale|g",
-          "name": "Кейл",
-          "quantity": "250",
+          "quantity": "1715",
           "unit": "g"
         },
         {
@@ -3309,19 +3303,19 @@
         {
           "id": "red-onion|g",
           "name": "Лук красный",
-          "quantity": "60",
+          "quantity": "100",
           "unit": "g"
         },
         {
           "id": "onion|g",
           "name": "Лук репчатый",
-          "quantity": "450",
+          "quantity": "510",
           "unit": "g"
         },
         {
           "id": "carrot|g",
           "name": "Морковь",
-          "quantity": "950",
+          "quantity": "935",
           "unit": "g"
         },
         {
@@ -3333,7 +3327,7 @@
         {
           "id": "bell-pepper|g",
           "name": "Перец сладкий",
-          "quantity": "1350",
+          "quantity": "1340",
           "unit": "g"
         },
         {
@@ -3351,7 +3345,7 @@
         {
           "id": "tomato-cocktail|g",
           "name": "Помидоры черри",
-          "quantity": "950",
+          "quantity": "940",
           "unit": "g"
         },
         {
@@ -3363,7 +3357,7 @@
         {
           "id": "arugula|g",
           "name": "Руккола",
-          "quantity": "180",
+          "quantity": "190",
           "unit": "g"
         },
         {
@@ -3375,7 +3369,7 @@
         {
           "id": "asparagus|g",
           "name": "Спаржа",
-          "quantity": "350",
+          "quantity": "345",
           "unit": "g"
         },
         {
@@ -3387,7 +3381,7 @@
         {
           "id": "green-beans|g",
           "name": "Фасоль стручковая",
-          "quantity": "400",
+          "quantity": "385",
           "unit": "g"
         },
         {
@@ -3399,13 +3393,13 @@
         {
           "id": "garlic|pcs",
           "name": "Чеснок",
-          "quantity": "31",
+          "quantity": "525",
           "unit": "pcs"
         },
         {
           "id": "spinach|g",
           "name": "Шпинат свежий",
-          "quantity": "950",
+          "quantity": "1180",
           "unit": "g"
         }
       ]
@@ -3434,7 +3428,7 @@
         {
           "id": "kiwi|g",
           "name": "Киви",
-          "quantity": "320",
+          "quantity": "315",
           "unit": "g"
         },
         {
@@ -3446,19 +3440,19 @@
         {
           "id": "lime|g",
           "name": "Лайм",
-          "quantity": "70",
+          "quantity": "150",
           "unit": "g"
         },
         {
           "id": "raspberry|g",
           "name": "Малина",
-          "quantity": "550",
+          "quantity": "540",
           "unit": "g"
         },
         {
           "id": "mango|g",
           "name": "Манго",
-          "quantity": "300",
+          "quantity": "305",
           "unit": "g"
         },
         {
@@ -3476,7 +3470,7 @@
         {
           "id": "lemon-juice|ml",
           "name": "Сок лимонный",
-          "quantity": "230",
+          "quantity": "260",
           "unit": "ml"
         },
         {
@@ -3493,19 +3487,19 @@
         {
           "id": "bulgur|g",
           "name": "Булгур",
-          "quantity": "380",
+          "quantity": "350",
           "unit": "g"
         },
         {
           "id": "quinoa|g",
           "name": "Киноа",
-          "quantity": "140",
+          "quantity": "155",
           "unit": "g"
         },
         {
           "id": "buckwheat|g",
           "name": "Крупа гречневая",
-          "quantity": "330",
+          "quantity": "220",
           "unit": "g"
         },
         {
@@ -3517,31 +3511,31 @@
         {
           "id": "couscous|g",
           "name": "Кускус",
-          "quantity": "190",
+          "quantity": "180",
           "unit": "g"
         },
         {
           "id": "wholegrain-pasta|g",
           "name": "Паста цельнозерновая",
-          "quantity": "270",
+          "quantity": "255",
           "unit": "g"
         },
         {
           "id": "millet|g",
           "name": "Пшено",
-          "quantity": "160",
+          "quantity": "155",
           "unit": "g"
         },
         {
           "id": "oats|g",
           "name": "Хлопья овсяные",
-          "quantity": "520",
+          "quantity": "435",
           "unit": "g"
         },
         {
           "id": "barley-flakes|g",
           "name": "Хлопья ячменные",
-          "quantity": "280",
+          "quantity": "180",
           "unit": "g"
         }
       ]
@@ -3552,19 +3546,19 @@
         {
           "id": "rye-bread|g",
           "name": "Хлеб ржаной",
-          "quantity": "270",
+          "quantity": "250",
           "unit": "g"
         },
         {
           "id": "wholegrain-bread|g",
           "name": "Хлеб цельнозерновой",
-          "quantity": "630",
+          "quantity": "460",
           "unit": "g"
         },
         {
           "id": "rye-crispbread|g",
           "name": "Хлебцы ржаные",
-          "quantity": "280",
+          "quantity": "315",
           "unit": "g"
         }
       ]
@@ -3575,19 +3569,19 @@
         {
           "id": "chickpeas-canned|g",
           "name": "Нут консервированный",
-          "quantity": "400",
+          "quantity": "395",
           "unit": "g"
         },
         {
           "id": "tomatoes-canned|g",
           "name": "Томаты консервированные кусочками",
-          "quantity": "1100",
+          "quantity": "1075",
           "unit": "g"
         },
         {
           "id": "white-beans-canned|g",
           "name": "Фасоль белая консервированная",
-          "quantity": "650",
+          "quantity": "555",
           "unit": "g"
         },
         {
@@ -3599,7 +3593,7 @@
         {
           "id": "red-lentils|g",
           "name": "Чечевица красная",
-          "quantity": "170",
+          "quantity": "115",
           "unit": "g"
         }
       ]
@@ -3610,7 +3604,7 @@
         {
           "id": "almonds|g",
           "name": "Миндаль",
-          "quantity": "80",
+          "quantity": "75",
           "unit": "g"
         },
         {
@@ -3622,7 +3616,7 @@
         {
           "id": "flaxseed-ground|g",
           "name": "Семена льна молотые",
-          "quantity": "70",
+          "quantity": "60",
           "unit": "g"
         },
         {
@@ -3634,13 +3628,13 @@
         {
           "id": "chia|g",
           "name": "Семена чиа",
-          "quantity": "45",
+          "quantity": "35",
           "unit": "g"
         },
         {
           "id": "hazelnuts|g",
           "name": "Фундук",
-          "quantity": "65",
+          "quantity": "60",
           "unit": "g"
         }
       ]
@@ -3651,13 +3645,13 @@
         {
           "id": "sesame-oil|ml",
           "name": "Масло кунжутное",
-          "quantity": "14",
+          "quantity": "13",
           "unit": "ml"
         },
         {
           "id": "olive-oil|ml",
           "name": "Масло оливковое",
-          "quantity": "295",
+          "quantity": "258",
           "unit": "ml"
         }
       ]
@@ -3722,7 +3716,7 @@
         {
           "id": "salt|g",
           "name": "Соль",
-          "quantity": "20",
+          "quantity": "25",
           "unit": "g"
         },
         {
@@ -3739,51 +3733,51 @@
       "date": "2026-08-24",
       "day_name": "Monday",
       "husband": {
-        "kcal": 2579,
-        "protein_g": 150.6,
-        "carbs_g": 319.4,
-        "fat_g": 80.4,
-        "fiber_g": 63.9,
-        "sat_fat_g": 16.5,
-        "sodium_mg": 1498,
-        "calcium_mg": 1220,
-        "iron_mg": 31.1,
-        "zinc_mg": 19.6,
-        "veg_fruit_g": 1114,
+        "kcal": 2416,
+        "protein_g": 147,
+        "carbs_g": 314.7,
+        "fat_g": 69.8,
+        "fiber_g": 58.8,
+        "sat_fat_g": 15.2,
+        "sodium_mg": 1753,
+        "calcium_mg": 1301,
+        "iron_mg": 28.8,
+        "zinc_mg": 18,
+        "veg_fruit_g": 1213,
         "free_sugar_g": 0,
-        "viscous_fiber_g": 11.8,
+        "viscous_fiber_g": 9.7,
         "sterol_g": 0
       },
       "wife": {
-        "kcal": 1674,
-        "protein_g": 97.4,
-        "carbs_g": 183.3,
-        "fat_g": 65.3,
-        "fiber_g": 37.5,
-        "sat_fat_g": 12,
-        "sodium_mg": 1026,
-        "calcium_mg": 912,
-        "iron_mg": 18.3,
-        "zinc_mg": 11.6,
-        "veg_fruit_g": 726,
+        "kcal": 1628,
+        "protein_g": 97.2,
+        "carbs_g": 190,
+        "fat_g": 59.5,
+        "fiber_g": 35.8,
+        "sat_fat_g": 11.3,
+        "sodium_mg": 1193,
+        "calcium_mg": 974,
+        "iron_mg": 17.5,
+        "zinc_mg": 11.2,
+        "veg_fruit_g": 791,
         "free_sugar_g": 4.1,
-        "viscous_fiber_g": 5.4,
+        "viscous_fiber_g": 4.6,
         "sterol_g": 2.1
       },
       "child": {
-        "kcal": 2346,
-        "protein_g": 160.1,
-        "carbs_g": 255.2,
-        "fat_g": 74.8,
-        "fiber_g": 31.7,
-        "sat_fat_g": 25.6,
-        "sodium_mg": 1738,
-        "calcium_mg": 1525,
-        "iron_mg": 11.4,
-        "zinc_mg": 12.3,
-        "veg_fruit_g": 498,
+        "kcal": 2340,
+        "protein_g": 163.6,
+        "carbs_g": 265.4,
+        "fat_g": 70.4,
+        "fiber_g": 31.9,
+        "sat_fat_g": 25.1,
+        "sodium_mg": 1869,
+        "calcium_mg": 1518,
+        "iron_mg": 11.9,
+        "zinc_mg": 12.2,
+        "veg_fruit_g": 547,
         "free_sugar_g": 3,
-        "viscous_fiber_g": 4,
+        "viscous_fiber_g": 3.7,
         "sterol_g": 0,
         "includes_fixed_school_lunch": true
       }
@@ -3792,51 +3786,51 @@
       "date": "2026-08-25",
       "day_name": "Tuesday",
       "husband": {
-        "kcal": 2562,
-        "protein_g": 144.4,
-        "carbs_g": 322.1,
-        "fat_g": 84,
-        "fiber_g": 69.2,
-        "sat_fat_g": 14.2,
-        "sodium_mg": 2286,
-        "calcium_mg": 1551,
-        "iron_mg": 31.4,
+        "kcal": 2510,
+        "protein_g": 142.7,
+        "carbs_g": 317.4,
+        "fat_g": 82.2,
+        "fiber_g": 68.1,
+        "sat_fat_g": 13.7,
+        "sodium_mg": 1940,
+        "calcium_mg": 1625,
+        "iron_mg": 31.8,
         "zinc_mg": 18.4,
-        "veg_fruit_g": 1094,
+        "veg_fruit_g": 1185,
         "free_sugar_g": 0,
-        "viscous_fiber_g": 4.3,
+        "viscous_fiber_g": 3.6,
         "sterol_g": 0
       },
       "wife": {
-        "kcal": 1638,
-        "protein_g": 88.3,
-        "carbs_g": 180.2,
-        "fat_g": 68.4,
-        "fiber_g": 39.9,
-        "sat_fat_g": 10.5,
-        "sodium_mg": 1103,
-        "calcium_mg": 1055,
-        "iron_mg": 18.8,
-        "zinc_mg": 11.4,
-        "veg_fruit_g": 714,
+        "kcal": 1790,
+        "protein_g": 96,
+        "carbs_g": 203.2,
+        "fat_g": 72.6,
+        "fiber_g": 43.9,
+        "sat_fat_g": 10.9,
+        "sodium_mg": 1156,
+        "calcium_mg": 1174,
+        "iron_mg": 20.8,
+        "zinc_mg": 12.7,
+        "veg_fruit_g": 773,
         "free_sugar_g": 4.1,
-        "viscous_fiber_g": 1.8,
+        "viscous_fiber_g": 2,
         "sterol_g": 2.1
       },
       "child": {
-        "kcal": 2380,
-        "protein_g": 149.9,
-        "carbs_g": 276.1,
-        "fat_g": 78.2,
-        "fiber_g": 42.4,
-        "sat_fat_g": 23.6,
-        "sodium_mg": 2421,
-        "calcium_mg": 1779,
-        "iron_mg": 17.9,
-        "zinc_mg": 12.2,
-        "veg_fruit_g": 694,
+        "kcal": 2508,
+        "protein_g": 155.4,
+        "carbs_g": 300.8,
+        "fat_g": 80.3,
+        "fiber_g": 46.2,
+        "sat_fat_g": 23.7,
+        "sodium_mg": 2486,
+        "calcium_mg": 1893,
+        "iron_mg": 19.6,
+        "zinc_mg": 13.2,
+        "veg_fruit_g": 775,
         "free_sugar_g": 3,
-        "viscous_fiber_g": 1.7,
+        "viscous_fiber_g": 1.8,
         "sterol_g": 0,
         "includes_fixed_school_lunch": true
       }
@@ -3845,51 +3839,51 @@
       "date": "2026-08-26",
       "day_name": "Wednesday",
       "husband": {
-        "kcal": 2494,
-        "protein_g": 143.4,
-        "carbs_g": 299.6,
-        "fat_g": 84.3,
-        "fiber_g": 88.3,
+        "kcal": 2468,
+        "protein_g": 148,
+        "carbs_g": 303,
+        "fat_g": 79.8,
+        "fiber_g": 84.5,
         "sat_fat_g": 14.6,
-        "sodium_mg": 1520,
-        "calcium_mg": 1422,
-        "iron_mg": 20.8,
-        "zinc_mg": 15.2,
-        "veg_fruit_g": 1121,
+        "sodium_mg": 1568,
+        "calcium_mg": 1378,
+        "iron_mg": 22,
+        "zinc_mg": 15.1,
+        "veg_fruit_g": 1205,
         "free_sugar_g": 0,
-        "viscous_fiber_g": 10,
+        "viscous_fiber_g": 9.6,
         "sterol_g": 0
       },
       "wife": {
-        "kcal": 1642,
-        "protein_g": 94.5,
-        "carbs_g": 169.2,
-        "fat_g": 71,
-        "fiber_g": 49.3,
+        "kcal": 1657,
+        "protein_g": 98.5,
+        "carbs_g": 177.5,
+        "fat_g": 68.3,
+        "fiber_g": 48.5,
         "sat_fat_g": 11.3,
-        "sodium_mg": 779,
-        "calcium_mg": 1049,
-        "iron_mg": 12.3,
-        "zinc_mg": 9.4,
-        "veg_fruit_g": 731,
+        "sodium_mg": 855,
+        "calcium_mg": 1025,
+        "iron_mg": 13.4,
+        "zinc_mg": 9.6,
+        "veg_fruit_g": 786,
         "free_sugar_g": 4.1,
-        "viscous_fiber_g": 5.5,
+        "viscous_fiber_g": 5.4,
         "sterol_g": 2.1
       },
       "child": {
-        "kcal": 2327,
-        "protein_g": 162.1,
-        "carbs_g": 250.5,
-        "fat_g": 77.1,
-        "fiber_g": 48.6,
-        "sat_fat_g": 22.3,
-        "sodium_mg": 1810,
-        "calcium_mg": 1862,
-        "iron_mg": 10.6,
-        "zinc_mg": 10.6,
-        "veg_fruit_g": 638,
+        "kcal": 2358,
+        "protein_g": 167.7,
+        "carbs_g": 260.5,
+        "fat_g": 75.2,
+        "fiber_g": 47,
+        "sat_fat_g": 22.6,
+        "sodium_mg": 1920,
+        "calcium_mg": 1821,
+        "iron_mg": 12.2,
+        "zinc_mg": 10.9,
+        "veg_fruit_g": 695,
         "free_sugar_g": 3,
-        "viscous_fiber_g": 6.6,
+        "viscous_fiber_g": 6.5,
         "sterol_g": 0,
         "includes_fixed_school_lunch": true
       }
@@ -3898,51 +3892,51 @@
       "date": "2026-08-27",
       "day_name": "Thursday",
       "husband": {
-        "kcal": 2454,
-        "protein_g": 149.8,
-        "carbs_g": 309.1,
-        "fat_g": 74,
-        "fiber_g": 67.1,
-        "sat_fat_g": 15.9,
-        "sodium_mg": 2868,
-        "calcium_mg": 1412,
-        "iron_mg": 24,
-        "zinc_mg": 20.2,
-        "veg_fruit_g": 881,
+        "kcal": 2331,
+        "protein_g": 146.2,
+        "carbs_g": 298.4,
+        "fat_g": 70.7,
+        "fiber_g": 64.2,
+        "sat_fat_g": 15.7,
+        "sodium_mg": 2795,
+        "calcium_mg": 1214,
+        "iron_mg": 22.7,
+        "zinc_mg": 17.9,
+        "veg_fruit_g": 939,
         "free_sugar_g": 0,
-        "viscous_fiber_g": 11.4,
+        "viscous_fiber_g": 10.6,
         "sterol_g": 0
       },
       "wife": {
-        "kcal": 1614,
-        "protein_g": 97.9,
-        "carbs_g": 175.8,
-        "fat_g": 62.6,
-        "fiber_g": 40.7,
+        "kcal": 1558,
+        "protein_g": 96.4,
+        "carbs_g": 173.3,
+        "fat_g": 60.8,
+        "fiber_g": 39.4,
         "sat_fat_g": 11.8,
-        "sodium_mg": 1453,
-        "calcium_mg": 1012,
-        "iron_mg": 14.3,
-        "zinc_mg": 13.3,
-        "veg_fruit_g": 575,
+        "sodium_mg": 1464,
+        "calcium_mg": 890,
+        "iron_mg": 13.7,
+        "zinc_mg": 11.9,
+        "veg_fruit_g": 613,
         "free_sugar_g": 4.1,
-        "viscous_fiber_g": 6.3,
+        "viscous_fiber_g": 5.9,
         "sterol_g": 2.1
       },
       "child": {
-        "kcal": 2358,
-        "protein_g": 153.3,
-        "carbs_g": 269.1,
-        "fat_g": 76.9,
-        "fiber_g": 39.6,
-        "sat_fat_g": 26,
-        "sodium_mg": 2374,
-        "calcium_mg": 1483,
-        "iron_mg": 13.9,
-        "zinc_mg": 15.9,
-        "veg_fruit_g": 530,
+        "kcal": 2261,
+        "protein_g": 149.9,
+        "carbs_g": 264.5,
+        "fat_g": 71.9,
+        "fiber_g": 36.7,
+        "sat_fat_g": 25,
+        "sodium_mg": 2295,
+        "calcium_mg": 1454,
+        "iron_mg": 12.9,
+        "zinc_mg": 14.1,
+        "veg_fruit_g": 586,
         "free_sugar_g": 3,
-        "viscous_fiber_g": 4.4,
+        "viscous_fiber_g": 3.9,
         "sterol_g": 0,
         "includes_fixed_school_lunch": true
       }
@@ -3951,51 +3945,51 @@
       "date": "2026-08-28",
       "day_name": "Friday",
       "husband": {
-        "kcal": 2557,
-        "protein_g": 158.1,
-        "carbs_g": 324.4,
-        "fat_g": 70.4,
-        "fiber_g": 72.7,
+        "kcal": 2437,
+        "protein_g": 152.7,
+        "carbs_g": 306.1,
+        "fat_g": 71.5,
+        "fiber_g": 67.5,
         "sat_fat_g": 12.8,
-        "sodium_mg": 1721,
-        "calcium_mg": 1136,
-        "iron_mg": 26,
-        "zinc_mg": 21.5,
-        "veg_fruit_g": 893,
+        "sodium_mg": 1892,
+        "calcium_mg": 1325,
+        "iron_mg": 26.3,
+        "zinc_mg": 20.2,
+        "veg_fruit_g": 1004,
         "free_sugar_g": 0,
-        "viscous_fiber_g": 12.3,
+        "viscous_fiber_g": 10.1,
         "sterol_g": 0
       },
       "wife": {
-        "kcal": 1716,
-        "protein_g": 107.2,
-        "carbs_g": 188.5,
-        "fat_g": 62.4,
-        "fiber_g": 43.2,
+        "kcal": 1683,
+        "protein_g": 105,
+        "carbs_g": 185.5,
+        "fat_g": 63.4,
+        "fiber_g": 41.1,
         "sat_fat_g": 10.5,
-        "sodium_mg": 1221,
-        "calcium_mg": 993,
-        "iron_mg": 16.3,
-        "zinc_mg": 14.4,
-        "veg_fruit_g": 582,
+        "sodium_mg": 1333,
+        "calcium_mg": 1121,
+        "iron_mg": 16.8,
+        "zinc_mg": 13.8,
+        "veg_fruit_g": 655,
         "free_sugar_g": 8.2,
-        "viscous_fiber_g": 5.4,
+        "viscous_fiber_g": 4.5,
         "sterol_g": 4.1
       },
       "child": {
-        "kcal": 2412,
-        "protein_g": 155.8,
-        "carbs_g": 265.2,
-        "fat_g": 80.6,
-        "fiber_g": 47,
-        "sat_fat_g": 22.3,
-        "sodium_mg": 2053,
-        "calcium_mg": 1558,
-        "iron_mg": 14.1,
-        "zinc_mg": 12.8,
-        "veg_fruit_g": 544,
+        "kcal": 2418,
+        "protein_g": 157.5,
+        "carbs_g": 261.3,
+        "fat_g": 84.7,
+        "fiber_g": 46.1,
+        "sat_fat_g": 23,
+        "sodium_mg": 2264,
+        "calcium_mg": 1652,
+        "iron_mg": 15.4,
+        "zinc_mg": 12.9,
+        "veg_fruit_g": 596,
         "free_sugar_g": 3,
-        "viscous_fiber_g": 6.3,
+        "viscous_fiber_g": 5.2,
         "sterol_g": 0,
         "includes_fixed_school_lunch": true
       }
@@ -4004,51 +3998,51 @@
       "date": "2026-08-29",
       "day_name": "Saturday",
       "husband": {
-        "kcal": 2440,
-        "protein_g": 153.3,
-        "carbs_g": 294.1,
-        "fat_g": 80.1,
-        "fiber_g": 72.1,
-        "sat_fat_g": 14.8,
-        "sodium_mg": 2531,
-        "calcium_mg": 897,
-        "iron_mg": 25.9,
+        "kcal": 2418,
+        "protein_g": 142.9,
+        "carbs_g": 315.9,
+        "fat_g": 75.9,
+        "fiber_g": 70.6,
+        "sat_fat_g": 13.5,
+        "sodium_mg": 2415,
+        "calcium_mg": 1096,
+        "iron_mg": 26.3,
         "zinc_mg": 16.2,
-        "veg_fruit_g": 1177,
+        "veg_fruit_g": 1363,
         "free_sugar_g": 0,
-        "viscous_fiber_g": 6,
+        "viscous_fiber_g": 5.7,
         "sterol_g": 0
       },
       "wife": {
-        "kcal": 1652,
-        "protein_g": 99.7,
-        "carbs_g": 176.6,
-        "fat_g": 67.3,
-        "fiber_g": 43.2,
-        "sat_fat_g": 11.4,
-        "sodium_mg": 1402,
-        "calcium_mg": 773,
-        "iron_mg": 15.8,
-        "zinc_mg": 10.8,
-        "veg_fruit_g": 768,
+        "kcal": 1718,
+        "protein_g": 97.2,
+        "carbs_g": 204.2,
+        "fat_g": 65.6,
+        "fiber_g": 44.5,
+        "sat_fat_g": 10.8,
+        "sodium_mg": 1473,
+        "calcium_mg": 938,
+        "iron_mg": 16.9,
+        "zinc_mg": 11.4,
+        "veg_fruit_g": 889,
         "free_sugar_g": 8.2,
-        "viscous_fiber_g": 3.1,
+        "viscous_fiber_g": 3.3,
         "sterol_g": 4.1
       },
       "child": {
-        "kcal": 2396,
-        "protein_g": 164.3,
-        "carbs_g": 261.5,
-        "fat_g": 84.7,
-        "fiber_g": 60.9,
-        "sat_fat_g": 21.1,
-        "sodium_mg": 2152,
-        "calcium_mg": 1435,
-        "iron_mg": 22.1,
-        "zinc_mg": 16.1,
-        "veg_fruit_g": 1126,
+        "kcal": 2485,
+        "protein_g": 159.7,
+        "carbs_g": 301.2,
+        "fat_g": 82,
+        "fiber_g": 62.8,
+        "sat_fat_g": 20.1,
+        "sodium_mg": 2250,
+        "calcium_mg": 1659,
+        "iron_mg": 23.7,
+        "zinc_mg": 16.8,
+        "veg_fruit_g": 1304,
         "free_sugar_g": 0,
-        "viscous_fiber_g": 4.6,
+        "viscous_fiber_g": 4.8,
         "sterol_g": 0,
         "includes_fixed_school_lunch": false
       }
@@ -4057,51 +4051,51 @@
       "date": "2026-08-30",
       "day_name": "Sunday",
       "husband": {
-        "kcal": 2522,
-        "protein_g": 144.5,
-        "carbs_g": 318.3,
-        "fat_g": 76.3,
-        "fiber_g": 63.5,
-        "sat_fat_g": 12.5,
-        "sodium_mg": 1309,
-        "calcium_mg": 1087,
-        "iron_mg": 25.1,
-        "zinc_mg": 17.2,
-        "veg_fruit_g": 969,
+        "kcal": 2441,
+        "protein_g": 146.5,
+        "carbs_g": 307.6,
+        "fat_g": 74.7,
+        "fiber_g": 59.9,
+        "sat_fat_g": 12.8,
+        "sodium_mg": 1447,
+        "calcium_mg": 1085,
+        "iron_mg": 23.7,
+        "zinc_mg": 15.7,
+        "veg_fruit_g": 1025,
         "free_sugar_g": 0,
-        "viscous_fiber_g": 13.4,
+        "viscous_fiber_g": 11.9,
         "sterol_g": 0
       },
       "wife": {
-        "kcal": 1637,
-        "protein_g": 93.4,
-        "carbs_g": 182.6,
-        "fat_g": 62.6,
+        "kcal": 1668,
+        "protein_g": 97.7,
+        "carbs_g": 189.3,
+        "fat_g": 63.2,
         "fiber_g": 37.2,
-        "sat_fat_g": 9.4,
-        "sodium_mg": 902,
-        "calcium_mg": 825,
-        "iron_mg": 14.4,
-        "zinc_mg": 10.1,
-        "veg_fruit_g": 632,
+        "sat_fat_g": 9.9,
+        "sodium_mg": 994,
+        "calcium_mg": 836,
+        "iron_mg": 14.5,
+        "zinc_mg": 10,
+        "veg_fruit_g": 668,
         "free_sugar_g": 4.1,
-        "viscous_fiber_g": 6.4,
+        "viscous_fiber_g": 6.3,
         "sterol_g": 2.1
       },
       "child": {
-        "kcal": 2440,
-        "protein_g": 159.6,
-        "carbs_g": 280,
-        "fat_g": 79,
+        "kcal": 2481,
+        "protein_g": 165.5,
+        "carbs_g": 289.3,
+        "fat_g": 79.6,
         "fiber_g": 52.1,
-        "sat_fat_g": 18.7,
-        "sodium_mg": 1495,
-        "calcium_mg": 1693,
-        "iron_mg": 20.1,
-        "zinc_mg": 15.6,
-        "veg_fruit_g": 927,
+        "sat_fat_g": 19.3,
+        "sodium_mg": 1625,
+        "calcium_mg": 1698,
+        "iron_mg": 20.4,
+        "zinc_mg": 15.5,
+        "veg_fruit_g": 980,
         "free_sugar_g": 0,
-        "viscous_fiber_g": 9.4,
+        "viscous_fiber_g": 9.3,
         "sterol_g": 0,
         "includes_fixed_school_lunch": false
       }

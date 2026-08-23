@@ -166,11 +166,20 @@ function buildModel(plan, opts = {}) {
 
       let lo = band.min * portions, hi = band.max * portions;
 
-      // A tagged row that matches a recorded convention is bounded by that convention instead.
-      // It wins outright rather than being intersected: where the two disagree, the quantity a
-      // passing week actually used is the better evidence than a per-role guess.
+      // A tagged row that matches a recorded convention is bounded by BOTH: the convention and
+      // the plausibility band, intersected.
+      //
+      // The convention used to win outright, which was right while the plausibility band was being
+      // scaled by `serves` and so three times too wide to be useful. With the band now per person,
+      // overriding it let the child's tagged milk reach 270 g in one sitting — inside the
+      // convention's +50% but outside what belongs in a glass. Where the intersection is empty the
+      // convention wins, since a quantity a passing week actually used beats a per-role guess.
       const conv = ing.for ? conventions.get(`${ing.for}|${food.key}`) : null;
-      if (conv) { lo = conv.lo * portions; hi = conv.hi * portions; }
+      if (conv) {
+        const cLo = conv.lo * portions, cHi = conv.hi * portions;
+        const iLo = Math.max(lo, cLo), iHi = Math.min(hi, cHi);
+        if (iLo <= iHi) { lo = iLo; hi = iHi; } else { lo = cLo; hi = cHi; }
+      }
 
       // Salt may only be REDUCED, never increased.
       //

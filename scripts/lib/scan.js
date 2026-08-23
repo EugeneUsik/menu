@@ -31,8 +31,23 @@ const BANNED_FRUITS_EN = [
   'apple', 'apples',
   'pear', 'pears',
   'apricot', 'apricots',
-  'peach', 'peaches'
+  'peach', 'peaches',
+  'plum', 'plums'
 ];
+
+/**
+ * Stems whose prefix is shared by an unrelated food, listed so the stem does not flag it.
+ *
+ * `слив` is the plum stem and also the opening of `сливочное` (butter) and `сливки` (cream) —
+ * both live catalog foods. This is the same shape as the `груш`/`грушевидный` problem the header
+ * describes, and left unhandled it would have failed every week containing butter.
+ *
+ * Note `сливов-` (сливовый, plum-flavoured) diverges from `сливоч-` at the fifth letter, so the
+ * adjective is still caught.
+ */
+const STEM_EXCEPTIONS = {
+  'слив': ['сливоч', 'сливк', 'сливн', 'сливая', 'сливать']
+};
 
 /** Stems, matched left-anchored so any case ending is caught. */
 const BANNED_FRUIT_STEMS = [
@@ -43,13 +58,15 @@ const BANNED_FRUIT_STEMS = [
   'абрикос',               // абрикос, абрикосов, абрикосовый
   'вишн', 'вишен',         // вишня, вишни, вишен, вишнёвый
   'черешн', 'черешен',     // черешня, черешни, черешен — sweet cherry, a distinct word
+  'слив',                  // слива, сливы, слив, сливу, сливами, сливовый — see STEM_EXCEPTIONS
   // Lithuanian
   'obuol',                 // obuolys, obuoliai, obuolių
   'kriauš',                // kriaušė, kriaušės, kriaušių
   'vyšn',                  // vyšnia, vyšnios, vyšnių
   'trešn',                 // trešnė, trešnės — sweet cherry
   'abrikos',               // abrikosas, abrikosai, abrikosų
-  'persik'                 // persikas, persikai, persikų
+  'persik',                // persikas, persikai, persikų
+  'slyv'                   // slyva, slyvos, slyvų — plum
 ];
 
 const PROCESSED_MEATS = [
@@ -110,8 +127,13 @@ function containsTerm(text, term) {
   return false;
 }
 
-/** Stem match: boundary required on the left only, so any inflected ending matches. */
-function containsStem(text, stem) {
+/**
+ * Stem match: boundary required on the left only, so any inflected ending matches.
+ *
+ * A hit is discarded when the word it starts also begins with one of the stem's exceptions —
+ * which is how `слив` can catch plums without catching butter or cream.
+ */
+function containsStem(text, stem, exceptions = STEM_EXCEPTIONS[stem] || []) {
   if (!text) return false;
   const lower = String(text).toLowerCase();
   const s     = String(stem).toLowerCase();
@@ -119,7 +141,9 @@ function containsStem(text, stem) {
 
   for (const idx of occurrences(lower, s)) {
     const before = idx > 0 ? lower.codePointAt(idx - 1) : null;
-    if (!isWordChar(before)) return true;
+    if (isWordChar(before)) continue;
+    if (exceptions.some(ex => lower.startsWith(ex, idx))) continue;
+    return true;
   }
   return false;
 }

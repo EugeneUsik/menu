@@ -70,6 +70,24 @@ test('banned fruit: inflected and adjectival forms are caught', () => {
   }
 });
 
+test('banned fruit: plums are caught in every inflected form', () => {
+  // Plums reached two published weeks before anyone noticed. They are Prunus domestica — the same
+  // genus as cherry, apricot and peach — and the exclusion list is otherwise exactly the Rosaceae
+  // stone and pome fruits, so the omission was an oversight rather than an allowance.
+  for (const t of ['сливы', 'слива', '200 г слив', 'сливу', 'сливами', 'сливовый сок',
+                   'slyva', 'slyvos', 'slyvų', 'plum', 'plums']) {
+    assert.ok(S.findBannedFruit(t), t);
+  }
+});
+
+test('the plum stem does not flag butter or cream', () => {
+  // `слив` opens сливочное (butter) and сливки (cream), both live catalog foods — the same shape as
+  // the груш/грушевидный trap. Without the exception list this failed every week containing butter.
+  for (const t of ['масло сливочное', 'сливки 10%', 'творог сливочный', 'сливочный соус']) {
+    assert.equal(S.findBannedFruit(t), null, t);
+  }
+});
+
 test('banned fruit: legitimate lookalikes are not flagged', () => {
   for (const [text, why] of MUST_NOT_MATCH_FRUIT) {
     assert.equal(S.findBannedFruit(text), null,
