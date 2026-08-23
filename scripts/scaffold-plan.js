@@ -76,18 +76,42 @@ const FALLBACK_KCAL = {
 };
 
 /**
- * Ceilings that stop a share calculation producing something nobody would cook.
+ * Plausible grams PER PORTION for a food, as a band rather than a ceiling.
  *
- * The dry-grain one is not cosmetic: 16 catalog foods carry per-100 g figures on a DRY basis, so
- * a cooked-weight quantity against one of them overstates energy ~3x and over-buys ~3x. The cap
- * comes from targets.json so it cannot drift from the warning validate-plan.js already emits.
+ * A ceiling alone is not enough, and the first scaffolded week showed why: energy that hit the
+ * vegetable cap was redistributed into whatever still had room, which produced 1,600 g of soy
+ * milk in a snack, 135 g of fresh dill, 1.2 eggs across an omelette for three, and 12 g of
+ * almonds in a dish called "Миндаль с апельсином". Every one of those passed `validate-plan.js`,
+ * because per-person nutrition was in range — the gate checks budgets and variety, not whether a
+ * human would cook the result. Plausibility has to be a constraint here or it is nowhere.
+ *
+ * The dry-grain figure is the one with teeth beyond plausibility: 16 catalog foods carry per-100 g
+ * nutrition on a DRY basis, so a cooked weight against one of them overstates energy ~3x and
+ * over-buys ~3x. It comes from targets.json so it cannot drift from the warning the gate emits.
  */
-function ceilingFor(food, serves, targets) {
-  if (food.basis === 'dry') return (targets.cooking?.dry_grain_g_per_portion_max || 150) * serves;
-  if (F.hasTag(food, 'fat') && !F.hasTag(food, 'fruit')) return 70;      // oils; avocado is fruit
-  if (F.hasTag(food, 'nut') || F.hasTag(food, 'seed'))   return 90;
-  if (F.hasTag(food, 'vegetable') || F.hasTag(food, 'fruit')) return 800;
-  return 2000;
+function bandFor(food, targets) {
+  const dryCap = targets.cooking?.dry_grain_g_per_portion_max || 150;
+  const has = t => F.hasTag(food, t);
+
+  // Herbs, spices and salt are garnish and seasoning: they belong to expansion, where they are
+  // stated in grams, not to an energy allocation that would scale them into the main event.
+  if (has('herb') || has('spice') || has('salt')) return { min: 1, max: 4, fixed: true };
+
+  if (food.basis === 'dry')                        return { min: 35, max: dryCap };
+  if (has('fat') && !has('fruit'))                 return { min: 3,  max: 15 };   // oils
+  if (has('nut') || has('seed'))                   return { min: 8,  max: 35 };
+  if (has('grain_bread') || has('grain'))          return { min: 25, max: 110 };
+  if (has('vegetable_starchy'))                    return { min: 110, max: 320 };
+  if (has('eggs'))                                 return { min: 55, max: 130 };
+  // Liquid dairy and its plant equivalents: a pour, not a bath.
+  if ((has('dairy') || has('soy')) && food.density != null) return { min: 60, max: 250 };
+  if (has('dairy'))                                return { min: 50, max: 220 };
+  if (has('soy') || has('legume'))                 return { min: 50, max: 220 };
+  if (has('fatty_fish') || has('white_fish') || has('seafood') ||
+      has('poultry')    || has('red_meat'))        return { min: 90, max: 230 };
+  if (has('vegetable'))                            return { min: 50, max: 300 };
+  if (has('fruit'))                                return { min: 50, max: 260 };
+  return { min: 5, max: 300 };
 }
 
 function roleOf(food) {
@@ -331,29 +355,38 @@ function allocate(plan, cal, targets) {
       }
     }
 
-    // Convert to a quantity, then clamp. Whatever the ceilings take back is offered to the rows
-    // that had room, so the recipe still lands near its median instead of silently under it.
-    let clawback = 0;
-    const open = [];
+    // Convert to a quantity, then clamp into the plausible band. Energy that does not fit is
+    // offered ONCE to the rows that still have headroom, and whatever is left over is reported
+    // rather than forced somewhere it does not belong. A recipe 10% under its median is a note;
+    // a recipe with 1,600 g of soy milk in it is a week nobody cooks.
     for (const r of free) {
-      const grams   = (r.targetKcal / r.kcalPer100) * 100;
-      const ceiling = ceilingFor(r.food, serves, targets);
-      if (grams > ceiling) {
-        clawback += (grams - ceiling) * (r.kcalPer100 / 100);
-        r.grams = ceiling;
-      } else {
-        r.grams = grams;
-        open.push(r);
+      const band = bandFor(r.food, targets);
+      r.band = { min: band.min * serves, max: band.max * serves, fixed: !!band.fixed };
+      const wanted = (r.targetKcal / r.kcalPer100) * 100;
+      r.grams = r.band.fixed ? r.band.min
+                             : Math.min(r.band.max, Math.max(r.band.min, wanted));
+    }
+
+    let residual = budget - free.reduce((s, r) => s + r.grams * (r.kcalPer100 / 100), 0);
+    if (Math.abs(residual) > 1) {
+      const room = free.filter(r => !r.band.fixed &&
+        (residual > 0 ? r.grams < r.band.max : r.grams > r.band.min));
+      const capacity = room.reduce((s, r) => s +
+        Math.abs((residual > 0 ? r.band.max - r.grams : r.grams - r.band.min)) * (r.kcalPer100 / 100), 0);
+      if (capacity > 0) {
+        const take = Math.min(Math.abs(residual), capacity) / capacity;
+        for (const r of room) {
+          const headroom = residual > 0 ? r.band.max - r.grams : r.band.min - r.grams;
+          r.grams += headroom * take;
+        }
+        residual -= Math.sign(residual) * Math.min(Math.abs(residual), capacity);
       }
     }
-    if (clawback > 0 && open.length) {
-      const openKcal = open.reduce((s, r) => s + r.grams * (r.kcalPer100 / 100), 0);
-      for (const r of open) {
-        if (openKcal <= 0) break;
-        const extra = clawback * ((r.grams * (r.kcalPer100 / 100)) / openKcal);
-        const ceiling = ceilingFor(r.food, serves, targets);
-        r.grams = Math.min(ceiling, r.grams + (extra / r.kcalPer100) * 100);
-      }
+
+    if (Math.abs(residual) / target > 0.1) {
+      notes.push(`${recipe.id}: ${residual > 0 ? 'under' : 'over'} its ${target} kcal median by ` +
+                 `${Math.abs(Math.round(residual))} kcal once every food is held to a plausible ` +
+                 `portion — add or drop a food in the spec`);
     }
 
     for (const r of free) r.ing.quantity = tidy(r.grams / r.gramsPerUnit, r.ing.unit);
