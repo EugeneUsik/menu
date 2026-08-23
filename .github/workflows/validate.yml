@@ -9,6 +9,12 @@ name: Validate weeks
 # text file for biomarkers and anthropometrics. Without them, adding health data to a doc --
 # or dropping the ignore rule that keeps the family context untracked -- would not run the
 # check that exists to catch exactly that.
+#
+# workflow_dispatch exists because path filters have a blind spot: after a history rewrite and
+# force-push, the changed-path comparison against the previous tip can come out empty, and the
+# whole workflow is skipped. That happened on the rewrite that removed the family context --
+# 46 files changed and no run. A gate that can silently not run is not a gate, so there is now
+# a way to start it by hand from the Actions tab.
 on:
   push:
     paths:
@@ -26,6 +32,7 @@ on:
       - '**.md'
       - '.gitignore'
       - '.github/workflows/validate.yml'
+  workflow_dispatch:
 
 jobs:
   validate:
