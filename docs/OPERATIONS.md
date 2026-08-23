@@ -40,13 +40,38 @@ node scripts/validate-plan.js data/weeks/2026-W27-plan.json
 
 **This is where iteration belongs.** The `· ` lines are the derived picture of the week —
 weekly averages, day counts, distinct vegetables, formats used. Read them to see which
-direction to move, then fix `[FAIL]` lines with targeted edits and re-run.
+direction to move.
+
+When something fails, the gate tells you *what* is wrong but not *what to change*, because every
+number it prints is a per-person share of a recipe total. Two scripts close that gap:
+
+```bash
+node scripts/diagnose-plan.js data/weeks/2026-W27-plan.json          # which slot, which share, what delta
+node scripts/patch-plan.js    data/weeks/2026-W27-plan.json chicken-barley-kale "грудка куриная=700"
+```
+
+`diagnose-plan.js` opens with any recipe more than 15% off its `portion_calibration` median — the
+earliest sign of a mis-scaled plan — then for each blocking breach prints each slot's
+contribution, the share that person receives, and both routes out: change the recipe total (moves
+every eater) or change a `for:`-tagged row (moves only them, multiplied by the days the recipe
+spans). Add `--warn` for the warn-level diagnostics, `--person wife` to narrow it. It is read-only
+and never a gate.
+
+`patch-plan.js` addresses a quantity by recipe id and ingredient name, resolving names through the
+catalog. Use it rather than a text edit: a normalised plan is pretty-printed one field per line,
+so `"quantity": 750` is not a unique string anywhere in the file. `--scale` and `--kcal` hold
+`for:`-tagged rows fixed, because those are the conventions a passing week established — the
+wife's sterol drink is one 100 ml bottle delivering 2 g, not a number to multiply.
+
+**Do not regenerate the plan wholesale.** A rewrite re-derives quantities that already passed and
+can reopen a settled constraint.
 
 Common failures and what they mean:
 
 | Failure | Meaning |
 |---|---|
 | `serves=6 but the menu needs 5` | A Mon–Thu dinner carrying into next-day lunch feeds 3 + 2 adults, not 3 + 3 |
+| `husband kcal below min` on most or all days | His `for: "husband"` breakfast carbohydrate row is missing. At a 1.15/3.0 share he cannot reach 2,400 kcal from shared food; ~350 kcal of tagged bread or flakes per breakfast is what `portion_calibration.tagged_rows` carries. Usually arrives with `husband breakfast protein below 35 g` |
 | `husband/wife protein_g above max` | Too much protein — a real constraint, not an aspiration. The **child has no gram ceiling**; only `protein is N% of energy, above max 30%` applies to him |
 | `child: only 1 of 2 home main meals reach the 15 g protein anchor` | Both his anchors must be home food — breakfast *and* dinner each need 15 g. The school lunch does not count |
 | `child calcium_mg below min` (warn) | Almost always missing `for: "child"` dairy. A shared pour gives him 1.1/3.0 of it — tag ~400 ml milk + ~200 g yogurt to him |
@@ -233,6 +258,8 @@ nothing about their quality.
 |---|---|
 | `derive-history.js` | Build `recent-history.json` from the last N weeks (`--weeks N`) |
 | `validate-plan.js` | Validate a plan: structure, safety, budgets, variety, cross-week repeats |
+| `diagnose-plan.js` | Explain a budget miss as an edit: per-slot shares and the deltas that close it (`--warn`, `--person`, `--json`) |
+| `patch-plan.js` | Change ingredient quantities by recipe id and name (`--add`, `--remove`, `--scale`, `--kcal`, `--dry-run`) |
 | `promote-plan.js` | Expand a validated plan into the week skeleton (`--force` to overwrite) |
 | `normalise-plan.js` | Derive week dates, label, day scaffolding and every `serves` (`--check`) |
 | `catalog-digest.js` | Print the ingredient vocabulary compactly for generation (`--tag X`) |

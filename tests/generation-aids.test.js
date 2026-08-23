@@ -15,6 +15,9 @@ const assert = require('node:assert');
 const { normalisePlan, isoWeekMonday, weekLabel } = require('../scripts/normalise-plan.js');
 const { calibration } = require('../scripts/derive-history.js');
 const { analyze, loadTargets } = require('../scripts/lib/analyze.js');
+const { checkBudgets } = require('../scripts/lib/budgets.js');
+const { diagnose, sharedShare, occasionsAttended } = require('../scripts/diagnose-plan.js');
+const { patchPlan, recipeKcal, tidy, parseArgs } = require('../scripts/patch-plan.js');
 
 const iso = d => d.toISOString().slice(0, 10);
 
@@ -171,6 +174,167 @@ test('a malformed week.id is an error rather than a silent guess', () => {
 test('a menu that is not 7 days is an error', () => {
   const p = barePlan(); p.menu.pop();
   assert.match(normalisePlan(p).errors[0], /exactly 7 days/);
+});
+
+/* ── diagnose-plan ──
+ *
+ * The gate reports a per-person share of a recipe total; the edit that closes it is a change to
+ * the recipe. Translating between the two by hand cost the W36 plan a whole validation round,
+ * so the translation is derived — and the arithmetic behind it is what these tests pin.
+ */
+
+/** A plan with a Wednesday dinner carrying into Thursday's school lunch — 3 + 2 portions. */
+function carryPlan() {
+  const p = barePlan();
+  p.menu[2].dinner = { title: 'carry', recipe_id: 'carry', cook_once_eat_twice: true };
+  p.menu[3].lunch  = { title: 'carry', recipe_id: 'carry', leftover_from: 'Wednesday dinner' };
+  p.recipes.push({
+    id: 'carry', title: 'carry', meal_types: ['dinner', 'lunch'], format: 'one_pot',
+    active_time_min: 25, total_time_min: 40,
+    ingredients: [
+      { name: 'грудка куриная', quantity: 600, unit: 'g' },
+      { name: 'брокколи',       quantity: 400, unit: 'g' },
+      { name: 'орехи грецкие',  quantity: 25,  unit: 'g', for: 'wife' }
+    ]
+  });
+  return normalisePlan(p).plan;
+}
+
+test('a share is the eater-weight share per occasion, not 1/serves', () => {
+  const plan  = carryPlan();
+  const facts = analyze(plan).recipeFacts.get('carry');
+  const W     = loadTargets().portion_weights;
+
+  assert.equal(facts.expectedServes, 5, 'Wed dinner (3) + Thu school lunch (2)');
+
+  // Weight demand is 3.0 + 1.9 = 4.9, so the husband's share is 1.15/4.9 ≈ 0.235 per occasion.
+  // 1/serves would say 0.200 — a 17% error, and the direction that leaves a week under-fed.
+  const share = sharedShare(facts, 'husband', W);
+  assert.ok(Math.abs(share - W.husband / 4.9) < 1e-9, `got ${share}`);
+  assert.ok(Math.abs(share - 1 / 5) > 0.03, 'must not collapse to 1/serves');
+
+  assert.equal(occasionsAttended(facts, 'husband'), 2, 'he eats the dinner and the leftovers');
+  assert.equal(occasionsAttended(facts, 'child'), 1, 'the child is at school for the lunch');
+});
+
+test('the suggested recipe delta closes the gap it was computed for', () => {
+  // The whole point of the tool: apply what it says, land on the target. The fixture is
+  // deliberately under-fed (300 g chicken + 200 g broccoli per meal), so energy is short.
+  const plan = normalisePlan(barePlan()).plan;
+  const gap  = diagnose(plan).daily.find(
+    e => e.person === 'husband' && e.key === 'kcal' && e.day === 'Monday' && e.bound === 'min');
+  assert.ok(gap, 'the bare plan should be well short on the husband\'s energy');
+
+  const slot = gap.slots.find(s => s.slot === 'breakfast');
+  assert.ok(slot.sharedDelta > 0);
+
+  const patched = JSON.parse(JSON.stringify(plan));
+  const recipe  = patched.recipes.find(r => r.id === slot.recipeId);
+  const factor  = (slot.recipeShared + slot.sharedDelta) / slot.recipeShared;
+  for (const ing of recipe.ingredients) if (!ing.for) ing.quantity *= factor;
+
+  const after = analyze(patched).daily[0].totals.husband.kcal;
+  const min   = loadTargets().daily.husband.kcal.min;
+  assert.ok(Math.abs(after - min) < 1, `expected ~${min} kcal, got ${after}`);
+});
+
+test('a for:-tagged suggestion accounts for a recipe spanning two days', () => {
+  // A tagged row is divided across the occasions its owner attends, so moving a day by D needs
+  // D × attended. Missing this under-corrects by half on a cook-once dinner.
+  const spans = diagnose(carryPlan()).daily
+    .flatMap(e => e.slots.map(s => ({ delta: e.delta, ...s })))
+    .filter(s => s.recipeId === 'carry' && s.attended === 2);
+
+  assert.ok(spans.length, 'the carry recipe should appear with two attended occasions');
+  for (const s of spans) {
+    assert.ok(Math.abs(s.taggedDelta - s.delta * 2) < 1e-9, `${s.taggedDelta} vs ${s.delta * 2}`);
+  }
+});
+
+test('diagnose flags exactly what the gate blocks on', () => {
+  // A diagnostic that disagreed with lib/budgets.js would either send the operator chasing
+  // warn-level noise or hide something that actually blocks. Same specs, same near-miss rule.
+  for (const plan of [normalisePlan(barePlan()).plan, carryPlan()]) {
+    const res  = diagnose(plan);
+    const fails = [...res.daily, ...res.ratios, ...res.weekly].filter(e => e.severity === 'fail');
+    assert.equal(fails.length, checkBudgets(analyze(plan)).errors.length);
+  }
+});
+
+/* ── patch-plan ──
+ *
+ * Exists because a normalised plan is one field per line, so `"quantity": 750` is not a unique
+ * string and a text edit cannot target it — which is what pushed two whole-plan rewrites into
+ * the W36 run, against the flow's own "never regenerate the plan" rule.
+ */
+
+const ops = o => ({ set: [], add: [], remove: [], scale: null, kcal: null, ...o });
+
+test('--kcal hits the target while holding for:-tagged rows fixed', () => {
+  // Tagged rows are the conventions a passing week established, not free variables. The wife's
+  // sterol drink is one 100 ml bottle delivering 2 g; scaling it to 125 ml asks for a product
+  // that does not exist and reprices the highest-yield item in her LDL protocol.
+  const plan = normalisePlan(barePlan()).plan;
+  const r    = plan.recipes.find(x => x.id === 'breakfast-0');
+  r.ingredients.push({ name: 'напиток кисломолочный с фитостеролами', quantity: 100, unit: 'ml', for: 'wife' });
+
+  patchPlan(plan, 'breakfast-0', ops({ kcal: 1800 }));
+
+  assert.equal(r.ingredients.find(i => i.for === 'wife').quantity, 100, 'the bottle stays a bottle');
+  const k = recipeKcal(r);
+  assert.ok(Math.abs(k.total - 1800) < 40, `expected ~1800 kcal total, got ${Math.round(k.total)}`);
+  assert.ok(k.tagged > 0, 'tagged kcal counts toward the calibration total');
+});
+
+test('--kcal below the tagged floor is refused rather than silently missed', () => {
+  const plan = normalisePlan(barePlan()).plan;
+  const r    = plan.recipes.find(x => x.id === 'breakfast-0');
+  r.ingredients.push({ name: 'орехи грецкие', quantity: 100, unit: 'g', for: 'wife' });
+  assert.throws(() => patchPlan(plan, 'breakfast-0', ops({ kcal: 200 })), /for:-tagged rows/);
+});
+
+test('an ambiguous ingredient selector is refused rather than guessed', () => {
+  // The same food appears twice on purpose: a shared portion plus a tagged top-up. Patching
+  // the wrong one moves the nutrient to the wrong person, which is invisible in the recipe
+  // total and surfaces as a per-person budget miss rounds later.
+  const plan = normalisePlan(barePlan()).plan;
+  const r    = plan.recipes.find(x => x.id === 'breakfast-0');
+  r.ingredients.push({ name: 'брокколи', quantity: 100, unit: 'g', for: 'husband' });
+
+  assert.throws(() => patchPlan(plan, 'breakfast-0', ops({ set: [['брокколи', 150]] })), /matches 2 rows/);
+
+  patchPlan(plan, 'breakfast-0', ops({ set: [['брокколи#husband', 150]] }));
+  assert.equal(r.ingredients.find(i => i.for === 'husband').quantity, 150);
+  assert.equal(r.ingredients.find(i => i.name === 'брокколи' && !i.for).quantity, 200,
+    'the shared row must be untouched');
+});
+
+test('ingredient names resolve through the catalog, so spelling drift still lands', () => {
+  const plan = normalisePlan(barePlan()).plan;
+  patchPlan(plan, 'breakfast-0', ops({ set: [['куриная грудка', 420]] }));   // reversed word order
+  assert.equal(plan.recipes.find(r => r.id === 'breakfast-0').ingredients[0].quantity, 420);
+});
+
+test('a name outside the catalog cannot be added', () => {
+  const plan = normalisePlan(barePlan()).plan;
+  assert.throws(() => patchPlan(plan, 'breakfast-0', ops({ add: ['мясо дракона=100'] })),
+    /unknown ingredient/);
+});
+
+test('tidy keeps scaled quantities buyable', () => {
+  assert.equal(tidy(47.3, 'g'), 45, 'grams snap to 5s once they are worth weighing');
+  assert.equal(tidy(18.2, 'g'), 18, 'small amounts stay exact');
+  assert.equal(tidy(4.6, 'pcs'), 5, 'half an egg is not a thing');
+  assert.equal(tidy(0.2, 'pcs'), 1, 'never round an ingredient out of existence');
+});
+
+test('parseArgs separates the file, the recipe and the assignments', () => {
+  const p = parseArgs(['plan.json', 'beef-x', 'говядина постная=800', '--scale', '1.1', '--dry-run']);
+  assert.equal(p.file, 'plan.json');
+  assert.equal(p.recipeId, 'beef-x');
+  assert.deepEqual(p.ops.set, [['говядина постная', 800]]);
+  assert.equal(p.ops.scale, 1.1);
+  assert.equal(p.dryRun, true);
 });
 
 test('an unreferenced recipe keeps whatever serves it had', () => {

@@ -148,14 +148,36 @@ validation rounds went into walking that back.
 The totals in the calibration **include** every ingredient row, tagged rows included. That is the
 number you are writing.
 
+`portion_calibration.tagged_rows` is a template to replicate, not background reading. Three people
+need `for:`-tagged rows and all three fail if you drop them:
+
+| Tag | Rows a passing week used | What it is for |
+|---|---|---|
+| `for: "child"` | ~250 ml milk + ~150 g Greek yogurt, every breakfast | 1,300 mg calcium — a shared pour gives him 1.1/3.0 |
+| `for: "wife"` | 25 g walnuts + 100 ml sterol drink, every breakfast | 30 g of nuts and 2 g of sterols, not a third of each |
+| `for: "husband"` | **~350 kcal of bread, oats or barley flakes, every breakfast** | 2,400–2,500 kcal — a 1.15/3.0 share cannot reach it |
+
+**The husband's row is the one that gets forgotten and it fails the widest.** Without it he lands
+~400 kcal short on all seven days *and* the weekly average, and his breakfast protein drops under
+the 35 g pre-training floor — eleven failures from one omission. Vary the food across the week so
+`grain_bread` does not end up in more than three main meals.
+
+### Do not compute per-person nutrition to decide what to change
+
+After a failure, `node scripts/diagnose-plan.js <plan>` prints each slot's contribution, the
+share the person receives, and the two deltas that close the gap — one via the recipe total, one
+via a `for:`-tagged row. Reaching for the portion-weight arithmetic instead is the same mistake as
+using it to size a portion, and it costs the same thing: rounds.
+
 ### Then normalise and validate
 
 ```bash
 node scripts/normalise-plan.js data/weeks/{weekId}-plan.json
 node scripts/validate-plan.js  data/weeks/{weekId}-plan.json
+node scripts/diagnose-plan.js  data/weeks/{weekId}-plan.json   # only when something failed
 ```
 
-It reports daily and weekly nutrition against every budget, all variety counts, cooking-time caps, `serves` consistency, safety terms, and repetition against the last 3 weeks. **Fix and re-run until it passes.** Edit the plan surgically — do not regenerate it wholesale.
+It reports daily and weekly nutrition against every budget, all variety counts, cooking-time caps, `serves` consistency, safety terms, and repetition against the last 3 weeks. **Fix and re-run until it passes.** Edit the plan surgically with `scripts/patch-plan.js` — do not regenerate it wholesale, and do not hand-edit a normalised plan, where `"quantity": 750` is not a unique string.
 
 The `· ` lines it prints before any failures are the derived picture of the week (weekly averages, day counts, distinct vegetables, formats). Read them: they tell you which direction to move.
 

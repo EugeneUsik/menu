@@ -120,12 +120,23 @@ function buildSummary(data, A) {
  * Grouped by slot AND serves: a breakfast, a dinner and a snack all have serves 3 and differ
  * by a factor of two, so serves alone is not a scale.
  */
+/**
+ * The calibration bucket a recipe belongs to: which slots it fills, and for how many portions.
+ *
+ * Exported because diagnose-plan.js compares a fresh plan's recipe totals against these same
+ * buckets. Building the key in two places is how the reader and the writer of
+ * `portion_calibration` would quietly stop agreeing.
+ */
+function recipeSlotKey(facts) {
+  const slots = [...new Set(facts.occasions.map(o => o.slot))].sort().join('+');
+  return `${slots} (serves ${facts.expectedServes})`;
+}
+
 function calibration(data, A) {
   const groups = new Map();
   for (const facts of A.recipeFacts.values()) {
     if (!facts.occasions.length) continue;
-    const slots = [...new Set(facts.occasions.map(o => o.slot))].sort().join('+');
-    const key   = `${slots} (serves ${facts.expectedServes})`;
+    const key   = recipeSlotKey(facts);
     const kcal  = facts.rows.reduce((sum, r) => sum + r.nut.kcal, 0);
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(Math.round(kcal));
@@ -216,4 +227,4 @@ function main(argv) {
 
 if (require.main === module) process.exit(main(process.argv));
 
-module.exports = { weekFiles, buildSummary, calibration, DEFAULT_WEEKS };
+module.exports = { weekFiles, buildSummary, calibration, recipeSlotKey, DEFAULT_WEEKS };

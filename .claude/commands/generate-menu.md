@@ -18,6 +18,12 @@ passes, expansion cannot reopen a global constraint.
   `normalise-plan.js` derives all of them in Step 5.
 - Do NOT self-verify nutrition or variety. `validate-plan.js` does that mechanically.
 - **Do NOT derive portion sizes from the portion-weight arithmetic.** See Step 4.
+- **Do NOT compute per-person nutrition by hand at any point** — not to size a portion, and not
+  to work out what to change after a failure. `diagnose-plan.js` derives both. See Step 6.
+- **Do NOT read `scripts/validate-plan.js`, `scripts/validate-week.js` or anything in
+  `scripts/lib/`.** The inputs in Step 3 are the whole brief, and the gate's own output carries
+  its severity and its percentage on every line. Reading the implementation feels like
+  diligence, costs ~1,000 lines of context, and has never yet prevented a failure.
 - Read each prompt file exactly once per run.
 
 ## Step 1 — Resolve target week(s)
@@ -73,9 +79,22 @@ quantities so each recipe lands near the matching median.
 > validator computes the real numbers in a second; your job is choosing good food and getting
 > the scale roughly right.
 
-`portion_calibration.tagged_rows` lists the `for:`-tagged conventions a passing week used — the
-child's milk and yogurt, the wife's walnuts and sterol drink. Carry them forward; they are how
-per-person targets are actually met (a shared ingredient gives the child only 1.1/3.0).
+`portion_calibration.tagged_rows` is a **template to replicate, not background reading.** It
+lists the `for:`-tagged conventions a passing week used, and they are how per-person targets are
+actually met — a shared ingredient gives the child only 1.1/3.0 and the wife 0.75/3.0. Every
+breakfast needs all four:
+
+| Tag | Rows | Why it cannot be shared |
+|---|---|---|
+| `for: "child"` | ~250 ml milk + ~150 g Greek yogurt | 1,300 mg calcium is unreachable from shared pours |
+| `for: "wife"` | 25 g walnuts + 100 ml sterol drink | 2 g of sterols and 30 g of nuts, not a third of each |
+| `for: "husband"` | **~350 kcal of bread or flakes** | 2,400–2,500 kcal is unreachable at a 1.15/3.0 share |
+
+**The husband's row is the one that gets forgotten, and it fails the widest.** Dropping it puts
+him ~400 kcal short *on all seven days plus the weekly average*, and takes his breakfast protein
+under the 35 g pre-training floor as well — 11 failures from one omission, which is exactly what
+happened on the first W36 attempt. Vary the food across the week (whole-grain bread, rye bread,
+oats, barley flakes) so it does not pin `grain_bread` to more than 3 main meals.
 
 **Get the first plan written and validated quickly.** Treat iteration 1 as the measurement, not
 the answer.
@@ -92,16 +111,47 @@ who actually eats each slot. Read its output — it prints what it set.
 ## Step 6 — Validate the plan, iterate here
 
 ```bash
-node scripts/validate-plan.js data/weeks/{weekId}-plan.json
+node scripts/validate-plan.js  data/weeks/{weekId}-plan.json   # the gate: what is wrong
+node scripts/diagnose-plan.js  data/weeks/{weekId}-plan.json   # the fix: what to change, by how much
 ```
 
-- The `· ` lines are the derived picture of the week. Read them first; they say which way to move.
-- Fix `[FAIL]` lines with **targeted Edit calls**. Never regenerate the whole plan.
-- Expect 2–3 rounds. Energy and saturated fat are the usual ones; variety and cross-week rules
-  normally pass first time.
-- `[WARN]` lines never block. Sodium, calcium, iron, zinc, viscous fibre and sterols are
-  warn-level on purpose — see `targets.json` `_severity_rule`. Do not chase them at the cost of
-  a hard budget.
+**Run both.** The gate says *"Monday husband kcal 2084 below min 2400 (-13%)"*. Every number in
+that sentence is a per-person share of a recipe total, so it does not tell you what to edit.
+`diagnose-plan.js` translates it:
+
+```
+[FAIL] Monday husband kcal 2084kcal vs min 2400kcal (-13%) → needs +316kcal
+    lunch         red-lentil-soup              873kcal  share 0.605
+    dinner        mackerel-quinoa-broccoli     734kcal  share 0.235
+    breakfast     oats-blueberry-seeds         389kcal  share 0.383
+    → via recipe total (moves all eaters):     breakfast +825 | lunch +522 | dinner +1345
+    → via for:"husband" rows (moves only them): breakfast +316 | lunch +316 | dinner +632 (×2 days)
+```
+
+It also opens with every recipe more than 15% off its calibration median, which is the cheapest
+possible signal that a plan is mis-scaled — visible before any budget is consulted.
+
+Then patch, do not rewrite:
+
+```bash
+node scripts/patch-plan.js data/weeks/{weekId}-plan.json chicken-barley-kale "грудка куриная=700"
+node scripts/patch-plan.js data/weeks/{weekId}-plan.json oats-blueberry-seeds --add "хлеб цельнозерновой=150,g,husband"
+node scripts/patch-plan.js data/weeks/{weekId}-plan.json mackerel-quinoa-broccoli --kcal 3200
+```
+
+- **Never regenerate the whole plan.** A rewrite re-derives quantities that already passed, so it
+  can reopen a settled constraint — and a normalised plan is one field per line, so `"quantity":
+  750` is not a unique string and a text Edit cannot safely target it. That is what `patch-plan.js`
+  is for. `--scale`/`--kcal` hold `for:`-tagged rows fixed on purpose.
+- The `· ` lines from the gate are the derived picture of the week — weekly averages, day counts,
+  distinct vegetables, formats. Read them for direction.
+- Read a `[FAIL]` percentage as a magnitude and move by roughly that much. `+17%` on saturated fat
+  means cut about 17%; do not recompute the day to find out.
+- Expect 2 rounds. Energy and saturated fat are the usual ones; variety and cross-week rules
+  normally pass first time. If you are on round 4, something structural is wrong — say so.
+- `[WARN]` lines never block, and a hard budget within 10% of its bound is reported as a warning
+  too. Sodium, calcium, iron, zinc, viscous fibre and sterols are warn-level on purpose — see
+  `targets.json` `_severity_rule`. Do not chase them at the cost of a hard budget.
 - If a failure looks like a bad rule rather than a bad menu, stop and say so instead of
   contorting the menu around it.
 

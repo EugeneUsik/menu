@@ -13,6 +13,8 @@ node scripts/derive-history.js                                    # FIRST: histo
 node scripts/catalog-digest.js                                    # ingredient vocabulary, compact
 node scripts/normalise-plan.js  data/weeks/2026-W36-plan.json     # derive dates, days, serves
 node scripts/validate-plan.js   data/weeks/2026-W36-plan.json     # iterate HERE
+node scripts/diagnose-plan.js   data/weeks/2026-W36-plan.json     # ...and why, and by how much
+node scripts/patch-plan.js      data/weeks/2026-W36-plan.json <recipe-id> "ингредиент=700"
 node scripts/promote-plan.js    data/weeks/2026-W36-plan.json     # plan → week skeleton
 node scripts/compute-nutrition.js data/weeks/2026-W36.json        # derive nutrition + day totals
 node scripts/generate-shopping-list.js data/weeks/2026-W36.json   # assemble shopping list
@@ -78,6 +80,16 @@ cheaper, and after `validate-plan.js` passes, expansion cannot reopen a global c
 Corollary for anyone editing the prompts: **never ask the model to self-verify nutrition or
 variety, and never ask it to write nutrition numbers.** Both are computed. If you find
 yourself adding a checklist item, add a check to `validate-plan.js` instead.
+
+`validate-plan.js` is the gate and answers "what is wrong". [scripts/diagnose-plan.js](scripts/diagnose-plan.js)
+answers "what do I change, and by how much" — every figure the gate prints is a per-person
+*share* of a recipe total, so closing a 316 kcal gap is either ~316 kcal of `for: "husband"`
+rows or ~825 kcal on the breakfast recipe, and only the eater set of the slot decides which.
+Deriving that is not optional politeness: hand-computing it is the same portion-weight
+arithmetic the prompt forbids for sizing, and it cost W36 a full round.
+[scripts/patch-plan.js](scripts/patch-plan.js) then edits quantities by recipe id and ingredient
+name, because a normalised plan is one field per line and `"quantity": 750` is not a unique
+string anywhere in it. Neither script is a gate; `validate-plan.js` alone decides what passes.
 
 ### Derive, don't assert — and don't reason about it either
 
