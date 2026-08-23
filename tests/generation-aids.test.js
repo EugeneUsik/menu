@@ -18,7 +18,8 @@ const { analyze, loadTargets } = require('../scripts/lib/analyze.js');
 const { checkBudgets } = require('../scripts/lib/budgets.js');
 const { diagnose, sharedShare, occasionsAttended } = require('../scripts/diagnose-plan.js');
 const { patchPlan, recipeKcal, tidy, parseArgs } = require('../scripts/patch-plan.js');
-const { scaffold } = require('../scripts/scaffold-plan.js');
+const { scaffold, bandFor } = require('../scripts/scaffold-plan.js');
+const { solvePlan, isFixedRow } = require('../scripts/solve-plan.js');
 const F  = require('../scripts/lib/foods.js');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -472,6 +473,132 @@ test('a pinned quantity is left exactly as written', () => {
   const { plan } = scaffold(s);
   const cod = plan.recipes.find(r => r.id === 'd0').ingredients.find(i => i.name === 'филе трески');
   assert.equal(cod.quantity, 850);
+});
+
+/* ── solve-plan ──
+ *
+ * Every budget is linear in ingredient grams, so satisfying all of them at once is arithmetic.
+ * Doing it by hand was four rounds of whack-a-mole on the week this was written against: cutting
+ * the husband's protein broke the wife's, fixing that broke his energy, fixing that broke a fat
+ * share. These tests pin the properties that make the solve trustworthy rather than merely fast.
+ */
+
+/** A spec with enough variety for the budgets to be satisfiable at all. */
+function solvableSpec() {
+  const bases   = ['oats', 'eggs', 'cottage_cheese', 'barley', 'buckwheat', 'savory_pan', 'yogurt_bowl'];
+  const bfFoods = [
+    ['хлопья овсяные', 'скир 0–2%', 'черника', 'семена тыквы'],
+    ['яйца', 'белки яичные', 'хлеб цельнозерновой', 'шпинат свежий'],
+    ['творог 5%', 'ежевика', 'семена чиа', 'хлеб цельнозерновой'],
+    ['хлопья ячменные', 'скир 0–2%', 'сливы', 'семена подсолнечника'],
+    ['крупа гречневая', 'скир 0–2%', 'смесь ягод замороженная', 'семена льна молотые'],
+    ['тофу твёрдый', 'хлеб ржаной', 'шампиньоны', 'помидоры'],
+    ['йогурт греческий 2%', 'манго', 'хлопья овсяные', 'семена чиа']
+  ];
+  const dinners = [
+    { t: 'форель', f: ['филе форели', 'булгур', 'брокколи', 'масло оливковое'], fmt: 'plated' },
+    { t: 'индейка', f: ['филе индейки', 'киноа', 'кейл', 'масло оливковое'], fmt: 'one_pot' },
+    { t: 'темпе', f: ['темпе', 'рис бурый', 'фасоль стручковая', 'масло кунжутное'], fmt: 'stir_fry' },
+    { t: 'треска', f: ['филе трески', 'картофель', 'спаржа', 'масло оливковое'], fmt: 'tray_bake' },
+    { t: 'говядина', f: ['фарш говяжий постный', 'паста цельнозерновая', 'кабачок', 'масло оливковое'], fmt: 'pasta_plus_side' },
+    { t: 'креветки', f: ['креветки очищенные', 'крупа перловая', 'капуста цветная', 'масло оливковое'], fmt: 'grain_bowl' },
+    { t: 'лосось', f: ['филе лосося', 'пшено', 'горошек стручковый', 'масло оливковое'], fmt: 'soup_plus_side' }
+  ];
+  const snacks = [
+    ['йогурт соевый натуральный', 'черника', 'хлопья овсяные'],
+    ['хумус', 'морковь', 'огурцы', 'молоко соевое обогащённое'],
+    ['скир 0–2%', 'киви', 'миндаль'],
+    ['кефир 1–2,5%', 'малина', 'семена льна молотые'],
+    ['сардины консервированные', 'хлеб ржаной', 'редис'],
+    ['творог 5%', 'помидоры', 'хлебцы ржаные'],
+    ['миндаль', 'апельсины', 'молоко соевое обогащённое']
+  ];
+  return {
+    week: '2026-W37',
+    days: bases.map((base, i) => ({
+      breakfast: { title: `завтрак ${i}`, id: `b${i}`, base, foods: bfFoods[i] },
+      lunch:     { title: `обед ${i}`, id: `l${i}`,
+                   foods: ['нут консервированный', 'рис бурый', 'помидоры', 'масло оливковое'] },
+      dinner:    { title: dinners[i].t, id: `d${i}`, format: dinners[i].fmt, foods: dinners[i].f },
+      snack:     { title: `перекус ${i}`, id: `s${i}`, snack_format: 'yogurt_based', foods: snacks[i] }
+    }))
+  };
+}
+
+test('solving fixes most hard budgets and never breaks one silently', () => {
+  // The invariant that matters is not "always reaches zero" — some menus genuinely have no
+  // feasible quantity vector, and salmon's saturated fat cannot go below its band. It is that
+  // anything the solver leaves broken appears in its own report, so the operator is never told a
+  // plan is solved when it is not.
+  const { plan } = scaffold(solvableSpec());
+  const before = checkBudgets(analyze(plan)).errors.length;
+  assert.ok(before > 0, 'the fixture should start with budget failures to fix');
+
+  const res   = solvePlan(plan);                      // mutates in place
+  const after = checkBudgets(analyze(plan)).errors;
+  assert.ok(after.length < before, `expected fewer than ${before} errors, got ${after.length}`);
+
+  const reported = res.unmet.filter(u => !u.soft).map(u => u.label);
+  for (const err of after) {
+    assert.ok(reported.some(label => err.startsWith(label) || err.includes(label.split(' ').slice(0, 3).join(' '))),
+      `gate fails "${err}" but the solver did not report it: [${reported.join(', ')}]`);
+  }
+});
+
+test('the sterol drink is never rescaled', () => {
+  // One 100 ml bottle delivering the 2 g the LDL protocol asks for. 118 ml is not purchasable, and
+  // it is the highest-yield single item in that protocol.
+  const { plan } = scaffold(solvableSpec());
+  const sterols = () => plan.recipes.flatMap(r => r.ingredients)
+    .filter(i => F.hasTag(F.resolve(i.name).food, 'sterol'));
+  assert.ok(sterols().length >= 7, 'every breakfast should carry one');
+  solvePlan(plan);
+  for (const row of sterols()) assert.equal(row.quantity, 100, 'the bottle must stay a bottle');
+});
+
+test('no solved quantity leaves its plausible per-portion band', () => {
+  const { plan } = scaffold(solvableSpec());
+  solvePlan(plan);
+  const targets = loadTargets();
+  for (const r of plan.recipes) {
+    for (const ing of r.ingredients) {
+      const food = F.resolve(ing.name).food;
+      const band = bandFor(food, targets);
+      if (band.fixed || isFixedRow(food, ing)) continue;
+      // A tagged row feeds one person per occasion, not every portion of the recipe.
+      const portions = ing.for ? 1 : r.serves;
+      const per = F.toGrams(food, ing.quantity, ing.unit).grams / portions;
+      // tidy() rounds to 5 g steps, so allow that much slack at the edges.
+      assert.ok(per >= band.min - 5 && per <= band.max + 5,
+        `${r.id} ${ing.name}: ${Math.round(per)} g/portion outside ${band.min}-${band.max}`);
+    }
+  }
+});
+
+test('an unsatisfiable budget is reported, not silently distorted', () => {
+  // Olive oil and potato alone cannot reach anybody's protein floor at any quantity.
+  const s = solvableSpec();
+  for (const d of s.days) d.dinner.foods = ['картофель', 'масло оливковое'];
+  const { plan } = scaffold(s);
+  const res = solvePlan(plan);
+  assert.ok(res.unmet.some(u => !u.soft), 'a hard budget should be reported as unreachable');
+});
+
+test('a second solve does not drift the plan materially', () => {
+  // Not bit-identical: quantities are rounded to buyable amounts, so a second solve restarts from
+  // a slightly different point. What must hold is that it does not wander — otherwise re-running
+  // the tail with --solve would keep rewriting the week.
+  const { plan } = scaffold(solvableSpec());
+  solvePlan(plan);
+  const before = plan.recipes.flatMap(r => r.ingredients.map(i => i.quantity));
+  solvePlan(plan);
+  const after  = plan.recipes.flatMap(r => r.ingredients.map(i => i.quantity));
+
+  // Projection onto a possibly-infeasible system stops at a pass budget, so exact idempotence is
+  // not a property this has. What must hold is that it settles rather than wanders: the average
+  // quantity barely moves, even if one or two rows still shuffle within their band.
+  const drift = before.reduce((s, q, i) => s + Math.abs(after[i] - q) / Math.max(q, 1), 0) / before.length;
+  assert.ok(drift < 0.02, `mean relative drift ${(drift * 100).toFixed(1)}% on a second solve`);
 });
 
 test('an unreferenced recipe keeps whatever serves it had', () => {

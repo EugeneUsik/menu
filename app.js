@@ -418,8 +418,13 @@ function renderRecipeCard(r) {
     const unit = ing.unit ? ` ${escapeHtml(ing.unit)}` : '';
     const name = escapeHtml(ing.name || '');
     const prep = ing.prep ? `, ${escapeHtml(ing.prep)}` : '';
-    return `<li>${qty}${unit} ${name}${prep}</li>`;
+    // The `for:` tag decides who a row's nutrition goes to, and it used to be invisible here —
+    // which is exactly why every generated recipe spelled it out again in prose.
+    const forWhom = ing.for ? ` <span class="ingredient-for">${escapeHtml(ing.for)}</span>` : '';
+    return `<li>${qty}${unit} ${name}${prep}${forWhom}</li>`;
   }).join('');
+
+  const servingHtml = renderServingNotes(r);
 
   const instructionsHtml = (r.instructions || []).map(step =>
     `<li>${escapeHtml(step)}</li>`).join('');
@@ -434,10 +439,50 @@ function renderRecipeCard(r) {
       ${metaParts.length ? `<div class="recipe-meta">${metaParts.map(escapeHtml).join(' &nbsp;·&nbsp; ')}</div>` : ''}
       <div class="recipe-sections">
         ${ingredientsHtml ? `<div class="recipe-section-title">Ingredients</div><ul class="ingredient-list">${ingredientsHtml}</ul>` : ''}
+        ${servingHtml}
         ${instructionsHtml ? `<div class="recipe-section-title">Instructions</div><ol class="instruction-list">${instructionsHtml}</ol>` : ''}
         ${nutritionHtml}
       </div>
     </div>`;
+}
+
+/**
+ * Serving notes, derived from the data rather than written into every recipe.
+ *
+ * Two facts were being restated in prose in all 24 recipes of every week: which portions are
+ * tagged to whom, and that a cook-once dinner owes the next day a lunch. Both are already in the
+ * file — in `ingredients[].for` and in a recipe filling both a dinner and a lunch slot — so the
+ * LLM was writing out, 24 times a week, something the renderer can say once from the tags. That
+ * is a meaningful slice of the slowest phase of generation, and it is the slice that carries the
+ * least information.
+ *
+ * This does NOT compute anything. `for:` already drives the per-person split in
+ * scripts/lib/analyze.js; this only surfaces it.
+ */
+function renderServingNotes(r) {
+  const notes = [];
+
+  const byPerson = new Map();
+  for (const ing of (r.ingredients || [])) {
+    if (!ing.for) continue;
+    if (!byPerson.has(ing.for)) byPerson.set(ing.for, []);
+    const unit = ing.unit ? ` ${ing.unit}` : '';
+    byPerson.get(ing.for).push(`${ing.quantity}${unit} ${ing.name}`);
+  }
+  for (const [who, items] of byPerson) {
+    notes.push(`${who} — ${items.join(', ')}`);
+  }
+
+  // A recipe filling both a dinner and a lunch slot is the cook-once-eat-twice structure, so the
+  // portion count already says the next day's lunch is inside it.
+  const types = r.meal_types || [];
+  if (types.includes('dinner') && types.includes('lunch') && r.serves > 3) {
+    notes.push(`cooked once for ${r.serves} portions — reserve the next day's lunch`);
+  }
+
+  if (!notes.length) return '';
+  return `<div class="recipe-section-title">Serving</div><ul class="serving-list">` +
+         notes.map(n => `<li>${escapeHtml(n)}</li>`).join('') + `</ul>`;
 }
 
 function renderNutritionTable(perPerson) {

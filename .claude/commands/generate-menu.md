@@ -105,34 +105,42 @@ thinking on: 4+ dinner protein categories, a different fish species each time, �
 vegetables, ≥3 breakfast bases, ≥4 dinner formats, 7 distinct snacks, red meat on 1–2 days, and
 no dinner pairing from the blocked list in Step 2.
 
-## Step 5 — Validate, diagnose, patch
+## Step 5 — Solve the quantities, then validate
 
 ```bash
-node scripts/validate-plan.js  data/weeks/{weekId}-plan.json   # the gate: what is wrong
-node scripts/diagnose-plan.js  data/weeks/{weekId}-plan.json   # the fix: what to change, how much
+node scripts/solve-plan.js    data/weeks/{weekId}-plan.json
+node scripts/validate-plan.js data/weeks/{weekId}-plan.json
 ```
 
-Run `diagnose-plan.js` whenever the gate fails. Every number the gate prints is a per-person
-*share* of a recipe total, so it cannot say what to edit; the diagnostic prints each slot's
-contribution, the share that person receives, and both routes out — change the recipe total,
-which moves every eater, or change a `for:`-tagged row, which moves only them.
+**Do not adjust quantities by hand.** Every budget is linear in ingredient grams — energy,
+protein, fat, saturated fat, fibre, sodium, calcium and vegetable weight are all
+`(per-100 g value) × grams`, and each person's share of a recipe is a fixed coefficient — so
+satisfying all of them at once is arithmetic, not search. `solve-plan.js` does it in about 0.15 s
+by cyclic projection, starting from the scaffolded quantities so the recipe still looks like food.
 
-Then patch. **Never regenerate the plan**, and never hand-edit it — a normalised plan is one
-field per line, so `"quantity": 750` is not a unique string:
+It also treats warn-level budgets as *soft* constraints, pursued only after the hard ones hold and
+never at their expense. That is what keeps sodium honest: on the week this was built against it
+moved husband/wife/child from 2018/1361/2174 mg/day to 1073/748/1598, all inside their caps.
+
+Read its report. It ends with what it could **not** satisfy:
+
+- `Could not satisfy (hard)` — no quantity vector works. **The menu needs a different food**, not a
+  different number. Change the spec and re-scaffold; do not fight it with patches.
+- `Still outside a warn-level budget` — expected for the wife's calcium, iron and viscous fibre,
+  which are structural in this pattern. Report them at the end; do not distort the week for them.
+
+If the gate still fails after solving, that is a genuine surprise. Then, and only then:
 
 ```bash
-node scripts/patch-plan.js data/weeks/{weekId}-plan.json cod-potato "картофель=1150" --add "авокадо=220,g"
-node scripts/patch-plan.js data/weeks/{weekId}-plan.json yogurt-bowl "йогурт греческий 2%#shared=200"
+node scripts/diagnose-plan.js data/weeks/{weekId}-plan.json      # which slot, which share, what delta
+node scripts/patch-plan.js    data/weeks/{weekId}-plan.json cod-potato "картофель=1150"
 ```
 
-Qualify a name with `#shared` or `#husband` when the same food appears twice in one recipe.
+`diagnose-plan.js` translates a per-person share back into a recipe-level edit. `patch-plan.js`
+edits by recipe id and ingredient name — never hand-edit a normalised plan, where `"quantity": 750`
+is not a unique string. Qualify a name with `#shared` or `#husband` when a food appears twice.
 
-- Expect **1 patch round** from a scaffolded plan. Saturated fat and the husband's fat share are
-  the usual survivors. If you are on round 3, something structural is wrong — say so.
-- Read a `[FAIL]` percentage as a magnitude and move by roughly that much.
-- `[WARN]` never blocks, and a hard budget within 10% of its bound reports as a warning too. Do
-  not chase warn-level items at the cost of a hard budget.
-- If a failure looks like a bad rule rather than a bad menu, stop and say so.
+**Never regenerate the plan.** A rewrite re-derives quantities that already passed.
 
 ## Step 6 — Promote, then expand in parallel
 
@@ -160,6 +168,14 @@ ingredient sodium is already near the ceiling from bread, crispbread and canned 
 child has ~0.75 g of added-salt headroom across three home meals. Tell them not to touch
 `serves`, existing quantities, titles or the menu — those passed validation.
 
+**Tell them NOT to write the serving boilerplate.** Two things used to be restated in every one of
+the 24 recipes, and the app now renders both from the data: which portions are `for:`-tagged to
+whom, and that a cook-once dinner owes the next day a lunch. So no
+*"порцию ребёнка залить молоком, жене подать орехи и напиток с фитостеролами"*, and no
+*"отложить 2 порции на обед следующего дня"* — those are derived in `renderServingNotes()`. Steps
+should cover **cooking only**. This is the least informative fifth of the prose and the slowest
+phase of the run.
+
 ```bash
 node scripts/apply-expansion.js data/weeks/{weekId}.json data/weeks/{weekId}-exp-*.json
 ```
@@ -167,17 +183,20 @@ node scripts/apply-expansion.js data/weeks/{weekId}.json data/weeks/{weekId}-exp
 It refuses partial work and checks every added ingredient against the catalog, so a bad name is
 named with its fragment rather than surfacing two steps later.
 
-## Step 7 — Compute, shop, validate
+## Step 7 — Finalise
 
 ```bash
-node scripts/compute-nutrition.js       data/weeks/{weekId}.json
-node scripts/generate-shopping-list.js  data/weeks/{weekId}.json
-node scripts/validate-week.js           data/weeks/{weekId}.json
+node scripts/finalise-week.js data/weeks/{weekId}.json --solve
 ```
 
-Failures here should be small — a minor ingredient nudged a day out of band. Fix with targeted
-edits, then re-run all three (nutrition must be recomputed, or `validate-week.js` will report
-`daily_nutrition` as stale).
+Chains the quantity solve, `compute-nutrition.js`, `generate-shopping-list.js` and
+`validate-week.js`, stopping at the first failure. Nutrition must be recomputed before it is
+validated or the gate reports `daily_nutrition` as stale, so these always run together.
+
+`--solve` re-runs the solver first, because the minor ingredients added during expansion — a clove
+of garlic, two grams of salt — shift a day by a few percent. That is the one class of failure that
+legitimately appears after the plan has passed, and repairing it by hand is the same mistake as
+sizing portions by hand. Drop `--solve` only if you want to see what expansion did on its own.
 
 ## Step 8 — Publish
 

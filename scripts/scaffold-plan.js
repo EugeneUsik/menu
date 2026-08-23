@@ -103,9 +103,10 @@ function bandFor(food, targets) {
   if (has('grain_bread') || has('grain'))          return { min: 25, max: 110 };
   if (has('vegetable_starchy'))                    return { min: 110, max: 320 };
   if (has('eggs'))                                 return { min: 55, max: 130 };
-  // Liquid dairy and its plant equivalents: a pour, not a bath.
-  if ((has('dairy') || has('soy')) && food.density != null) return { min: 60, max: 250 };
-  if (has('dairy'))                                return { min: 50, max: 220 };
+  // One band for dairy whether it is poured or spooned. Keying off `density` looked like the way
+  // to tell a drink from a bowl, but water-like foods omit the field entirely — so milk, which is
+  // measured in ml, was getting the narrower band and failing at a perfectly ordinary 250 ml.
+  if (has('dairy'))                                return { min: 50, max: 250 };
   if (has('soy') || has('legume'))                 return { min: 50, max: 220 };
   if (has('fatty_fish') || has('white_fish') || has('seafood') ||
       has('poultry')    || has('red_meat'))        return { min: 90, max: 230 };
@@ -463,4 +464,4 @@ if (require.main === module) {
   console.log(`Next: node scripts/validate-plan.js ${path.relative(process.cwd(), out)}`);
 }
 
-module.exports = { scaffold, buildSkeleton, allocate, roleOf, taggedRows, ROLE_SHARE };
+module.exports = { scaffold, buildSkeleton, allocate, roleOf, taggedRows, bandFor, ROLE_SHARE };

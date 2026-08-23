@@ -71,7 +71,39 @@ console.log(s.padEnd(15),Object.entries(r).sort((a,b)=>b[1]-a[1])
   .map(([k,v])=>k+" "+(v/t).toFixed(2)).join("  "));}'
 ```
 
-### Step 3 — Validate the plan and iterate
+### Step 3 — Solve the quantities, then validate
+
+```bash
+node scripts/solve-plan.js    data/weeks/2026-W27-plan.json
+node scripts/validate-plan.js data/weeks/2026-W27-plan.json
+```
+
+**Do not adjust quantities by hand.** Every budget is linear in ingredient grams, each person's
+share of a recipe is a fixed coefficient, and the energy-share budgets are linear once written as
+`9*fat - max*kcal <= 0` rather than as a ratio — so satisfying all of them at once is arithmetic.
+`solve-plan.js` does it by cyclic projection in about 0.15 s, starting from the scaffolded
+quantities so the recipe still looks like food. Measured on a fresh week: 6 gate failures to 0.
+
+Warn-level budgets are pursued as *soft* constraints, only after the hard ones hold. That is what
+keeps sodium honest — it went from 2018/1361/2174 mg/day to 1073/748/1598 on the week this was
+built against, all three inside their caps.
+
+Read the solver's report; it ends with what it could not satisfy:
+
+- `Could not satisfy (hard)` — no quantity vector works. **The menu needs a different food.** Change
+  the spec and re-scaffold rather than fighting it with patches.
+- `Still outside a warn-level budget` — expected for the wife's calcium, iron and viscous fibre,
+  which are structural in this pattern.
+
+Anything the solver leaves broken appears in that report, so a plan is never presented as solved
+when it is not. If the gate fails on something the solver did not mention, that is a bug.
+
+Two things the solver deliberately will not move: the sterol drink (one 100 ml bottle, a discrete
+product) and seasonings. And `for:`-tagged rows are bounded by `portion_calibration.tagged_rows`
+rather than by the generic bands — otherwise nothing defends the wife's 30 g of walnuts or the
+husband's tagged carbohydrate, because neither is a checked budget.
+
+Only if the gate still fails:
 
 ```bash
 node scripts/validate-plan.js data/weeks/2026-W27-plan.json
@@ -162,31 +194,32 @@ node scripts/apply-expansion.js data/weeks/2026-W27.json data/weeks/2026-W27-exp
 It refuses partial work and resolves every added name against the catalog, so a bad ingredient is
 reported against its fragment rather than surfacing in `compute-nutrition.js` two steps later.
 
-### Step 5 — Compute nutrition
+### Step 5 — Finalise
 
 ```bash
-node scripts/compute-nutrition.js data/weeks/2026-W27.json
+node scripts/finalise-week.js data/weeks/2026-W27.json --solve
 ```
 
-Derives every per-person figure from ingredient quantities via `data/foods.json`. Exits
-non-zero on an unknown ingredient or a `serves` mismatch. Also reports which values moved
->15% from the previous estimate.
+Chains the quantity solve, `compute-nutrition.js`, `generate-shopping-list.js` and
+`validate-week.js`, stopping at the first failure. Nutrition must be recomputed before it is
+validated or the gate reports `daily_nutrition` as stale, so these always run together — and any
+fix means all three again, which is why they are one command.
 
-Useful variants:
+`--solve` re-runs the solver first. The minor ingredients added during expansion — a clove of
+garlic, two grams of salt — shift a day by a few percent, and that is the one class of failure that
+legitimately appears after the plan has passed. Repairing it with the solver rather than by hand is
+the same reasoning as Step 3.
+
+The individual steps, when you want them separately:
 
 ```bash
-node scripts/compute-nutrition.js data/weeks/2026-W27.json --check          # report, don't write
+node scripts/compute-nutrition.js      data/weeks/2026-W27.json   # --check to report, not write
+node scripts/generate-shopping-list.js data/weeks/2026-W27.json   # --dry-run to preview
+node scripts/validate-week.js          data/weeks/2026-W27.json
 ```
 
-### Step 6 — Assemble the shopping list
-
-```bash
-node scripts/generate-shopping-list.js data/weeks/2026-W27.json
-node scripts/generate-shopping-list.js data/weeks/2026-W27.json --dry-run    # preview
-```
-
-Display names, categories and purchase units come from `data/foods.json`. There is no
-metadata pass. If a genuine purchase note is needed:
+Display names, categories and purchase units for the shopping list come from `data/foods.json`.
+There is no metadata pass. If a genuine purchase note is needed:
 
 ```bash
 echo '{"berries-mixed": "проверить состав"}' > data/weeks/2026-W27-notes.json
@@ -195,17 +228,7 @@ node scripts/generate-shopping-list.js data/weeks/2026-W27.json --notes data/wee
 
 Notes must not contain banned fruit terms — write `проверить состав`, never `без вишни`.
 
-### Step 7 — Validate the week
-
-```bash
-node scripts/validate-week.js data/weeks/2026-W27.json
-```
-
-Re-checks structure, safety, `serves`, and the budgets against the final ingredient lists.
-Failures here should be small — a minor ingredient nudged a day out of band. Fix with
-targeted edits and re-run Steps 5–7.
-
-### Step 8 — Publish
+### Step 6 — Publish
 
 ```bash
 node scripts/sync-weeks-index.js
@@ -316,10 +339,12 @@ nothing about their quality.
 |---|---|
 | `derive-history.js` | Build `recent-history.json` from the last N weeks (`--weeks N`, `--brief`) |
 | `scaffold-plan.js` | Turn a spec of decisions into a scaled, normalised plan (`--dry-run`) |
+| `solve-plan.js` | Adjust quantities until every hard budget holds at once (`--dry-run`, `--no-soft`) |
 | `validate-plan.js` | Validate a plan: structure, safety, budgets, variety, cross-week repeats |
 | `diagnose-plan.js` | Explain a budget miss as an edit: per-slot shares and the deltas that close it (`--warn`, `--person`, `--json`) |
 | `patch-plan.js` | Change ingredient quantities by recipe id and name (`--add`, `--remove`, `--scale`, `--kcal`, `--dry-run`) |
 | `apply-expansion.js` | Merge parallel expansion fragments into a promoted week (`--dry-run`) |
+| `finalise-week.js` | Chain nutrition, shopping list and the final gate (`--solve`) |
 | `promote-plan.js` | Expand a validated plan into the week skeleton (`--force` to overwrite) |
 | `normalise-plan.js` | Derive week dates, label, day scaffolding and every `serves` (`--check`) |
 | `catalog-digest.js` | Print the ingredient vocabulary compactly for generation (`--tag X`) |

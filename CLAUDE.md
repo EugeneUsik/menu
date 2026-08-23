@@ -12,14 +12,13 @@ python3 -m http.server 8080
 node scripts/derive-history.js --brief                            # FIRST: history + calibration, 36 lines
 node scripts/catalog-digest.js                                    # ingredient vocabulary, compact
 node scripts/scaffold-plan.js   data/weeks/2026-W36-spec.json     # spec → scaled, normalised plan
-node scripts/validate-plan.js   data/weeks/2026-W36-plan.json     # iterate HERE
-node scripts/diagnose-plan.js   data/weeks/2026-W36-plan.json     # ...and why, and by how much
+node scripts/solve-plan.js      data/weeks/2026-W36-plan.json     # satisfy every budget at once
+node scripts/validate-plan.js   data/weeks/2026-W36-plan.json     # the gate
+node scripts/diagnose-plan.js   data/weeks/2026-W36-plan.json     # only if the gate still fails
 node scripts/patch-plan.js      data/weeks/2026-W36-plan.json <recipe-id> "ингредиент=700"
 node scripts/promote-plan.js    data/weeks/2026-W36-plan.json     # plan → week skeleton
 node scripts/apply-expansion.js data/weeks/2026-W36.json <fragments...>   # merge parallel expansion
-node scripts/compute-nutrition.js data/weeks/2026-W36.json        # derive nutrition + day totals
-node scripts/generate-shopping-list.js data/weeks/2026-W36.json   # assemble shopping list
-node scripts/validate-week.js   data/weeks/2026-W36.json          # final gate
+node scripts/finalise-week.js   data/weeks/2026-W36.json --solve  # solve + nutrition + shopping + gate
 node scripts/sync-weeks-index.js                                  # rebuild manifest
 
 # ── Checks ──────────────────────────────────────────────────────────────────
@@ -119,6 +118,42 @@ effect on a fresh week: 30 → 10 → 3 failures on the first gate run, then one
 Role energy shares in that allocator are **measured from the last passing week**, not chosen. The
 one-liner that regenerates them is in [docs/OPERATIONS.md](docs/OPERATIONS.md); a guess there is
 what put the husband over his protein ceiling and under his fat floor simultaneously.
+
+### Quantities are solved, not negotiated
+
+[scripts/solve-plan.js](scripts/solve-plan.js) finishes what the scaffold starts. **Every budget is
+linear in ingredient grams** — energy, protein, fat, saturated fat, fibre, sodium, calcium and
+vegetable weight are all `(per-100 g value) × grams`, each person's share of a recipe is a fixed
+coefficient, and even the energy-share budgets are linear once written as `9·fat − max·kcal ≤ 0`
+instead of as a ratio. So satisfying 3 people × 7 days × 12 budgets at once is a linear feasibility
+problem, solved by cyclic projection in ~0.15 s.
+
+This exists because doing it by hand does not work. W37 took four patch rounds of whack-a-mole:
+cutting the husband's protein broke the wife's, adding skyr to fix that broke his energy, trimming
+that broke a fat share. Each round fixed one budget and broke another, because `diagnose-plan.js`
+reports a delta for one nutrient and nothing about what else that delta moves. Measured on the same
+week: 6 gate failures → 0, in one command.
+
+Warn-level budgets are **soft** constraints here, pursued only once the hard ones hold and never at
+their expense. That is what finally put sodium under control — it is warn-level because the
+measurement is an ingredient-only lower bound, not because a child at 113% over is acceptable. Same
+week: 2018/1361/2174 mg/day → 1073/748/1598.
+
+Two things the solver must not treat as free variables, both learned by watching it get them wrong:
+
+- **`for:`-tagged rows are banded per person, not per portion.** A tagged row feeds one person once
+  per occasion they attend, so scaling its band by `serves` made it three times too wide and drifted
+  the wife's 25 g of walnuts to 55 g.
+- **Recorded conventions bound tagged rows.** Banding correctly then pulled those walnuts down to
+  15 g and the husband's carbohydrate row to its 35 g floor — both fully legal, because neither
+  "30 g of nuts a day" nor "the husband's energy comes from a tagged carbohydrate" is a checked
+  budget. So the bounds come from `portion_calibration.tagged_rows`, ±25%/+50% around what a passing
+  week used.
+
+Corollary: if you add a budget to `targets.json`, the solver picks it up with no code change — it
+reads the same `DAILY_KEYS`/`RATIO_KEYS`/`WEEKLY_AVG_KEYS` as `lib/budgets.js`. If you add something
+that is *not* a budget but still matters (a gram target for nuts, say), the solver will happily
+trade it away. Put it in `targets.json` or accept that nothing defends it.
 
 `scripts/catalog-digest.js` prints the same 174 foods as `data/foods.json` at ~40% of the size,
 with the per-100 g figures in columns. Generation reads the digest; nothing reads a stale copy,
@@ -280,6 +315,12 @@ LocalStorage keys:
 - Selected week: `weekly-menu:selectedWeekId`
 - Shopping checkbox: `weekly-menu:shopping:{weekId}:{itemId}` — week-scoped, so state never
   leaks between weeks. `{itemId}` is now `{food-key}|{unit}`, stable across weeks.
+
+`renderServingNotes()` derives the "Serving" block from the data rather than reading it out of
+prose: which portions are `for:`-tagged to whom, and that a recipe filling both a dinner and a lunch
+slot owes the next day a lunch. Both facts were previously restated in Russian in all 24 recipes of
+every week, because `ingredients[].for` — the tag that drives the whole per-person nutrition split —
+was not rendered anywhere at all. Generation is now told not to write either one.
 
 All user-facing strings go through `escapeHtml()` before `innerHTML` injection. **Maintain
 this** — recipe and menu content comes from external LLM output.

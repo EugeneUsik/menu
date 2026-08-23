@@ -288,6 +288,17 @@ span.menu-cell-title { color: var(--color-text); }
 .ingredient-list li::before { content: "• "; color: var(--color-accent); }
 .instruction-list { padding-left: 18px; }
 .instruction-list li { font-size: 0.875rem; padding: 3px 0; }
+
+/* Who a tagged row belongs to. Rendered from ingredients[].for, which drives the per-person
+   nutrition split but was invisible here until now. */
+.ingredient-for {
+  font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--color-accent); border: 1px solid currentColor;
+  border-radius: 3px; padding: 0 4px; margin-left: 4px; white-space: nowrap;
+}
+.serving-list { list-style: none; padding: 0; }
+.serving-list li { font-size: 0.875rem; padding: 2px 0; color: var(--color-muted); }
+.serving-list li::before { content: "→ "; color: var(--color-accent); }
 .nutrition-table { width: 100%; border-collapse: collapse; font-size: 0.8125rem; margin-top: 4px; }
 .nutrition-table th, .nutrition-table td { text-align: left; padding: 4px 6px; }
 .nutrition-table th { color: var(--color-muted); font-weight: 600; }
