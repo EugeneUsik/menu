@@ -234,6 +234,8 @@ nothing about their quality.
 | `derive-history.js` | Build `recent-history.json` from the last N weeks (`--weeks N`) |
 | `validate-plan.js` | Validate a plan: structure, safety, budgets, variety, cross-week repeats |
 | `promote-plan.js` | Expand a validated plan into the week skeleton (`--force` to overwrite) |
+| `normalise-plan.js` | Derive week dates, label, day scaffolding and every `serves` (`--check`) |
+| `catalog-digest.js` | Print the ingredient vocabulary compactly for generation (`--tag X`) |
 | `compute-nutrition.js` | Derive per-person nutrition and day totals from ingredients (`--check`) |
 | `generate-shopping-list.js` | Assemble `shopping_list[]` from the catalog (`--dry-run`, `--notes`) |
 | `validate-week.js` | Validate a published week file |

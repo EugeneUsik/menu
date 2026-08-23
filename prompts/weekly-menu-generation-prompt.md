@@ -20,12 +20,11 @@ Now: **all global constraints are settled on the plan, mechanically.** Once `val
 
 ## TARGET WEEK
 
-You will be told which week to generate — by ISO week ID (`2026-W27`), a Monday start date, or a relative reference (`next week`). Derive the rest yourself; the timezone is always `Europe/Vilnius`.
+You will be told which week to generate — by ISO week ID (`2026-W27`), a Monday start date, or a relative reference (`next week`).
 
-- `week.id` — ISO week, `YYYY-Www`
-- `week.label` — Russian display string, `YYYY Ww · D–D месяц` (e.g. `2026 W27 · 29 июня – 5 июля`)
-- `week.start_date` — Monday, `YYYY-MM-DD`
-- `week.end_date` — Sunday, `YYYY-MM-DD`
+Write **only `week.id`** (`YYYY-Www`). `scripts/normalise-plan.js` derives `start_date`,
+`end_date`, the Russian `label` and `timezone` from it — correctly across month and year
+boundaries, which hand arithmetic gets wrong. Do not compute them.
 
 ---
 
@@ -51,18 +50,16 @@ Write `data/weeks/{weekId}-plan.json`. This is the whole creative decision: whic
 
 ### Plan shape
 
+Write only the decisions. Everything mechanical is derived in the next step.
+
 ```json
 {
-  "schema_version": "1.0",
   "language": "ru",
-  "week": { "id": "2026-W27", "label": "...", "start_date": "...", "end_date": "...", "timezone": "Europe/Vilnius" },
+  "week": { "id": "2026-W27" },
   "menu": [
     {
-      "day_name": "Monday",
-      "date": "2026-06-29",
-      "includes_fixed_school_lunch": true,
       "breakfast":    { "title": "Шакшука с ржаным хлебом", "recipe_id": "shakshuka-rye" },
-      "lunch":        { "title": "Салат с тунцом и булгуром", "recipe_id": "tuna-bulgur-salad" },
+      "lunch":        { "title": "Салат с булгуром и яйцом", "recipe_id": "egg-bulgur-salad" },
       "dinner":       { "title": "Лосось с гречкой и брокколи", "recipe_id": "salmon-buckwheat-broccoli", "cook_once_eat_twice": true },
       "shared_snack": { "title": "Кефир с ягодами", "recipe_id": "kefir-berries" }
     }
@@ -72,7 +69,6 @@ Write `data/weeks/{weekId}-plan.json`. This is the whole creative decision: whic
       "id": "salmon-buckwheat-broccoli",
       "title": "Лосось с гречкой и брокколи",
       "meal_types": ["dinner"],
-      "serves": 5,
       "format": "plated",
       "active_time_min": 20,
       "total_time_min": 35,
@@ -88,23 +84,33 @@ Write `data/weeks/{weekId}-plan.json`. This is the whole creative decision: whic
 }
 ```
 
+`menu` still needs exactly 7 objects in Monday-to-Sunday order — position is what determines the
+day. `day_name`, `date`, `includes_fixed_school_lunch` and every `serves` are filled in by
+`normalise-plan.js`.
+
 ### What goes in `ingredients` at this stage
 
 Only the **nutritionally dominant** items — the protein, the starch, the main vegetables, the added fat, and any `for`-tagged extras. Typically 4–7 rows. Garlic, herbs, spices, and lemon get added in Stage B; they barely move the numbers.
 
 Quantities are **totals for all `serves` portions**, not per person.
 
-### `serves` — get this right
+### `serves` — do not write it, but know what it will be
 
-`serves` is the total number of person-portions the quantities produce. It is checked against who actually eats the recipe, and a mismatch is a hard failure because shopping quantities are summed once per recipe.
+`serves` is the total number of person-portions the quantities produce. **`normalise-plan.js`
+derives it** from who actually eats the slots the recipe fills, so you never write it — but your
+quantities have to match what it will compute:
 
-| Recipe used for | `serves` |
+| Recipe used for | derived `serves` |
 |---|---|
 | One breakfast, dinner, or shared snack (3 eaters) | **3** |
 | One Mon–Fri lunch (adults only — child is at school) | **2** |
 | One Sat/Sun lunch (3 eaters) | **3** |
 | Mon–Thu dinner + next-day school lunch | **5** (3 + 2) |
 | Fri/Sat dinner + next-day weekend lunch | **6** (3 + 3) |
+
+Getting the quantities wrong for the derived count is still a hard failure downstream, because
+`generate-shopping-list.js` sums each recipe's quantities exactly once — a 5-portion pot written
+with 3 portions of food under-buys silently.
 
 A recipe may appear in **at most two** menu slots, and only as a dinner → next-day-lunch pair. Anything else (the same snack on two separate days) is rejected: it would be bought only once.
 
@@ -118,16 +124,35 @@ The catalog derives protein category, fish species, grain base, vegetables, legu
 
 ### Ingredient names must come from the catalog
 
-Use the exact `name_ru` from [`data/foods.json`](../data/foods.json). That file is the ingredient vocabulary: 170+ foods with per-100 g nutrition, shopping category, and unit conversions. An unrecognised name is a **hard failure** — nutrition cannot be computed for it.
+Use the exact `name_ru` from the catalog. Read it via `node scripts/catalog-digest.js` rather
+than opening `data/foods.json`: same 174 foods and the same names, about 40 KB less, with the
+per-100 g figures in columns so portion sizing is reading rather than arithmetic. An
+unrecognised name is a **hard failure** — nutrition cannot be computed for it.
 
 If you genuinely need a food that is not in the catalog, add an entry to `data/foods.json` (key, `name_ru` noun-first, `cat`, `tags`, `per100g`, `aliases`) and then use it. The catalog is meant to grow; it is not meant to be bypassed.
 
 This replaces the old noun-first naming convention — canonical spelling now comes from one place instead of being re-derived every week.
 
-### Then validate
+### Sizing portions — start from the calibration, not from the arithmetic
+
+`data/weeks/recent-history.json` carries `portion_calibration`: the observed **total recipe kcal**
+by slot and serves from the last passing week, plus the `for:`-tagged conventions it used. Scale
+your dishes so each recipe lands near the matching median.
+
+Do **not** try to derive portions from the portion-weight split (husband 1.15, wife 0.75, child
+1.10 over a demand sum). It is slow and it misleads: the first attempt at W35 reasoned its way to
+1240 kcal for a breakfast when the right answer was 2018, because the derivation treated the
+`for:`-tagged rows as sitting outside the recipe total when they are inside it. Two extra
+validation rounds went into walking that back.
+
+The totals in the calibration **include** every ingredient row, tagged rows included. That is the
+number you are writing.
+
+### Then normalise and validate
 
 ```bash
-node scripts/validate-plan.js data/weeks/{weekId}-plan.json
+node scripts/normalise-plan.js data/weeks/{weekId}-plan.json
+node scripts/validate-plan.js  data/weeks/{weekId}-plan.json
 ```
 
 It reports daily and weekly nutrition against every budget, all variety counts, cooking-time caps, `serves` consistency, safety terms, and repetition against the last 3 weeks. **Fix and re-run until it passes.** Edit the plan surgically — do not regenerate it wholesale.
@@ -255,11 +280,23 @@ Keep in English/ASCII so tooling keeps working:
 ## STRICT OUTPUT RULES
 
 1. Valid JSON only — no markdown fences, no commentary before or after.
-2. `menu` has exactly 7 objects, Monday through Sunday, `day_name` matching position.
+2. `menu` has exactly 7 objects in Monday-to-Sunday order. Position is the day; you do not
+   write `day_name`.
 3. `recipe_id` values in `menu` exactly match an `id` in `recipes[]`.
-4. `includes_fixed_school_lunch`: `true` Mon–Fri, `false` Sat–Sun.
-5. `shopping_list` and `daily_nutrition` stay `[]` — scripts fill them.
-6. Never write `nutrition_estimate_per_person` by hand. `compute-nutrition.js` derives it.
-7. `cook_once_eat_twice: true` only on dinners that actually produce next-day leftovers; `leftover_from` only on lunches that actually are leftovers.
-8. All dates `YYYY-MM-DD`.
-9. Ingredient names must resolve against `data/foods.json`.
+4. `cook_once_eat_twice: true` only on dinners that actually produce next-day leftovers;
+   `leftover_from` only on lunches that actually are leftovers.
+5. Ingredient names must resolve against the catalog — read it with
+   `node scripts/catalog-digest.js`.
+6. Ingredient `quantity` is a number and a total for all portions. Never `null`, never a phrase
+   like `"по вкусу"`; state salt and spices in grams.
+
+**Never write these — they are derived, and writing them means asserting something a script
+verifies:**
+
+| Field | Derived by |
+|---|---|
+| `week.start_date`, `week.end_date`, `week.label`, `week.timezone` | `normalise-plan.js` |
+| `menu[].day_name`, `menu[].date`, `menu[].includes_fixed_school_lunch` | `normalise-plan.js` |
+| `recipes[].serves` | `normalise-plan.js`, from who eats each slot |
+| `recipes[].nutrition_estimate_per_person` | `compute-nutrition.js` |
+| `shopping_list`, `daily_nutrition` | `generate-shopping-list.js`, `compute-nutrition.js` |

@@ -9,12 +9,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 python3 -m http.server 8080
 
 # ── Generation pipeline (in order) ──────────────────────────────────────────
-node scripts/derive-history.js                                    # refresh cross-week summary
-node scripts/validate-plan.js  data/weeks/2026-W27-plan.json      # iterate HERE
-node scripts/promote-plan.js   data/weeks/2026-W27-plan.json      # plan → week skeleton
-node scripts/compute-nutrition.js data/weeks/2026-W27.json        # derive nutrition
-node scripts/generate-shopping-list.js data/weeks/2026-W27.json   # assemble shopping list
-node scripts/validate-week.js  data/weeks/2026-W27.json           # final gate
+node scripts/derive-history.js                                    # FIRST: history + portion calibration
+node scripts/catalog-digest.js                                    # ingredient vocabulary, compact
+node scripts/normalise-plan.js  data/weeks/2026-W36-plan.json     # derive dates, days, serves
+node scripts/validate-plan.js   data/weeks/2026-W36-plan.json     # iterate HERE
+node scripts/promote-plan.js    data/weeks/2026-W36-plan.json     # plan → week skeleton
+node scripts/compute-nutrition.js data/weeks/2026-W36.json        # derive nutrition + day totals
+node scripts/generate-shopping-list.js data/weeks/2026-W36.json   # assemble shopping list
+node scripts/validate-week.js   data/weeks/2026-W36.json          # final gate
 node scripts/sync-weeks-index.js                                  # rebuild manifest
 
 # ── Checks ──────────────────────────────────────────────────────────────────
@@ -55,8 +57,8 @@ several respects — don't reference it.
 ### Two-stage generation — the load-bearing design decision
 
 ```
-plan (~9 KB)  →  validate-plan.js  →  promote-plan.js  →  expand  →  compute  →  publish
-                       ↑ iterate here
+plan  →  normalise-plan.js  →  validate-plan.js  →  promote-plan.js  →  expand  →  compute  →  publish
+                                     ↑ iterate here
 ```
 
 Every nutrition and variety rule is a property of the **whole 7-day week**, not of a single
@@ -72,6 +74,25 @@ cheaper, and after `validate-plan.js` passes, expansion cannot reopen a global c
 Corollary for anyone editing the prompts: **never ask the model to self-verify nutrition or
 variety, and never ask it to write nutrition numbers.** Both are computed. If you find
 yourself adding a checklist item, add a check to `validate-plan.js` instead.
+
+### Derive, don't assert — and don't reason about it either
+
+The same principle extends past nutrition. `normalise-plan.js` fills in the week dates, the
+Russian label, the day scaffolding and every recipe's `serves`, all from `week.id` and where the
+recipe_ids sit in the menu. A plan carries only decisions: which dishes, in which slot, at what
+quantity. `serves` matters most — three scripts hard-fail on a mismatch — and deriving it makes
+the error class impossible rather than merely detected.
+
+There is a third failure mode beyond asserting and mis-deriving: **reasoning your way to a number
+the tooling would hand you.** `recent-history.json` carries `portion_calibration`, the observed
+total recipe kcal by slot from the last passing week. Seed portions from it. Working them out
+from the portion-weight split instead is slow *and* error-prone — the first W35 attempt reached
+1240 kcal for a breakfast against an actual 2018, because it treated the `for:`-tagged rows as
+outside the recipe total when they are inside it, and that cost two extra validation rounds.
+
+`scripts/catalog-digest.js` prints the same 174 foods as `data/foods.json` at ~40% of the size,
+with the per-100 g figures in columns. Generation reads the digest; nothing reads a stale copy,
+because it is generated on demand and never written to disk.
 
 ### Data flow
 
