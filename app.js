@@ -56,21 +56,46 @@ function todayISO() {
 /* ── Nutrition computation ── */
 function r1(n) { return Math.round(n * 10) / 10; }
 
+const KEYS = ['kcal', 'protein_g', 'carbs_g', 'fat_g', 'fiber_g', 'sat_fat_g'];
+
+/** The child has lunch at school Mon-Fri, so a weekday lunch feeds the adults only. */
+function eatsSlot(person, slot, day) {
+  if (person !== 'child' || slot !== 'lunch') return true;
+  const atSchool = day.includes_fixed_school_lunch !== undefined
+    ? day.includes_fixed_school_lunch
+    : day.includes_fixed_school_snack;   // legacy schema 2.0
+  return !atSchool;
+}
+
 function computeDailyNutrition(weekData) {
   const recipeMap = Object.fromEntries((weekData.recipes || []).map(r => [r.id, r]));
-  const snap = weekData.fixed_school_snack || {};
+  // Schema 2.1 names it fixed_school_lunch; 2.0 files carry a fixed_school_snack block.
+  const external = weekData.fixed_school_lunch || weekData.fixed_school_snack || {};
+  const slots = ['breakfast', 'lunch', 'dinner', 'shared_snack'];
+
   return (weekData.menu || []).map(day => {
-    const meals = ['breakfast', 'lunch', 'dinner', 'shared_snack']
-      .filter(m => day[m]?.recipe_id)
-      .map(m => recipeMap[day[m].recipe_id]?.nutrition_estimate_per_person || {});
-    const sum = (person, key) => meals.reduce((t, n) => t + (n[person]?.[key] || 0), 0);
-    const childSnap = day.includes_fixed_school_snack;
-    return {
-      date: day.date,
-      husband: { kcal: r1(sum('husband','kcal')), protein_g: r1(sum('husband','protein_g')), carbs_g: r1(sum('husband','carbs_g')), fat_g: r1(sum('husband','fat_g')), fiber_g: r1(sum('husband','fiber_g')), sat_fat_g: r1(sum('husband','sat_fat_g')) },
-      wife:    { kcal: r1(sum('wife','kcal')),    protein_g: r1(sum('wife','protein_g')),    carbs_g: r1(sum('wife','carbs_g')),    fat_g: r1(sum('wife','fat_g')),    fiber_g: r1(sum('wife','fiber_g')),    sat_fat_g: r1(sum('wife','sat_fat_g')) },
-      child:   { kcal: r1(sum('child','kcal') + (childSnap ? (snap.kcal_estimate||0) : 0)), protein_g: r1(sum('child','protein_g') + (childSnap ? (snap.protein_g_estimate||0) : 0)), carbs_g: r1(sum('child','carbs_g')), fat_g: r1(sum('child','fat_g')), fiber_g: r1(sum('child','fiber_g')), includes_fixed_school_snack: !!childSnap }
-    };
+    const hasExternal = day.includes_fixed_school_lunch !== undefined
+      ? !!day.includes_fixed_school_lunch
+      : !!day.includes_fixed_school_snack;
+
+    const out = { date: day.date };
+    for (const person of ['husband', 'wife', 'child']) {
+      const totals = {};
+      for (const key of KEYS) {
+        let sum = 0;
+        for (const slot of slots) {
+          if (!day[slot]?.recipe_id) continue;
+          if (!eatsSlot(person, slot, day)) continue;
+          const n = recipeMap[day[slot].recipe_id]?.nutrition_estimate_per_person || {};
+          sum += n[person]?.[key] || 0;
+        }
+        if (person === 'child' && hasExternal) sum += external[`${key}_estimate`] || 0;
+        totals[key] = r1(sum);
+      }
+      if (person === 'child') totals.includes_fixed_school_lunch = hasExternal;
+      out[person] = totals;
+    }
+    return out;
   });
 }
 

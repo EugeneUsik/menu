@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "_comment": "Single source of truth for nutrition budgets, portion split, and variety rules. Read by scripts/validate-plan.js and scripts/validate-week.js. prompts/Family-context.md explains the WHY; this file holds the checkable numbers. Keep them in sync.",
+
+  "people": ["husband", "wife", "child"],
+
+  "portion_weights": {
+    "_comment": "Relative share of one average portion. Derived from the energy targets (2450 : 1600 : 2325, normalised to mean 1.0 across the three). Used as weights, not as a portion count: a recipe's ingredient total is divided by the sum of the weights of everyone who actually eats it, across all occasions it covers. See eaters below.",
+    "husband": 1.15,
+    "wife": 0.75,
+    "child": 1.1
+  },
+
+  "eaters": {
+    "_comment": "Who actually eats each slot. The child has lunch at school Monday-Friday, so a weekday lunch feeds two people, not three. This is derived from the menu, never declared by the model: breakfast/dinner/shared_snack always feed all three; lunch feeds everyone except the child on days where includes_fixed_school_lunch is true.",
+    "default": ["husband", "wife", "child"],
+    "lunch_on_school_days": ["husband", "wife"]
+  },
+
+  "daily": {
+    "husband": {
+      "_comment": "[redacted]. Mifflin-St Jeor BMR ~1660 kcal; TDEE ~2550-2600 with 3x5 km/week jogging plus calisthenics. Slight deficit for visceral-fat reduction. Protein 1.8-2.0 g/kg: resistance volume (3x20 push-ups, 3x15 pull-ups) supports lean-mass preservation, not hypertrophy, so there is no case for going higher.",
+      "kcal":      { "min": 2400, "max": 2500 },
+      "protein_g": { "min": 130,  "max": 150 },
+      "fiber_g":   { "min": 35 },
+      "sat_fat_g": { "max": 28 }
+    },
+    "wife": {
+      "kcal":      { "min": 1550, "max": 1650 },
+      "protein_g": { "min": 95,   "max": 105 },
+      "fiber_g":   { "min": 30 },
+      "sat_fat_g": { "max": 11 }
+    },
+    "child": {
+      "_comment": "[redacted]. Totals INCLUDE the fixed school lunch. Energy is deliberately not restricted; the goal is height velocity. Protein min 70 g (~1.4 g/kg) is the nutritional target. The 125 g max (~2.5 g/kg) is a sanity guard, NOT a target: an 85 g ceiling is arithmetically impossible alongside 2100-2550 kcal on shared family meals, because everyone eats the same dishes scaled by portion size and so gets the same protein share of energy — the adults need that share at 21-27%, which puts the child at 110-155 g. See the note in prompts/Family-context.md 4.3.",
+      "kcal":      { "min": 2100, "max": 2550 },
+      "protein_g": { "min": 70,   "max": 125 },
+      "fiber_g":   { "min": 25 },
+      "sat_fat_g": { "max": 26 }
+    }
+  },
+
+  "tolerance": {
+    "_comment": "Daily totals are estimates, not measurements. A day is a FAIL only outside target ± this fraction; inside the band but outside target is a WARN. Weekly averages are held to the tighter avg_pct.",
+    "day_pct": 0.1,
+    "avg_pct": 0.04
+  },
+
+  "meal_structure": {
+    "_comment": "Replaces the old per-meal protein floors, which summed above the daily protein ceiling and forced a protein anchor into all 28 weekly slots. Only rules with a specific physiological reason are hard now. The child's fixed school lunch counts as one of their main meals.",
+    "husband_breakfast_protein_min_g": 35,
+    "husband_breakfast_carbs_min_g": 60,
+    "anchor_protein_min_g": { "husband": 30, "wife": 20, "child": 15 },
+    "min_main_meals_at_anchor": 2,
+    "max_single_meal_protein_share": 0.45
+  },
+
+  "fixed_school_lunch": {
+    "_comment": "External, not generated, not modifiable. ESTIMATED values for a standard Lithuanian school-canteen hot lunch (soup or main + side + bread). Replace with measured figures when available — the child's whole daily budget is built on top of these. Because the menu never specifies its contents, the processed-meat scan skips this field.",
+    "kcal_estimate": 620,
+    "protein_g_estimate": 28,
+    "carbs_g_estimate": 78,
+    "fat_g_estimate": 20,
+    "sat_fat_g_estimate": 7,
+    "fiber_g_estimate": 6,
+    "sodium_mg_estimate": 900,
+    "assumed": true
+  },
+
+  "weekly": {
+    "_comment": "Counted over the 7-day plan. 'days' counts distinct days on which the tag appears at least once.",
+    "shared_snack_days_min": 4,
+    "fatty_fish_days_min": 2,
+    "white_fish_or_seafood_days_min": 1,
+    "legume_days_min": 3,
+    "wife_legume_servings_min": 5,
+    "soy_days_min": 4,
+    "oats_or_barley_days_min": 2,
+    "red_meat_days_max": 2,
+    "walnut_or_ldl_nut_days_min": 5
+  },
+
+  "variety": {
+    "_comment": "Enforced deterministically by validate-plan.js against the plan's tag block. Previously these were 11 checklist items the model had to verify by inspection while writing 78 KB of JSON.",
+    "dinner_protein_item_max": 2,
+    "dinner_protein_categories_min": 4,
+    "fish_species_repeat_max": 1,
+    "legume_species_max": 2,
+    "grain_bases_min": 3,
+    "grain_base_meals_max": 3,
+    "distinct_vegetables_min": 8,
+    "vegetable_headline_max": 2,
+    "oat_breakfast_max": 2,
+    "breakfast_base_types_min": 3,
+    "dinner_formats_min": 4,
+    "one_pot_dinner_max": 2,
+    "snack_repeat_max": 2,
+    "soy_forms_min": 2
+  },
+
+  "history": {
+    "_comment": "Cross-week variety. validate-plan.js reads data/weeks/recent-history.json (built by scripts/derive-history.js) and rejects pairings reused too recently.",
+    "lookback_weeks": 3,
+    "block_repeat_protein_grain_pairing": true,
+    "max_shared_dinner_titles_with_last_week": 1
+  },
+
+  "cooking": {
+    "weekday_active_min_max": 30,
+    "weekend_active_min_max": 60,
+    "equipment_available": ["oven", "microwave", "stovetop", "immersion blender"],
+    "equipment_unavailable": ["food processor", "mincer", "air fryer", "multicooker", "grill", "deep fryer"]
+  },
+
+  "enums": {
+    "protein_category": ["fatty_fish", "white_fish", "seafood", "poultry", "red_meat", "eggs", "legumes", "soy", "dairy"],
+    "breakfast_base": ["oats", "barley", "eggs", "yogurt_bowl", "cottage_cheese", "toast", "savory_pan", "buckwheat", "millet", "smoothie_bowl"],
+    "dinner_format": ["plated", "tray_bake", "soup_plus_side", "grain_bowl", "stir_fry", "pasta_plus_side", "egg_dish", "one_pot"],
+    "snack_format": ["yogurt_based", "savory_spread", "nut_and_fruit", "soy_yogurt", "cottage_cheese", "fish_topping", "legume_based"]
+  }
+}

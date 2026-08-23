@@ -6,8 +6,16 @@ const path = require('path');
 
 const WEEKS_DIR   = path.join(__dirname, '..', 'data', 'weeks');
 const INDEX_PATH  = path.join(WEEKS_DIR, 'index.json');
-const SKIP_FILES  = new Set(['index.json']);
 const SAMPLE_FILE = 'sample-week.json';
+
+/**
+ * A published week file is named YYYY-Www.json. Everything else in the directory is
+ * generated or a working artifact: the manifest, the cross-week history summary, plan and
+ * notes files, and the legacy shopping-metadata files. Match the week pattern explicitly
+ * rather than excluding names one at a time — the deny-list approach broke the moment
+ * recent-history.json appeared.
+ */
+const WEEK_FILE_RE = /^\d{4}-W\d{2}\.json$/;
 
 function todayISO() {
   const d = new Date();
@@ -31,7 +39,8 @@ function main() {
 
   let files;
   try {
-    files = fs.readdirSync(WEEKS_DIR).filter(f => f.endsWith('.json') && !f.endsWith('-shopping-meta.json'));
+    files = fs.readdirSync(WEEKS_DIR)
+      .filter(f => WEEK_FILE_RE.test(f) || (f === SAMPLE_FILE && includeSample));
   } catch (err) {
     console.error(`Error reading directory ${WEEKS_DIR}: ${err.message}`);
     process.exit(1);
@@ -42,10 +51,6 @@ function main() {
   let anyError = false;
 
   for (const file of files) {
-    if (SKIP_FILES.has(file)) continue;
-    if (file === SAMPLE_FILE && !includeSample) continue;
-    if (file.startsWith('_')) continue;
-
     const filePath = path.join(WEEKS_DIR, file);
     let data;
     try {

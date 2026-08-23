@@ -1,335 +1,242 @@
 # Weekly Family Menu — Generation Prompt
 
-You are generating a weekly menu JSON file for a family of three. Read it fully before producing any output.
+You generate weekly menus in **two stages**. Stage A produces a ~9 KB plan that gets validated deterministically. Stage B expands the validated plan into full recipes. Read this file fully before producing anything.
+
+---
+
+## WHY TWO STAGES
+
+Every nutrition and variety rule is a property of the **whole 7-day week**, not of any single meal. The previous single-pass approach wrote all ~78 KB of recipe JSON first and checked those rules afterwards, by self-review against a 40-item checklist. That meant:
+
+- A violation surfaced only after the expensive work was done.
+- Fixing it meant editing recipes, which invalidated the shopping metadata, which forced re-running downstream steps — the loop that made generation slow.
+- The checklist items were never actually verified, only asserted. Measured across seven published weeks, the child's protein ran ~75% over target every single week and nobody noticed.
+
+Now: **all global constraints are settled on the plan, mechanically.** Once `validate-plan.js` passes, expansion cannot reopen them. Iterating on a 9 KB plan is roughly an order of magnitude cheaper than iterating on the full file.
+
+**Do not self-verify nutrition or variety.** Do not compute per-person nutrition. Scripts do both, from the ingredient quantities, using `data/foods.json`. Your job is to choose good food and size it sensibly.
 
 ---
 
 ## TARGET WEEK
 
-You will be told which week to generate — by ISO week ID (`2026-W22`), by a Monday start date (`2026-05-25`), or by a relative reference (`next week`, `the week after 2026-W21`). Derive the rest of the week fields yourself; the timezone is always `Europe/Vilnius`.
+You will be told which week to generate — by ISO week ID (`2026-W27`), a Monday start date, or a relative reference (`next week`). Derive the rest yourself; the timezone is always `Europe/Vilnius`.
 
-The JSON must contain all four of these (formats below):
-
-- `week.id` — ISO week, `YYYY-Www` (e.g. `2026-W22`)
-- `week.label` — display string in Russian, format `YYYY Ww · D–D месяц` (e.g. `2026 W22 · 25–31 мая`; if the week crosses months, use `D месяц – D месяц`, e.g. `25 мая – 31 мая` or `28 мая – 3 июня`)
+- `week.id` — ISO week, `YYYY-Www`
+- `week.label` — Russian display string, `YYYY Ww · D–D месяц` (e.g. `2026 W27 · 29 июня – 5 июля`)
 - `week.start_date` — Monday, `YYYY-MM-DD`
 - `week.end_date` — Sunday, `YYYY-MM-DD`
 
 ---
 
-## TASK
-
-Generate one complete weekly menu JSON for the family described below. The output must be valid JSON only — no markdown fences, no explanatory text before or after.
-
----
-
-## ⚠️ CRITICAL SAFETY RULES — READ FIRST
-
-These are absolute. Violating any of them makes the output unusable.
+## ⚠️ SAFETY RULES — ABSOLUTE
 
 ### Rule 1 — Child fruit allergy
 
-The child must not consume **cherries, apples, pears, apricots, or peaches** in any form — fresh, cooked, baked, dried, as juice, jam, compote, puree, sauce, pastry filling, yogurt layer, smoothie ingredient, cereal filler, or any hidden ingredient.
+No **cherries, apples, pears, apricots, or peaches** in any form — fresh, cooked, dried, juice, jam, compote, purée, sauce, filling, yogurt layer, smoothie ingredient, or hidden ingredient. This includes derived products: **apple cider vinegar is excluded** (use `уксус винный белый` or `сок лимонный`).
 
-Apply this to **every generated meal and snack**, including titles, notes, and ingredients. Do not use vague "multifruit" "forest fruit" "garden fruit" or "mixed fruit" products unless the ingredient list is explicitly free of all five excluded fruits.
+Applies to every field: titles, notes, ingredients. Avoid vague "multifruit" / "forest fruit" / "mixed fruit" products unless the ingredient list is verifiably clear. All other fruits are fine.
 
-All other fruits are allowed.
+The scanner matches Russian and English stems including `яблочный`, so a term like `уксус яблочный` fails validation. Do not write "без вишни" in a note either — that embeds a banned term; write `проверить состав`.
 
-### Rule 2 — No processed meat in generated meals
+### Rule 2 — No processed meat
 
-The generated menu (breakfasts, lunches, dinners, shared snacks) must contain **no processed meat**: no ham, no bacon, no sausages, no salami, no smoked deli meats, no hot dogs, no processed meat spreads.
-
----
-
-## MEAL CONSTRUCTION RULES
-
-### Breakfast rule
-Every breakfast must include:
-- A **protein anchor** (Greek yogurt, eggs, cottage cheese, tofu, fish etc)
-- A **fiber-rich carbohydrate** (oats, rye bread, whole-grain toast, buckwheat etc)
-- A **healthy fat or seeds** (walnuts, flaxseed, chia, avocado etc)
-- A **calcium source for child** (dairy, fortified soy milk, kefir etc)
-
-### Lunch rule
-Every lunch must meet protein floors: husband ≥35 g, wife ≥28 g, child ≥20 g.
-If lunch is leftovers, check protein by person — do not assume.
-
-### Dinner rule
-Family-shared where possible with portion adjustments. Include:
-- One clear protein source
-- One whole-grain or starchy carbohydrate
-- At least 2 vegetables or one large vegetable component
-- Healthy fat source
-
-### Cook-once-eat-twice
-Use this structure for weekday lunches where practical. Cook double dinner portions; next-day lunch uses the leftovers. 
-
-### Shared family snack
-Present on ≥4 days. Should provide ~10 g protein per adult serving and a calcium source for the child.
-
-Example formats (illustrative, not a closed list): Greek yogurt + berries + seeds; Greek yogurt + nuts + fruit; kefir + rye crispbread + cottage cheese; hummus + raw vegetables + boiled egg; fortified soy yogurt + walnuts; cottage cheese with herbs on rye + cucumber; banana + nut butter + milk; tuna or mackerel pâté on rye + tomato; edamame + clementines + a handful of almonds. Vary the format across the week — see Variety rules.
-
-### Portioning
-- Husband: largest protein portion; moderate-large complex carbs around training
-- Wife: high protein and fiber; controlled calories and saturated fat; smaller oil and cheese portions; walnuts intentionally included
-- Child: adequate energy; high calcium; sport-day carbohydrate top-up if needed; never underfeed because of the fixed snack
+No ham, bacon, sausages, salami, smoked deli meats, hot dogs, or processed meat spreads anywhere in the generated menu. The child's school lunch is external and not described, so it is out of scope.
 
 ---
 
-## VARIETY ACROSS THE WEEK
+## STAGE A — THE PLAN
 
-Repetition within a single week reduces nutrient diversity and makes the menu boring to cook and eat. Apply these rules across the 7-day plan:
+Write `data/weeks/{weekId}-plan.json`. This is the whole creative decision: which 7 days of meals, and roughly how much of each dominant ingredient.
 
-- **Main protein source:** no single specific main-protein item (a given fish species, a given legume, chicken breast, etc.) should headline more than **two dinners**. Across all dinners, hit at least **four distinct main-protein categories** — e.g. fish/seafood, poultry, red meat, legumes/soy, eggs.
-- **Fish & seafood:** when fish appears multiple times in the week, use **different species** each time (don't repeat the same fish twice). Include at least one **non-fatty seafood or white-fish** meal per week (e.g. shrimp, prawns, mussels, squid, cod, hake, pollock, plaice, perch) when feasible.
-- **Legumes:** rotate species across the week — don't use the same legume more than twice.
-- **Grains & starches:** use at least **three distinct grain/starch bases** across the week (e.g. oats, buckwheat, potatoes, rice, pasta, bulgur, quinoa, barley). No single base should appear in more than three meals.
-- **Vegetables:** at least **eight distinct vegetables** across the week's main meals; avoid using the same vegetable as the headliner more than twice.
-- **Breakfast variety:** no more than **two oat-based breakfasts**; include at least **three distinct breakfast base types** (oats, eggs, cottage-cheese/yogurt bowl, whole-grain toast with topping, savory variant such as shakshuka, etc.).
-- **Dinner format variety:** at least **four distinct cooking formats** per week; no more than two one-pot/mixed-bowl dinners (see Cooking Constraints).
-- **Shared snack variety:** don't repeat the exact same snack on more than two days. Rotate among yogurt-based, savory (hummus + veg / egg / fish topping), nut-and-fruit, soy-yogurt, or cottage-cheese options.
-- **Soy and walnut variety:** soy intake should be varied across delivery forms (e.g. soy milk in breakfast, tofu in a stir-fry, soy yogurt as snack) rather than the same form daily. On a few days, other LDL-friendly nuts (almonds, hazelnuts) may stand in for walnuts to break monotony.
+### Plan shape
 
-These variety rules sit **on top of** the LDL priorities and nutrition floors — meet both. If two rules collide, satisfy the LDL/nutrition floors first and then maximize variety within them.
+```json
+{
+  "schema_version": "1.0",
+  "language": "ru",
+  "week": { "id": "2026-W27", "label": "...", "start_date": "...", "end_date": "...", "timezone": "Europe/Vilnius" },
+  "menu": [
+    {
+      "day_name": "Monday",
+      "date": "2026-06-29",
+      "includes_fixed_school_lunch": true,
+      "breakfast":    { "title": "Шакшука с ржаным хлебом", "recipe_id": "shakshuka-rye" },
+      "lunch":        { "title": "Салат с тунцом и булгуром", "recipe_id": "tuna-bulgur-salad" },
+      "dinner":       { "title": "Лосось с гречкой и брокколи", "recipe_id": "salmon-buckwheat-broccoli", "cook_once_eat_twice": true },
+      "shared_snack": { "title": "Кефир с ягодами", "recipe_id": "kefir-berries" }
+    }
+  ],
+  "recipes": [
+    {
+      "id": "salmon-buckwheat-broccoli",
+      "title": "Лосось с гречкой и брокколи",
+      "meal_types": ["dinner"],
+      "serves": 5,
+      "format": "plated",
+      "active_time_min": 20,
+      "total_time_min": 35,
+      "ingredients": [
+        { "name": "филе лосося",     "quantity": 750, "unit": "g" },
+        { "name": "крупа гречневая", "quantity": 250, "unit": "g", "prep": "сухой вес" },
+        { "name": "брокколи",        "quantity": 500, "unit": "g" },
+        { "name": "масло оливковое", "quantity": 20,  "unit": "ml" },
+        { "name": "орехи грецкие",   "quantity": 30,  "unit": "g", "for": "wife" }
+      ]
+    }
+  ]
+}
+```
+
+### What goes in `ingredients` at this stage
+
+Only the **nutritionally dominant** items — the protein, the starch, the main vegetables, the added fat, and any `for`-tagged extras. Typically 4–7 rows. Garlic, herbs, spices, and lemon get added in Stage B; they barely move the numbers.
+
+Quantities are **totals for all `serves` portions**, not per person.
+
+### `serves` — get this right
+
+`serves` is the total number of person-portions the quantities produce. It is checked against who actually eats the recipe, and a mismatch is a hard failure because shopping quantities are summed once per recipe.
+
+| Recipe used for | `serves` |
+|---|---|
+| One breakfast, dinner, or shared snack (3 eaters) | **3** |
+| One Mon–Fri lunch (adults only — child is at school) | **2** |
+| One Sat/Sun lunch (3 eaters) | **3** |
+| Mon–Thu dinner + next-day school lunch | **5** (3 + 2) |
+| Fri/Sat dinner + next-day weekend lunch | **6** (3 + 3) |
+
+A recipe may appear in **at most two** menu slots, and only as a dinner → next-day-lunch pair. Anything else (the same snack on two separate days) is rejected: it would be bought only once.
+
+### Per-recipe declared fields
+
+The catalog derives protein category, fish species, grain base, vegetables, legume species and soy form from the ingredient names. You only declare what it cannot know:
+
+- **Every breakfast recipe** needs `base`: `oats` · `barley` · `eggs` · `yogurt_bowl` · `cottage_cheese` · `toast` · `savory_pan` · `buckwheat` · `millet` · `smoothie_bowl`
+- **Every dinner recipe** needs `format`: `plated` · `tray_bake` · `soup_plus_side` · `grain_bowl` · `stir_fry` · `pasta_plus_side` · `egg_dish` · `one_pot`
+- **Every shared-snack recipe** needs `snack_format`: `yogurt_based` · `savory_spread` · `nut_and_fruit` · `soy_yogurt` · `cottage_cheese` · `fish_topping` · `legume_based`
+
+### Ingredient names must come from the catalog
+
+Use the exact `name_ru` from [`data/foods.json`](../data/foods.json). That file is the ingredient vocabulary: 170+ foods with per-100 g nutrition, shopping category, and unit conversions. An unrecognised name is a **hard failure** — nutrition cannot be computed for it.
+
+If you genuinely need a food that is not in the catalog, add an entry to `data/foods.json` (key, `name_ru` noun-first, `cat`, `tags`, `per100g`, `aliases`) and then use it. The catalog is meant to grow; it is not meant to be bypassed.
+
+This replaces the old noun-first naming convention — canonical spelling now comes from one place instead of being re-derived every week.
+
+### Then validate
+
+```bash
+node scripts/validate-plan.js data/weeks/{weekId}-plan.json
+```
+
+It reports daily and weekly nutrition against every budget, all variety counts, cooking-time caps, `serves` consistency, safety terms, and repetition against the last 3 weeks. **Fix and re-run until it passes.** Edit the plan surgically — do not regenerate it wholesale.
+
+The `· ` lines it prints before any failures are the derived picture of the week (weekly averages, day counts, distinct vegetables, formats). Read them: they tell you which direction to move.
 
 ---
 
-## COOKING CONSTRAINTS
+## STAGE B — EXPANSION
 
-**Available equipment:** oven, microwave, stovetop, dishwasher, immersion blender.
-**Not available:** food processor, mincer, air fryer, multicooker/Instant Pot, grill.
+```bash
+node scripts/promote-plan.js data/weeks/{weekId}-plan.json
+```
 
-**Weekday active cooking: ≤30 minutes.** Passive time (oven, simmering) does not count.
-Weekend meals may have longer prep if they produce useful weekday leftovers.
+This writes `data/weeks/{weekId}.json` with everything the plan settled, `instructions: []` on each recipe, and empty `shopping_list` / `daily_nutrition`.
 
-Use a **mix of weekday-friendly formats** — do not lean on a single style. Suitable formats include:
+Then, for each recipe, add:
 
-- **Plated meals** where the protein, vegetables, and starch are cooked and served as separate components (e.g. pan-seared cod with boiled potatoes and a side salad; oven-baked chicken thigh with roasted broccoli and a buckwheat side; grilled-pan shrimp with quinoa and steamed green beans)
-- **Tray bakes** with protein and vegetables roasted on one sheet
-- **Soups served with a protein-rich side** (e.g. lentil soup + boiled egg + rye toast) rather than all-in-one stews every time
-- **Grain or salad bowls** with composed toppings
-- **Stir-fries**
-- **Pasta or grain dishes** with a separate vegetable or salad side
-- **Egg-based dishes** (omelet, frittata, shakshuka, scramble)
-- **Yogurt or cottage-cheese bowls** (breakfast)
+1. **Remaining minor ingredients** — aromatics, herbs, spices, lemon, salt and pepper. State salt explicitly in grams (`соль`, `перец чёрный молотый`); do not use the legacy `соль, перец` catch-all, which makes sodium untrackable.
+2. **`instructions`** — 3–6 short imperative steps in Russian, with concrete actions and times or temperatures where they matter. No placeholders, no "cook as usual".
 
-Across the week, dinners should use **at least four distinct formats**, and **no more than two dinners may be "everything mixed in one pot/bowl"** (stews, casseroles, mixed-bowl dishes, mixed tray bakes where ingredients lose individual identity). Plated meals with separated components are preferred for visual and textural variety.
+Do not change quantities of the dominant ingredients, `serves`, titles, or the menu. Those passed validation.
 
 ---
 
-## SODIUM MANAGEMENT
+## MEAL DESIGN GUIDANCE
 
-Adults: <5 g salt/day (<2 g sodium). Child: below adult ceiling.
+The rules below shape good menus. They are **not** a checklist to verify — the scripts do that. Read them as design intent.
 
-High-sodium foods in this household: herring, sardines, canned fish, canned legumes, cottage cheese, cheese, rye bread, whole-grain bread, tortillas, cream cheese, ham in fixed school snack.
+### The day is the unit
 
-Rules:
-- Do not stack salty fish + cheese + bread/wrap + canned foods on the same day.
-- On school days the child's fixed snack may already be high-sodium — reduce other salt sources that day.
-- Rinse canned legumes when possible.
+Daily totals are what bind. A single meal does not need to be balanced on its own; it needs to make the day work. The only hard per-meal rules are:
 
----
+- Husband's breakfast: ≥35 g protein, ≥60 g complex carbohydrate (he trains straight after).
+- Each person: ≥2 main meals reaching their protein anchor (husband 30 g, wife 20 g, child 15 g). The child's school lunch counts as one.
+- No single main meal above 45% of a person's daily protein maximum.
 
-## INGREDIENT PREFERENCES
+**Use that freedom.** A light vegetable soup lunch, a pasta-and-vegetable dinner, a fruit-forward yogurt breakfast are all now available and were not before. Previous menus forced a protein anchor into all 28 slots, which is exactly why they felt repetitive.
 
-The lists below are **non-exhaustive examples**, not a closed allow-list. Any ingredient routinely stocked in Lithuanian supermarkets (Maxima, IKI, Rimi, Lidl, Barbora) that fits the safety rules and nutrition targets is fair game — use the examples as inspiration, not as the only permitted ingredients.
+### Don't over-deliver protein
 
-**Preferred staples — examples:**
+The daily protein *maximums* are real constraints, not aspirations. Historic menus ran the child at ~1.7× target and the adults 20–30% over. Extra protein displaces the carbohydrate the child's growth and the husband's running need, and it crowds out variety by forcing animal or legume protein into every slot.
 
-- Grains & starches: oats, buckwheat, barley, brown rice, bulgur, quinoa, couscous, whole-grain bread, rye bread, whole-grain pasta, potatoes, sweet potatoes
-- Legumes & soy: lentils (red, brown, green), chickpeas, kidney beans, white beans, black beans, butter beans, green peas, edamame, tofu, soy milk, soy yogurt
-- Fish & seafood: salmon, trout, mackerel, herring, sardines, tuna (canned in water), cod, hake, pollock, plaice, perch, shrimp/prawns, mussels, squid
-- Poultry & meat: chicken breast and thighs, turkey breast and mince, lean beef, lean pork tenderloin, eggs, egg whites
-- Dairy: Greek yogurt, kefir, cottage cheese, low-fat milk, ricotta (occasional), feta (small amounts)
-- Fats, nuts & seeds: olive oil, avocado, walnuts, almonds, hazelnuts, peanuts (unsalted), pumpkin seeds, sunflower seeds, ground flaxseed, chia seeds, sesame seeds, tahini
-- Vegetables: leafy greens (spinach, arugula, lettuce), kale, carrots, bell peppers, tomatoes, cucumbers, broccoli, cauliflower, cabbage, beetroot, zucchini, eggplant, mushrooms, onions, garlic, leeks, fennel, radishes, asparagus (seasonal), green beans, peas
-- Fruit: berries (strawberries, blueberries, raspberries, blackberries), banana, citrus, kiwi, grapes, melon, pineapple, plums, mango (occasional)
+### Breakfast
 
-**Avoid in generated meals:** butter-heavy dishes, cream sauces, fatty-cheese-heavy meals, coconut milk/fat as regular ingredient, deep-fried foods, all processed meats, sugary breakfast cereals, pastries as breakfast, juice as routine, sweetened yogurts, high-sugar snacks.
+No grain-only breakfasts. Include a protein element, a fibre-rich carbohydrate or fruit/vegetable, and a calcium source for the child. Avoid plain porridge without protein, cereal with milk only, toast with jam, pastries, sweetened yogurt bowls.
+
+### Lunch
+
+Mon–Fri lunch is a **two-person adult meal**. This is the freest slot in the week — use it for the formats that don't fit dinner: soups, salads, grain bowls, egg dishes, leftovers.
+
+### Dinner
+
+Family-shared, three eaters. Usually one clear protein, one whole-grain or starchy carbohydrate, at least two vegetables or one large vegetable component, and a healthy fat.
+
+### Shared snack
+
+On ≥4 days, with a calcium source for the child. Rotate the format across the week: yogurt-based, savoury spread with vegetables, nut-and-fruit, soy yogurt, cottage cheese, fish topping on rye, legume-based.
+
+### Variety — the numbers that are enforced
+
+Across the week: ≥4 distinct dinner protein categories; no protein item headlining more than 2 dinners; different fish species each time; no legume species more than twice; ≥3 grain/starch bases with none in more than 3 main meals; ≥8 distinct vegetables in main meals; ≤2 oat breakfasts and ≥3 breakfast base types; ≥4 dinner formats with ≤2 one-pot; no snack on more than 2 days; ≥2 soy delivery forms.
+
+Also enforced **across weeks**: a dinner protein+starch pairing used in the last 3 weeks is rejected, and at most 1 dinner title may repeat last week. `data/weeks/recent-history.json` lists what was recently used — consult it. Salmon-with-buckwheat appeared three times in five weeks under the old flow.
+
+### LDL priorities for the wife
+
+Viscous fibre ≥10 g/day (oats, barley, legumes, flaxseed, chia, berries, citrus, aubergine); soy ~25 g protein on most days, varied across tofu / soy milk / soy yogurt / edamame; nuts ~30 g/day with walnuts featured; legumes ≥5 servings/week as structure not garnish; fatty fish ≥2×/week; no saturated-fat stacking (cheese + fatty meat + cream in one meal or one day). Prefer olive oil, avocado, nuts, seeds and fatty fish over butter, cream and fatty cheese.
+
+Use `for: "wife"` on ingredients meant only for her — that is how her walnuts, sterol spread, or smaller oil share get accounted correctly.
+
+### Sodium
+
+Adults <5 g salt/day, child lower. High-sodium items here: herring, sardines, canned fish, canned legumes, cheese, rye and whole-grain bread, crispbread, tortillas, soy sauce, broth, mustard, capers. Do not stack salty fish + cheese + bread + canned foods on one day. The child's school lunch is already salt-heavy (~900 mg estimated), so keep their home meals on school days lower. Rinse canned legumes.
+
+### Cooking constraints
+
+Available: oven, microwave, stovetop, immersion blender. **Not** available: food processor, mincer, air fryer, multicooker, grill, deep fryer.
+
+Weekday `active_time_min` ≤30 (enforced); weekend ≤60. Passive oven or simmer time does not count. Avoid long weekday prep, rare ingredients, multiple separate sauces, deep frying, complex pastry.
 
 ---
 
 ## OUTPUT LANGUAGE
 
-All user-visible content in the JSON must be written in **Russian**:
+All user-visible content in Russian:
 
-- `week.label` (display string shown in the week picker — Russian month name, see Target Week section)
-- Meal titles (`title` in menu entries and in `fixed_school_snack`)
-- Recipe titles (`title` in `recipes[]`)
-- Ingredient names (`name`) and prep notes (`prep`)
-- Recipe `instructions` steps
-- Shopping list item `name` and `note`
-- Shopping list `category` headings
-- `fixed_school_snack.description`
+- `week.label`, meal titles, recipe titles, ingredient names, `prep` notes, `instructions`
 
-**Ingredient name order (critical for shopping dedup).** Russian ingredient `name` values must follow **noun-first** order — the main noun comes first, adjectives and qualifiers after. The shopping script aggregates by `(name, unit)` as the dedup key; inconsistent ordering creates duplicate entries.
+Keep in English/ASCII so tooling keeps working:
 
-Correct: `"укроп свежий"`, `"петрушка свежая"`, `"молоко 2%"`, `"томаты консервированные кусочками"`
-Wrong: `"свежий укроп"`, `"свежая петрушка"`, `"консервированные томаты кусочками"`
+- All JSON keys
+- `day_name` (`Monday`…`Sunday`), `leftover_from`, `meal_types`, `base`, `format`, `snack_format`, `for`, `timezone`
+- All `id` and slug fields; `unit` values (`g`, `ml`, `pcs`, `slice`, `cloves`, `tsp`); all numbers
 
-Apply this rule to every ingredient in every recipe throughout the file. Prep instructions (`prep` field) are exempt — they describe actions, not names.
+**Title length:** meal titles in `menu[]` render in narrow phone grid cells with a 3-line clamp. Aim for ≤4 words and ≤30 characters.
 
-Keep the following in English / ASCII so tooling, IDs, validation, and the frontend filters keep working:
-
-- All JSON keys (e.g. `breakfast`, `lunch`, `recipes`, `nutrition_estimate_per_person`)
-- Enum / structural values: `schema_version`, `week.id`, `day_name` (`Monday`…`Sunday`), `leftover_from` (`Monday`…`Sunday`), `meal_types` (`breakfast` / `lunch` / `dinner` / `snack`), `timezone`
-- All `id` and slug fields: `recipes[].id`, `menu[].*.recipe_id`, shopping item `id` (`name-slug|unit`, ASCII slug only)
-- `unit` values (`g`, `ml`, `pcs`, etc.) and all numeric values
-
-Optionally set `"language": "ru"` at the JSON root — the validator already tolerates this field.
-
-**Title length.** Keep all `title` fields in `menu[]` entries and `shared_snack` concise — aim for ≤4 words and ≤30 characters where possible. These titles render in narrow phone grid cells with a 3-line clamp; long titles will be truncated.
-
-**Reasoning vs output.** You may (and should) reason internally in English for better accuracy on nutrition math, allergy/ingredient checks, and constraint verification. Only the final JSON output must contain Russian in the user-visible fields listed above. Do not include English translations or parallel/bilingual text — only Russian in those fields.
+**Reasoning vs output:** reason internally in English for accuracy on portion sizing and allergy checks. Only the final JSON's user-visible fields are Russian. No bilingual or parallel text.
 
 ---
 
-## OUTPUT FORMAT — STRICT JSON
+## STRICT OUTPUT RULES
 
-Output **only** valid JSON. No text before it, no text after it, no markdown code fences.
-
-### Strict output rules
-
-1. Output only valid JSON. No markdown fences, no commentary, no trailing text.
-2. `recipe_id` values in `menu` must **exactly match** `id` values in `recipes[]`.
-3. `menu` must contain **exactly 7 objects** (Monday through Sunday).
-4. **`shopping_list` must be `[]`** — leave it empty. A script assembles it from recipe ingredients after generation.
-5. **`daily_nutrition` must be `[]`** — leave it empty. The app computes it at runtime from `nutrition_estimate_per_person` values in each recipe.
-6. `fixed_school_snack` is defined once at top level. Never copy or repeat it inside day objects.
-7. No banned fruit terms anywhere in the document — not in titles, notes, ingredients, or any other field.
-8. No processed-meat terms anywhere outside `fixed_school_snack`.
-9. Every recipe **must** include real cooking instructions: 3–6 concise steps that a cook can follow. Each step is one short imperative sentence with concrete actions, times or temperatures where relevant. Do not output placeholders, "see notes", empty arrays, or generic filler like "cook as usual".
-10. All dates in `YYYY-MM-DD` format.
-11. `week.id` must match the requested week exactly (e.g. `"2026-W19"`).
-12. All nutrition estimates must be per-person, not per-serving of the shared recipe. This is critical — `shopping_list` and `daily_nutrition` are derived from recipe data by scripts.
-13. Only include `cook_once_eat_twice: true` on dinner entries where it applies; omit the field otherwise. Only include `leftover_from` on lunch entries that are leftovers; omit otherwise.
-
-### JSON structure
-
-```json
-{
-  "schema_version": "2.0",
-  "week": {
-    "id": "YYYY-Www",
-    "label": "YYYY Www · Mon D–Mon D",
-    "start_date": "YYYY-MM-DD",
-    "end_date": "YYYY-MM-DD",
-    "timezone": "Europe/Vilnius"
-  },
-  "fixed_school_snack": {
-    "title": "Fixed school snack (external)",
-    "description": "Tortilla wrap with cream cheese and vegetables — external, not generated",
-    "kcal_estimate": 400,
-    "protein_g_estimate": 24
-  },
-  "menu": [
-    {
-      "day_name": "Monday",
-      "date": "YYYY-MM-DD",
-      "includes_fixed_school_snack": true,
-      "breakfast": {
-        "title": "Meal title",
-        "recipe_id": "recipe-slug"
-      },
-      "lunch": {
-        "title": "Meal title",
-        "recipe_id": "recipe-slug",
-        "leftover_from": "Sunday"
-      },
-      "dinner": {
-        "title": "Meal title",
-        "recipe_id": "recipe-slug",
-        "cook_once_eat_twice": true
-      },
-      "shared_snack": {
-        "title": "Snack title",
-        "recipe_id": "recipe-slug"
-      }
-    }
-  ],
-  "recipes": [
-    {
-      "id": "recipe-slug",
-      "title": "Full recipe title",
-      "meal_types": ["breakfast"],
-      "active_time_min": 10,
-      "total_time_min": 10,
-      "ingredients": [
-        { "name": "rolled oats", "quantity": 90, "unit": "g" },
-        { "name": "fortified soy milk", "quantity": 300, "unit": "ml" },
-        { "name": "Greek yogurt", "quantity": 150, "unit": "g" },
-        { "name": "walnuts", "quantity": 25, "unit": "g", "prep": "roughly chopped" },
-        { "name": "berries", "quantity": 120, "unit": "g" }
-      ],
-      "instructions": [
-        "Simmer oats with soy milk for 4–5 minutes, stirring, until creamy.",
-        "Divide into bowls and let cool for a minute.",
-        "Top with Greek yogurt, berries, and chopped walnuts."
-      ],
-      "nutrition_estimate_per_person": {
-        "husband": { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "sat_fat_g": 0 },
-        "wife":    { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0, "sat_fat_g": 0 },
-        "child":   { "kcal": 0, "protein_g": 0, "carbs_g": 0, "fat_g": 0, "fiber_g": 0 }
-      }
-    }
-  ],
-  "shopping_list": [],
-  "daily_nutrition": []
-}
-```
-
-The nutrition/safety rules in this prompt (LDL priorities, protein floors, banned fruits, processed meat, sodium, cooking time, breakfast variety) must be satisfied by the menu itself. They are no longer echoed back as a `weekly_validation` block — verify them mentally against the checklist below before producing the JSON.
-
----
-
-## PRE-SUBMIT CHECKLIST
-
-Before producing the final JSON, verify every item:
-
-**Structure**
-- [ ] `menu` has exactly 7 day objects (Monday–Sunday)
-- [ ] All `recipe_id` values in `menu` exactly match an `id` in `recipes[]`
-- [ ] Every recipe has 3–6 real, concise `instructions` steps — no placeholders or empty arrays
-- [ ] `daily_nutrition` is `[]` (computed by app at runtime — do not populate)
-- [ ] `shopping_list` is `[]` (assembled by script after generation — do not populate)
-- [ ] Each menu day has `includes_fixed_school_snack: true` (Mon–Fri) or `false` (Sat–Sun)
-- [ ] `fixed_school_snack` appears once at top level only — not inside any day object
-- [ ] Every recipe `nutrition_estimate_per_person` has `husband`, `wife`, `child` sub-objects with per-person values — this data drives both nutrition display and shopping quantities
-- [ ] `cook_once_eat_twice: true` only on dinner entries that actually produce next-day leftovers
-- [ ] `leftover_from` only on lunch entries that are actually leftovers
-
-**Safety**
-- [ ] No banned fruit terms anywhere (cherries, apples, pears, apricots, peaches — titles, notes, ingredients, shopping) — checked in both English and Russian
-- [ ] Shopping notes (`note` field) do not contain banned fruit terms — never write "без вишни" or similar; say "проверить состав" or omit
-- [ ] No processed-meat terms anywhere in the document — checked in both English and Russian
-
-**Language**
-- [ ] All user-visible text fields are in Russian (meal titles, recipe titles, ingredient names, prep notes, instructions, shopping names/notes/categories, `fixed_school_snack.description`)
-- [ ] All enum/structural values and IDs remain English/ASCII (`day_name`, `leftover_from`, `meal_types`, recipe `id`, shopping item `id`, `unit`)
-- [ ] All ingredient `name` values follow noun-first order (e.g. `"укроп свежий"` not `"свежий укроп"`) — dedup depends on consistent naming
-
-**Nutrition**
-- [ ] Shared snack on ≥4 days
-- [ ] Fatty fish on ≥2 days
-- [ ] Legumes on ≥3 days (rotated across different species)
-- [ ] Soy foods on 2–4 days, varied across delivery forms (tofu, soy milk, soy yogurt, edamame)
-- [ ] Oats or barley on ≥2 days
-- [ ] Wife has walnuts on most days (other LDL-friendly nuts may stand in occasionally)
-- [ ] Husband protein ≥35 g at each main meal
-- [ ] Wife protein ≥28 g at each main meal
-- [ ] Child protein ≥20 g at each main meal
-- [ ] Child calcium sources present at every meal where feasible
-- [ ] Leftovers assigned as lunches are checked per-person for protein adequacy
-- [ ] Sodium not stacked on high-risk days
-
-**Variety**
-- [ ] No single specific main-protein item headlines more than two dinners
-- [ ] ≥4 distinct main-protein categories across dinners (fish/seafood, poultry, red meat, legumes/soy, eggs)
-- [ ] When fish appears multiple times, species differ each time
-- [ ] ≥1 non-fatty seafood or white-fish meal in the week when feasible (shrimp/prawns, mussels, squid, cod, hake, pollock, plaice, perch, etc.)
-- [ ] Legume species rotated — none used more than twice
-- [ ] ≥3 distinct grain/starch bases across the week; no base used in >3 meals
-- [ ] ≥8 distinct vegetables across main meals; no vegetable headlines more than twice
-- [ ] Breakfast variety: ≤2 oat-based breakfasts, ≥3 distinct base types across the week
-- [ ] ≥4 distinct dinner cooking formats; ≤2 one-pot/mixed-bowl dinners
-- [ ] Shared snack not repeated on more than two days
+1. Valid JSON only — no markdown fences, no commentary before or after.
+2. `menu` has exactly 7 objects, Monday through Sunday, `day_name` matching position.
+3. `recipe_id` values in `menu` exactly match an `id` in `recipes[]`.
+4. `includes_fixed_school_lunch`: `true` Mon–Fri, `false` Sat–Sun.
+5. `shopping_list` and `daily_nutrition` stay `[]` — scripts fill them.
+6. Never write `nutrition_estimate_per_person` by hand. `compute-nutrition.js` derives it.
+7. `cook_once_eat_twice: true` only on dinners that actually produce next-day leftovers; `leftover_from` only on lunches that actually are leftovers.
+8. All dates `YYYY-MM-DD`.
+9. Ingredient names must resolve against `data/foods.json`.

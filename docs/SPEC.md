@@ -1,5 +1,39 @@
 # Weekly Menu App — Implementation Specification for Claude Code
 
+> ## ⚠️ Historical document
+>
+> This is the **original design specification**, kept as a record of intent. The publishing
+> model, out-of-scope list, and frontend requirements in it still hold. The data contract and
+> generation pipeline have since moved on.
+>
+> **Current authoritative references:**
+>
+> | For | Read |
+> |---|---|
+> | The data contract | [DATA_SCHEMA.md](DATA_SCHEMA.md) — schema 2.1 |
+> | How to publish a week | [OPERATIONS.md](OPERATIONS.md) |
+> | Architecture and conventions | [../CLAUDE.md](../CLAUDE.md) |
+> | The family's targets and reasoning | [../prompts/Family-context.md](../prompts/Family-context.md) |
+> | The enforced numbers | [../data/targets.json](../data/targets.json) |
+>
+> **What has changed since this was written:**
+>
+> - **Generation is two-stage.** A ~9 KB plan is validated deterministically, then expanded into
+>   recipes. This spec assumes a single pass with LLM self-validation. See CLAUDE.md for why.
+> - **`prompts/json-schema.md` no longer exists.** It was a third copy of the schema and drifted.
+>   DATA_SCHEMA.md is the single developer reference; the generation prompt carries output rules.
+> - **Nutrition is computed, not authored.** `scripts/compute-nutrition.js` derives it from
+>   ingredient quantities via `data/foods.json`. Sections describing LLM-supplied nutrition
+>   estimates are obsolete.
+> - **Schema 2.1** replaced `fixed_school_snack` with `fixed_school_lunch` and added required
+>   `recipes[].serves`. The child eats lunch at school Mon–Fri, so a weekday lunch feeds two.
+> - **`weekly_validation` self-check blocks are gone.** Validation is mechanical:
+>   `validate-plan.js`, `validate-week.js`, `validate-foods.js`.
+> - **New data files** the spec does not mention: `data/foods.json`, `data/targets.json`,
+>   `data/weeks/recent-history.json`.
+> - **New scripts:** `validate-plan.js`, `promote-plan.js`, `compute-nutrition.js`,
+>   `derive-history.js`, `validate-foods.js`, `generate-shopping-list.js`, and `scripts/lib/`.
+
 ## Purpose
 
 This document defines how to implement a lightweight static Weekly Menu App using Claude Code as the development assistant.
