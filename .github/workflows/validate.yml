@@ -4,18 +4,27 @@ name: Validate weeks
 # support for anchors is inconsistent, and a parse failure here means CI silently stops
 # running. A change to tests/ or to this workflow must trigger a run, or a broken test
 # lands green.
+#
+# Markdown and .gitignore are in the list because tests/privacy.test.js scans every tracked
+# text file for biomarkers and anthropometrics. Without them, adding health data to a doc --
+# or dropping the ignore rule that keeps the family context untracked -- would not run the
+# check that exists to catch exactly that.
 on:
   push:
     paths:
       - 'data/**.json'
       - 'scripts/**.js'
       - 'tests/**.js'
+      - '**.md'
+      - '.gitignore'
       - '.github/workflows/validate.yml'
   pull_request:
     paths:
       - 'data/**.json'
       - 'scripts/**.js'
       - 'tests/**.js'
+      - '**.md'
+      - '.gitignore'
       - '.github/workflows/validate.yml'
 
 jobs:

@@ -87,9 +87,8 @@ repository.
 - **The school lunch is an estimate, not a measurement** (`targets.json` → `fixed_school_lunch`,
   `assumed: true`). It is ~45% of the child's sodium budget and the whole of his midday intake.
   Family-context.md §5.3 calls measuring it the highest-value open item; it needs the school.
-- **The husband has no biomarkers at all** — no baseline measurements
-  measurement — while carrying an explicit visceral-fat goal. Family-context.md §1.1.
-- **Nobody has a blood-pressure reading**, while the document sets three salt ceilings, and the
-  wife's LDL goal cannot be stratified without it. Family-context.md §4.2.
-- **Weight trend is not recorded**, so every energy target rests on a predicted TDEE with
-  ±10–15% error and no feedback signal. Family-context.md §1.1.
+- **Baseline measurements are largely missing**, so several targets in the private context are
+  asserted rather than stratified against a reference. §1.1 lists what is outstanding.
+- **No feedback signal exists.** Every energy target rests on a predicted requirement with
+  ±10–15% error and nothing reconciles it against an outcome. §1.1 asks for the band to be driven
+  by measured trend instead; that mechanism does not exist yet.

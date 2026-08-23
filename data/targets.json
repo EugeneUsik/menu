@@ -21,7 +21,7 @@
 
   "daily": {
     "husband": {
-      "_comment": "[redacted]. Mifflin-St Jeor BMR ~1660 kcal; TDEE ~2550-2600 with 3x5 km/week jogging plus calisthenics. Slight deficit for visceral-fat reduction. Protein 1.8-2.0 g/kg: resistance volume (3x20 push-ups, 3x15 pull-ups) supports lean-mass preservation, not hypertrophy, so there is no case for going higher. NOTE: this whole band rests on a PREDICTED TDEE with +/-10-15% error and no biomarker or weight-trend feedback. See Family-context.md 4.1 — drive it from measured weight trend, not from the equation.",
+      "_comment": "Protein is capped as well as floored: above ~2.0 g/kg there is no further benefit at this training volume, and the excess displaces the carbohydrate the running needs. Carbohydrate is deliberately not gated - it is the remainder once protein and fat are pinned, because the old percentage bands could not all hold at once. This band rests on a PREDICTED energy requirement with +/-10-15% error and no measured feedback; drive it from the weight trend, not from the equation. Reasoning and the measurements it depends on: Family-context.md 4.1 (untracked - see prompts/README.md).",
       "kcal":           { "min": 2400, "max": 2500 },
       "protein_g":      { "min": 130,  "max": 150 },
       "fiber_g":        { "min": 35 },
@@ -33,7 +33,7 @@
       "calcium_mg":     { "min": 1000, "severity": "warn" }
     },
     "wife": {
-      "_comment": "[redacted]. TDEE ~1800-1950; 1550-1650 is a 250-350 kcal deficit (~0.3 kg/week). Protein 95-105 g = 1.53-1.69 g/kg, appropriate for lean-mass preservation in a deficit. fat_pct_energy raised from the old 25-30% to 30-38% in v6.0: at 1600 kcal the old cap was 44-53 g, but her own mandated LDL protocol (30 g walnuts 19.5 g fat + 25 g soy protein from tofu 12.5 g + a sterol vehicle + olive oil) costs ~57 g before any dairy, egg or fish. The cap therefore selected AGAINST the LDL-lowering components it was meant to support. Total fat is not the LDL lever; saturated-for-unsaturated substitution is, and sat_fat_g stays at 11 g. Portfolio-Diet and PREDIMED patterns ran at 31-41% fat.",
+      "_comment": "fat_pct_energy was raised from 25-30% to 30-38% because the lower cap made the mandated LDL-lowering protocol arithmetically impossible: walnuts, soy protein from tofu, a sterol vehicle and olive oil cost ~57 g of fat before any dairy, egg or fish, against a cap of 44-53 g. Since sat_fat_g was enforced and sterols, nuts and viscous fibre were not, the cap selected AGAINST the very components it existed to support. Total fat is not the lever - saturated-for-unsaturated substitution is - so sat_fat_g stays at 11 g and remains binding. Portfolio-Diet and PREDIMED patterns ran at 31-41% fat. Reasoning: Family-context.md 4.2 (untracked - see prompts/README.md).",
       "kcal":            { "min": 1550, "max": 1650 },
       "protein_g":       { "min": 95,   "max": 105 },
       "fiber_g":         { "min": 30 },
@@ -48,7 +48,7 @@
       "sterol_g":        { "min": 2,    "severity": "warn" }
     },
     "child": {
-      "_comment": "[redacted]. Totals INCLUDE the fixed school lunch. Energy is deliberately not restricted; the goal is height velocity. Protein min 70 g (~1.4 g/kg) is the nutritional target and is already generous against the 0.95 g/kg RDA for 9-13y. There is NO gram ceiling: v5.x set 125 g, but the worst legitimate case (2550 kcal with home food at the husband's 24% protein density) lands at ~144 g, so the guard rejected compliant weeks. The real guard is protein_pct_energy: a share above 30% means protein is displacing carbohydrate a growing, sporting child needs. Expressed as a share it is scale-free and does not move when the energy band moves. fiber raised 25 -> 30 g in v6.0 (AI for boys 9-13 is ~31 g; 25 g was the loosest fibre density in the household, on its highest energy intake). salt ceiling raised 3.75 -> 5 g/day equivalent: the old 1500 mg sodium was stricter than UK SACN (6 g salt at 11-14y) and the US CDRR (1800 mg), and the 900 mg school lunch consumed 60% of it before a single home meal.",
+      "_comment": "Totals INCLUDE the fixed school lunch. Energy is deliberately not restricted. Protein min 70 g is already generous against the 0.95 g/kg RDA for 9-13y. There is NO gram ceiling, and the one that used to be here rejected compliant weeks: shared family meals deliver a similar protein share of energy to everyone, and the share the adults need puts the child above any fixed gram cap. The guard is protein_pct_energy instead - a share above 30% means protein is displacing carbohydrate a growing, sporting child needs - which is scale-free and does not move when the energy band moves. fiber is 30 g against an AI of ~31 g for boys 9-13. The salt ceiling is 5 g/day equivalent: 3.75 g was stricter than UK SACN (6 g at 11-14y) and the US CDRR (1800 mg sodium), and the 900 mg school lunch consumed 60% of the old figure before a single home meal. Reasoning: Family-context.md 4.3 (untracked - see prompts/README.md).",
       "kcal":              { "min": 2100, "max": 2550 },
       "protein_g":         { "min": 70 },
       "protein_pct_energy": { "max": 0.30 },

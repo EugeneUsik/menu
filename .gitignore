@@ -1,3 +1,8 @@
+# The household's biomarkers, anthropometrics and a minor's growth data. This repo is public
+# and publishes to GitHub Pages, so this file is kept on disk only. Generation needs it; nothing
+# else does. See prompts/README.md, and tests/privacy.test.js which enforces this.
+prompts/Family-context.md
+
 # Working artifacts of menu generation — not part of the published site
 data/weeks/*-plan.json
 data/weeks/*-notes.json
