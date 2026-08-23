@@ -17,65 +17,44 @@ const SAMPLE_FILE = 'sample-week.json';
  */
 const WEEK_FILE_RE = /^\d{4}-W\d{2}\.json$/;
 
-function todayISO() {
-  const d = new Date();
-  return [
-    d.getFullYear(),
-    String(d.getMonth() + 1).padStart(2, '0'),
-    String(d.getDate()).padStart(2, '0')
-  ].join('-');
-}
-
-function parseArgs() {
-  const args = process.argv.slice(2);
-  const includeSample = args.includes('--include-sample');
-  const defaultIdx    = args.indexOf('--default');
-  const defaultFlag   = defaultIdx !== -1 ? args[defaultIdx + 1] : null;
-  return { includeSample, defaultFlag };
-}
-
-function main() {
-  const { includeSample, defaultFlag } = parseArgs();
-
-  let files;
-  try {
-    files = fs.readdirSync(WEEKS_DIR)
-      .filter(f => WEEK_FILE_RE.test(f) || (f === SAMPLE_FILE && includeSample));
-  } catch (err) {
-    console.error(`Error reading directory ${WEEKS_DIR}: ${err.message}`);
-    process.exit(1);
-  }
-
-  const today = todayISO();
+/**
+ * ── Why this output carries no notion of "today" ──────────────────────────────────────
+ *
+ * CI regenerates the manifest and diff-checks it against the committed copy. Anything
+ * date-derived therefore turns the passage of time into a build failure on an unrelated
+ * push: commit a future-dated week, wait for the clock to enter it, and the next change to
+ * data/ or scripts/ fails with "index.json is out of sync". Commit 3007d57 removed
+ * `generated_at` for exactly this reason and stopped one field short — `isCurrent` and the
+ * today-relative `defaultWeekId` branch were still here.
+ *
+ * Which week is "current" is a question about the moment the page is opened, not about the
+ * moment the manifest was built, so app.js answers it from the start/end dates it already
+ * has. `defaultWeekId` is now simply the newest week, or whatever --default names.
+ */
+function buildIndex(files, readWeek, defaultFlag = null) {
   const entries = [];
-  let anyError = false;
+  const errors  = [];
 
   for (const file of files) {
-    const filePath = path.join(WEEKS_DIR, file);
     let data;
     try {
-      data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+      data = readWeek(file);
     } catch (err) {
-      console.error(`[ERROR] Failed to parse ${file}: ${err.message}`);
-      anyError = true;
+      errors.push(`${file}: ${err.message}`);
       continue;
     }
 
     const week = data.week;
     if (!week || !week.id || !week.start_date || !week.end_date) {
-      console.error(`[ERROR] ${file}: missing week.id, week.start_date, or week.end_date`);
-      anyError = true;
+      errors.push(`${file}: missing week.id, week.start_date, or week.end_date`);
       continue;
     }
 
-    const expectedId = file.replace('.json', '');
+    const expectedId = file.replace(/\.json$/, '');
     if (week.id !== expectedId) {
-      console.error(`[ERROR] ${file}: week.id "${week.id}" does not match filename "${expectedId}"`);
-      anyError = true;
+      errors.push(`${file}: week.id "${week.id}" does not match filename "${expectedId}"`);
       continue;
     }
-
-    const isCurrent = today >= week.start_date && today <= week.end_date;
 
     entries.push({
       id:         week.id,
@@ -83,51 +62,61 @@ function main() {
       start_date: week.start_date,
       end_date:   week.end_date,
       file,
-      isCurrent,
       status:     'ready',
       notes:      week.notes || ''
     });
   }
 
-  if (anyError) {
-    console.error('Aborting due to errors above.');
-    process.exit(1);
-  }
-
-  // Sort descending by start_date (most recent first)
+  // Most recent first.
   entries.sort((a, b) => b.start_date.localeCompare(a.start_date));
 
-  // Resolve defaultWeekId
   let defaultWeekId = null;
-
-  if (defaultFlag && entries.find(e => e.id === defaultFlag)) {
+  if (defaultFlag && entries.some(e => e.id === defaultFlag)) {
     defaultWeekId = defaultFlag;
-  } else {
-    const current = entries.find(e => e.isCurrent);
-    if (current) {
-      defaultWeekId = current.id;
-    } else {
-      // Nearest upcoming
-      const upcoming = entries.filter(e => e.start_date > today);
-      if (upcoming.length) {
-        // Already sorted descending, so last is nearest upcoming
-        defaultWeekId = upcoming[upcoming.length - 1].id;
-      } else if (entries.length) {
-        // Most recent past
-        defaultWeekId = entries[0].id;
-      }
-    }
+  } else if (entries.length) {
+    defaultWeekId = entries[0].id;
   }
 
-  const output = {
-    defaultWeekId,
-    weeks: entries
-  };
-
-  fs.writeFileSync(INDEX_PATH, JSON.stringify(output, null, 2) + '\n');
-
-  console.log(`Synced ${entries.length} week(s). Default: ${defaultWeekId}`);
-  if (includeSample) console.log('(sample-week included)');
+  return { index: { defaultWeekId, weeks: entries }, errors };
 }
 
-main();
+function parseArgs(argv) {
+  const args        = argv.slice(2);
+  const defaultIdx  = args.indexOf('--default');
+  return {
+    includeSample: args.includes('--include-sample'),
+    defaultFlag:   defaultIdx !== -1 ? args[defaultIdx + 1] : null
+  };
+}
+
+function main(argv) {
+  const { includeSample, defaultFlag } = parseArgs(argv);
+
+  let files;
+  try {
+    files = fs.readdirSync(WEEKS_DIR)
+      .filter(f => WEEK_FILE_RE.test(f) || (f === SAMPLE_FILE && includeSample));
+  } catch (err) {
+    console.error(`Error reading directory ${WEEKS_DIR}: ${err.message}`);
+    return 1;
+  }
+
+  const readWeek = file => JSON.parse(fs.readFileSync(path.join(WEEKS_DIR, file), 'utf8'));
+  const { index, errors } = buildIndex(files, readWeek, defaultFlag);
+
+  if (errors.length) {
+    errors.forEach(e => console.error(`[ERROR] ${e}`));
+    console.error('Aborting due to errors above.');
+    return 1;
+  }
+
+  fs.writeFileSync(INDEX_PATH, JSON.stringify(index, null, 2) + '\n');
+
+  console.log(`Synced ${index.weeks.length} week(s). Default: ${index.defaultWeekId}`);
+  if (includeSample) console.log('(sample-week included)');
+  return 0;
+}
+
+if (require.main === module) process.exit(main(process.argv));
+
+module.exports = { buildIndex, WEEK_FILE_RE };

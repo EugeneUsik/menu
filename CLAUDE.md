@@ -147,7 +147,7 @@ All of this is derived from `includes_fixed_school_lunch` via `eatersFor()` in
 
 ### Invariants enforced by tooling
 
-- `week.id` **must equal the filename without `.json`** ([sync-weeks-index.js:67](scripts/sync-weeks-index.js#L67)).
+- `week.id` **must equal the filename without `.json`** (`buildIndex` in [sync-weeks-index.js](scripts/sync-weeks-index.js)).
 - Filename format `YYYY-Www.json` (ISO 8601 week).
 - `menu` has exactly 7 days; `day_name` matches array position; each day has
   breakfast/lunch/dinner with non-empty titles; `shared_snack` on ≥4 days.
@@ -189,8 +189,15 @@ That is intended — use `уксус винный белый` or `сок лим�
 Single global `state`: `{ manifest, selectedWeekId, weekData, activeView, recipeFilters }`.
 Three hash-routed views: `#menu`, `#recipes`, `#shopping`.
 
-Week selection priority (`selectDefaultWeek`): `?week=` param → `localStorage` → manifest
-`defaultWeekId` → `isCurrent` week → nearest upcoming → first entry.
+Week selection priority (`selectDefaultWeek`): `?week=` param → `localStorage` → the week
+covering today → nearest upcoming → manifest `defaultWeekId` → newest entry.
+
+The date-based rules outrank `defaultWeekId`, which is the reverse of the original order.
+They have to: `defaultWeekId` used to be computed today-first by `sync-weeks-index.js`, so
+trusting it first happened to give the current week. It is now just "newest, or whatever
+`--default` named" — and newest is often a future week — so keeping it first would mean never
+landing on the week the reader is living in. `isCurrent` is gone from the manifest entirely;
+`isCurrentWeek()` in app.js derives it from `start_date`/`end_date`.
 
 `computeDailyNutrition` respects the eater model — it will not credit the child for a weekday
 lunch — and reads both `fixed_school_lunch` and the legacy `fixed_school_snack`.

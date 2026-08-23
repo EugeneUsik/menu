@@ -121,20 +121,49 @@ async function loadWeek(weekId) {
   history.replaceState(null, '', url);
 }
 
+/**
+ * Whether a manifest entry covers today.
+ *
+ * The manifest deliberately carries no `isCurrent` flag: it is regenerated and diff-checked
+ * in CI, so a date-derived field there turns the passage of time into a build failure. "Is
+ * this week current?" is a question about the moment the page is opened, which is here.
+ */
+function isCurrentWeek(entry, today = todayISO()) {
+  return today >= entry.start_date && today <= entry.end_date;
+}
+
+/**
+ * Priority: ?week= → localStorage → the week covering today → nearest upcoming →
+ * manifest defaultWeekId → newest.
+ *
+ * The date-based rules now outrank `defaultWeekId`, which is the reverse of before. They
+ * have to: `defaultWeekId` used to be computed today-first by sync-weeks-index.js, so
+ * trusting it first gave the current week anyway. It is now just "newest, or whatever
+ * --default named", and newest is often a future week — so keeping it first would mean
+ * never landing on the week the reader is actually living in.
+ */
 function selectDefaultWeek() {
   const weeks = state.manifest.weeks;
   if (!weeks.length) return null;
+
   const urlWeekId = new URLSearchParams(location.search).get('week');
-  if (urlWeekId && weeks.find(w => w.id === urlWeekId)) return urlWeekId;
+  if (urlWeekId && weeks.some(w => w.id === urlWeekId)) return urlWeekId;
+
   const saved = lsGet(LS.WEEK_ID);
-  if (saved && weeks.find(w => w.id === saved)) return saved;
-  if (state.manifest.defaultWeekId && weeks.find(w => w.id === state.manifest.defaultWeekId))
-    return state.manifest.defaultWeekId;
-  const current = weeks.find(w => w.isCurrent);
-  if (current) return current.id;
+  if (saved && weeks.some(w => w.id === saved)) return saved;
+
   const today = todayISO();
-  const upcoming = weeks.filter(w => w.start_date >= today).sort((a, b) => a.start_date.localeCompare(b.start_date));
+  const current = weeks.find(w => isCurrentWeek(w, today));
+  if (current) return current.id;
+
+  const upcoming = weeks
+    .filter(w => w.start_date >= today)
+    .sort((a, b) => a.start_date.localeCompare(b.start_date));
   if (upcoming.length) return upcoming[0].id;
+
+  if (state.manifest.defaultWeekId && weeks.some(w => w.id === state.manifest.defaultWeekId)) {
+    return state.manifest.defaultWeekId;
+  }
   return weeks[0].id;
 }
 
