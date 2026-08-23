@@ -9,10 +9,12 @@ const LS = {
 /* ── State ── */
 const state = {
   manifest: null,
+  targets: null,
   selectedWeekId: null,
   weekData: null,
   activeView: 'menu',
   recipeFilters: { text: '', mealType: '' },
+  totalsPerson: 'husband',
   _recipeDebounce: null
 };
 
@@ -53,57 +55,27 @@ function todayISO() {
   return `${y}-${m}-${day}`;
 }
 
-/* ── Nutrition computation ── */
-function r1(n) { return Math.round(n * 10) / 10; }
-
-const KEYS = ['kcal', 'protein_g', 'carbs_g', 'fat_g', 'fiber_g', 'sat_fat_g'];
-
-/** The child has lunch at school Mon-Fri, so a weekday lunch feeds the adults only. */
-function eatsSlot(person, slot, day) {
-  if (person !== 'child' || slot !== 'lunch') return true;
-  const atSchool = day.includes_fixed_school_lunch !== undefined
-    ? day.includes_fixed_school_lunch
-    : day.includes_fixed_school_snack;   // legacy schema 2.0
-  return !atSchool;
-}
-
-function computeDailyNutrition(weekData) {
-  const recipeMap = Object.fromEntries((weekData.recipes || []).map(r => [r.id, r]));
-  // Schema 2.1 names it fixed_school_lunch; 2.0 files carry a fixed_school_snack block.
-  const external = weekData.fixed_school_lunch || weekData.fixed_school_snack || {};
-  const slots = ['breakfast', 'lunch', 'dinner', 'shared_snack'];
-
-  return (weekData.menu || []).map(day => {
-    const hasExternal = day.includes_fixed_school_lunch !== undefined
-      ? !!day.includes_fixed_school_lunch
-      : !!day.includes_fixed_school_snack;
-
-    const out = { date: day.date };
-    for (const person of ['husband', 'wife', 'child']) {
-      const totals = {};
-      for (const key of KEYS) {
-        let sum = 0;
-        for (const slot of slots) {
-          if (!day[slot]?.recipe_id) continue;
-          if (!eatsSlot(person, slot, day)) continue;
-          const n = recipeMap[day[slot].recipe_id]?.nutrition_estimate_per_person || {};
-          sum += n[person]?.[key] || 0;
-        }
-        if (person === 'child' && hasExternal) sum += external[`${key}_estimate`] || 0;
-        totals[key] = r1(sum);
-      }
-      if (person === 'child') totals.includes_fixed_school_lunch = hasExternal;
-      out[person] = totals;
-    }
-    return out;
-  });
-}
-
 /* ── Fetch helpers ── */
+
+/**
+ * The manifest and the enforced numbers. Fetched together because the menu view scores each
+ * day against the budgets, and reading them from data/targets.json keeps a single source of
+ * truth — embedding a copy in every week file would be a third place the numbers live.
+ *
+ * Daily totals are NOT computed here. app.js used to reimplement the eater model on load,
+ * which meant two nutrition engines: this one had already drifted (its key list predated the
+ * micronutrient expansion) and nothing rendered its output. compute-nutrition.js now writes
+ * daily_nutrition into the week file at build time.
+ */
 async function loadManifest() {
-  const res = await fetch('data/weeks/index.json');
-  if (!res.ok) throw new Error(`Manifest fetch failed: ${res.status}`);
-  state.manifest = await res.json();
+  const [manifestRes, targetsRes] = await Promise.all([
+    fetch('data/weeks/index.json'),
+    fetch('data/targets.json')
+  ]);
+  if (!manifestRes.ok) throw new Error(`Manifest fetch failed: ${manifestRes.status}`);
+  state.manifest = await manifestRes.json();
+  // Targets are for display only, so a failure here degrades the strip rather than the app.
+  state.targets = targetsRes.ok ? await targetsRes.json() : null;
 }
 
 async function loadWeek(weekId) {
@@ -112,7 +84,6 @@ async function loadWeek(weekId) {
   const res = await fetch(`data/weeks/${entry.file}`);
   if (!res.ok) throw new Error(`Week file fetch failed: ${res.status}`);
   state.weekData = await res.json();
-  state.weekData.daily_nutrition = computeDailyNutrition(state.weekData);
   state.selectedWeekId = weekId;
   lsSet(LS.WEEK_ID, weekId);
   if (state.weekData.language) document.documentElement.lang = state.weekData.language;
@@ -219,31 +190,38 @@ function showError(viewId, message, retryFn) {
 ══════════════════════════════════════════ */
 const DAY_SHORT = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
+/** Menu columns, in display order. `shared_snack` is the 4th column. */
+const SLOTS = [
+  { key: 'breakfast',    label: 'Breakfast' },
+  { key: 'lunch',        label: 'Lunch' },
+  { key: 'dinner',       label: 'Dinner' },
+  { key: 'shared_snack', label: 'Snack' }
+];
+
 function renderMenuView() {
   const el = document.getElementById('view-menu');
   if (!state.weekData) { showError('menu', 'No week data loaded.'); return; }
   const { menu } = state.weekData;
   if (!Array.isArray(menu) || !menu.length) { el.innerHTML = '<div class="loading-state">No menu data.</div>'; return; }
 
+  // Each day is wrapped in a .menu-day. On wide screens that wrapper is display:contents, so
+  // its children lay out directly in the grid exactly as before; on narrow screens it becomes
+  // a card, which is what SPEC 9.4 asks for. Same DOM either way — no JS branch on width.
   const headers = `
-    <div class="menu-col-header"></div>
-    <div class="menu-col-header">Breakfast</div>
-    <div class="menu-col-header">Lunch</div>
-    <div class="menu-col-header">Dinner</div>
-    <div class="menu-col-header">Snack</div>`;
+    <div class="menu-head">
+      <div class="menu-col-header"></div>
+      ${SLOTS.map(s => `<div class="menu-col-header">${escapeHtml(s.label)}</div>`).join('')}
+    </div>`;
 
-  const cells = menu.map((day, i) => {
-    return `
+  const cells = menu.map((day, i) => `
+    <div class="menu-day">
       <div class="menu-day-cell">
-        <span class="menu-day-name">${escapeHtml(DAY_SHORT[i] || `D${i+1}`)}</span>
+        <span class="menu-day-name">${escapeHtml(DAY_SHORT[i] || `D${i + 1}`)}</span>
       </div>
-      ${renderCompactMeal(day.breakfast)}
-      ${renderCompactMeal(day.lunch)}
-      ${renderCompactMeal(day.dinner)}
-      ${renderCompactMeal(day.shared_snack)}`;
-  }).join('');
+      ${SLOTS.map(s => renderCompactMeal(day[s.key], s.label)).join('')}
+    </div>`).join('');
 
-  el.innerHTML = `<div class="menu-grid">${headers}${cells}</div>`;
+  el.innerHTML = `<div class="menu-grid">${headers}${cells}</div>${renderTotalsStrip()}`;
 
   el.querySelectorAll('a[data-recipe]').forEach(a => {
     a.addEventListener('click', e => {
@@ -257,15 +235,117 @@ function renderMenuView() {
       });
     });
   });
+
+  const personSel = el.querySelector('#totals-person');
+  if (personSel) {
+    personSel.addEventListener('change', e => {
+      state.totalsPerson = e.target.value;
+      renderMenuView();
+    });
+  }
 }
 
-function renderCompactMeal(meal) {
-  if (!meal || !meal.title) return '<div class="menu-cell menu-cell-empty">—</div>';
+/* ── Daily totals strip ──────────────────────────────────────────────────────────────
+   Shows whether each day actually lands inside its budget. The app previously displayed
+   per-recipe nutrition but never a day total, so the one question the whole project exists
+   to answer — did this day hit target? — had no answer in the UI.
+
+   Values come from weekData.daily_nutrition, written by compute-nutrition.js. Budgets come
+   from data/targets.json. Nothing is recomputed here. */
+
+/** Which nutrients to show, in order. Kept short: this is a glance, not a report. */
+const STRIP_KEYS = [
+  { key: 'kcal',        label: 'kcal',    unit: ''  },
+  { key: 'protein_g',   label: 'protein', unit: 'g' },
+  { key: 'fiber_g',     label: 'fibre',   unit: 'g' },
+  { key: 'veg_fruit_g', label: 'veg',     unit: 'g' },
+  { key: 'sat_fat_g',   label: 'sat fat', unit: 'g' }
+];
+
+/** '', 'low' or 'high' against a {min,max} spec. */
+function budgetStatus(value, spec) {
+  if (!spec || value == null) return '';
+  if (spec.min != null && value < spec.min) return 'low';
+  if (spec.max != null && value > spec.max) return 'high';
+  return '';
+}
+
+function renderTotalsStrip() {
+  const daily = state.weekData?.daily_nutrition;
+  // A week generated before daily totals were written degrades to no strip rather than an
+  // error: archived 2.0 files legitimately carry an empty array.
+  if (!Array.isArray(daily) || !daily.length) return '';
+
+  const people = ['husband', 'wife', 'child'];
+  const person = people.includes(state.totalsPerson) ? state.totalsPerson : 'husband';
+  const spec   = state.targets?.daily?.[person] || {};
+  const shown  = STRIP_KEYS.filter(k => daily.some(d => d[person]?.[k.key] != null));
+  if (!shown.length) return '';
+
+  const options = people.map(p =>
+    `<option value="${escapeHtml(p)}"${p === person ? ' selected' : ''}>${escapeHtml(p)}</option>`
+  ).join('');
+
+  const head = `<tr><th scope="col">Day</th>${shown.map(k => {
+    const s = spec[k.key];
+    const target = s ? (s.min != null && s.max != null ? `${s.min}–${s.max}`
+                      : s.min != null ? `≥${s.min}` : `≤${s.max}`) : '';
+    return `<th scope="col">${escapeHtml(k.label)}${target ? `<span class="totals-target">${escapeHtml(target)}</span>` : ''}</th>`;
+  }).join('')}</tr>`;
+
+  const rows = daily.map((d, i) => {
+    const vals = d[person] || {};
+    const cells = shown.map(k => {
+      const v = vals[k.key];
+      if (v == null) return '<td>—</td>';
+      const status = budgetStatus(v, spec[k.key]);
+      const mark   = status === 'low' ? '▾' : status === 'high' ? '▴' : '';
+      const title  = status ? `${status === 'low' ? 'below min' : 'above max'}` : 'in range';
+      return `<td class="${status ? `totals-${status}` : ''}" title="${escapeHtml(title)}">` +
+             `${escapeHtml(String(v))}${escapeHtml(k.unit)}${mark ? ` <span aria-hidden="true">${mark}</span>` : ''}</td>`;
+    }).join('');
+    const school = person === 'child' && vals.includes_fixed_school_lunch
+      ? '<span class="totals-school" title="includes the estimated school lunch">*</span>' : '';
+    return `<tr><th scope="row">${escapeHtml(DAY_SHORT[i] || d.day_name || `D${i + 1}`)}${school}</th>${cells}</tr>`;
+  }).join('');
+
+  const footnote = person === 'child' && daily.some(d => d.child?.includes_fixed_school_lunch)
+    ? '<p class="totals-note">* includes the <em>estimated</em> school lunch. Sodium counts ingredient sodium only — added salt is unstated, so it is a lower bound.</p>'
+    : '<p class="totals-note">Sodium counts ingredient sodium only — added salt is unstated, so totals are a lower bound.</p>';
+
+  return `
+    <section class="totals-strip" aria-label="Daily nutrition totals">
+      <div class="totals-header">
+        <h2>Daily totals</h2>
+        <label class="totals-person-label">
+          <span class="visually-hidden">Show totals for</span>
+          <select id="totals-person">${options}</select>
+        </label>
+      </div>
+      <div class="totals-scroll">
+        <table class="totals-table">
+          <thead>${head}</thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      ${footnote}
+    </section>`;
+}
+
+/**
+ * `data-slot` carries the label so the card layout can surface it via CSS ::before. On the
+ * desktop grid the column header already says it, so it stays hidden there.
+ */
+function renderCompactMeal(meal, label) {
+  const slot = escapeHtml(label || '');
+  if (!meal || !meal.title) {
+    return `<div class="menu-cell menu-cell-empty" data-slot="${slot}">—</div>`;
+  }
   const title = escapeHtml(meal.title);
   const inner = meal.recipe_id
     ? `<a class="menu-cell-title" href="#" data-recipe="${escapeHtml(meal.recipe_id)}">${title}</a>`
     : `<span class="menu-cell-title">${title}</span>`;
-  return `<div class="menu-cell">${inner}</div>`;
+  return `<div class="menu-cell" data-slot="${slot}">${inner}</div>`;
 }
 
 /* ══════════════════════════════════════════

@@ -44,7 +44,7 @@ Plus three data files the tooling reads:
 | `menu` | object[] | ✓ | Exactly 7 day objects (Mon–Sun), `day_name` matching position |
 | `recipes` | object[] | ✓ | Non-empty; all referenced IDs must exist |
 | `shopping_list` | object[] | ✓ | Written by `generate-shopping-list.js`; `[]` until then |
-| `daily_nutrition` | object[] | ✓ | `[]` — `app.js` computes it at load time |
+| `daily_nutrition` | object[] | ✓ | 7 day totals, written by `compute-nutrition.js`; `[]` until then |
 | `nutrition_source` | string | — | `"computed"`, set by `compute-nutrition.js` |
 
 ---
@@ -157,7 +157,11 @@ walnuts, her sterol spread, her smaller oil share.
 ### `nutrition_estimate_per_person`
 
 Keys `husband`, `wife`, `child`. Each carries `kcal`, `protein_g`, `carbs_g`, `fat_g`,
-`fiber_g`, `sat_fat_g`, `sodium_mg`.
+`fiber_g`, `sat_fat_g`, `sodium_mg`, `calcium_mg`, `iron_mg`, `zinc_mg`.
+
+Minerals are **total** intake from composition tables, not bioavailable intake — see the
+`_micronutrient_caveat` in `data/foods.json` before reading much into them. Their budgets in
+`targets.json` are `severity: "warn"` for that reason.
 
 **Computed by `scripts/compute-nutrition.js`**, never authored. Each person's share of an
 untagged ingredient is its total weighted by their portion weight, divided by the sum of
@@ -190,8 +194,27 @@ catalog in a fixed shop-walk order, so headings are stable across weeks.
 
 ## `daily_nutrition[]`
 
-Always `[]` in published files. `app.js` computes it at load time from recipe nutrition plus
-`fixed_school_lunch`, respecting who eats each slot. Legacy 7-entry arrays are still accepted.
+Seven entries, one per menu day, written by `compute-nutrition.js` from the same `analyze()`
+pass the budget checks use. `[]` in a skeleton that has not been computed yet, and in archived
+schema 2.0 weeks.
+
+| Field | Type | Notes |
+|---|---|---|
+| `date` | string | `YYYY-MM-DD`, matching `menu[i].date` |
+| `day_name` | string | `Monday`…`Sunday` |
+| `husband` · `wife` · `child` | object | Day totals for that person |
+
+Each person object carries everything in `nutrition_estimate_per_person` plus `veg_fruit_g`,
+`free_sugar_g`, `viscous_fiber_g` and `sterol_g` — the app scores a day against
+`data/targets.json`, which budgets all four. `child` additionally carries
+`includes_fixed_school_lunch`.
+
+Totals respect who actually eats each slot, so a weekday lunch contributes nothing to the
+child, and the external school-lunch estimate is added on school days only.
+
+**Do not author or hand-edit these.** `validate-week.js` recomputes them from the current
+ingredients and fails on a mismatch: the app renders the stored copy, so a stale array would
+show the reader numbers no validator ever scored.
 
 ---
 
@@ -233,7 +256,8 @@ Same as the week file, minus `instructions` (empty) and with `ingredients` holdi
 7. `shared_snack` on ≥4 days.
 8. Every recipe has ≥2 non-empty instruction steps.
 9. `shopping_list` is an array with no duplicate item IDs, and is non-empty (2.1).
-10. `daily_nutrition` is `[]` or a 7-entry array.
+10. `daily_nutrition` is `[]` or a 7-entry array; each entry carries totals for all three
+    people, and they agree with the current ingredients (2.1).
 11. `cook_once_eat_twice` dinners are followed by a matching next-day lunch.
 12. A recipe in >1 slot must be a dinner → next-day-lunch pair.
 13. `serves` matches the derived eater count (2.1).

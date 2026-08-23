@@ -23,6 +23,18 @@ const DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satu
 
 // Numeric formatting for budget messages lives in lib/budgets.js alongside the checks.
 
+/** Compare dotted version strings component-wise. Returns <0, 0 or >0. */
+function compareVersions(a, b) {
+  const pa = String(a ?? '').split('.').map(Number);
+  const pb = String(b ?? '').split('.').map(Number);
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const x = Number.isFinite(pa[i]) ? pa[i] : 0;
+    const y = Number.isFinite(pb[i]) ? pb[i] : 0;
+    if (x !== y) return x - y;
+  }
+  return 0;
+}
+
 function validateWeek(filePath) {
   const errors   = [];
   const warnings = [];
@@ -52,7 +64,9 @@ function validateWeek(filePath) {
   if (!week.start_date) add('Missing week.start_date');
   if (!week.end_date)   add('Missing week.end_date');
 
-  const modern = String(data.schema_version || '') >= '2.1';
+  // Numeric, component-wise. A string compare sorts "10.0" below "2.1", so the first
+  // two-digit major version would have silently demoted every week to the legacy path.
+  const modern = compareVersions(data.schema_version, '2.1') >= 0;
 
   // ── menu shape ─────────────────────────────────────────────────────────────
   if (!Array.isArray(data.menu)) {
@@ -191,16 +205,28 @@ function validateWeek(filePath) {
   }
 
   // ── daily_nutrition ───────────────────────────────────────────────────────
+  // Written by compute-nutrition.js from the same analyze() pass the budgets use, so the
+  // check here is that it is present and consistent — not that it is plausible.
+  // An archived 2.0 file legitimately carries [], hence the empty case.
   if (!Array.isArray(data.daily_nutrition)) {
     add('daily_nutrition is not an array');
   } else if (data.daily_nutrition.length !== 0 && data.daily_nutrition.length !== 7) {
     add(`daily_nutrition must be empty [] or have 7 entries, found ${data.daily_nutrition.length}`);
   } else if (data.daily_nutrition.length === 7) {
+    const targets = loadTargets();
     data.daily_nutrition.forEach((d, i) => {
-      if (!d.child || d.child.includes_fixed_school_snack === undefined) {
-        warn(`daily_nutrition[${i}].child missing includes_fixed_school_snack field`);
+      const dayName = data.menu?.[i]?.day_name || `day ${i + 1}`;
+      for (const person of targets.people) {
+        if (!d[person] || typeof d[person].kcal !== 'number') {
+          add(`daily_nutrition[${i}] (${dayName}) is missing ${person} totals`);
+        }
+      }
+      if (d.child && d.child.includes_fixed_school_lunch === undefined) {
+        warn(`daily_nutrition[${i}] (${dayName}).child missing includes_fixed_school_lunch`);
       }
     });
+  } else if (modern && Array.isArray(data.recipes) && data.recipes.length) {
+    warn('daily_nutrition is empty — run scripts/compute-nutrition.js to write the day totals');
   }
 
   // ── Safety scan ───────────────────────────────────────────────────────────
@@ -225,6 +251,24 @@ function validateWeek(filePath) {
       const B = checkBudgets(A);
       B.errors.forEach(report);
       B.warnings.forEach(warn);
+
+      // The stored day totals must agree with what the ingredients now say. They will not
+      // if a recipe was edited after compute-nutrition.js last ran, and the app renders the
+      // stored copy — so a stale array shows the reader numbers this validator never scored.
+      if (Array.isArray(data.daily_nutrition) && data.daily_nutrition.length === 7) {
+        for (let i = 0; i < 7; i++) {
+          const stored = data.daily_nutrition[i];
+          for (const person of A.people) {
+            const was = stored?.[person]?.kcal;
+            const now = A.daily[i].totals[person].kcal;
+            if (typeof was !== 'number') continue;
+            if (Math.abs(was - now) > 1) {
+              add(`daily_nutrition[${i}].${person}.kcal is ${was} but the ingredients now give ` +
+                  `${Math.round(now)} — re-run scripts/compute-nutrition.js`);
+            }
+          }
+        }
+      }
     }
   }
 

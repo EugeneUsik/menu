@@ -101,27 +101,60 @@ function computeWeek(weekData, opts = {}) {
     }
 
     const perPerson = {};
-    for (const p of people) {
-      const acc = facts.perPerson[p];
-      perPerson[p] = {
-        kcal:       Math.round(acc.kcal),
-        protein_g:  round(acc.protein_g),
-        carbs_g:    round(acc.carbs_g),
-        fat_g:      round(acc.fat_g),
-        fiber_g:    round(acc.fiber_g),
-        sat_fat_g:  round(acc.sat_fat_g),
-        sodium_mg:  Math.round(acc.sodium_mg),
-        // Minerals are TOTAL intake from composition tables, not bioavailable intake —
-        // see the _micronutrient_caveat in data/foods.json before reading much into them.
-        calcium_mg: Math.round(acc.calcium_mg),
-        iron_mg:    round(acc.iron_mg),
-        zinc_mg:    round(acc.zinc_mg)
-      };
-    }
+    for (const p of people) perPerson[p] = roundBlock(facts.perPerson[p], RECIPE_KEYS);
     results.set(recipe.id, { serves: expected || declared, perPerson, occasions: facts.occasions });
   }
 
-  return { recipes: results, errors, warnings };
+  return { recipes: results, errors, warnings, analysis: A };
+}
+
+/**
+ * Nutrients written onto each recipe. Minerals are TOTAL intake from composition tables,
+ * not bioavailable intake — see the _micronutrient_caveat in data/foods.json before reading
+ * much into them.
+ */
+const RECIPE_KEYS = [
+  'kcal', 'protein_g', 'carbs_g', 'fat_g', 'fiber_g', 'sat_fat_g',
+  'sodium_mg', 'calcium_mg', 'iron_mg', 'zinc_mg'
+];
+
+/**
+ * Nutrients written into daily_nutrition. Wider than RECIPE_KEYS because the app scores a
+ * day against data/targets.json, which budgets veg_fruit_g, free_sugar_g, viscous_fiber_g
+ * and sterol_g — a strip that omitted them could not show whether those were met.
+ */
+const DAILY_KEYS = [
+  ...RECIPE_KEYS, 'veg_fruit_g', 'free_sugar_g', 'viscous_fiber_g', 'sterol_g'
+];
+
+/** Whole numbers where a decimal would be noise, one place otherwise. */
+const INTEGER_KEYS = new Set(['kcal', 'sodium_mg', 'calcium_mg', 'veg_fruit_g']);
+
+function roundBlock(acc, keys) {
+  const out = {};
+  for (const key of keys) {
+    const v = acc[key] || 0;
+    out[key] = INTEGER_KEYS.has(key) ? Math.round(v) : round(v);
+  }
+  return out;
+}
+
+/**
+ * Per-day totals for the whole week, straight from analyze().
+ *
+ * This is written at build time rather than derived in the browser. app.js used to
+ * reimplement the eater model to compute it on load — a second nutrition engine, already
+ * drifting (its key list predated the micronutrient expansion) and, as it turned out,
+ * feeding nothing: no view read the result. Deriving it once here keeps "nutrition is
+ * computed, never authored" true everywhere rather than everywhere-except-the-browser.
+ */
+function buildDailyNutrition(analysis) {
+  return analysis.daily.map(d => {
+    const out = { date: d.date, day_name: d.day_name };
+    for (const p of analysis.people) out[p] = roundBlock(d.totals[p], DAILY_KEYS);
+    out.child.includes_fixed_school_lunch = d.schoolLunch;
+    return out;
+  });
 }
 
 /** "Wednesday dinner (3 eaters) + Thursday lunch (2 eaters)" */
@@ -198,10 +231,15 @@ if (require.main === module) {
     recipe.serves = derived.serves;
     recipe.nutrition_estimate_per_person = derived.perPerson;
   }
+
+  // Recompute the analysis now that serves has been written, so the day totals reflect the
+  // file as it will be published rather than as it was read.
+  const daily = buildDailyNutrition(computeWeek(weekData, { inferServes: infer }).analysis);
+  weekData.daily_nutrition = daily;
   weekData.nutrition_source = 'computed';
 
   fs.writeFileSync(resolved, JSON.stringify(weekData, null, 2), 'utf8');
-  console.log(`Wrote computed nutrition for ${out.recipes.size} recipe(s) to ${path.basename(resolved)}`);
+  console.log(`Wrote computed nutrition for ${out.recipes.size} recipe(s) and ${daily.length} day total(s) to ${path.basename(resolved)}`);
 }
 
-module.exports = { computeWeek, slotCounts };
+module.exports = { computeWeek, buildDailyNutrition, slotCounts, RECIPE_KEYS, DAILY_KEYS };

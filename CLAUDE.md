@@ -154,7 +154,10 @@ All of this is derived from `includes_fixed_school_lunch` via `eatersFor()` in
 - Every recipe needs ≥2 non-empty instruction steps.
 - A recipe may occupy at most **two** menu slots, and only as a dinner → next-day-lunch pair.
   Anything else (the same snack on two days) would be bought once — a live defect in W20/W21.
-- `daily_nutrition` is `[]`; `app.js` computes it at load time.
+- `daily_nutrition` has 7 entries, written by `compute-nutrition.js` from the same
+  `analyze()` pass the budgets use. `validate-week.js` cross-checks it against the current
+  ingredients, so a stale copy is an error rather than a wrong number in the UI. Archived
+  2.0 weeks carry `[]`.
 - Catalog keys must not contain a banned term as a word. `cherry-tomato` leaked "cherry" into
   shopping IDs and failed the allergy scan; it is `tomato-cocktail` now, and
   `validate-foods.js` guards against a recurrence.
@@ -199,8 +202,16 @@ trusting it first happened to give the current week. It is now just "newest, or 
 landing on the week the reader is living in. `isCurrent` is gone from the manifest entirely;
 `isCurrentWeek()` in app.js derives it from `start_date`/`end_date`.
 
-`computeDailyNutrition` respects the eater model — it will not credit the child for a weekday
-lunch — and reads both `fixed_school_lunch` and the legacy `fixed_school_snack`.
+The app does **not** compute nutrition. `daily_nutrition` is written into the week file by
+`compute-nutrition.js`; `renderTotalsStrip` renders it and scores each day against
+`data/targets.json`, which is fetched alongside the manifest.
+
+It used to compute those totals on load, which meant a second nutrition engine in the browser
+— already drifting from `lib/analyze.js` (its key list predated the micronutrient expansion)
+and, as it turned out, feeding nothing: no view read the result. If you find yourself adding
+nutrition arithmetic here, add it to `lib/analyze.js` and write it into the file instead.
+A week with `daily_nutrition: []` renders no strip rather than erroring, which is what
+archived 2.0 weeks rely on.
 
 LocalStorage keys:
 - Selected week: `weekly-menu:selectedWeekId`

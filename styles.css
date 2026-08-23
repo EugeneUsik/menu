@@ -98,21 +98,29 @@ a { color: var(--color-primary); }
 .view { display: none; padding: 12px 12px 32px; }
 .view.active { display: block; }
 
-/* ── Compact menu grid ── */
+/* ── Compact menu grid ──
+   The whole week still fills the first screen; the totals strip sits below the fold rather
+   than competing with it. min-height on the grid rather than a fixed height on the view is
+   what allows that — the view used to be height-capped with overflow:hidden, which clipped
+   anything appended after the grid. */
 #view-menu.active {
   padding: 0;
-  height: calc(100vh - var(--header-height));   /* old browsers */
-  height: calc(100svh - var(--header-height));  /* static chrome */
-  height: calc(100dvh - var(--header-height));  /* dynamic chrome */
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 .menu-grid {
   display: grid;
   grid-template-columns: 32px repeat(4, 1fr);
   grid-template-rows: 20px repeat(7, 1fr);
-  height: 100%;
+  min-height: calc(100vh - var(--header-height));   /* old browsers */
+  min-height: calc(100svh - var(--header-height));  /* static chrome */
+  min-height: calc(100dvh - var(--header-height));  /* dynamic chrome */
   width: 100%;
 }
+/* Wrappers dissolve into the grid, so the layout is identical to the flat markup it
+   replaced. The narrow-screen rules below turn them back into real boxes. */
+.menu-head, .menu-day { display: contents; }
+.menu-cell[data-slot]::before { content: none; }
 .menu-col-header {
   background: var(--color-primary);
   color: white;
@@ -331,17 +339,128 @@ span.menu-cell-title { color: var(--color-text); }
 .shopping-item-qty { font-size: 0.8rem; color: var(--color-muted); }
 .shopping-item-note { font-size: 0.78rem; color: var(--color-muted); font-style: italic; }
 
-/* ── Print styles ── */
+/* ── Daily totals strip ──
+   The answer to "did this day hit target?", which the app could not previously show: it
+   displayed per-recipe nutrition but never a day total. Values come from
+   weekData.daily_nutrition, thresholds from data/targets.json. Nothing is computed here. */
+.totals-strip {
+  padding: 12px 14px 20px;
+  background: var(--color-surface);
+  border-top: 2px solid var(--color-border);
+}
+.totals-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.totals-header h2 { font-size: 0.95rem; font-weight: 700; }
+.totals-person-label select {
+  padding: 2px 6px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-surface);
+}
+/* Wide enough to overflow on a phone, so it scrolls on its own rather than stretching the page. */
+.totals-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.totals-table { border-collapse: collapse; font-size: 0.8rem; min-width: 100%; }
+.totals-table th, .totals-table td {
+  padding: 4px 10px;
+  text-align: right;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+.totals-table thead th {
+  color: var(--color-muted);
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.totals-table tbody th { text-align: left; font-weight: 700; }
+.totals-target { display: block; font-weight: 400; text-transform: none; letter-spacing: 0; opacity: 0.75; }
+/* Colour is a reinforcement, not the signal: every out-of-range cell also carries a ▾/▴ mark
+   and a title, so this reads the same without colour vision. */
+.totals-low  { color: var(--color-warning); font-weight: 600; }
+.totals-high { color: var(--color-error);   font-weight: 600; }
+.totals-school { color: var(--color-muted); font-weight: 400; }
+.totals-note { margin-top: 8px; font-size: 0.72rem; color: var(--color-muted); }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ── Narrow screens ──
+   SPEC 9.4: render each day as a card and avoid wide tables. The .menu-day wrappers stop
+   being display:contents and become the cards; the column headers are replaced by a label
+   on each cell, since a card has no column to sit under. */
+@media (max-width: 640px) {
+  .menu-grid {
+    display: block;
+    min-height: 0;
+    padding: 10px;
+  }
+  .menu-head { display: none; }
+  .menu-day {
+    display: block;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .menu-day-cell {
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    justify-content: flex-start;
+    padding: 6px 12px;
+    background: var(--color-surface-alt);
+  }
+  .menu-day-name { font-size: 0.8rem; }
+  .menu-cell {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    padding: 7px 12px;
+  }
+  .menu-day .menu-cell:last-child { border-bottom: none; }
+  .menu-cell[data-slot]::before {
+    content: attr(data-slot);
+    flex: 0 0 4.5rem;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-muted);
+    font-weight: 600;
+  }
+  .menu-cell-empty { justify-content: flex-start; }
+  .menu-cell-title { font-size: 0.85rem; -webkit-line-clamp: 4; }
+
+  /* A 6-column table does not fit; let it scroll rather than crush the columns. */
+  .recipe-sections { overflow-x: auto; }
+  .nutrition-table { min-width: 22rem; }
+}
+
+/* ── Print styles ──
+   Scoped to the inactive views rather than naming #view-menu and #view-recipes: those were
+   hidden with !important, so a browser print from the Recipes tab silently emitted the
+   shopping list instead of the recipes. */
 @media print {
   #app-header,
   .recipe-filters,
   .shopping-actions,
-  #view-recipes,
-  #view-menu { display: none !important; }
-  #view-shopping {
+  .totals-person-label,
+  .view:not(.active) { display: none !important; }
+  .view.active {
     display: block !important;
     padding: 0;
   }
   .card { box-shadow: none; break-inside: avoid; }
+  .recipe-card, .menu-day, .totals-strip { break-inside: avoid; }
   .shopping-item input[type="checkbox"] { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
