@@ -2,8 +2,5 @@
 data/weeks/*-plan.json
 data/weeks/*-notes.json
 
-# Legacy: the shopping-metadata pass was replaced by data/foods.json
-data/weeks/*-shopping-meta.json
-
 .DS_Store
 .vscode/

@@ -4,13 +4,14 @@
 /**
  * Validate a published week file.
  *
- * Structure and safety checks apply to every schema version. Nutrition-budget and
- * serving-count checks apply from schema_version 2.1 onward, because 2.0 files carry
- * hand-written per-person nutrition with no declared serving count and cannot be
- * held to a computed budget. For 2.0 files those checks downgrade to warnings.
+ * Every live week is schema 2.1, so this applies one rule set rather than branching per
+ * version. Schema 2.0 files exist only under data/weeks/archive/ — they are historical
+ * records, they are not in the manifest, and validate-all-weeks.js never reaches them.
+ * Pointing this script at one is a mistake, so it says so once instead of emitting dozens
+ * of failures about fields that schema never had.
  *
  * Usage
- *   node scripts/validate-week.js data/weeks/2026-W27.json
+ *   node scripts/validate-week.js data/weeks/2026-W35.json
  */
 
 const fs   = require('fs');
@@ -64,9 +65,13 @@ function validateWeek(filePath) {
   if (!week.start_date) add('Missing week.start_date');
   if (!week.end_date)   add('Missing week.end_date');
 
-  // Numeric, component-wise. A string compare sorts "10.0" below "2.1", so the first
-  // two-digit major version would have silently demoted every week to the legacy path.
-  const modern = compareVersions(data.schema_version, '2.1') >= 0;
+  // Numeric, component-wise. A string compare sorts "10.0" below "2.1", which would have
+  // mis-ranked the first two-digit major version.
+  if (compareVersions(data.schema_version, '2.1') < 0) {
+    add(`schema_version ${data.schema_version || '(none)'} is below 2.1. Live weeks are 2.1; ` +
+        `2.0 files live in data/weeks/archive/ as historical records and are not validated.`);
+    return { pass: false, errors, warnings };
+  }
 
   // ── menu shape ─────────────────────────────────────────────────────────────
   if (!Array.isArray(data.menu)) {
@@ -79,10 +84,10 @@ function validateWeek(filePath) {
       for (const slot of MAIN_SLOTS) {
         if (!day[slot] || !day[slot].title) add(`${name}: missing or empty ${slot}.title`);
       }
-      if (modern && day.day_name !== DAY_NAMES[i]) {
+      if (day.day_name !== DAY_NAMES[i]) {
         add(`menu[${i}].day_name should be "${DAY_NAMES[i]}", found "${day.day_name}"`);
       }
-      if (modern && day.includes_fixed_school_lunch === undefined) {
+      if (day.includes_fixed_school_lunch === undefined) {
         add(`${name}: missing includes_fixed_school_lunch (true Mon-Fri, false Sat-Sun)`);
       }
     });
@@ -143,7 +148,7 @@ function validateWeek(filePath) {
         (n, u) => n + eatersFor(u.slot, data.menu[u.day], targets).length, 0
       );
 
-      if (modern) {
+      {
         if (!Number.isFinite(Number(r.serves)) || Number(r.serves) <= 0) {
           add(`Recipe "${r.id}" is missing a valid "serves"`);
         } else if (Number(r.serves) !== expected) {
@@ -166,7 +171,7 @@ function validateWeek(filePath) {
           const where = uses.map(u => `${u.dayName}/${u.slot}`).join(', ');
           const msg = `Recipe "${r.id}" is used in ${uses.length} slots (${where}) but only a dinner → next-day-lunch ` +
                       `pair is supported; shopping quantities are summed once per recipe. Split it into separate recipes.`;
-          modern ? add(msg) : warn(msg);
+          add(msg);
         }
       }
     }
@@ -199,7 +204,7 @@ function validateWeek(filePath) {
       const dupes = itemIds.filter((id, i) => itemIds.indexOf(id) !== i);
       add(`Duplicate shopping item IDs: ${[...new Set(dupes)].join(', ')}`);
     }
-    if (modern && itemIds.length === 0 && Array.isArray(data.recipes) && data.recipes.length) {
+    if (itemIds.length === 0 && Array.isArray(data.recipes) && data.recipes.length) {
       add('shopping_list is empty — run scripts/generate-shopping-list.js');
     }
   }
@@ -225,7 +230,7 @@ function validateWeek(filePath) {
         warn(`daily_nutrition[${i}] (${dayName}).child missing includes_fixed_school_lunch`);
       }
     });
-  } else if (modern && Array.isArray(data.recipes) && data.recipes.length) {
+  } else if (Array.isArray(data.recipes) && data.recipes.length) {
     warn('daily_nutrition is empty — run scripts/compute-nutrition.js to write the day totals');
   }
 
@@ -233,13 +238,7 @@ function validateWeek(filePath) {
   scanSafety(data).forEach(add);
 
   // ── Derived nutrition budgets ─────────────────────────────────────────────
-  // Requires schema 2.1. A 2.0 file declares no `serves`, so portion size is unknown
-  // and every derived total would be off by the recipe's true serving count — scoring
-  // those against a budget produces dozens of meaningless warnings, not information.
-  if (!modern) {
-    warnings.push(`schema_version ${data.schema_version || '(none)'}: nutrition budgets not checked ` +
-                  `(needs 2.1 with per-recipe "serves"). Structure and safety checks did run.`);
-  } else if (Array.isArray(data.menu) && Array.isArray(data.recipes)) {
+  if (Array.isArray(data.menu) && Array.isArray(data.recipes)) {
     // Not gated on errors.length: a structural failure elsewhere in the file used to
     // suppress the whole budget report, so fixing a missing instruction step and re-running
     // was the only way to find out whether the week was in range at all.

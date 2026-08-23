@@ -6,7 +6,6 @@ const path = require('path');
 
 const WEEKS_DIR   = path.join(__dirname, '..', 'data', 'weeks');
 const INDEX_PATH  = path.join(WEEKS_DIR, 'index.json');
-const SAMPLE_FILE = 'sample-week.json';
 
 /**
  * A published week file is named YYYY-Www.json. Everything else in the directory is
@@ -81,21 +80,19 @@ function buildIndex(files, readWeek, defaultFlag = null) {
 }
 
 function parseArgs(argv) {
-  const args        = argv.slice(2);
-  const defaultIdx  = args.indexOf('--default');
-  return {
-    includeSample: args.includes('--include-sample'),
-    defaultFlag:   defaultIdx !== -1 ? args[defaultIdx + 1] : null
-  };
+  const args       = argv.slice(2);
+  const defaultIdx = args.indexOf('--default');
+  return { defaultFlag: defaultIdx !== -1 ? args[defaultIdx + 1] : null };
 }
 
 function main(argv) {
-  const { includeSample, defaultFlag } = parseArgs(argv);
+  const { defaultFlag } = parseArgs(argv);
 
+  // Only real week files, and only the top level — data/weeks/archive/ is deliberately
+  // invisible here, which is what retires a week from the site without deleting it.
   let files;
   try {
-    files = fs.readdirSync(WEEKS_DIR)
-      .filter(f => WEEK_FILE_RE.test(f) || (f === SAMPLE_FILE && includeSample));
+    files = fs.readdirSync(WEEKS_DIR).filter(f => WEEK_FILE_RE.test(f));
   } catch (err) {
     console.error(`Error reading directory ${WEEKS_DIR}: ${err.message}`);
     return 1;
@@ -113,7 +110,6 @@ function main(argv) {
   fs.writeFileSync(INDEX_PATH, JSON.stringify(index, null, 2) + '\n');
 
   console.log(`Synced ${index.weeks.length} week(s). Default: ${index.defaultWeekId}`);
-  if (includeSample) console.log('(sample-week included)');
   return 0;
 }
 

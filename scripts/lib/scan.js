@@ -52,9 +52,6 @@ const BANNED_FRUIT_STEMS = [
   'persik'                 // persikas, persikai, persikų
 ];
 
-/** Kept as a flat union for callers that just want "every fruit token we know". */
-const BANNED_FRUITS = [...BANNED_FRUITS_EN, ...BANNED_FRUIT_STEMS];
-
 const PROCESSED_MEATS = [
   'ham', 'bacon', 'sausage', 'sausages', 'salami', 'hot dog', 'hotdog',
   'deli meat', 'processed meat', 'smoked sausage', 'smoked ham',
@@ -70,10 +67,10 @@ const META_SKIP = [
 
 /**
  * The external school meal is not chosen here and its contents are not described in the
- * menu, so the processed-meat rule cannot apply to it. Both schema names are listed: 2.1
- * renamed the field, and archived 2.0 weeks still carry the old one.
+ * menu, so the processed-meat rule cannot apply to it. Processed meat is rejected in every
+ * other field.
  */
-const PROCESSED_MEAT_SKIP = [...META_SKIP, 'fixed_school_lunch', 'fixed_school_snack'];
+const PROCESSED_MEAT_SKIP = [...META_SKIP, 'fixed_school_lunch'];
 
 function isWordChar(cp) {
   return cp != null && (
@@ -177,7 +174,7 @@ function scanSafety(data) {
 }
 
 module.exports = {
-  BANNED_FRUITS, BANNED_FRUITS_EN, BANNED_FRUIT_STEMS, PROCESSED_MEATS,
+  BANNED_FRUITS_EN, BANNED_FRUIT_STEMS, PROCESSED_MEATS,
   META_SKIP, PROCESSED_MEAT_SKIP,
   containsTerm, containsStem, findBannedFruit, findProcessedMeat,
   scanValues, scanSafety

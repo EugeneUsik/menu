@@ -29,7 +29,7 @@ Plus three data files the tooling reads:
 | Shopping metadata | per-week `-shopping-meta.json` pass | derived from `data/foods.json` |
 | Protein rules | per-meal floors | per-day budgets (see `targets.json`) |
 
-`app.js` reads both versions. Validation applies nutrition budgets only from 2.1, because a 2.0 file has no `serves` and its portion sizes are unknowable.
+2.0 files are retired to `data/weeks/archive/` and are no longer validated or served — see the note at the end of this document. The table above is kept because the archived files still have that shape.
 
 ---
 
@@ -196,7 +196,7 @@ catalog in a fixed shop-walk order, so headings are stable across weeks.
 
 Seven entries, one per menu day, written by `compute-nutrition.js` from the same `analyze()`
 pass the budget checks use. `[]` in a skeleton that has not been computed yet, and in archived
-schema 2.0 weeks.
+archived schema 2.0 weeks.
 
 | Field | Type | Notes |
 |---|---|---|

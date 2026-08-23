@@ -201,7 +201,6 @@ function hasTag(food, tag) {
 }
 
 module.exports = {
-  loadCatalog, resolve, toGrams, nutritionFor, isVegFruit,
-  normalise, wordSetKey, EMPTY, addInto, hasTag,
-  CATALOG_PATH
+  loadCatalog, resolve, toGrams, nutritionFor,
+  normalise, wordSetKey, EMPTY, addInto, hasTag
 };

@@ -513,10 +513,15 @@ function renderShoppingView() {
   document.getElementById('btn-print').addEventListener('click', () => window.print());
 }
 
+/**
+ * Generated lists always carry `id` ({food-key}|{unit}). The fallback is for hand-written
+ * items only, and deliberately excludes `quantity`: folding it in meant that changing an
+ * amount silently orphaned the checkbox state for that item.
+ */
 function shoppingItemId(item) {
   if (item.id) return item.id;
   const slug = (item.name || '').toLowerCase().replace(/\s+/g, '-');
-  return `${slug}|${item.quantity || ''}|${item.unit || ''}`;
+  return `${slug}|${item.unit || ''}`;
 }
 
 function renderShoppingItem(item) {

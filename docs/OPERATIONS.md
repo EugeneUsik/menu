@@ -93,7 +93,6 @@ Useful variants:
 
 ```bash
 node scripts/compute-nutrition.js data/weeks/2026-W27.json --check          # report, don't write
-node scripts/compute-nutrition.js data/weeks/2026-W25.json --check --infer-serves   # audit a legacy file
 ```
 
 ### Step 6 — Assemble the shopping list
@@ -187,33 +186,26 @@ scan at the very last step. It is `tomato-cocktail` now.
 
 ---
 
-## Auditing legacy weeks
+## Retired weeks
 
-Weeks up to 2026-W26 are schema 2.0: hand-authored nutrition, no `serves`, and the child's
-midday meal modelled as a packed snack. Their nutrition figures cannot be recomputed reliably
-because portion intent is unrecorded. `validate-week.js` therefore skips budget checks on them
-and says so.
+`data/weeks/archive/` holds the seven schema-2.0 weeks (W20–W26) and the old schema-1.0 sample
+fixture. They are the record of what was actually cooked.
 
-To see roughly how far off one is:
+Retirement works by location, not by a flag: `sync-weeks-index.js` reads the weeks directory
+non-recursively, so anything under `archive/` drops out of the manifest and off the site
+without being deleted. Moving a file back would put it back on the site — which must not be
+done to a 2.0 file, since `validate-week.js` now applies one rule set and will reject it.
 
-```bash
-node scripts/compute-nutrition.js data/weeks/2026-W25.json --check --infer-serves
-```
+`derive-history.js` **does** read the archive, and must keep doing so. History is the one thing
+a retired week is still useful for, and scanning only the live directory would empty
+`recent-history.json` and silently switch off the cross-week variety check. That is safe
+because the summary reads titles, headline protein/grain and the declared `base` /
+`snack_format` — never the eater model or nutrition.
 
-Treat the output as indicative. Several 2.0 recipes were written with 6-portion quantities
-but used in a single slot, so inference over-reads them.
-
----
-
-## Sample data
-
-`data/weeks/sample-week.json` is a test fixture, excluded from the production manifest.
-
-```bash
-node scripts/sync-weeks-index.js --include-sample
-```
-
-Do not commit an `index.json` generated with `--include-sample`.
+Do not rewrite an archived week to satisfy a current threshold. If a published week no longer
+meets a budget, that is either information about the budget or a reason to generate a new week.
+W20–W26 predate eight of the twelve budgets now in `targets.json`, so their failures say
+nothing about their quality.
 
 ---
 
@@ -242,12 +234,12 @@ Do not commit an `index.json` generated with `--include-sample`.
 | `derive-history.js` | Build `recent-history.json` from the last N weeks (`--weeks N`) |
 | `validate-plan.js` | Validate a plan: structure, safety, budgets, variety, cross-week repeats |
 | `promote-plan.js` | Expand a validated plan into the week skeleton (`--force` to overwrite) |
-| `compute-nutrition.js` | Derive per-person nutrition from ingredients (`--check`, `--infer-serves`) |
+| `compute-nutrition.js` | Derive per-person nutrition and day totals from ingredients (`--check`) |
 | `generate-shopping-list.js` | Assemble `shopping_list[]` from the catalog (`--dry-run`, `--notes`) |
 | `validate-week.js` | Validate a published week file |
 | `validate-all-weeks.js` | Validate every week in the manifest (CI) |
 | `validate-foods.js` | Self-test `data/foods.json` (CI) |
-| `sync-weeks-index.js` | Rebuild `index.json` (`--include-sample`, `--default WEEK-ID`) |
+| `sync-weeks-index.js` | Rebuild `index.json` (`--default WEEK-ID`) |
 
 Shared libraries in `scripts/lib/`: `foods.js` (catalog and name resolution),
 `analyze.js` (eater sets, portion maths, derived variety facts), `scan.js` (banned-term scanner).
@@ -265,7 +257,7 @@ data/
   weeks/
     index.json          Auto-generated manifest — do not hand-edit
     recent-history.json Auto-generated cross-week summary
-    sample-week.json    Test fixture — not in the production manifest
+    archive/            Retired weeks — read only by derive-history.js
     2026-W27.json       Published week files
     2026-W27-plan.json  Working artifact — gitignored
 ```

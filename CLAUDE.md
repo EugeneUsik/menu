@@ -24,10 +24,9 @@ node scripts/validate-all-weeks.js                                # every week i
 
 # ── Useful flags ────────────────────────────────────────────────────────────
 node scripts/compute-nutrition.js <week> --check                  # report, don't write
-node scripts/compute-nutrition.js <week> --check --infer-serves   # audit a legacy 2.0 file
 node scripts/generate-shopping-list.js <week> --dry-run           # preview the list
-node scripts/derive-history.js --weeks 8
-node scripts/sync-weeks-index.js --include-sample                 # dev only
+node scripts/derive-history.js --weeks 10                         # default 6
+node scripts/promote-plan.js <plan> --force                       # promote despite failures
 ```
 
 Vanilla Node ≥18, no dependencies, no build step. Tests use the built-in `node:test` runner,
@@ -48,7 +47,10 @@ runs the prompts against an LLM, then the scripts validate, compute, and publish
 See [docs/OPERATIONS.md](docs/OPERATIONS.md).
 
 Do not add: LLM API calls, a backend, build tooling, frameworks, or browser-side editing.
-[docs/SPEC.md](docs/SPEC.md) §4.2 and §21 list these as out of scope.
+[docs/SPEC.md](docs/SPEC.md) is the scope and non-goals page and lists these explicitly, with
+the reasons. The original 1,400-line implementation spec is archived at
+[docs/history/SPEC-v1.md](docs/history/SPEC-v1.md) and describes an app that no longer exists in
+several respects — don't reference it.
 
 ### Two-stage generation — the load-bearing design decision
 
@@ -162,15 +164,25 @@ All of this is derived from `includes_fixed_school_lunch` via `eatersFor()` in
   shopping IDs and failed the allergy scan; it is `tomato-cocktail` now, and
   `validate-foods.js` guards against a recurrence.
 
-### Schema 2.1 vs 2.0
+### One live schema, and an archive
 
-2.1 renamed `fixed_school_snack` → `fixed_school_lunch` (and the per-day flag likewise), added
-required `serves`, and moved to computed nutrition. Weeks up to 2026-W26 are 2.0.
+Every live week is **2.1**. The seven schema-2.0 weeks (W20–W26) live in
+`data/weeks/archive/`, which `sync-weeks-index.js` cannot see because it reads the weeks
+directory non-recursively — that is the whole retirement mechanism, and nothing is deleted.
 
-`app.js` reads both. `validate-week.js` applies nutrition budgets **only from 2.1**, because a
-2.0 file declares no `serves`, so portion size is unknowable and scoring it would emit dozens
-of meaningless warnings. Do not "fix" that by inferring `serves` in the validator — several
-2.0 recipes were written with 6-portion quantities but used in a single slot.
+`validate-week.js` therefore applies one rule set instead of branching per version. Pointed at
+a 2.0 file it reports the version once and stops, rather than emitting dozens of failures
+about fields that schema never had.
+
+**`derive-history.js` reads the archive as well as the live directory.** It has to: history is
+the one thing a retired week is still good for, and scanning only the live directory would
+empty `recent-history.json` and silently disable the cross-week variety check. That is safe
+because the summary reads titles, headline protein/grain and the declared `base`/`snack_format`
+— never the eater model — so the archived files summarise correctly even though
+`isSchoolLunchDay()` now reads their day flag as false.
+
+Do not add a compatibility branch back for archived files. If you need to interpret one as
+2.1, migrate a copy; do not teach the live code two schemas again.
 
 ### Deterministic safety scanner
 
@@ -233,5 +245,6 @@ then syncs and diff-checks the manifest, then `validate-all-weeks.js`, then diff
 - `data/targets.json` `fixed_school_lunch` — currently **estimates** (`assumed: true`). The
   child's whole daily budget rests on them; replace with measured figures when available.
 - `data/foods.json` keys — they appear in published shopping item IDs.
-- `data/weeks/sample-week.json` — test fixture, excluded from the production manifest by
-  default. Never commit an `index.json` generated with `--include-sample`.
+- `data/weeks/archive/` — historical record of what was actually cooked. Read only by
+  `derive-history.js`. Never rewrite these to satisfy a current threshold; generate a new week
+  instead.

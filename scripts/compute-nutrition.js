@@ -24,8 +24,7 @@
  *
  * Usage
  *   node scripts/compute-nutrition.js data/weeks/2026-W27.json
- *   node scripts/compute-nutrition.js data/weeks/2026-W27.json --check   # report, don't write
- *   node scripts/compute-nutrition.js data/weeks/2026-W25.json --infer-serves --check
+ *   node scripts/compute-nutrition.js data/weeks/2026-W35.json --check   # report, don't write
  */
 
 const fs   = require('fs');
@@ -40,22 +39,10 @@ function round(n, dp = 1) {
   return Math.round(n * f) / f;
 }
 
-/** How many menu slots reference each recipe id. */
-function slotCounts(weekData) {
-  const counts = new Map();
-  for (const day of (weekData.menu || [])) {
-    for (const slot of ['breakfast', 'lunch', 'dinner', 'shared_snack']) {
-      const id = day[slot]?.recipe_id;
-      if (id) counts.set(id, (counts.get(id) || 0) + 1);
-    }
-  }
-  return counts;
-}
-
 /**
  * @returns {{recipes: Map<string,object>, errors: string[], warnings: string[]}}
  */
-function computeWeek(weekData, opts = {}) {
+function computeWeek(weekData) {
   const targets = JSON.parse(fs.readFileSync(TARGETS_PATH, 'utf8'));
   const people  = targets.people;
 
@@ -75,12 +62,8 @@ function computeWeek(weekData, opts = {}) {
     const declared = Number(recipe.serves);
 
     if (!Number.isFinite(declared) || declared <= 0) {
-      if (opts.inferServes) {
-        warnings.push(`${rid}: no serves declared — using ${expected} derived from the menu`);
-      } else {
-        errors.push(`${rid}: missing or invalid "serves" (expected ${expected} from ${describeOccasions(facts.occasions)})`);
-        continue;
-      }
+      errors.push(`${rid}: missing or invalid "serves" (expected ${expected} from ${describeOccasions(facts.occasions)})`);
+      continue;
     } else if (expected > 0 && declared !== expected) {
       errors.push(
         `${rid}: serves=${declared} but the menu needs ${expected} portion(s) — ${describeOccasions(facts.occasions)}. ` +
@@ -190,10 +173,9 @@ if (require.main === module) {
   const args     = process.argv.slice(2);
   const weekPath = args.find(a => !a.startsWith('--'));
   const check    = args.includes('--check');
-  const infer    = args.includes('--infer-serves');
 
   if (!weekPath) {
-    console.error('Usage: node compute-nutrition.js <week.json> [--check] [--infer-serves]');
+    console.error('Usage: node compute-nutrition.js <week.json> [--check]');
     process.exit(1);
   }
   const resolved = path.resolve(weekPath);
@@ -204,7 +186,7 @@ if (require.main === module) {
 
   const weekData = JSON.parse(fs.readFileSync(resolved, 'utf8'));
   const targets  = JSON.parse(fs.readFileSync(TARGETS_PATH, 'utf8'));
-  const out      = computeWeek(weekData, { inferServes: infer });
+  const out      = computeWeek(weekData);
 
   out.warnings.forEach(w => console.warn(`[WARN] ${w}`));
 
@@ -234,7 +216,7 @@ if (require.main === module) {
 
   // Recompute the analysis now that serves has been written, so the day totals reflect the
   // file as it will be published rather than as it was read.
-  const daily = buildDailyNutrition(computeWeek(weekData, { inferServes: infer }).analysis);
+  const daily = buildDailyNutrition(computeWeek(weekData).analysis);
   weekData.daily_nutrition = daily;
   weekData.nutrition_source = 'computed';
 
@@ -242,4 +224,4 @@ if (require.main === module) {
   console.log(`Wrote computed nutrition for ${out.recipes.size} recipe(s) and ${daily.length} day total(s) to ${path.basename(resolved)}`);
 }
 
-module.exports = { computeWeek, buildDailyNutrition, slotCounts, RECIPE_KEYS, DAILY_KEYS };
+module.exports = { computeWeek, buildDailyNutrition, RECIPE_KEYS, DAILY_KEYS };

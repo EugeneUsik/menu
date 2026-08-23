@@ -18,18 +18,33 @@ const F    = require('./foods.js');
 const MAIN_SLOTS = ['breakfast', 'lunch', 'dinner'];
 const ALL_SLOTS  = ['breakfast', 'lunch', 'dinner', 'shared_snack'];
 
+// Cached like loadCatalog(): analyze() is called once per week file and derive-history.js
+// calls it six times in a row, each of which re-read this from disk.
+let targetsCache = null;
+
 function loadTargets() {
-  return JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'data', 'targets.json'), 'utf8'));
+  if (!targetsCache) {
+    targetsCache = JSON.parse(
+      fs.readFileSync(path.join(__dirname, '..', '..', 'data', 'targets.json'), 'utf8')
+    );
+  }
+  return targetsCache;
 }
 
 function recipeMap(weekData) {
   return new Map((weekData.recipes || []).map(r => [r.id, r]));
 }
 
-/** True when the child eats lunch at school that day (2.0 files used a snack instead). */
+/**
+ * True when the child eats lunch at school that day.
+ *
+ * Archived schema 2.0 weeks spell the flag differently and so read as false here. That is
+ * deliberate rather than an oversight: the only thing still reading those files is
+ * derive-history.js, whose summary depends on titles and headline protein/grain, not on the
+ * eater model — so no compatibility branch is needed to keep it correct.
+ */
 function isSchoolLunchDay(day) {
-  if (day.includes_fixed_school_lunch !== undefined) return !!day.includes_fixed_school_lunch;
-  return !!day.includes_fixed_school_snack;   // legacy 2.0
+  return !!day.includes_fixed_school_lunch;
 }
 
 /**
@@ -244,10 +259,10 @@ function analyze(weekData) {
 
   // --- per-day totals ----------------------------------------------------------
   // The external school meal is described in targets.json, with the week file allowed
-  // to override it. Legacy 2.0 files carry a fixed_school_snack block instead.
+  // to override it.
   const external = {
     ...(targets.fixed_school_lunch || {}),
-    ...(weekData.fixed_school_lunch || weekData.fixed_school_snack || {})
+    ...(weekData.fixed_school_lunch || {})
   };
 
   const daily = (weekData.menu || []).map((day, i) => {
@@ -279,8 +294,11 @@ function analyze(weekData) {
   return { targets, people, recipeFacts, daily, problems, external };
 }
 
+// resolveRecipe, perPerson, eatersFor, occasionsFor, weightDemand, expectedServes and
+// isSchoolLunchDay are exported for tests/analyze.test.js as much as for the scripts —
+// they are the units whose arithmetic is worth asserting directly.
 module.exports = {
-  analyze, resolveRecipe, perPerson, loadTargets, recipeMap,
+  analyze, resolveRecipe, perPerson, loadTargets,
   eatersFor, occasionsFor, weightDemand, expectedServes, isSchoolLunchDay,
-  MAIN_SLOTS, ALL_SLOTS, PROTEIN_CATEGORIES
+  MAIN_SLOTS, ALL_SLOTS
 };
