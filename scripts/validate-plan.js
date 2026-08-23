@@ -121,9 +121,15 @@ function validatePlan(plan) {
   scanSafety(plan).forEach(fail);
 
   // ── 4. Derived nutrition and variety ────────────────────────────────────────
+  // Bail only when the analysis itself cannot proceed — an unresolvable ingredient or a
+  // menu slot pointing at a missing recipe. It used to bail on ANY error, so one trivial
+  // structural slip (a missing title, a short instruction list) suppressed the entire
+  // derived picture: no budgets, no variety, no notes. That is the serial rework loop the
+  // two-stage design exists to remove — the operator would fix a title, re-run, and only
+  // then learn the week was 400 kcal light.
   const A = analyze(plan);
   A.problems.forEach(fail);
-  if (errors.length) return { pass: false, errors, warnings, notes };
+  if (A.problems.length) return { pass: false, errors, warnings, notes };
 
   const { targets, recipeFacts, daily } = A;
 
@@ -345,6 +351,29 @@ function validatePlan(plan) {
       }
     }
   });
+
+  // ── 6b. Dry-weight sanity ──────────────────────────────────────────────────
+  // 16 catalog foods carry basis:"dry" with dry-weight nutrition, and until now nothing in
+  // the pipeline read that field — validate-foods.js checked its value and no consumer
+  // existed. The convention survived only as a decorative prep:"сухой вес" string in one
+  // prompt example. Enter a cooked weight against one of them and the recipe overstates
+  // energy ~3x and over-buys ~3x, with no signal anywhere.
+  const dryCap = targets.cooking?.dry_grain_g_per_portion_max;
+  if (dryCap != null) {
+    for (const [id, facts] of recipeFacts) {
+      const portions = facts.expectedServes || Number(facts.recipe.serves) || 0;
+      if (portions <= 0) continue;
+      for (const row of facts.rows) {
+        if (row.food.basis !== 'dry') continue;
+        const perPortion = row.grams / portions;
+        if (perPortion > dryCap) {
+          warn(`Recipe "${id}": ${row.food.name_ru} is ${Math.round(perPortion)} g per portion ` +
+               `(${row.grams} g over ${portions}), above the ${dryCap} g dry-weight cap — ` +
+               `this food's nutrition is per 100 g DRY, so a cooked weight here overstates it ~3x`);
+        }
+      }
+    }
+  }
 
   // ── 7. Cross-week history ──────────────────────────────────────────────────
   // __dirname, not require.main — this module is imported by tests and by other scripts,

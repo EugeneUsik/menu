@@ -239,7 +239,10 @@ function validateWeek(filePath) {
   if (!modern) {
     warnings.push(`schema_version ${data.schema_version || '(none)'}: nutrition budgets not checked ` +
                   `(needs 2.1 with per-recipe "serves"). Structure and safety checks did run.`);
-  } else if (Array.isArray(data.menu) && Array.isArray(data.recipes) && errors.length === 0) {
+  } else if (Array.isArray(data.menu) && Array.isArray(data.recipes)) {
+    // Not gated on errors.length: a structural failure elsewhere in the file used to
+    // suppress the whole budget report, so fixing a missing instruction step and re-running
+    // was the only way to find out whether the week was in range at all.
     const A = analyze(data);
     const report = add;
 

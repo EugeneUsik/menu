@@ -147,6 +147,72 @@ test('the skeleton does not re-decide anything the plan settled', () => {
   assert.deepEqual(week.recipes.map(r => r.id), p.recipes.map(r => r.id));
 });
 
+/* ── report legibility ── */
+
+const { validatePlan } = require('../scripts/validate-plan.js');
+
+test('a structural slip does not suppress the derived picture', () => {
+  // validate-plan used to return on ANY error before reaching the budget and variety work,
+  // so one missing title cost a whole round-trip and told the operator nothing about whether
+  // the week was in range. That is the serial rework loop the two-stage design removes.
+  const p = plan();
+  delete p.menu[0].breakfast.title;
+
+  const r = validatePlan(p);
+  assert.equal(r.pass, false);
+  assert.ok(r.errors.some(e => /missing breakfast\.title/.test(e)), 'the slip is still reported');
+  assert.ok(r.notes.length > 0, 'notes must still be emitted');
+  assert.ok(r.notes.some(n => n.startsWith('avg husband kcal')), 'budgets must still be scored');
+});
+
+test('an unresolvable ingredient does stop the analysis', () => {
+  // The distinction: this one genuinely cannot be analysed, so bailing is correct.
+  const p = plan();
+  p.recipes[0].ingredients = [{ name: 'драконий фрукт', quantity: 100, unit: 'g' },
+                              { name: 'брокколи', quantity: 200, unit: 'g' }];
+  const r = validatePlan(p);
+  assert.equal(r.pass, false);
+  assert.ok(r.errors.some(e => /unknown ingredient/.test(e)));
+  assert.equal(r.notes.length, 0, 'nothing derived is trustworthy once an ingredient is unknown');
+});
+
+/* ── dry-weight guard ── */
+
+const dryPlan = grams => {
+  const p = plan();
+  const dinner = p.recipes.find(r => r.id === 'dinner-0');
+  dinner.ingredients.push({ name: 'рис бурый', quantity: grams, unit: 'g' });
+  return p;
+};
+const dryWarnings = p => validatePlan(p).warnings.filter(w => /dry-weight cap/.test(w));
+
+test('a cooked weight against a dry-basis food is flagged', () => {
+  // brown-rice carries basis:"dry" and 360 kcal/100 g. 900 g over 3 portions is 300 g each —
+  // a cooked weight, which overstates the recipe's energy roughly threefold.
+  const warnings = dryWarnings(dryPlan(900));
+  assert.equal(warnings.length, 1);
+  assert.match(warnings[0], /300 g per portion/);
+  assert.match(warnings[0], /per 100 g DRY/);
+});
+
+test('a correct dry weight is not flagged', () => {
+  // 240 g over 3 portions is 80 g each, squarely in the normal 60-90 g range.
+  assert.deepEqual(dryWarnings(dryPlan(240)), []);
+});
+
+test('the dry-weight cap is a warning, never a hard failure', () => {
+  // A false positive should cost noise, not a blocked week — the signal is "look at this",
+  // and a genuinely generous grain portion is legitimate.
+  const errors = validatePlan(dryPlan(900)).errors.filter(e => /dry-weight cap/.test(e));
+  assert.deepEqual(errors, []);
+});
+
+test('the cap comes from targets.json, not from the script', () => {
+  const targets = require('../scripts/lib/analyze.js').loadTargets();
+  assert.equal(typeof targets.cooking.dry_grain_g_per_portion_max, 'number',
+    'the threshold must live in targets.json like every other enforced number');
+});
+
 /* ── sync-weeks-index determinism ── */
 
 const WEEK_FILES = {

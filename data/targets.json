@@ -138,6 +138,8 @@
   },
 
   "cooking": {
+    "_dry_basis_comment": "16 catalog foods carry basis:\"dry\" with dry-weight nutrition (oats 370 kcal/100 g, brown rice 360). A cooked-weight quantity entered against one of them overstates energy ~3x and over-buys ~3x, silently — nothing else in the pipeline reads the basis field. A normal dry portion is 60-90 g, so 150 catches that class of error without firing on a genuinely generous portion for the husband at 1.15 portion weight. Warn-level: a false positive costs noise, not a blocked week.",
+    "dry_grain_g_per_portion_max": 150,
     "weekday_active_min_max": 30,
     "weekend_active_min_max": 60,
     "equipment_available": ["oven", "microwave", "stovetop", "immersion blender"],
