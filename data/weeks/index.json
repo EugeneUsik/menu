@@ -1,66 +1,12 @@
 {
-  "defaultWeekId": "2026-W26",
+  "defaultWeekId": "2026-W35",
   "weeks": [
     {
-      "id": "2026-W26",
-      "label": "2026 W26 · 22–28 июня",
-      "start_date": "2026-06-22",
-      "end_date": "2026-06-28",
-      "file": "2026-W26.json",
-      "status": "ready",
-      "notes": ""
-    },
-    {
-      "id": "2026-W25",
-      "label": "2026 W25 · 15–21 июня",
-      "start_date": "2026-06-15",
-      "end_date": "2026-06-21",
-      "file": "2026-W25.json",
-      "status": "ready",
-      "notes": ""
-    },
-    {
-      "id": "2026-W24",
-      "label": "2026 W24 · 8–14 июня",
-      "start_date": "2026-06-08",
-      "end_date": "2026-06-14",
-      "file": "2026-W24.json",
-      "status": "ready",
-      "notes": ""
-    },
-    {
-      "id": "2026-W23",
-      "label": "2026 W23 · 1–7 июня",
-      "start_date": "2026-06-01",
-      "end_date": "2026-06-07",
-      "file": "2026-W23.json",
-      "status": "ready",
-      "notes": ""
-    },
-    {
-      "id": "2026-W22",
-      "label": "2026 W22 · 25–31 мая",
-      "start_date": "2026-05-25",
-      "end_date": "2026-05-31",
-      "file": "2026-W22.json",
-      "status": "ready",
-      "notes": ""
-    },
-    {
-      "id": "2026-W21",
-      "label": "2026 W21 · May 18–24",
-      "start_date": "2026-05-18",
-      "end_date": "2026-05-24",
-      "file": "2026-W21.json",
-      "status": "ready",
-      "notes": ""
-    },
-    {
-      "id": "2026-W20",
-      "label": "2026 W20 · May 11–17",
-      "start_date": "2026-05-11",
-      "end_date": "2026-05-17",
-      "file": "2026-W20.json",
+      "id": "2026-W35",
+      "label": "2026 W35 · 24–30 августа",
+      "start_date": "2026-08-24",
+      "end_date": "2026-08-30",
+      "file": "2026-W35.json",
       "status": "ready",
       "notes": ""
     }
