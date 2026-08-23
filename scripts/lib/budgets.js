@@ -210,4 +210,4 @@ function checkMealStructure(A, recipeFacts, MAIN_SLOTS) {
   return { errors, warnings };
 }
 
-module.exports = { checkBudgets, checkMealStructure, DAILY_KEYS, WEEKLY_AVG_KEYS, RATIO_KEYS };
+module.exports = { checkBudgets, checkMealStructure, DAILY_KEYS, WEEKLY_AVG_KEYS, RATIO_KEYS, UNITS };

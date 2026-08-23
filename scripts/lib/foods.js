@@ -96,8 +96,16 @@ function resolve(name) {
  * @returns {{grams: number}|{error: string}}
  */
 function toGrams(food, quantity, unit) {
+  // Number(null) and Number('') are both 0, and 0 is finite — so a missing quantity used to
+  // convert to 0 g and silently drop the ingredient from both nutrition and the shopping
+  // list. Reject the empty cases before coercing.
+  if (quantity === null || quantity === undefined ||
+      (typeof quantity === 'string' && quantity.trim() === '')) {
+    return { error: `missing quantity` };
+  }
   const qty = Number(quantity);
   if (!Number.isFinite(qty)) return { error: `non-numeric quantity "${quantity}"` };
+  if (qty < 0) return { error: `negative quantity "${quantity}"` };
 
   const u = String(unit || '').toLowerCase().trim();
 

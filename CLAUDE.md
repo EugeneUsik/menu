@@ -18,6 +18,7 @@ node scripts/validate-week.js  data/weeks/2026-W27.json           # final gate
 node scripts/sync-weeks-index.js                                  # rebuild manifest
 
 # ── Checks ──────────────────────────────────────────────────────────────────
+node --test tests/*.test.js                                       # unit tests
 node scripts/validate-foods.js                                    # food catalog self-test
 node scripts/validate-all-weeks.js                                # every week in the manifest
 
@@ -29,7 +30,13 @@ node scripts/derive-history.js --weeks 8
 node scripts/sync-weeks-index.js --include-sample                 # dev only
 ```
 
-Vanilla Node ≥16, no dependencies, no build step, no test runner.
+Vanilla Node ≥18, no dependencies, no build step. Tests use the built-in `node:test` runner,
+so there is still nothing to install. Pass the glob (`tests/*.test.js`) rather than the
+directory — `node --test tests/` resolves the path as a module and fails.
+
+Tests cover the arithmetic that cannot be eyeballed: unit conversion, the eater model and
+per-person split, budget severity routing, and the banned-term scanner. Anything that reads
+a threshold from `data/targets.json` belongs here rather than in a comment.
 
 ## Architecture
 

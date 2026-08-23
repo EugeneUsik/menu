@@ -1,14 +1,22 @@
 name: Validate weeks
 
+# Keep the two path lists identical, and spelled out rather than YAML-anchored: Actions'
+# support for anchors is inconsistent, and a parse failure here means CI silently stops
+# running. A change to tests/ or to this workflow must trigger a run, or a broken test
+# lands green.
 on:
   push:
     paths:
       - 'data/**.json'
       - 'scripts/**.js'
+      - 'tests/**.js'
+      - '.github/workflows/validate.yml'
   pull_request:
     paths:
       - 'data/**.json'
       - 'scripts/**.js'
+      - 'tests/**.js'
+      - '.github/workflows/validate.yml'
 
 jobs:
   validate:
@@ -18,6 +26,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      # Unit tests first: they cover the conversion, eater-model and budget-severity logic
+      # every check below depends on, and they fail in milliseconds.
+      - name: Unit tests
+        run: node --test tests/*.test.js
 
       # The food catalog is load-bearing: it supplies nutrition, shopping categories and
       # the canonical ingredient vocabulary. Check it before anything that depends on it.

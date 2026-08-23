@@ -24,7 +24,16 @@ const errors = [], warnings = [];
 const cat = F.loadCatalog();
 cat.conflicts.forEach(c => errors.push(c));
 
-const BANNED = [...S.BANNED_FRUITS, ...S.PROCESSED_MEATS];
+/**
+ * Aliases are checked alongside key/name_ru/cat, not just the canonical fields.
+ * An alias is what the model actually writes, so a banned term hiding in one is a live
+ * tripwire: `tomato-cocktail` used to carry "cherry tomatoes", which passed this check
+ * (aliases went unscanned) and then failed the week scan the moment a recipe used it.
+ */
+const NAME_FIELDS = food => [
+  ['key', food.key], ['name_ru', food.name_ru], ['cat', food.cat],
+  ...(food.aliases || []).map((a, i) => [`aliases[${i}]`, a])
+];
 const NUM_FIELDS = ['kcal', 'p', 'c', 'f', 'sf', 'fib', 'na', 'ca', 'fe', 'zn'];
 /** Present only where non-zero; absent means zero. */
 const OPTIONAL_NUM_FIELDS = ['fs', 'st', 'vf'];
@@ -62,11 +71,17 @@ for (const food of cat.foods) {
   }
 
   // Keys and names must not embed a banned term — they surface in shopping item ids.
-  for (const term of BANNED) {
-    for (const [label, value] of [['key', food.key], ['name_ru', food.name_ru], ['cat', food.cat]]) {
-      if (value && S.containsTerm(value, term)) {
-        errors.push(`${at}: ${label} "${value}" contains banned term "${term}" — it would leak into shopping item ids`);
-      }
+  // Uses the same matchers as the week scan (whole-word English, stem-wise Cyrillic and
+  // Lithuanian) so the catalog cannot pass a name that a published week would reject.
+  for (const [label, value] of NAME_FIELDS(food)) {
+    if (!value) continue;
+    const fruit = S.findBannedFruit(value);
+    if (fruit) {
+      errors.push(`${at}: ${label} "${value}" contains banned fruit term "${fruit}" — it would leak into shopping item ids`);
+    }
+    const meat = S.findProcessedMeat(value);
+    if (meat) {
+      errors.push(`${at}: ${label} "${value}" contains processed-meat term "${meat}"`);
     }
   }
 
