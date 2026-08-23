@@ -60,10 +60,15 @@ open the 465-line JSON.
 One parallel batch, no repeats:
 
 - `prompts/weekly-menu-generation-prompt.md` — the design brief and the safety rules
-- `data/targets.json` — the enforced numbers
-- `node scripts/catalog-digest.js` — the ingredient vocabulary
+- `node scripts/catalog-digest.js --no-seasonings` — the ingredient vocabulary
 
-`--tag fatty_fish` narrows the digest if you want one category.
+Two things deliberately absent. **`data/targets.json` is not read at spec time**: you no longer
+choose quantities — `solve-plan.js` does, straight from that file — and the variety thresholds you
+actually design against are already spelled out in the generation prompt. Read it only to answer a
+question about a specific number. And `--no-seasonings` drops the ~40 lines of spices and salt,
+which are chosen during expansion from the list in `prompts/expansion-brief.md`, never here.
+
+`--tag fatty_fish` narrows the digest further if you want one category.
 
 ## Step 4 — Write a spec, scaffold the plan
 
@@ -91,8 +96,13 @@ recipe, so omit that lunch. A food can pin its own quantity — `"филе ло�
 split needs a hand. Then:
 
 ```bash
-node scripts/scaffold-plan.js data/weeks/{weekId}-spec.json
+node scripts/scaffold-plan.js data/weeks/{weekId}-spec.json \
+  && node scripts/solve-plan.js   data/weeks/{weekId}-plan.json \
+  && node scripts/validate-plan.js data/weeks/{weekId}-plan.json
 ```
+
+Run the three as one command. They total well under a second, so every separate round-trip costs
+more than the work does — and the loop you iterate on is spec → all three → read the failures.
 
 It writes a **normalised** plan: quantities scaled to hit both the energy and protein medians for
 each recipe's slot-and-serves bucket, the `for:`-tagged conventions on every breakfast, cook-once
@@ -100,19 +110,20 @@ dinners wired to next-day lunches, `serves` derived from who actually eats, date
 its output — any `!` line is a recipe whose protein target was unreachable from the foods you
 chose, which is information about the spec, not an error.
 
-**Your job is choosing good food and getting the variety right.** The scale is derived. Spend the
-thinking on: 4+ dinner protein categories, a different fish species each time, ≥8 distinct
-vegetables, ≥3 breakfast bases, ≥4 dinner formats, 7 distinct snacks, red meat on 1–2 days, and
-no dinner pairing from the blocked list in Step 2.
+**Your job is choosing good food. The scale is derived and the variety is checked.** Aim for 4+
+dinner protein categories, a different fish species each time, ≥8 distinct vegetables, ≥3 breakfast
+bases, ≥4 dinner formats, 7 distinct snacks, red meat on 1–2 days, and nothing from the blocked
+pairing list in Step 2.
 
-## Step 5 — Solve the quantities, then validate
+**Do not verify any of that while writing the spec.** Do not count grain bases across the 21 main
+meals, do not tally legume species, do not check the pairing list item by item. Steps 4 and 5
+together run in **under one second**, and the gate checks every one of those rules exactly. Write
+the spec at speed, run it, and fix what the gate names. Hand-counting is slow, it is the part most
+likely to be wrong, and it buys nothing that a sub-second command does not already give you.
 
-```bash
-node scripts/solve-plan.js    data/weeks/{weekId}-plan.json
-node scripts/validate-plan.js data/weeks/{weekId}-plan.json
-```
+## Step 5 — Read the reports
 
-**Do not adjust quantities by hand.** Every budget is linear in ingredient grams — energy,
+The command in Step 4 already solved and validated. **Do not adjust quantities by hand.** Every budget is linear in ingredient grams — energy,
 protein, fat, saturated fat, fibre, sodium, calcium and vegetable weight are all
 `(per-100 g value) × grams`, and each person's share of a recipe is a fixed coefficient — so
 satisfying all of them at once is arithmetic, not search. `solve-plan.js` does it in about 0.15 s
@@ -149,32 +160,24 @@ node scripts/promote-plan.js data/weeks/{weekId}-plan.json
 ```
 
 This refuses a plan that does not pass Step 5. Expansion is the slowest part of the run and every
-recipe is independent, so **fan it out**: split the recipe ids into 4 roughly equal groups and
-give each group to one subagent. Each writes its own fragment to
-`data/weeks/{weekId}-exp-{n}.json`:
+recipe is independent, so **fan it out**:
 
-```json
-{ "cod-potato": {
-    "add": [ { "name": "чеснок", "quantity": 12, "unit": "g" },
-             { "name": "соль",   "quantity": 2,  "unit": "g" } ],
-    "instructions": [ "Разогреть духовку до 200 °C…", "…", "…" ] } }
+```bash
+node scripts/expansion-groups.js data/weeks/{weekId}.json
 ```
 
-Brief each subagent with: its recipe ids and their ingredients and `serves`, the requirement for
-3–6 short Russian imperative steps with real actions, times and temperatures, and both safety
-rules (no cherries/apples/pears/apricots/peaches in any form including `уксус яблочный`; no
-processed meat). Tell them to state `соль` and `перец чёрный молотый` in grams and to be sparing:
-ingredient sodium is already near the ceiling from bread, crispbread and canned goods, and the
-child has ~0.75 g of added-salt headroom across three home meals. Tell them not to touch
-`serves`, existing quantities, titles or the menu — those passed validation.
+That writes one group file per worker, each naming its recipes, their solved quantities and its
+output path. The shared half of the brief — output format, the 36 allowed ingredient names, the salt
+limits, both safety rules, the equipment list — lives once in `prompts/expansion-brief.md`.
 
-**Tell them NOT to write the serving boilerplate.** Two things used to be restated in every one of
-the 24 recipes, and the app now renders both from the data: which portions are `for:`-tagged to
-whom, and that a cook-once dinner owes the next day a lunch. So no
-*"порцию ребёнка залить молоком, жене подать орехи и напиток с фитостеролами"*, and no
-*"отложить 2 порции на обед следующего дня"* — those are derived in `renderServingNotes()`. Steps
-should cover **cooking only**. This is the least informative fifth of the prose and the slowest
-phase of the run.
+**So each worker prompt is two lines**, not six hundred words:
+
+> Read `prompts/expansion-brief.md`, then do `data/weeks/{weekId}-group-3.md`. Write only the output
+> file it names. Do not read any other file and do not run verification — speed matters.
+
+Authoring four near-identical briefs by hand was most of the 85 seconds that separated the expansion
+phase's 2m35s from its slowest worker's 70s. Groups are round-robin, so no worker gets all seven
+breakfasts — wall clock is bound by the slowest one.
 
 ```bash
 node scripts/apply-expansion.js data/weeks/{weekId}.json data/weeks/{weekId}-exp-*.json

@@ -80,13 +80,26 @@ function line(food) {
   return s;
 }
 
+/**
+ * Seasonings are chosen during expansion, not while a spec is being written.
+ *
+ * A spec names the nutritionally dominant foods; salt, pepper, paprika and dried herbs arrive
+ * later, from a short list the expansion brief already carries. Printing all ~25 of them plus
+ * their tag lines costs ~90 lines of context in the phase that cannot use them.
+ */
+const SEASONING_TAGS = ['spice', 'salt'];
+
 function main(argv) {
   const tagIdx = argv.indexOf('--tag');
   const onlyTag = tagIdx !== -1 ? argv[tagIdx + 1] : null;
+  const noSeasonings = argv.includes('--no-seasonings');
 
   const catalog = F.loadCatalog();
   let foods = catalog.foods;
   if (onlyTag) foods = foods.filter(f => (f.tags || []).includes(onlyTag));
+  if (noSeasonings) {
+    foods = foods.filter(f => !(f.tags || []).some(t => SEASONING_TAGS.includes(t)));
+  }
 
   const out = [HEADER];
   const cats = [...new Set(foods.map(f => f.cat))]
@@ -106,7 +119,8 @@ function main(argv) {
     }
   }
 
-  out.push(`\n${foods.length} foods${onlyTag ? ` tagged "${onlyTag}"` : ''}.`);
+  out.push(`\n${foods.length} foods${onlyTag ? ` tagged "${onlyTag}"` : ''}` +
+           `${noSeasonings ? ' (seasonings omitted — see the expansion brief for those)' : ''}.`);
   console.log(out.join('\n'));
   return 0;
 }

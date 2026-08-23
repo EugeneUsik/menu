@@ -93,9 +93,16 @@ function bandFor(food, targets) {
   const dryCap = targets.cooking?.dry_grain_g_per_portion_max || 150;
   const has = t => F.hasTag(food, t);
 
-  // Herbs, spices and salt are garnish and seasoning: they belong to expansion, where they are
-  // stated in grams, not to an energy allocation that would scale them into the main event.
-  if (has('herb') || has('spice') || has('salt')) return { min: 1, max: 4, fixed: true };
+  // Herbs and spices are garnish and identity: they belong to expansion, where they are stated in
+  // grams, not to an energy allocation that would scale them into the main event. Scaling paprika
+  // is not a nutrition decision.
+  if (has('herb') || has('spice')) return { min: 1, max: 4, fixed: true };
+
+  // Salt IS a nutrition decision, and the biggest sodium lever there is: expansion adds ~30 g of
+  // it across a week, about 11,600 mg of sodium. Leaving it fixed is why a plan could solve to a
+  // child at 1598 mg/day and the published week still land at 1998 against a 1700 cap. Carries no
+  // energy, so the scaffold's kcal allocation never touches it either way — only the solver does.
+  if (has('salt')) return { min: 0.35, max: 1 };
 
   if (food.basis === 'dry')                        return { min: 35, max: dryCap };
   if (has('fat') && !has('fruit'))                 return { min: 3,  max: 15 };   // oils
@@ -110,6 +117,11 @@ function bandFor(food, targets) {
   if (has('soy') || has('legume'))                 return { min: 50, max: 220 };
   if (has('fatty_fish') || has('white_fish') || has('seafood') ||
       has('poultry')    || has('red_meat'))        return { min: 90, max: 230 };
+  // Leafy greens are voluminous, so a gram band that suits carrots and peppers is absurd for them.
+  // At the general 300 g/portion ceiling the solver reached for 595 g of rocket for two people —
+  // about six supermarket bags — and 1,490 g of kale, both technically fine for the wife's
+  // 500 g/day vegetable target and neither of them something a person puts in a bowl.
+  if (has('leafy_green'))                          return { min: 20, max: 110 };
   if (has('vegetable'))                            return { min: 50, max: 300 };
   if (has('fruit'))                                return { min: 50, max: 260 };
   return { min: 5, max: 300 };

@@ -17,6 +17,7 @@ node scripts/validate-plan.js   data/weeks/2026-W36-plan.json     # the gate
 node scripts/diagnose-plan.js   data/weeks/2026-W36-plan.json     # only if the gate still fails
 node scripts/patch-plan.js      data/weeks/2026-W36-plan.json <recipe-id> "ингредиент=700"
 node scripts/promote-plan.js    data/weeks/2026-W36-plan.json     # plan → week skeleton
+node scripts/expansion-groups.js data/weeks/2026-W36.json         # per-worker group files
 node scripts/apply-expansion.js data/weeks/2026-W36.json <fragments...>   # merge parallel expansion
 node scripts/finalise-week.js   data/weeks/2026-W36.json --solve  # solve + nutrition + shopping + gate
 node scripts/sync-weeks-index.js                                  # rebuild manifest

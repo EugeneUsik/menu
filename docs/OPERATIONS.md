@@ -343,11 +343,12 @@ nothing about their quality.
 | `validate-plan.js` | Validate a plan: structure, safety, budgets, variety, cross-week repeats |
 | `diagnose-plan.js` | Explain a budget miss as an edit: per-slot shares and the deltas that close it (`--warn`, `--person`, `--json`) |
 | `patch-plan.js` | Change ingredient quantities by recipe id and name (`--add`, `--remove`, `--scale`, `--kcal`, `--dry-run`) |
+| `expansion-groups.js` | Split a promoted week into per-worker group files (`--groups N`) |
 | `apply-expansion.js` | Merge parallel expansion fragments into a promoted week (`--dry-run`) |
 | `finalise-week.js` | Chain nutrition, shopping list and the final gate (`--solve`) |
 | `promote-plan.js` | Expand a validated plan into the week skeleton (`--force` to overwrite) |
 | `normalise-plan.js` | Derive week dates, label, day scaffolding and every `serves` (`--check`) |
-| `catalog-digest.js` | Print the ingredient vocabulary compactly for generation (`--tag X`) |
+| `catalog-digest.js` | Print the ingredient vocabulary compactly for generation (`--tag X`, `--no-seasonings`) |
 | `compute-nutrition.js` | Derive per-person nutrition and day totals from ingredients (`--check`) |
 | `generate-shopping-list.js` | Assemble `shopping_list[]` from the catalog (`--dry-run`, `--notes`) |
 | `validate-week.js` | Validate a published week file |

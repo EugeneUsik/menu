@@ -56,12 +56,22 @@ const MARGIN = 0.03;
 const MAX_PASSES = 4000;
 const TOLERANCE  = 1e-4;
 
-/** Rows a solver must not touch: a discrete retail product, or a seasoning. */
+/**
+ * Rows a solver must not touch.
+ *
+ * The sterol drink is one 100 ml bottle delivering the 2 g the LDL protocol asks for; 118 ml is
+ * not a thing anyone can buy, and it is the highest-yield single item in that protocol. Herbs and
+ * spices are the dish's identity — scaling paprika is not a nutrition decision.
+ *
+ * **Salt is deliberately NOT in this list.** It was, and that left the biggest remaining sodium
+ * lever outside the solver's reach: expansion adds ~30 g of `соль` across a week, about 11,600 mg
+ * of sodium, which is why the plan solved to a child at 1598 mg/day and the published week still
+ * came out at 1998 against a 1700 cap. How much salt a dish needs is genuinely adjustable, unlike
+ * how much paprika makes it that dish.
+ */
 function isFixedRow(food, ing) {
-  // The sterol drink is one 100 ml bottle delivering the 2 g the LDL protocol asks for. 118 ml is
-  // not a thing anyone can buy, and it is the highest-yield single item in that protocol.
   if (F.hasTag(food, 'sterol')) return true;
-  if (F.hasTag(food, 'herb') || F.hasTag(food, 'spice') || F.hasTag(food, 'salt')) return true;
+  if (F.hasTag(food, 'herb') || F.hasTag(food, 'spice')) return true;
   return false;
 }
 
@@ -161,6 +171,18 @@ function buildModel(plan, opts = {}) {
       // passing week actually used is the better evidence than a per-role guess.
       const conv = ing.for ? conventions.get(`${ing.for}|${food.key}`) : null;
       if (conv) { lo = conv.lo * portions; hi = conv.hi * portions; }
+
+      // Salt may only be REDUCED, never increased.
+      //
+      // Salt carries calcium (24 mg/100 g) and iron (0.33 mg/100 g), so raising it is a
+      // technically valid way to satisfy the wife's calcium and iron minimums — and the solver
+      // duly did exactly that, taking the week from 30 g of salt to 35 g and sodium UP while every
+      // hard budget stayed satisfied. Seasoning level is the expansion author's decision; the
+      // solver's legitimate interest in it is trimming sodium, nothing else.
+      //
+      // The floor clears 0.5 g because tidy() rounds below 20 g to whole grams, and a recipe
+      // listing "0 g соль" reads as an instruction rather than an absence.
+      if (F.hasTag(food, 'salt')) { lo = Math.max(lo, 1); hi = Math.max(lo, grams); }
 
       varIndex.set(`${recipe.id}#${idx}`, vars.length);
       vars.push({
@@ -286,11 +308,17 @@ function buildModel(plan, opts = {}) {
           for (const [i, v] of kcal.c) c.set(i, (c.get(i) || 0) - v * limit);
           const k = nut.k * cfg.kcalPerG - kcal.k * limit;
           // Scale is the energy this nutrient is allowed, not the bound: the bound IS zero.
-          const scale = limit * (t.kcal?.max ?? t.kcal?.min ?? 2500);
+          //
+          // It has to be the DAY'S energy, not the band's maximum. The gate measures a ratio
+          // breach as a fraction of the limit (0.22 vs 0.25 is -12%); scaling against kcal.max
+          // instead made the same breach read as -10.0% and slip under the reporting threshold,
+          // so the solver stayed silent about something validate-plan.js then failed. A
+          // diagnostic that disagrees with the gate near the boundary is worse than none.
+          const scaleRow = kcal;
           push(spec, bound === 'max'
-            ? { hi: 0, lo: null, rawHi: 0, rawLo: null, scale, c, k,
+            ? { hi: 0, lo: null, rawHi: 0, rawLo: null, scaleRow, scaleLimit: limit, c, k,
                 label: `${day.day_name} ${person} ${cfg.label} <= ${Math.round(limit * 100)}% of energy` }
-            : { lo: 0, hi: null, rawLo: 0, rawHi: null, scale, c, k,
+            : { lo: 0, hi: null, rawLo: 0, rawHi: null, scaleRow, scaleLimit: limit, c, k,
                 label: `${day.day_name} ${person} ${cfg.label} >= ${Math.round(limit * 100)}% of energy` });
         }
       }
@@ -342,9 +370,20 @@ function buildModel(plan, opts = {}) {
         `${day.day_name} husband breakfast protein`);
     add('breakfast', 'husband', 'carbs_g', ms.husband_breakfast_carbs_min_g,
         `${day.day_name} husband breakfast carbs`);
-    for (const slot of ['breakfast', 'dinner']) {
-      add(slot, 'child', 'protein_g', ms.anchor_protein_min_g.child,
-          `${day.day_name} child ${slot} protein anchor`);
+
+    // "At least 2 main meals reach the anchor" is combinatorial and cannot be a linear
+    // constraint, but "breakfast AND dinner each reach it" is a linear SUFFICIENT condition for
+    // it — and it has to be here, for everyone, not just the child.
+    //
+    // Leaving it out meant the solver was free to land on a point that satisfied every modelled
+    // constraint and broke an unmodelled one: choosing the best iterate rather than the last
+    // immediately surfaced two "only 1 of 3 main meals reach the anchor" failures on a plan that
+    // had passed before. Anything the solver does not model, it will eventually trade away.
+    for (const person of people) {
+      for (const slot of ['breakfast', 'dinner']) {
+        add(slot, person, 'protein_g', ms.anchor_protein_min_g[person],
+            `${day.day_name} ${person} ${slot} protein anchor`);
+      }
     }
   }
 
@@ -372,10 +411,14 @@ function violation(con, x, raw = false) {
   return 0;
 }
 
-function relative(con, viol, raw = false) {
+function relative(con, viol, raw = false, x = null) {
   const lo = raw ? (con.rawLo ?? con.lo) : con.lo;
   const hi = raw ? (con.rawHi ?? con.hi) : con.hi;
-  const scale = con.scale ?? (Math.abs(hi ?? lo) || 1);
+  // A ratio constraint's bound is zero, so it carries its own scale: the energy the nutrient is
+  // allowed on that day, which is itself a function of x.
+  const scale = con.scaleRow && x
+    ? con.scaleLimit * value(con.scaleRow, x)
+    : (con.scale ?? (Math.abs(hi ?? lo) || 1));
   return Math.abs(viol) / (Math.abs(scale) || 1);
 }
 
@@ -397,34 +440,79 @@ function solve(model) {
     if (!viol) return 0;
     let norm2 = 0;
     for (const [, c] of con.c) norm2 += c * c;
-    if (norm2 <= 0) return relative(con, viol);
+    if (norm2 <= 0) return relative(con, viol, false, x);
     const step = viol / norm2;
     for (const [i, c] of con.c) { x[i] += step * c; clamp(i); }
-    return relative(con, viol);
+    return relative(con, viol, false, x);
   };
+
+  /**
+   * How far past the GATE's tolerance the worst hard constraint is. Zero means validate-plan.js
+   * would pass. Measured against the real bounds, not the 3% interior the projection aims at.
+   */
+  const hardExcess = () => hard.reduce((w, con) => {
+    const rel = relative(con, violation(con, x, true), true, x);
+    return Math.max(w, Math.max(0, rel - (con.blockAt ?? 0)));
+  }, 0);
+  const softExcess = () => soft.reduce(
+    (w, con) => Math.max(w, relative(con, violation(con, x, true), true, x)), 0);
+
+  /**
+   * Keep the best point seen, not the last one reached.
+   *
+   * Cyclic projection on a system whose constraints are tight against each other oscillates
+   * rather than converging, and the final iterate can be worse than an earlier one — or worse
+   * than the starting point. That is not theoretical: running --solve on an already-passing week
+   * put the husband's Monday fat share 10% under its floor, breaking a week that had been fine.
+   * A repair step must never make things worse than it found them.
+   */
+  let best = x.slice(), bestHard = hardExcess(), bestSoft = softExcess();
+  const remember = () => {
+    const h = hardExcess(), s = softExcess();
+    if (h < bestHard - 1e-12 || (h <= bestHard + 1e-12 && s < bestSoft - 1e-12)) {
+      best = x.slice(); bestHard = h; bestSoft = s;
+    }
+  };
+  const restore = () => x.splice(0, x.length, ...best);
 
   let passes = 0, worstHard = Infinity;
   for (; passes < MAX_PASSES; passes++) {
     worstHard = 0;
     for (const con of hard) worstHard = Math.max(worstHard, project(con));
+    remember();
     if (worstHard < TOLERANCE) break;
   }
+  restore();
 
-  // Only chase the soft budgets once the hard ones are actually satisfiable.
-  if (worstHard < TOLERANCE && soft.length) {
-    for (let p = 0; p < MAX_PASSES / 4; p++) {
-      let worstSoft = 0;
-      for (const con of soft) {
-        worstSoft = Math.max(worstSoft, project(con));
-        for (const h of hard) project(h);          // hard set always wins
+  // Chase the warn-level budgets only from a point where the gate already passes, and only
+  // speculatively: interleaving hard re-projection after every soft step is not sufficient on its
+  // own, because the soft projections keep pulling the hard set back out. Letting salt become a
+  // variable made that visible. Try, keep only if hard is still satisfied and soft improved,
+  // otherwise revert and try a gentler pass. A warn-level budget never costs a hard one.
+  if (bestHard === 0 && soft.length) {
+    for (const budget of [MAX_PASSES / 4, MAX_PASSES / 20, 40]) {
+      for (let p = 0; p < budget; p++) {
+        let worstSoft = 0;
+        for (const con of soft) {
+          worstSoft = Math.max(worstSoft, project(con));
+          for (const h of hard) project(h);
+        }
+        if (worstSoft < TOLERANCE) break;
       }
-      if (worstSoft < TOLERANCE) break;
+      for (let p = 0; p < 1000; p++) {
+        let w = 0;
+        for (const con of hard) w = Math.max(w, project(con));
+        if (w < TOLERANCE || hardExcess() === 0) break;
+      }
+      remember();
+      restore();
+      if (bestSoft < softExcess() || bestHard === 0) break;
     }
-    for (let p = 0; p < 200; p++) { let w = 0; for (const con of hard) w = Math.max(w, project(con)); if (w < TOLERANCE) break; }
   }
 
+  restore();
   vars.forEach((v, i) => { v.grams = x[i]; });
-  return { passes, x };
+  return { passes, hardExcess: bestHard, softExcess: bestSoft };
 }
 
 function applySolution(plan, vars) {
@@ -456,7 +544,7 @@ function solvePlan(plan, opts = {}) {
   const x = after.vars.map(v => v.grams);
   const unmet = [...after.hard, ...after.soft]
     .map(con => ({ con, viol: violation(con, x, true) }))
-    .filter(({ con, viol }) => viol && relative(con, viol, true) > (con.blockAt ?? 0.01))
+    .filter(({ con, viol }) => viol && relative(con, viol, true, x) > (con.blockAt ?? 0.01))
     .map(({ con, viol }) => ({ label: con.label, off: viol, soft: after.soft.includes(con) }));
 
   return { changes, passes, unmet, problems: [],

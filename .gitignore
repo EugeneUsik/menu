@@ -8,6 +8,7 @@ data/weeks/*-plan.json
 data/weeks/*-notes.json
 data/weeks/*-spec.json
 data/weeks/*-exp-*.json
+data/weeks/*-group-*.md
 
 .DS_Store
 .vscode/
